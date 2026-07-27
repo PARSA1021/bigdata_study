@@ -2,7 +2,7 @@
  * 빅데이터분석기사 요약노트 (2·3과목 집중 버전)
  * data.json 을 읽어 페이지를 렌더링합니다.
  * 내용 추가/수정은 data.json 만 편집하면 됩니다.
- * v2 — performance · a11y · theme sync
+ * v3 — search · expand/collapse · scroll progress · card memory · a11y · theme
  */
 
 (function () {
@@ -27,6 +27,26 @@
   function trustHtml(str) {
     return typeof str === 'string' ? str : '';
   }
+
+  // 카드 열림 상태 저장 키
+  const OPEN_CARDS_KEY = 'bigdata-note-open-cards';
+
+  function loadOpenCards() {
+    try {
+      const raw = localStorage.getItem(OPEN_CARDS_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  }
+
+  function saveOpenCards(map) {
+    try {
+      localStorage.setItem(OPEN_CARDS_KEY, JSON.stringify(map));
+    } catch {}
+  }
+
+  let openCardsMap = loadOpenCards();
 
   // ── 블록 렌더러 ─────────────────────────────────────────
   function renderBlock(block) {
@@ -74,10 +94,13 @@
 
   // ── 카드 렌더러 ─────────────────────────────────────────
   function renderCard(card) {
-    const isOpen = !!card.open;
+    // data.json open 플래그 + localStorage 기억 상태 병합
+    const isOpen = openCardsMap[card.id] !== undefined
+      ? !!openCardsMap[card.id]
+      : !!card.open;
     const blocksHtml = (card.blocks || []).map(renderBlock).join('');
     return `
-      <article class="card${isOpen ? ' open' : ''}" id="${escapeHtml(card.id)}">
+      <article class="card${isOpen ? ' open' : ''}" id="${escapeHtml(card.id)}" data-card-id="${escapeHtml(card.id)}">
         <div
           class="card-header"
           data-toggle
@@ -96,18 +119,18 @@
   }
 
   // ── 섹션 렌더러 ─────────────────────────────────────────
-function renderSection(section) {
-  const subjectClass = section.id.startsWith('s3') ? 'subject-s3' : 'subject-s2';
-  const cardsHtml = (section.cards || []).map(renderCard).join('');
-  return `
-    <section class="section ${subjectClass}" id="${escapeHtml(section.id)}" data-section data-subject="${section.id.startsWith('s3') ? 's3' : 's2'}">
-      <div class="section-header">
-        <span class="section-num">${escapeHtml(section.num)}</span>
-        <h2 class="section-title">${trustHtml(section.title)}</h2>
-      </div>
-      ${cardsHtml}
-    </section>`;
-}
+  function renderSection(section) {
+    const subjectClass = section.id.startsWith('s3') ? 'subject-s3' : 'subject-s2';
+    const cardsHtml = (section.cards || []).map(renderCard).join('');
+    return `
+      <section class="section ${subjectClass}" id="${escapeHtml(section.id)}" data-section data-subject="${section.id.startsWith('s3') ? 's3' : 's2'}">
+        <div class="section-header">
+          <span class="section-num">${escapeHtml(section.num)}</span>
+          <h2 class="section-title">${trustHtml(section.title)}</h2>
+        </div>
+        ${cardsHtml}
+      </section>`;
+  }
 
   // ── 네비게이션 렌더러 ───────────────────────────────────
   function renderNav(nav) {
@@ -116,7 +139,7 @@ function renderSection(section) {
         const items = (group.items || [])
           .map((item) => {
             const cls = item.level === 2 ? 'nav-link sub' : 'nav-link';
-            return `<a href="#${escapeHtml(item.id)}" class="${cls}">${trustHtml(item.label)}</a>`;
+            return `<a href="#${escapeHtml(item.id)}" class="${cls}" data-nav-id="${escapeHtml(item.id)}">${trustHtml(item.label)}</a>`;
           })
           .join('');
         return `
@@ -141,7 +164,6 @@ function renderSection(section) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
 
-    // theme-color meta 동기화
     let meta = document.querySelector('meta[name="theme-color"]:not([media])');
     if (!meta) {
       meta = document.createElement('meta');
@@ -150,7 +172,6 @@ function renderSection(section) {
     }
     meta.content = theme === 'dark' ? '#070B14' : '#F8FAFC';
 
-    // 버튼 아이콘 / aria-label
     const btn = $('#themeToggleBtn');
     if (btn) {
       const icon = btn.querySelector('.theme-icon') || btn;
@@ -178,20 +199,188 @@ function renderSection(section) {
       menuBtn.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
     }
 
-    // 모바일에서 사이드바 열릴 때 body 스크롤 잠금
     document.body.style.overflow = open ? 'hidden' : '';
   }
 
   // ── 카드 토글 ───────────────────────────────────────────
-  function toggleCard(header) {
+  function toggleCard(header, forceOpen) {
     const card = header.closest('.card');
     if (!card) return;
     const body = card.querySelector('.card-body');
-    const isOpen = card.classList.toggle('open');
+    const cardId = card.dataset.cardId || card.id;
+    let isOpen;
+
+    if (forceOpen === true) {
+      card.classList.add('open');
+      isOpen = true;
+    } else if (forceOpen === false) {
+      card.classList.remove('open');
+      isOpen = false;
+    } else {
+      isOpen = card.classList.toggle('open');
+    }
+
     header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     if (body) {
       if (isOpen) body.removeAttribute('hidden');
       else body.setAttribute('hidden', '');
+    }
+
+    // 기억
+    openCardsMap[cardId] = isOpen;
+    saveOpenCards(openCardsMap);
+  }
+
+  function expandAllCards() {
+    $$('.card').forEach((card) => {
+      const header = card.querySelector('[data-toggle]');
+      if (header) toggleCard(header, true);
+    });
+  }
+
+  function collapseAllCards() {
+    $$('.card').forEach((card) => {
+      const header = card.querySelector('[data-toggle]');
+      if (header) toggleCard(header, false);
+    });
+  }
+
+  // ── 검색 ────────────────────────────────────────────────
+  let currentQuery = '';
+
+  function normalizeText(str) {
+    return (str || '')
+      .toLowerCase()
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function highlightText(html, query) {
+    if (!query || query.length < 1) return html;
+    // 단순 텍스트 하이라이트 (태그 보호를 위해 텍스트 노드만 처리하는 대신 간단 버전)
+    const re = new RegExp(
+      `(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
+      'gi'
+    );
+    // HTML 태그를 일시 보호
+    const placeholders = [];
+    const protectedHtml = html.replace(/<[^>]+>/g, (m) => {
+      placeholders.push(m);
+      return `\u0000${placeholders.length - 1}\u0000`;
+    });
+    const highlighted = protectedHtml.replace(re, '<mark>$1</mark>');
+    return highlighted.replace(/\u0000(\d+)\u0000/g, (_, i) => placeholders[+i]);
+  }
+
+  function runSearch(query) {
+    currentQuery = (query || '').trim();
+    const q = normalizeText(currentQuery);
+    const cards = $$('.card');
+    const sections = $$('[data-section]');
+    let matchCount = 0;
+
+    // 이전 하이라이트 제거를 위해 재렌더는 하지 않고, 표시/숨김만 처리
+    // 하이라이트는 카드 제목 + body 텍스트에 적용
+
+    cards.forEach((card) => {
+      const titleEl = card.querySelector('h3');
+      const bodyEl = card.querySelector('.card-body');
+      const titleText = normalizeText(titleEl ? titleEl.textContent : '');
+      const bodyText = normalizeText(bodyEl ? bodyEl.textContent : '');
+      const haystack = titleText + ' ' + bodyText;
+
+      const matched = !q || haystack.includes(q);
+
+      card.classList.toggle('card-hidden', !matched);
+      if (matched) matchCount++;
+
+      // 하이라이트 (제목만 안전하게)
+      if (titleEl && titleEl.dataset.origTitle === undefined) {
+        titleEl.dataset.origTitle = titleEl.innerHTML;
+      }
+      if (titleEl) {
+        if (q && matched) {
+          const orig = titleEl.dataset.origTitle;
+          // 점(span.dot)은 유지
+          const dotMatch = orig.match(/^<span class="dot"[^>]*><\/span>/);
+          const rest = orig.replace(/^<span class="dot"[^>]*><\/span>/, '');
+          const plainRest = rest.replace(/<[^>]+>/g, '');
+          titleEl.innerHTML =
+            (dotMatch ? dotMatch[0] : '') +
+            highlightText(escapeHtml(plainRest), currentQuery);
+        } else if (titleEl.dataset.origTitle) {
+          titleEl.innerHTML = titleEl.dataset.origTitle;
+        }
+      }
+    });
+
+    // 섹션: 내부 카드가 하나도 안 보이면 숨김
+    sections.forEach((sec) => {
+      const visibleCards = sec.querySelectorAll('.card:not(.card-hidden)');
+      sec.classList.toggle('section-hidden', visibleCards.length === 0);
+    });
+
+    // 네비 dim
+    $$('.nav-link').forEach((link) => {
+      const id = link.dataset.navId;
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (!target) return;
+      // 섹션 또는 카드
+      const hidden =
+        target.classList.contains('section-hidden') ||
+        target.classList.contains('card-hidden');
+      link.classList.toggle('dimmed', q && hidden);
+    });
+
+    // 배너
+    const banner = $('#searchBanner');
+    const bannerText = $('#searchBannerText');
+    if (banner && bannerText) {
+      if (q) {
+        banner.hidden = false;
+        bannerText.textContent =
+          matchCount === 0
+            ? `"${currentQuery}" 검색 결과 없음`
+            : `"${currentQuery}" · ${matchCount}개 카드`;
+      } else {
+        banner.hidden = true;
+      }
+    }
+
+    // clear 버튼
+    ['sidebarSearchClear', 'mobileSearchClear'].forEach((id) => {
+      const btn = $('#' + id);
+      if (btn) btn.hidden = !q;
+    });
+  }
+
+  function clearSearch() {
+    currentQuery = '';
+    const inputs = [$('#sidebarSearchInput'), $('#mobileSearchInput')];
+    inputs.forEach((inp) => {
+      if (inp) inp.value = '';
+    });
+    runSearch('');
+  }
+
+  // ── 스크롤 진행률 ───────────────────────────────────────
+  function updateScrollProgress() {
+    const bar = $('#scrollProgress');
+    if (!bar) return;
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight =
+      document.documentElement.scrollHeight -
+      document.documentElement.clientHeight;
+    const pct = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
+    bar.style.width = pct + '%';
+    bar.setAttribute('aria-valuenow', Math.round(pct));
+
+    // 맨 위로 버튼 표시
+    const toTop = $('#toTop');
+    if (toTop) {
+      toTop.classList.toggle('visible', scrollTop > 320);
     }
   }
 
@@ -205,7 +394,6 @@ function renderSection(section) {
       badge.textContent = data.meta.version.replace('개정 버전 ', '개정 ');
     }
     if (title && data.meta?.title) {
-      // 긴 제목을 줄바꿈 친화적으로
       title.innerHTML = escapeHtml(data.meta.title)
         .replace(' (', '<br>(')
         .replace(' · ', '<br>');
@@ -234,10 +422,25 @@ function renderSection(section) {
       heroDesc.textContent = data.meta.description;
     }
 
+    // 통계
+    const sections = data.sections || [];
+    const cardCount = sections.reduce(
+      (n, s) => n + (s.cards ? s.cards.length : 0),
+      0
+    );
+    const heroStats = $('#heroStats');
+    const statSections = $('#statSections');
+    const statCards = $('#statCards');
+    if (heroStats && sections.length) {
+      heroStats.hidden = false;
+      if (statSections) statSections.textContent = `${sections.length}개 섹션`;
+      if (statCards) statCards.textContent = `${cardCount}개 카드`;
+    }
+
     // 본문
     const content = $('#content');
     if (content) {
-      content.innerHTML = (data.sections || []).map(renderSection).join('');
+      content.innerHTML = sections.map(renderSection).join('');
       content.removeAttribute('aria-busy');
     }
 
@@ -254,6 +457,7 @@ function renderSection(section) {
 
     bindEvents();
     setupScrollSpy();
+    updateScrollProgress();
   }
 
   // ── 이벤트 바인딩 (위임) ────────────────────────────────
@@ -286,7 +490,6 @@ function renderSection(section) {
       });
     }
 
-    // OS 테마 변경 반영 (사용자가 수동 저장하지 않은 경우만)
     window
       .matchMedia('(prefers-color-scheme: dark)')
       .addEventListener('change', (e) => {
@@ -308,12 +511,19 @@ function renderSection(section) {
       overlay.addEventListener('click', () => setSidebarOpen(false));
     }
 
-    // ESC로 사이드바 닫기
+    // ESC
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') setSidebarOpen(false);
+      if (e.key === 'Escape') {
+        setSidebarOpen(false);
+        const ms = $('#mobileSearch');
+        if (ms && !ms.hidden) {
+          ms.hidden = true;
+          clearSearch();
+        }
+      }
     });
 
-    // 네비 링크 클릭 → 사이드바 닫기 + 부드러운 스크롤
+    // 네비 링크
     document.addEventListener('click', (e) => {
       const link = e.target.closest('.nav-link, #bottomNav a');
       if (!link) return;
@@ -324,8 +534,11 @@ function renderSection(section) {
         if (target) {
           e.preventDefault();
           setSidebarOpen(false);
+          // 검색으로 숨겨진 경우 잠시 표시
+          if (target.classList.contains('card-hidden') || target.classList.contains('section-hidden')) {
+            clearSearch();
+          }
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          // URL 해시 갱신 (히스토리)
           history.replaceState(null, '', href);
         }
       } else {
@@ -346,6 +559,69 @@ function renderSection(section) {
         }
       });
     }
+
+    // 전체 펼치기 / 접기
+    const expandBtn = $('#expandAllBtn');
+    const collapseBtn = $('#collapseAllBtn');
+    if (expandBtn) expandBtn.addEventListener('click', expandAllCards);
+    if (collapseBtn) collapseBtn.addEventListener('click', collapseAllCards);
+
+    // 검색
+    const sidebarInput = $('#sidebarSearchInput');
+    const mobileInput = $('#mobileSearchInput');
+    const searchToggle = $('#searchToggleBtn');
+    const mobileSearch = $('#mobileSearch');
+
+    function onSearchInput(e) {
+      const val = e.target.value;
+      // 동기화
+      if (sidebarInput && e.target !== sidebarInput) sidebarInput.value = val;
+      if (mobileInput && e.target !== mobileInput) mobileInput.value = val;
+      runSearch(val);
+    }
+
+    if (sidebarInput) {
+      sidebarInput.addEventListener('input', onSearchInput);
+    }
+    if (mobileInput) {
+      mobileInput.addEventListener('input', onSearchInput);
+    }
+
+    if (searchToggle && mobileSearch) {
+      searchToggle.addEventListener('click', () => {
+        const willShow = mobileSearch.hidden;
+        mobileSearch.hidden = !willShow;
+        if (willShow && mobileInput) {
+          setTimeout(() => mobileInput.focus(), 50);
+        } else {
+          clearSearch();
+        }
+      });
+    }
+
+    // clear 버튼들
+    ['sidebarSearchClear', 'mobileSearchClear', 'searchBannerClear'].forEach(
+      (id) => {
+        const btn = $('#' + id);
+        if (btn) btn.addEventListener('click', clearSearch);
+      }
+    );
+
+    // 스크롤
+    let ticking = false;
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            updateScrollProgress();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
   }
 
   // ── 스크롤 스파이 (IntersectionObserver) ────────────────
@@ -364,7 +640,6 @@ function renderSection(section) {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // 위에서부터 가장 많이 보이는 섹션 선택
         const visible = entries
           .filter((en) => en.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
@@ -372,7 +647,6 @@ function renderSection(section) {
         if (visible.length) {
           currentId = visible[0].target.id;
         } else {
-          // 스크롤이 맨 위일 때 첫 섹션
           if (window.scrollY < 80 && sections[0]) {
             currentId = sections[0].id;
           }
@@ -382,7 +656,6 @@ function renderSection(section) {
         const activeLink = linkMap.get(currentId);
         if (activeLink) activeLink.classList.add('active');
 
-        // 바텀 네비 (s2 / s3)
         updateBottomNav(currentId);
       },
       {
@@ -393,7 +666,6 @@ function renderSection(section) {
 
     sections.forEach((sec) => observer.observe(sec));
 
-    // 초기 상태
     if (sections[0]) {
       currentId = sections[0].id;
       const first = linkMap.get(currentId);

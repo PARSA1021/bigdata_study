@@ -85,6 +85,9 @@
     <!-- Skip link (Accessibility) -->
     <a class="skip-link" href="#content">본문으로 건너뛰기</a>
 
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="페이지 스크롤 진행률"></div>
+
     <!-- Top Bar -->
     <header class="topbar" role="banner">
       <button
@@ -104,6 +107,15 @@
 
       <div class="header-actions">
         <button
+          class="icon-btn"
+          id="searchToggleBtn"
+          type="button"
+          aria-label="검색 열기"
+          title="검색"
+        >
+          <span aria-hidden="true">🔍</span>
+        </button>
+        <button
           class="theme-toggle-btn"
           id="themeToggleBtn"
           type="button"
@@ -114,6 +126,22 @@
         </button>
       </div>
     </header>
+
+    <!-- Mobile Search Bar (slides down) -->
+    <div class="mobile-search" id="mobileSearch" hidden>
+      <div class="mobile-search-inner">
+        <input
+          type="search"
+          id="mobileSearchInput"
+          class="search-input"
+          placeholder="키워드로 검색…"
+          autocomplete="off"
+          enterkeyhint="search"
+          aria-label="요약노트 검색"
+        />
+        <button type="button" class="search-clear" id="mobileSearchClear" aria-label="검색어 지우기" hidden>×</button>
+      </div>
+    </div>
 
     <!-- Sidebar Overlay -->
     <div
@@ -137,6 +165,33 @@
         <p id="logo-sub">아답터 · IT의 답을 터득하다</p>
       </div>
 
+      <!-- Desktop / Sidebar Search -->
+      <div class="sidebar-search">
+        <div class="search-wrap">
+          <span class="search-icon" aria-hidden="true">🔍</span>
+          <input
+            type="search"
+            id="sidebarSearchInput"
+            class="search-input"
+            placeholder="키워드 검색…"
+            autocomplete="off"
+            enterkeyhint="search"
+            aria-label="요약노트 검색"
+          />
+          <button type="button" class="search-clear" id="sidebarSearchClear" aria-label="검색어 지우기" hidden>×</button>
+        </div>
+      </div>
+
+      <!-- Expand / Collapse controls -->
+      <div class="sidebar-actions">
+        <button type="button" class="action-btn" id="expandAllBtn" title="모든 카드 펼치기">
+          <span aria-hidden="true">▾</span> 전체 펼치기
+        </button>
+        <button type="button" class="action-btn" id="collapseAllBtn" title="모든 카드 접기">
+          <span aria-hidden="true">▸</span> 전체 접기
+        </button>
+      </div>
+
       <!-- 동적 네비게이션 삽입 지점 -->
       <nav id="nav-container" aria-label="섹션 목록"></nav>
     </aside>
@@ -156,12 +211,23 @@
           데이터 탐색 및 모델링 영역의 핵심 암기 포인트와 상세 이론을 완벽하게
           정리했습니다.
         </p>
+        <div class="hero-stats" id="heroStats" hidden>
+          <span class="stat-chip" id="statSections">0개 섹션</span>
+          <span class="stat-chip" id="statCards">0개 카드</span>
+        </div>
       </header>
+
+      <!-- Search Result Banner -->
+      <div class="search-banner" id="searchBanner" hidden>
+        <span id="searchBannerText"></span>
+        <button type="button" class="search-banner-clear" id="searchBannerClear">검색 초기화</button>
+      </div>
 
       <!-- 동적 섹션 렌더링 영역 -->
       <div id="content" aria-live="polite">
         <!-- 로딩 상태 (app.js가 데이터 로드 후 교체) -->
         <div class="loading" id="loadingState" role="status" aria-busy="true">
+          <div class="loading-spinner" aria-hidden="true"></div>
           <p>
             요약노트를 불러오는 중…<br />
             <code>data.json</code>
