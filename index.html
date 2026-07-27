@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="theme-color"
+      content="#F8FAFC"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#070B14"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="빅분기 요약노트" />
+    <meta
+      name="description"
+      content="빅데이터분석기사 2과목·3과목 필기 핵심 요약노트. 데이터 탐색, 모델링, 딥러닝까지 암기 포인트 완벽 정리."
+    />
+    <meta name="author" content="아답터" />
+    <meta
+      property="og:title"
+      content="빅데이터분석기사 필기 · 2·3과목 요약노트"
+    />
+    <meta
+      property="og:description"
+      content="데이터 탐색 및 모델링 영역의 핵심 암기 포인트와 상세 이론을 완벽하게 정리했습니다."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ko_KR" />
+
+    <title>빅데이터분석기사 필기 · 2·3과목 집중 완벽대비 요약노트</title>
+
+    <!-- Fonts (preload + display=swap) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Prevent FOUC: apply saved theme before paint -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("theme");
+          if (!t) {
+            t = window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+          }
+          document.documentElement.setAttribute("data-theme", t);
+          var meta = document.querySelector(
+            'meta[name="theme-color"]:not([media])',
+          );
+          if (!meta) {
+            meta = document.createElement("meta");
+            meta.name = "theme-color";
+            document.head.appendChild(meta);
+          }
+          meta.content = t === "dark" ? "#070B14" : "#F8FAFC";
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+
+  <body>
+    <!-- Skip link (Accessibility) -->
+    <a class="skip-link" href="#content">본문으로 건너뛰기</a>
+
+    <!-- Top Bar -->
+    <header class="topbar" role="banner">
+      <button
+        class="menu-btn"
+        id="menuBtn"
+        type="button"
+        aria-label="메뉴 열기"
+        aria-controls="sidebar"
+        aria-expanded="false"
+      >
+        <span aria-hidden="true">☰</span>
+      </button>
+
+      <div class="topbar-title" id="topbarTitle">
+        빅데이터분석기사 (2·3과목)
+      </div>
+
+      <div class="header-actions">
+        <button
+          class="theme-toggle-btn"
+          id="themeToggleBtn"
+          type="button"
+          aria-label="다크 모드 전환"
+          title="테마 전환"
+        >
+          <span class="theme-icon" aria-hidden="true">🌓</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Sidebar Overlay -->
+    <div
+      class="overlay"
+      id="overlay"
+      role="presentation"
+      aria-hidden="true"
+    ></div>
+
+    <!-- Sidebar Navigation -->
+    <aside
+      class="sidebar"
+      id="sidebar"
+      role="navigation"
+      aria-label="과목 목차"
+      aria-hidden="true"
+    >
+      <div class="sidebar-logo">
+        <div class="badge" id="logo-badge">개정 2026.02.05</div>
+        <h1 id="logo-title">빅데이터분석기사<br />2·3과목 요약노트</h1>
+        <p id="logo-sub">아답터 · IT의 답을 터득하다</p>
+      </div>
+
+      <!-- 동적 네비게이션 삽입 지점 -->
+      <nav id="nav-container" aria-label="섹션 목록"></nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main" id="main" role="main">
+      <!-- Hero -->
+      <header class="hero" aria-labelledby="hero-title">
+        <div class="version" id="hero-version">
+          개정 버전 2026.02.05 · 아답터
+        </div>
+        <h2 id="hero-title">
+          빅데이터분석기사<br />
+          <span>2과목 · 3과목 완벽대비</span> 요약노트
+        </h2>
+        <p id="hero-desc">
+          데이터 탐색 및 모델링 영역의 핵심 암기 포인트와 상세 이론을 완벽하게
+          정리했습니다.
+        </p>
+      </header>
+
+      <!-- 동적 섹션 렌더링 영역 -->
+      <div id="content" aria-live="polite">
+        <!-- 로딩 상태 (app.js가 데이터 로드 후 교체) -->
+        <div class="loading" id="loadingState" role="status" aria-busy="true">
+          <p>
+            요약노트를 불러오는 중…<br />
+            <code>data.json</code>
+          </p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer id="footer" role="contentinfo">
+        <p>Copyright 2026. 아답터 (IT의 답을 터득하다) All rights reserved.</p>
+      </footer>
+    </main>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="bottom-nav" id="bottomNav" aria-label="과목 바로가기">
+      <a
+        href="#s2-1"
+        data-subject="s2"
+        class="nav-item-flex"
+        aria-label="2과목 데이터 탐색"
+      >
+        <span class="bn-icon" aria-hidden="true">②</span>
+        <span>데이터 탐색</span>
+      </a>
+      <a
+        href="#s3-1"
+        data-subject="s3"
+        class="nav-item-flex"
+        aria-label="3과목 빅데이터 모델링"
+      >
+        <span class="bn-icon" aria-hidden="true">③</span>
+        <span>빅데이터 모델링</span>
+      </a>
+    </nav>
+
+    <!-- Floating Top Button -->
+    <button
+      class="toc-float"
+      id="toTop"
+      type="button"
+      aria-label="맨 위로 이동"
+      title="맨 위로"
+    >
+      <span aria-hidden="true">↑</span> 맨 위로
+    </button>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
