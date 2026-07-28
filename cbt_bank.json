@@ -182,7 +182,12 @@
       "difficulty": "medium",
       "questionType": "multiple-choice",
       "question": "하둡(Hadoop) 에코시스템에서 대용량 데이터의 분산 '저장'을 담당하는 핵심 파일 시스템은?",
-      "choices": ["MapReduce", "HDFS", "YARN", "Zookeeper"],
+      "choices": [
+        "MapReduce",
+        "HDFS",
+        "YARN",
+        "Zookeeper"
+      ],
       "answer": 1,
       "explanation": "HDFS(Hadoop Distributed File System)는 하둡의 분산 저장을 담당하는 파일 시스템입니다.",
       "whyWrong": [
@@ -225,7 +230,12 @@
       "difficulty": "easy",
       "questionType": "multiple-choice",
       "question": "데이터 분석 조직 구조 중, 전사 분석업무를 별도의 분석 전담 조직에서 총괄하여 수행하는 구조는?",
-      "choices": ["집중구조", "기능구조", "분산구조", "혼합구조"],
+      "choices": [
+        "집중구조",
+        "기능구조",
+        "분산구조",
+        "혼합구조"
+      ],
       "answer": 0,
       "explanation": "집중구조는 전사 분석업무를 독립적인 분석 전담 조직(CoE)이 집중하여 담당하는 형태입니다.",
       "whyWrong": [
@@ -1060,7 +1070,12 @@
       "difficulty": "hard",
       "questionType": "multiple-choice",
       "question": "분석 준비도(X축)와 분석 성숙도(Y축)를 기준으로 한 4분면 분석 수준 진단에서, 준비도와 성숙도가 모두 낮은 조직에 해당하는 유형은?",
-      "choices": ["정착형", "확산형", "준비형", "도입형"],
+      "choices": [
+        "정착형",
+        "확산형",
+        "준비형",
+        "도입형"
+      ],
       "answer": 2,
       "explanation": "분석 준비도와 성숙도가 모두 낮은 조직은 '준비형'에 해당합니다. 반대로 둘 다 높으면 '정착형', 준비도는 낮지만 성숙도가 높으면 '확산형', 준비도는 높지만 성숙도가 낮으면 '도입형'입니다.",
       "whyWrong": [
@@ -1751,7 +1766,12 @@
       "difficulty": "medium",
       "questionType": "multiple-choice",
       "question": "두 가지 이상의 버전(A안, B안)을 실제 사용자 집단에 무작위로 노출시켜 어떤 버전이 더 나은 성과(전환율 등)를 내는지 비교하는 실험 방법은?",
-      "choices": ["A/B 테스트", "카이제곱 검정", "회귀분석", "군집분석"],
+      "choices": [
+        "A/B 테스트",
+        "카이제곱 검정",
+        "회귀분석",
+        "군집분석"
+      ],
       "answer": 0,
       "explanation": "A/B 테스트는 두 버전을 무작위로 나눈 사용자 그룹에 각각 노출시켜 특정 지표(클릭률, 전환율 등)를 비교함으로써 어떤 안이 더 효과적인지 통계적으로 검증하는 실험 기법입니다.",
       "whyWrong": [
@@ -1903,6 +1923,2166 @@
         "정답",
         "카이제곱 검정과 F검정은 평균 차이 검정이 아닌 분산·적합도·독립성 검정에 주로 사용됩니다.",
         "카이제곱 검정과 F검정은 평균 차이 검정이 아닌 분산·적합도·독립성 검정에 주로 사용됩니다."
+      ]
+    },
+    {
+      "id": "Q1011",
+      "subject": 1,
+      "chapter": "빅데이터 이해",
+      "sectionId": "s1-1",
+      "cardId": "c1-11",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "DIKW 피라미드 계층 모델에서 '지혜(Wisdom)'에 대한 설명으로 가장 적절한 것은?",
+      "choices": [
+        "가공되지 않은 순수한 수치나 기호를 의미한다.",
+        "데이터를 가공하여 얻은 패턴이나 연관성을 의미한다.",
+        "정보를 바탕으로 개인적인 경험이 결합되어 내재화된 것을 의미한다.",
+        "지식을 바탕으로 근본적인 원리를 깨닫고 창의적 아이디어를 도출하는 것을 의미한다."
+      ],
+      "answer": 3,
+      "explanation": "DIKW 피라미드에서 지혜(Wisdom)는 지식을 바탕으로 통찰력과 창의적 아이디어를 결합하여 문제 해결책이나 새로운 비전을 제시하는 최상위 단계입니다.",
+      "whyWrong": [
+        "데이터(Data)에 대한 설명입니다.",
+        "정보(Information)에 대한 설명입니다.",
+        "지식(Knowledge)에 대한 설명입니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q1012",
+      "subject": 1,
+      "chapter": "빅데이터 이해",
+      "sectionId": "s1-1",
+      "cardId": "c1-12",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "빅데이터의 특징 중 가트너(Gartner)의 초기 3V에 해당하지 않는 것은?",
+      "choices": [
+        "규모(Volume)",
+        "다양성(Variety)",
+        "정확성(Veracity)",
+        "속도(Velocity)"
+      ],
+      "answer": 2,
+      "explanation": "가트너가 정의한 빅데이터의 초기 3대 요소(3V)는 규모(Volume), 다양성(Variety), 속도(Velocity)입니다. 정확성(Veracity)은 이후 4V, 5V 등으로 확장될 때 추가된 개념입니다.",
+      "whyWrong": [
+        "초기 3V 중 하나입니다.",
+        "초기 3V 중 하나입니다.",
+        "정답",
+        "초기 3V 중 하나입니다."
+      ]
+    },
+    {
+      "id": "Q1013",
+      "subject": 1,
+      "chapter": "빅데이터 이해",
+      "sectionId": "s1-1",
+      "cardId": "c1-13",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "빅데이터 시대에 데이터의 가치 산정이 어려운 이유로 가장 거리가 먼 것은?",
+      "choices": [
+        "데이터의 활용 방식이 예측 불가능하게 다양해졌기 때문이다.",
+        "새로운 가치를 창출하는 데 데이터가 어떻게 기여했는지 측정하기 어렵기 때문이다.",
+        "데이터가 생성된 이후 시간이 지나면 가치가 완전히 소멸하기 때문이다.",
+        "기존에는 없던 새로운 분석 기법들이 지속적으로 등장하여 기존 가치 평가 방식이 맞지 않기 때문이다."
+      ],
+      "answer": 2,
+      "explanation": "빅데이터의 가치는 시간이 지나도 다른 데이터와 결합하여 새로운 가치를 창출할 수 있으므로, 반드시 가치가 소멸한다고 볼 수 없습니다. 활용 범위가 넓고 결합의 시너지가 커서 오히려 가치 측정이 어렵습니다.",
+      "whyWrong": [
+        "다양한 목적과 방법으로 재사용되므로 가치를 미리 산정하기 어렵습니다.",
+        "분석 결과가 실제 이익 창출에 기여한 정도를 정량화하기 모호합니다.",
+        "정답",
+        "새로운 분석 기법 개발이 데이터의 잠재적 가치에 변화를 줍니다."
+      ]
+    },
+    {
+      "id": "Q1014",
+      "subject": 1,
+      "chapter": "빅데이터 기획",
+      "sectionId": "s1-2",
+      "cardId": "c1-14",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "데이터 마이닝 방법론인 KDD(Knowledge Discovery in Databases)의 단계 중 '노이즈와 이상치를 제거'하는 단계는 무엇인가?",
+      "choices": [
+        "데이터 선택(Data Selection)",
+        "데이터 전처리(Data Preprocessing)",
+        "데이터 변환(Data Transformation)",
+        "데이터 마이닝(Data Mining)"
+      ],
+      "answer": 1,
+      "explanation": "KDD 방법론의 '데이터 전처리' 단계는 선택된 데이터 셋에 포함된 노이즈(Noise)와 이상치(Outlier), 결측치(Missing Value)를 정제하는 과정입니다.",
+      "whyWrong": [
+        "분석 목적에 맞는 데이터를 수집하고 타겟 데이터를 추출하는 단계입니다.",
+        "정답",
+        "분석 목적에 맞게 데이터를 요약하거나 차원을 축소하는 단계입니다.",
+        "데이터 패턴을 추출하여 의미 있는 규칙을 찾는 단계입니다."
+      ]
+    },
+    {
+      "id": "Q1015",
+      "subject": 1,
+      "chapter": "빅데이터 기획",
+      "sectionId": "s1-2",
+      "cardId": "c1-15",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "CRISP-DM 방법론 중 '업무 이해(Business Understanding)' 단계에서 수행하는 주요 업무가 아닌 것은?",
+      "choices": [
+        "업무 목적 파악",
+        "상황 파악",
+        "데이터 마이닝 목표 설정",
+        "모델 평가"
+      ],
+      "answer": 3,
+      "explanation": "모델 평가는 '평가(Evaluation)' 단계에서 이루어집니다. 업무 이해 단계에서는 업무 목적 파악, 상황 파악, 데이터 마이닝 목표 설정, 프로젝트 계획 수립 등을 수행합니다.",
+      "whyWrong": [
+        "업무 이해 단계의 주요 활동입니다.",
+        "업무 이해 단계의 주요 활동입니다.",
+        "업무 이해 단계의 주요 활동입니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q1016",
+      "subject": 1,
+      "chapter": "빅데이터 기획",
+      "sectionId": "s1-2",
+      "cardId": "c1-16",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "SEMMA 방법론의 단계를 순서대로 올바르게 나열한 것은?",
+      "choices": [
+        "Sample -> Explore -> Modify -> Model -> Assess",
+        "Sample -> Explore -> Model -> Modify -> Assess",
+        "Sample -> Evaluate -> Modify -> Model -> Assess",
+        "Select -> Explore -> Modify -> Model -> Assess"
+      ],
+      "answer": 0,
+      "explanation": "SEMMA 방법론은 SAS사가 개발한 방법론으로, Sample(샘플링) -> Explore(탐색) -> Modify(수정) -> Model(모델링) -> Assess(평가) 순서로 진행됩니다.",
+      "whyWrong": [
+        "정답",
+        "Modify와 Model의 순서가 바뀌었습니다.",
+        "Evaluate가 아니라 Explore입니다.",
+        "Select가 아니라 Sample입니다."
+      ]
+    },
+    {
+      "id": "Q1017",
+      "subject": 1,
+      "chapter": "데이터 적재 및 저장",
+      "sectionId": "s1-3",
+      "cardId": "c1-17",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "정형화되지 않은 원형 데이터(Raw Data)를 다양한 소스에서 수집하여 원래의 형식 그대로 저장해 두는 거대한 중앙 집중식 데이터 저장소는 무엇인가?",
+      "choices": [
+        "데이터 웨어하우스(Data Warehouse)",
+        "데이터 마트(Data Mart)",
+        "데이터 레이크(Data Lake)",
+        "데이터 큐브(Data Cube)"
+      ],
+      "answer": 2,
+      "explanation": "데이터 레이크(Data Lake)는 구조화되지 않은 비정형 데이터까지 포함하여 방대한 데이터를 원시 형태 그대로 저장하는 중앙 저장소입니다.",
+      "whyWrong": [
+        "사전에 정의된 스키마에 따라 정형화된 데이터가 저장되는 공간입니다.",
+        "웨어하우스에서 특정 부서나 목적에 맞게 추출된 소규모 저장소입니다.",
+        "정답",
+        "다차원 데이터를 분석하기 위한 데이터 구조체입니다."
+      ]
+    },
+    {
+      "id": "Q1018",
+      "subject": 1,
+      "chapter": "데이터 거버넌스",
+      "sectionId": "s1-3",
+      "cardId": "c1-18",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "데이터 거버넌스의 3대 구성 요소에 해당하지 않는 것은?",
+      "choices": [
+        "원칙(Principle)",
+        "조직(Organization)",
+        "프로세스(Process)",
+        "보안(Security)"
+      ],
+      "answer": 3,
+      "explanation": "데이터 거버넌스를 구성하는 3대 핵심 요소는 원칙(Principle), 조직(Organization), 프로세스(Process)입니다. 보안(Security)은 거버넌스가 다루는 주제 중 하나이나 3대 기본 요소에 속하지는 않습니다.",
+      "whyWrong": [
+        "거버넌스 3대 요소입니다.",
+        "거버넌스 3대 요소입니다.",
+        "거버넌스 3대 요소입니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q1019",
+      "subject": 1,
+      "chapter": "데이터 거버넌스",
+      "sectionId": "s1-3",
+      "cardId": "c1-19",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "데이터 품질 측정 기준 중, '데이터의 구조, 값, 형식이 일관되게 유지되는 정도'를 의미하는 항목은?",
+      "choices": [
+        "정확성(Accuracy)",
+        "완전성(Completeness)",
+        "일관성(Consistency)",
+        "적시성(Timeliness)"
+      ],
+      "answer": 2,
+      "explanation": "데이터가 여러 시스템이나 시점에 걸쳐 동일한 형태와 구조로 모순 없이 유지되는 성질을 '일관성(Consistency)'이라고 합니다.",
+      "whyWrong": [
+        "데이터가 실세계의 사실을 올바르게 반영하고 있는 정도입니다.",
+        "필수적인 데이터 값이 누락 없이 모두 입력되어 있는 정도입니다.",
+        "정답",
+        "원하는 시점에 즉시 데이터를 사용할 수 있는지에 대한 성질입니다."
+      ]
+    },
+    {
+      "id": "Q1020",
+      "subject": 1,
+      "chapter": "데이터 수집 및 전처리",
+      "sectionId": "s1-4",
+      "cardId": "c1-20",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "다양한 소스 시스템에서 데이터를 추출(Extract)하고, 필요한 형태로 변환(Transform)하여, 목표 데이터 웨어하우스에 적재(Load)하는 기술을 무엇이라 하는가?",
+      "choices": [
+        "CDC (Change Data Capture)",
+        "ETL",
+        "크롤링(Crawling)",
+        "배치(Batch)"
+      ],
+      "answer": 1,
+      "explanation": "ETL(Extract, Transform, Load)은 데이터 웨어하우스 구축의 핵심 프로세스로, 다양한 원천에서 데이터를 추출해 비즈니스 룰에 맞게 변환한 후 저장소에 적재하는 일련의 과정을 의미합니다.",
+      "whyWrong": [
+        "데이터베이스에서 변경된 데이터만 실시간으로 포착해 전송하는 기술입니다.",
+        "정답",
+        "웹페이지를 돌아다니며 데이터를 수집하는 기법입니다.",
+        "데이터를 일정량 모아두었다가 한 번에 처리하는 방식입니다."
+      ]
+    },
+    {
+      "id": "Q1021",
+      "subject": 1,
+      "chapter": "데이터 저장",
+      "sectionId": "s1-5",
+      "cardId": "c1-21",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "NoSQL 데이터베이스의 한 유형으로, 노드(Node)와 엣지(Edge)를 사용하여 개체 간의 관계를 효율적으로 저장 및 탐색하기 위해 설계된 데이터베이스는?",
+      "choices": [
+        "Key-Value Store",
+        "Document Store",
+        "Column-Family Store",
+        "Graph Store"
+      ],
+      "answer": 3,
+      "explanation": "그래프 데이터베이스(Graph Store)는 노드와 엣지(관계) 구조를 사용하여 복잡한 소셜 네트워크, 추천 시스템 등의 관계형 데이터를 매우 빠르게 탐색할 수 있는 NoSQL 방식입니다.",
+      "whyWrong": [
+        "키와 값의 단순한 쌍으로 저장하는 가장 기본적인 형태입니다.",
+        "JSON, XML 등의 문서 단위로 데이터를 저장하는 방식입니다.",
+        "Column 위주로 데이터를 저장하여 대량의 데이터 분석에 적합한 방식입니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q1022",
+      "subject": 1,
+      "chapter": "빅데이터 기획",
+      "sectionId": "s1-2",
+      "cardId": "c1-22",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "분석 조직 구조 중 별도의 분석 전담 조직이 존재하며, 전사적 차원에서 분석 과제를 발굴하고 부서간 분석 업무를 조율하는 조직 구조는 무엇인가?",
+      "choices": [
+        "집중형 분석 조직",
+        "분산형 분석 조직",
+        "혼합형 분석 조직",
+        "기능형 분석 조직"
+      ],
+      "answer": 0,
+      "explanation": "집중형(Centralized) 조직은 전사적 차원에서 독립된 분석 전담 부서를 두고 모든 분석 업무를 총괄하는 형태입니다. 부서 간 조율이 쉽고 전문성을 극대화할 수 있습니다.",
+      "whyWrong": [
+        "정답",
+        "현업 부서 내에 분석가를 배치하여 신속한 의사결정을 돕는 구조입니다.",
+        "전담 조직과 부서 내 분석가가 함께 존재하는 하이브리드 구조입니다.",
+        "일반적으로 사용되는 분석 조직 분류 명칭이 아닙니다."
+      ]
+    },
+    {
+      "id": "Q1023",
+      "subject": 1,
+      "chapter": "빅데이터 기획",
+      "sectionId": "s1-2",
+      "cardId": "c1-23",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "포트폴리오 사분면(Quadrant) 모델에서 분석 과제의 우선순위를 결정할 때, 시급성(Urgency)은 높으나 난이도(Difficulty)가 낮아 즉각적인 성과를 낼 수 있어 가장 먼저 추진해야 하는 과제 유형은?",
+      "choices": [
+        "Quick Win (단기적 성과)",
+        "Strategic (전략적 중요)",
+        "Long-term (장기적)",
+        "Low Priority (후순위)"
+      ],
+      "answer": 0,
+      "explanation": "단기적 성과를 의미하는 퀵-윈(Quick Win)은 상대적으로 적은 노력(낮은 난이도)으로 빠른 시간 내에 비즈니스 임팩트(높은 시급성)를 창출할 수 있는 과제를 의미하며 1순위로 추진됩니다.",
+      "whyWrong": [
+        "정답",
+        "시급성도 높고 난이도도 높아 장기적 관점의 투자가 필요한 과제입니다.",
+        "포트폴리오 분석에서 사용되는 주된 용어가 아닙니다.",
+        "시급성과 중요도가 모두 낮은 과제입니다."
+      ]
+    },
+    {
+      "id": "Q1024",
+      "subject": 1,
+      "chapter": "빅데이터 제도",
+      "sectionId": "s1-6",
+      "cardId": "c1-24",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "EU의 일반 개인정보 보호규정(GDPR)에서 새롭게 도입된 권리로, 정보 주체가 본인의 데이터를 다른 서비스 제공자에게 이동시킬 수 있도록 요구할 수 있는 권리는?",
+      "choices": [
+        "잊힐 권리(Right to be forgotten)",
+        "개인정보 이동권(Right to data portability)",
+        "접근권(Right of access)",
+        "처리 제한권(Right to restriction of processing)"
+      ],
+      "answer": 1,
+      "explanation": "개인정보 이동권(Right to data portability)은 사용자가 자신의 개인정보를 쉽게 다운로드 받아 다른 IT 서비스 제공업체로 원활하게 옮길 수 있는 권리입니다. 마이데이터(MyData) 산업의 근간이 됩니다.",
+      "whyWrong": [
+        "개인정보의 삭제를 요구할 수 있는 권리입니다.",
+        "정답",
+        "개인정보가 처리되고 있는지 여부를 확인하고 접근할 권리입니다.",
+        "특정 목적의 데이터 처리를 제한하도록 요구할 권리입니다."
+      ]
+    },
+    {
+      "id": "Q1025",
+      "subject": 1,
+      "chapter": "빅데이터 제도",
+      "sectionId": "s1-6",
+      "cardId": "c1-25",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "데이터 3법 개정에 따른 '가명정보'에 대한 설명으로 가장 올바른 것은?",
+      "choices": [
+        "다른 정보와 결합해도 더 이상 개인을 식별할 수 없는 정보로, 사전 동의 없이 상업적 목적으로 판매가 가능하다.",
+        "추가 정보 없이는 특정 개인을 알아볼 수 없게 조치한 정보로, 통계 작성 및 과학적 연구 목적으로는 동의 없이 활용 가능하다.",
+        "데이터 보안을 위해 무작위 문자로 완전히 암호화된 정보로 복호화가 불가능하다.",
+        "이름, 주민번호 등을 단순 삭제한 정보로 어떤 상황에서도 식별이 불가능하다."
+      ],
+      "answer": 1,
+      "explanation": "가명정보는 추가적인 정보의 사용 없이는 특정 개인을 알아볼 수 없도록 처리한 정보로, 데이터 3법에 의해 통계 작성, 과학적 연구(상업적 연구 포함), 공익적 기록보존 목적에 한해 정보주체 동의 없이 활용할 수 있습니다.",
+      "whyWrong": [
+        "다른 정보와 결합해도 식별할 수 없는 것은 '익명정보'입니다.",
+        "정답",
+        "가명처리는 규칙을 가지므로 추가정보(Key)가 있으면 복원이 가능합니다.",
+        "단순 삭제만으로는 다른 속성값 조합에 의해 식별될 위험이 있습니다."
+      ]
+    },
+    {
+      "id": "Q1026",
+      "subject": 1,
+      "chapter": "빅데이터 제도",
+      "sectionId": "s1-6",
+      "cardId": "c1-26",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "개인정보 비식별화 기법 중, 나이 '34세'를 '30대'로, 소득 '420만원'을 '400만원~500만원'으로 구간으로 나누어 표현하는 기법은?",
+      "choices": [
+        "가명처리(Pseudonymization)",
+        "데이터 마스킹(Data Masking)",
+        "총계처리(Aggregation)",
+        "데이터 범주화(Data Categorization)"
+      ],
+      "answer": 3,
+      "explanation": "데이터 범주화(Categorization/Generalization)는 연속형 데이터 값이나 특정 속성값을 상위 범주나 구간(예: 30대, A등급)으로 치환하여 세부 정보를 숨기는 기법입니다.",
+      "whyWrong": [
+        "식별자를 다른 값으로 대체하는 기법입니다.",
+        "데이터의 일부를 '*'(별표) 등으로 가리는 기법입니다(예: 홍*동).",
+        "데이터의 총합이나 평균 등 집계값만 보여주는 기법입니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q1027",
+      "subject": 1,
+      "chapter": "빅데이터 이해",
+      "sectionId": "s1-1",
+      "cardId": "c1-27",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "개인이 자신의 정보에 대한 통제권을 갖고, 이를 바탕으로 본인이 원하는 서비스에 정보를 제공하여 혜택을 누리는 패러다임은?",
+      "choices": [
+        "오픈 데이터(Open Data)",
+        "마이데이터(MyData)",
+        "블록체인(Blockchain)",
+        "소셜 데이터(Social Data)"
+      ],
+      "answer": 1,
+      "explanation": "마이데이터(MyData)는 개인정보의 주권이 기업이 아닌 개인에게 있음을 의미하며, 개인이 스스로 자신의 데이터를 관리하고 통제할 수 있는 권리를 뜻합니다.",
+      "whyWrong": [
+        "공공기관이나 기업이 누구나 자유롭게 사용할 수 있도록 개방한 데이터입니다.",
+        "정답",
+        "분산 원장 기술입니다.",
+        "SNS 등에서 생성되는 데이터입니다."
+      ]
+    },
+    {
+      "id": "Q1028",
+      "subject": 1,
+      "chapter": "빅데이터 기술",
+      "sectionId": "s1-5",
+      "cardId": "c1-28",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "하둡(Hadoop) 생태계에서 대용량 데이터의 분산 처리를 위해 사용하는 자바 기반의 프로그래밍 프레임워크로, 데이터를 쪼개서 처리(Map)하고 다시 합치는(Reduce) 작업을 수행하는 핵심 컴포넌트는?",
+      "choices": [
+        "HDFS",
+        "MapReduce",
+        "YARN",
+        "ZooKeeper"
+      ],
+      "answer": 1,
+      "explanation": "MapReduce는 구글이 제안하고 하둡에서 구현된 분산 처리 프레임워크로, 데이터를 여러 노드에 나누어 병렬로 처리(Map)한 후, 그 결과를 취합(Reduce)하는 방식을 사용합니다.",
+      "whyWrong": [
+        "하둡의 분산 파일 시스템입니다.",
+        "정답",
+        "하둡 2.0부터 도입된 자원 관리 및 스케줄링 플랫폼입니다.",
+        "분산 환경에서 서버들 간의 동기화 및 코디네이터 역할을 합니다."
+      ]
+    },
+    {
+      "id": "Q1029",
+      "subject": 1,
+      "chapter": "데이터 적재 및 저장",
+      "sectionId": "s1-3",
+      "cardId": "c1-29",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "실시간 스트리밍 데이터를 분산 환경에서 고성능으로 처리하고 저장하기 위해 주로 활용되는 메시지 큐 시스템은 무엇인가?",
+      "choices": [
+        "Apache Sqoop",
+        "Apache Flume",
+        "Apache Kafka",
+        "Apache Hive"
+      ],
+      "answer": 2,
+      "explanation": "Apache Kafka는 대용량 실시간 로그 데이터 및 스트리밍 데이터를 빠르고 안정적으로 처리(Publish/Subscribe 구조)하기 위해 널리 사용되는 분산 메시징 플랫폼입니다.",
+      "whyWrong": [
+        "RDBMS와 하둡 간의 데이터 전송을 돕는 도구입니다.",
+        "다양한 서버에 분산된 로그 데이터를 수집하는 도구입니다.",
+        "정답",
+        "하둡 에코시스템 내에서 SQL과 유사한 쿼리를 제공하는 데이터 웨어하우스 인프라입니다."
+      ]
+    },
+    {
+      "id": "Q1030",
+      "subject": 1,
+      "chapter": "빅데이터 제도",
+      "sectionId": "s1-6",
+      "cardId": "c1-30",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "기업이 빅데이터 분석 과제를 발굴하는 하향식 접근법(Top-down Approach)의 단계로 가장 올바른 것은?",
+      "choices": [
+        "데이터 탐색 -> 인사이트 도출 -> 문제 정의",
+        "문제 탐색 -> 문제 정의 -> 해결방안 탐색 -> 타당성 검토",
+        "모델링 -> 해결방안 탐색 -> 비즈니스 적용",
+        "데이터 수집 -> 모델링 -> 문제 정의 -> 시각화"
+      ],
+      "answer": 1,
+      "explanation": "하향식 접근법은 문제 탐색(Discovery) -> 문제 정의(Problem Definition) -> 해결방안 탐색(Solution Search) -> 타당성 검토(Feasibility Study)의 순서로 진행됩니다. 비즈니스 문제에서 출발하여 데이터를 찾는 방식입니다.",
+      "whyWrong": [
+        "이것은 데이터를 기반으로 문제를 발견하는 상향식(Bottom-up)에 가깝습니다.",
+        "정답",
+        "문제 정의 단계가 빠져있습니다.",
+        "하향식 접근법의 순서가 아닙니다."
+      ]
+    },
+    {
+      "id": "Q2011",
+      "subject": 2,
+      "chapter": "데이터 탐색 기초",
+      "sectionId": "s2-1",
+      "cardId": "c2-11",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "다음 중 측정 대상의 특성을 분류하거나 식별할 목적으로 숫자를 부여하는 척도로, 측정값들 사이에 사칙연산은 물론 대소 관계도 성립하지 않는 척도는?",
+      "choices": [
+        "명목 척도(Nominal Scale)",
+        "서열 척도(Ordinal Scale)",
+        "등간 척도(Interval Scale)",
+        "비율 척도(Ratio Scale)"
+      ],
+      "answer": 0,
+      "explanation": "명목 척도(Nominal Scale)는 단순히 분류나 식별을 위해 임의의 숫자를 부여한 것(예: 성별(남=1, 여=2), 혈액형 등)으로, 순서나 크기의 의미가 없습니다.",
+      "whyWrong": [
+        "정답",
+        "대소 관계(순위)는 알 수 있으나 차이의 크기는 알 수 없는 척도입니다(예: 학점, 만족도 순위).",
+        "순위뿐만 아니라 차이(간격)의 의미도 있는 척도입니다(예: 섭씨 온도).",
+        "절대 영점(0)이 존재하여 비율(몇 배) 계산이 가능한 척도입니다(예: 키, 몸무게)."
+      ]
+    },
+    {
+      "id": "Q2012",
+      "subject": 2,
+      "chapter": "데이터 탐색 기초",
+      "sectionId": "s2-1",
+      "cardId": "c2-12",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "비율 척도(Ratio Scale)에 해당하는 데이터의 예시로 올바르게 짝지어진 것은?",
+      "choices": [
+        "온도(섭씨), 지능지수(IQ)",
+        "성별, 출생지역",
+        "몸무게, 연봉",
+        "석차(등수), 고객 만족도 등급"
+      ],
+      "answer": 2,
+      "explanation": "비율 척도는 '절대 영점(Absolute Zero)'이 존재하여 곱셈과 나눗셈 등 모든 사칙연산이 가능한 데이터입니다. 몸무게(0kg은 무게가 없음)나 연봉(0원은 소득이 없음)이 대표적입니다.",
+      "whyWrong": [
+        "섭씨 온도와 IQ는 절대 영점이 없는 등간 척도입니다.",
+        "성별과 출생지역은 명목 척도입니다.",
+        "정답",
+        "석차와 등급은 서열 척도입니다."
+      ]
+    },
+    {
+      "id": "Q2013",
+      "subject": 2,
+      "chapter": "기술통계",
+      "sectionId": "s2-2",
+      "cardId": "c2-13",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "분포의 비대칭도를 나타내는 통계량으로, 꼬리가 오른쪽으로 길게 늘어진 형태일 때의 특징으로 옳은 것은?",
+      "choices": [
+        "왜도(Skewness) < 0, 평균 < 중앙값",
+        "왜도(Skewness) > 0, 평균 < 중앙값",
+        "왜도(Skewness) < 0, 평균 > 중앙값",
+        "왜도(Skewness) > 0, 평균 > 중앙값"
+      ],
+      "answer": 3,
+      "explanation": "꼬리가 오른쪽으로 긴(Right-skewed, 양의 왜도) 분포에서는 왜도(Skewness) 값이 0보다 큽니다. 이때 소수의 매우 큰 값들 때문에 평균이 오른쪽으로 끌려가므로 평균(Mean) > 중앙값(Median) > 최빈값(Mode)의 순서가 됩니다.",
+      "whyWrong": [
+        "왜도가 0보다 작으면 왼쪽으로 꼬리가 긴 분포입니다.",
+        "오른쪽으로 꼬리가 길면 큰 이상치 때문에 평균이 중앙값보다 커집니다.",
+        "왼쪽으로 꼬리가 길 때의 특성(왜도<0, 평균<중앙값)과 섞여 있습니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q2014",
+      "subject": 2,
+      "chapter": "기술통계",
+      "sectionId": "s2-2",
+      "cardId": "c2-14",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "다음 중 분포의 뾰족한 정도를 나타내는 통계량은 무엇인가?",
+      "choices": [
+        "왜도(Skewness)",
+        "첨도(Kurtosis)",
+        "분산(Variance)",
+        "변동계수(Coefficient of Variation)"
+      ],
+      "answer": 1,
+      "explanation": "첨도(Kurtosis)는 데이터 분포가 정규분포보다 얼마나 뾰족하거나 완만한지를 나타내는 측도입니다. 첨도가 양수이면 정규분포보다 뾰족하고, 음수이면 완만합니다.",
+      "whyWrong": [
+        "왜도는 분포의 비대칭도를 나타냅니다.",
+        "정답",
+        "분산은 데이터가 평균으로부터 얼마나 흩어져 있는지를 나타냅니다.",
+        "변동계수는 표준편차를 평균으로 나눈 값으로, 측정 단위가 다른 데이터 간의 산포도를 비교할 때 사용합니다."
+      ]
+    },
+    {
+      "id": "Q2015",
+      "subject": 2,
+      "chapter": "결측치 및 이상치 처리",
+      "sectionId": "s2-3",
+      "cardId": "c2-15",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "어떤 설문조사에서 '소득' 문항에 응답하지 않은 사람들을 분석해보니, 다른 문항에 응답한 값들과 무관하게 단순히 우연히 기입을 누락한 경우였다. 이러한 결측치(Missing Value)의 발생 메커니즘은 무엇인가?",
+      "choices": [
+        "MCAR (Missing Completely At Random)",
+        "MAR (Missing At Random)",
+        "MNAR (Missing Not At Random)",
+        "MC (Missing Conditionally)"
+      ],
+      "answer": 0,
+      "explanation": "결측값이 발생한 원인이 관측된 데이터나 누락된 데이터 그 자체와 전혀 무관하게 우연히 발생한 경우를 완전 무작위 결측(MCAR)이라고 합니다.",
+      "whyWrong": [
+        "정답",
+        "무작위 결측(MAR)은 결측의 발생이 측정된 다른 변수들의 값과 연관되어 있는 경우입니다.",
+        "비무작위 결측(MNAR)은 결측의 발생이 해당 누락된 변수 자체의 값(예: 소득이 낮을수록 응답을 안 함)과 연관된 경우입니다.",
+        "결측치 메커니즘의 공식 분류 명칭이 아닙니다."
+      ]
+    },
+    {
+      "id": "Q2016",
+      "subject": 2,
+      "chapter": "결측치 및 이상치 처리",
+      "sectionId": "s2-3",
+      "cardId": "c2-16",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "다음 중 단일대치법(Single Imputation)에 속하지 않는 방법은?",
+      "choices": [
+        "평균 대치법(Mean Imputation)",
+        "핫덱 대치법(Hot-Deck Imputation)",
+        "MICE (Multiple Imputation by Chained Equations)",
+        "회귀 대치법(Regression Imputation)"
+      ],
+      "answer": 2,
+      "explanation": "MICE는 다중대치법(Multiple Imputation)의 대표적인 알고리즘입니다. 하나의 결측치에 대해 여러 개의 가상 값을 생성하여 여러 개의 온전한 데이터셋을 만든 후 분석 결과를 통합합니다.",
+      "whyWrong": [
+        "결측값을 해당 변수의 평균값으로 채우는 단일대치법입니다.",
+        "비슷한 특성을 가진 다른 관측치의 값을 가져와 채우는 단일대치법입니다.",
+        "정답",
+        "다른 변수들을 이용한 회귀 모형으로 예측값을 구해 채우는 단일대치법입니다."
+      ]
+    },
+    {
+      "id": "Q2017",
+      "subject": 2,
+      "chapter": "결측치 및 이상치 처리",
+      "sectionId": "s2-3",
+      "cardId": "c2-17",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "박스플롯(Box Plot)을 활용하여 이상치(Outlier)를 판별할 때, 일반적으로 정상 데이터의 범위로 간주하는 상한선(Upper Bound)을 구하는 식은 무엇인가? (단, IQR = Q3 - Q1)",
+      "choices": [
+        "Q3 + 1.5 * IQR",
+        "Q3 + 2.0 * IQR",
+        "Q1 - 1.5 * IQR",
+        "Q2 + 1.5 * IQR"
+      ],
+      "answer": 0,
+      "explanation": "Tukey의 박스플롯 기법에서 이상치 판단의 기준이 되는 정상 범위의 상한선은 제3사분위수(Q3)에서 사분위범위(IQR)의 1.5배를 더한 값(Q3 + 1.5 * IQR)입니다.",
+      "whyWrong": [
+        "정답",
+        "보통 1.5를 곱하며, 3.0을 곱하면 극단치(Extreme Outlier)로 분류하기도 하지만 일반적인 기준은 1.5입니다.",
+        "이것은 하한선(Lower Bound)을 구하는 식입니다.",
+        "Q2는 중앙값이며 상한선 계산 기준이 아닙니다."
+      ]
+    },
+    {
+      "id": "Q2018",
+      "subject": 2,
+      "chapter": "결측치 및 이상치 처리",
+      "sectionId": "s2-3",
+      "cardId": "c2-18",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "평균이 $\\mu$이고 표준편차가 $\\sigma$인 정규분포를 따르는 데이터에 대해 이상치를 탐지하고자 한다. 데이터 값 $x$에 대해 Z-score를 산출하는 공식으로 올바른 것은?",
+      "choices": [
+        "$Z = (x - \\mu) / \\sigma$",
+        "$Z = (x - \\sigma) / \\mu$",
+        "$Z = (x - \\mu) / \\sigma^2$",
+        "$Z = (\\mu - x) / \\sigma$"
+      ],
+      "answer": 0,
+      "explanation": "Z-score(표준점수)는 관측값 $x$에서 평균 $\\mu$를 뺀 뒤, 표준편차 $\\sigma$로 나누어 구합니다. 통상 Z-score의 절댓값이 3 이상(또는 2.5 이상)이면 이상치로 판단합니다.",
+      "whyWrong": [
+        "정답",
+        "평균과 표준편차의 위치가 잘못되었습니다.",
+        "분모는 분산($\\sigma^2$)이 아니라 표준편차($\\sigma$)여야 합니다.",
+        "부호가 반대입니다."
+      ]
+    },
+    {
+      "id": "Q2019",
+      "subject": 2,
+      "chapter": "데이터 변환",
+      "sectionId": "s2-4",
+      "cardId": "c2-19",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "데이터 변환(Data Transformation) 방법에 대한 설명으로 적절하지 않은 것은?",
+      "choices": [
+        "로그 변환(Log Transformation)은 데이터의 분포가 오른쪽으로 꼬리가 긴(양의 왜도) 경우 정규분포에 가깝게 만들기 위해 자주 사용된다.",
+        "표준화(Standardization)는 평균을 0, 분산을 1로 맞추어 스케일이 다른 변수들을 비교 가능하게 한다.",
+        "원핫 인코딩(One-Hot Encoding)은 연속형 변수를 여러 개의 이산형 구간으로 나누는 기법이다.",
+        "최소-최대 정규화(Min-Max Scaling)는 이상치(Outlier)에 매우 민감하다는 단점이 있다."
+      ],
+      "answer": 2,
+      "explanation": "원핫 인코딩(One-Hot Encoding)은 명목형(범주형) 변수를 0과 1로 이루어진 더미 변수(Dummy Variable)로 변환하는 기법입니다. 연속형 변수를 구간으로 나누는 것은 이산화(Discretization) 또는 구간화(Binning)라고 합니다.",
+      "whyWrong": [
+        "로그 변환은 큰 값을 압축하여 우측 꼬리가 긴 분포를 완화하는 데 효과적입니다.",
+        "Z-Score 표준화에 대한 올바른 설명입니다.",
+        "정답",
+        "Min-Max 스케일링은 데이터의 최솟값과 최댓값을 사용하므로 이상치가 있으면 다른 값들이 좁은 구간으로 몰리게 됩니다."
+      ]
+    },
+    {
+      "id": "Q2020",
+      "subject": 2,
+      "chapter": "데이터 변환",
+      "sectionId": "s2-4",
+      "cardId": "c2-20",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "스케일링 기법 중 이상치(Outlier)의 영향을 최소화하기 위해 평균과 표준편차 대신 중앙값(Median)과 사분위범위(IQR)를 사용하는 방법은?",
+      "choices": [
+        "Min-Max Scaler",
+        "Standard Scaler",
+        "Robust Scaler",
+        "MaxAbs Scaler"
+      ],
+      "answer": 2,
+      "explanation": "로버스트 스케일링(Robust Scaler)은 $(x - Median) / IQR$ 식을 사용하여 스케일링을 수행하므로 극단적인 이상치가 존재하더라도 중앙값과 IQR이 크게 변하지 않아 이상치의 영향을 적게 받습니다.",
+      "whyWrong": [
+        "최댓값과 최솟값을 사용하므로 이상치에 민감합니다.",
+        "평균과 표준편차를 사용하므로 이상치의 영향을 많이 받습니다.",
+        "정답",
+        "절댓값이 가장 큰 값으로 나누는 방식이므로 이상치에 민감합니다."
+      ]
+    },
+    {
+      "id": "Q2021",
+      "subject": 2,
+      "chapter": "표본 추출",
+      "sectionId": "s2-5",
+      "cardId": "c2-21",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "모집단을 일정한 특성에 따라 여러 개의 하위 집단(층)으로 나눈 후, 각 집단 내에서 무작위로 표본을 추출하는 표본 추출 방법은 무엇인가?",
+      "choices": [
+        "단순 무작위 추출법(Simple Random Sampling)",
+        "계통 추출법(Systematic Sampling)",
+        "층화 추출법(Stratified Random Sampling)",
+        "군집 추출법(Cluster Sampling)"
+      ],
+      "answer": 2,
+      "explanation": "층화 추출법(Stratified Sampling)은 모집단을 서로 이질적인 집단(층)들로 나누고(예: 성별, 연령대별), 각 층 내에서 표본을 무작위로 추출하여 표본의 대표성을 높이는 기법입니다.",
+      "whyWrong": [
+        "모집단 전체에서 난수 등을 이용하여 동일한 확률로 추출하는 방법입니다.",
+        "모집단 목록에서 일정한 간격(예: 매 10번째)을 두고 표본을 추출하는 방법입니다.",
+        "정답",
+        "모집단을 여러 군집(Cluster)으로 나눈 후, 무작위로 몇 개의 군집을 선택하여 그 안의 모든 대상을 조사하는 방법입니다."
+      ]
+    },
+    {
+      "id": "Q2022",
+      "subject": 2,
+      "chapter": "상관관계 분석",
+      "sectionId": "s2-6",
+      "cardId": "c2-22",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "두 연속형 변수 간의 선형적인 연관성의 강도와 방향을 나타내는 피어슨 상관계수(Pearson Correlation Coefficient) $r$의 범위로 옳은 것은?",
+      "choices": [
+        "$0 \\le r \\le 1$",
+        "$-1 \\le r \\le 1$",
+        "$-100 \\le r \\le 100$",
+        "$-∞ < r < ∞$"
+      ],
+      "answer": 1,
+      "explanation": "피어슨 상관계수 $r$은 두 변수가 완벽한 양의 선형 관계일 때 1, 완벽한 음의 선형 관계일 때 -1을 가지며, 선형 관계가 전혀 없을 때 0이 됩니다. 따라서 범위는 -1에서 1 사이입니다.",
+      "whyWrong": [
+        "상관계수는 음수를 가질 수 있습니다.",
+        "정답",
+        "상관계수는 1을 초과하거나 -1 미만일 수 없습니다.",
+        "제한 없는 값이 아닙니다."
+      ]
+    },
+    {
+      "id": "Q2023",
+      "subject": 2,
+      "chapter": "상관관계 분석",
+      "sectionId": "s2-6",
+      "cardId": "c2-23",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "피어슨 상관계수와 스피어만 상관계수에 대한 설명으로 올바른 것은?",
+      "choices": [
+        "스피어만 상관계수는 두 변수의 실제 측정값을 그대로 사용하여 선형 관계를 측정한다.",
+        "데이터에 비선형적인 관계가 있더라도 단조증가/단조감소 관계라면 피어슨 상관계수보다 스피어만 상관계수가 더 높게 나타날 수 있다.",
+        "두 계수 모두 범주형 데이터 간의 연관성을 측정할 때 가장 널리 사용된다.",
+        "이상치(Outlier)가 존재할 경우, 피어슨 상관계수보다 스피어만 상관계수가 더 큰 영향을 받는다."
+      ],
+      "answer": 1,
+      "explanation": "스피어만(Spearman) 상관계수는 데이터의 실제 값이 아닌 '순위(Rank)'를 기반으로 계산합니다. 따라서 비선형이더라도 값들이 함께 증가(또는 감소)하는 단조 관계가 있다면 피어슨 계수보다 더 높은 상관성을 보일 수 있으며 이상치에 덜 민감합니다.",
+      "whyWrong": [
+        "실제 측정값이 아닌 순위(Rank)를 사용합니다.",
+        "정답",
+        "피어슨은 연속형 데이터, 스피어만은 서열형 데이터(또는 순위 변환 데이터)에 사용하며 명목 범주형은 카이제곱 등을 사용합니다.",
+        "순위를 기반으로 하므로 스피어만 계수가 이상치의 영향을 훨씬 적게(Robust) 받습니다."
+      ]
+    },
+    {
+      "id": "Q2024",
+      "subject": 2,
+      "chapter": "회귀분석 기초 (탐색 관점)",
+      "sectionId": "s2-7",
+      "cardId": "c2-24",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "다중 선형 회귀 모형에서 독립변수들 간에 강한 상관관계가 존재하여 모델의 회귀계수 추정을 불안정하게 만드는 문제를 무엇이라 하는가?",
+      "choices": [
+        "이분산성(Heteroscedasticity)",
+        "자기상관성(Autocorrelation)",
+        "다중공선성(Multicollinearity)",
+        "과대적합(Overfitting)"
+      ],
+      "answer": 2,
+      "explanation": "다중공선성(Multicollinearity)은 회귀 분석에서 독립변수들 사이에 강한 선형 상관관계가 존재하여 회귀계수 분산이 팽창하고 해석을 신뢰하기 어렵게 만드는 현상입니다. 분산팽창요인(VIF) 지표를 통해 진단합니다.",
+      "whyWrong": [
+        "오차항의 분산이 일정하지 않은 현상입니다.",
+        "오차항들 간에 상관관계가 존재하는 현상으로 주로 시계열 데이터에서 나타납니다.",
+        "정답",
+        "모델이 학습 데이터에만 너무 과도하게 맞춰져 새로운 데이터에 대한 예측력이 떨어지는 현상입니다."
+      ]
+    },
+    {
+      "id": "Q2025",
+      "subject": 2,
+      "chapter": "회귀분석 기초 (탐색 관점)",
+      "sectionId": "s2-7",
+      "cardId": "c2-25",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "다중공선성(Multicollinearity)을 진단하기 위해 주로 사용하는 지표인 VIF(Variance Inflation Factor) 값이 보통 얼마 이상일 때 다중공선성에 문제가 있다고 판단하는가?",
+      "choices": [
+        "VIF > 1",
+        "VIF > 3",
+        "VIF > 10",
+        "VIF < 0"
+      ],
+      "answer": 2,
+      "explanation": "일반적으로 특정 변수의 VIF 값이 10을 초과하면 해당 변수가 다른 독립변수들과 강한 선형관계를 가지고 있어 다중공선성에 문제가 있다고 판단하며, 제거를 고려합니다.",
+      "whyWrong": [
+        "VIF가 1인 경우는 전혀 상관성이 없음을 의미합니다.",
+        "엄격하게는 5를 기준으로 삼기도 하나 보편적인 기준은 10입니다.",
+        "정답",
+        "VIF 값은 항상 1 이상입니다."
+      ]
+    },
+    {
+      "id": "Q2026",
+      "subject": 2,
+      "chapter": "탐색적 데이터 분석(EDA)",
+      "sectionId": "s2-8",
+      "cardId": "c2-26",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "탐색적 데이터 분석(EDA) 과정에서, 데이터 간의 상관관계를 한눈에 파악하기 위해 색상의 농도나 명도로 값을 표현하는 시각화 기법은 무엇인가?",
+      "choices": [
+        "산점도(Scatter Plot)",
+        "히트맵(Heatmap)",
+        "히스토그램(Histogram)",
+        "박스플롯(Box Plot)"
+      ],
+      "answer": 1,
+      "explanation": "히트맵(Heatmap)은 데이터 행렬의 각 셀 값을 색상의 농도나 명도로 나타내는 시각화 방법으로, 여러 변수 간의 상관계수(Correlation Matrix)를 시각화할 때 널리 쓰입니다.",
+      "whyWrong": [
+        "두 연속형 변수 간의 관계를 점을 찍어 시각화합니다.",
+        "정답",
+        "단일 연속형 변수의 도수 분포를 기둥 형태로 보여줍니다.",
+        "데이터의 요약 통계량(사분위수 등)을 보여주는 도표입니다."
+      ]
+    },
+    {
+      "id": "Q2027",
+      "subject": 2,
+      "chapter": "탐색적 데이터 분석(EDA)",
+      "sectionId": "s2-8",
+      "cardId": "c2-27",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "어떤 기업의 마케팅 부서에서 고객들의 나이와 구매 금액 간의 관계를 시각화하고자 한다. 그런데 데이터 건수가 10만 건이 넘어 일반적인 산점도(Scatter Plot)를 그리면 점들이 너무 많이 겹쳐 밀도를 파악하기 어렵다(Overplotting). 이를 해결하기 위한 대안으로 가장 부적절한 시각화 방법은?",
+      "choices": [
+        "Hexbin Plot (육각 빈 산점도)",
+        "2D Histogram",
+        "투명도(Alpha)를 조절한 Scatter Plot",
+        "파이 차트(Pie Chart)"
+      ],
+      "answer": 3,
+      "explanation": "파이 차트(Pie Chart)는 범주형 변수의 비율을 보여주는 데 적합하며, 연속형 두 변수인 나이와 구매 금액 간의 관계(밀도)를 파악하는 데는 전혀 사용할 수 없습니다.",
+      "whyWrong": [
+        "오버플로팅 문제를 해결하고 2차원 밀도를 보여주는 훌륭한 대안입니다.",
+        "데이터를 2차원 격자로 나누어 빈도를 구하므로 밀도 파악에 좋습니다.",
+        "점들에 투명도를 주어 밀집된 곳이 진하게 보이도록 할 수 있습니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q2028",
+      "subject": 2,
+      "chapter": "텍스트 데이터 탐색",
+      "sectionId": "s2-9",
+      "cardId": "c2-28",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "텍스트 데이터 전처리 과정 중, 단어의 어미 변화를 제거하고 문법적 의미를 갖는 기본형(사전적 의미의 어근)으로 변환하는 과정을 무엇이라 하는가?",
+      "choices": [
+        "토큰화(Tokenization)",
+        "표제어 추출(Lemmatization)",
+        "불용어(Stopword) 처리",
+        "구문 분석(Parsing)"
+      ],
+      "answer": 1,
+      "explanation": "표제어 추출(Lemmatization)은 문맥이나 품사 정보를 고려하여 텍스트의 단어들을 사전적 기본형(Lemma)으로 변환하는 과정입니다(예: 'running' -> 'run'). 이와 비슷한 '어간 추출(Stemming)'은 규칙 기반으로 어미를 자르는 방식입니다.",
+      "whyWrong": [
+        "문장이나 텍스트를 의미 있는 단위(단어 등)로 쪼개는 과정입니다.",
+        "정답",
+        "분석에 의미가 없는 단어(a, the, is 등)를 제거하는 과정입니다.",
+        "문장의 문법 구조를 트리 형태로 분석하는 과정입니다."
+      ]
+    },
+    {
+      "id": "Q2029",
+      "subject": 2,
+      "chapter": "텍스트 데이터 탐색",
+      "sectionId": "s2-9",
+      "cardId": "c2-29",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "텍스트 마이닝에서 문서 내 단어의 중요도를 평가하는 기법으로, 특정 문서에서는 자주 등장하지만 전체 문서 군(Corpus)에서는 적게 등장할수록 해당 단어의 가중치를 높게 부여하는 알고리즘은 무엇인가?",
+      "choices": [
+        "Word2Vec",
+        "Bag of Words (BoW)",
+        "TF-IDF",
+        "N-gram"
+      ],
+      "answer": 2,
+      "explanation": "TF-IDF(Term Frequency-Inverse Document Frequency)는 단어의 빈도(TF)와 역문서 빈도(IDF)를 곱한 값으로, 특정 문서에서 자주 나오면서도 다른 문서들에서는 잘 나오지 않는 단어일수록 핵심어(중요도 높음)로 판단하는 지표입니다.",
+      "whyWrong": [
+        "단어를 벡터 공간에 매핑하여 단어 간의 유사성을 학습하는 기법입니다.",
+        "문서 내 단어의 출현 빈도수만을 단순히 세어 벡터화하는 방법입니다.",
+        "정답",
+        "단어 N개를 연속적인 단위로 묶어 처리하는 기법입니다."
+      ]
+    },
+    {
+      "id": "Q2030",
+      "subject": 2,
+      "chapter": "데이터 변환",
+      "sectionId": "s2-4",
+      "cardId": "c2-30",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "선형 회귀 모형을 구축하려는데 종속변수의 분포가 심하게 치우쳐(왜곡되어) 있으며 0보다 큰 양수이다. 오차의 정규성 가정을 만족시키기 위해 독립변수와 종속변수에 적용할 수 있는 가장 적합한 수학적 변환 기법 집합은 무엇인가?",
+      "choices": [
+        "Box-Cox 변환(Box-Cox Transformation)",
+        "더미 코딩(Dummy Coding)",
+        "MaxAbs 스케일링",
+        "이진화(Binarization)"
+      ],
+      "answer": 0,
+      "explanation": "Box-Cox 변환은 연속형 변수의 분포를 정규분포에 가깝게 만들기 위해 사용되는 거듭제곱 변환 기법 계열입니다. 데이터 값이 양수일 때 적용 가능하며, 분산을 안정화하고 정규성을 확보하는 데 매우 유용합니다.",
+      "whyWrong": [
+        "정답",
+        "범주형 변수를 0과 1로 변환하는 기법입니다.",
+        "데이터를 절대값의 최댓값으로 나누는 스케일링 방법으로 정규성을 만들어주진 않습니다.",
+        "연속형 변수를 임계값을 기준으로 0과 1 두 가지 값으로 바꾸는 기법입니다."
+      ]
+    },
+    {
+      "id": "Q2031",
+      "subject": 2,
+      "chapter": "기술통계",
+      "sectionId": "s2-2",
+      "cardId": "c2-31",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "데이터 {2, 4, 4, 4, 5, 5, 7, 9} 의 특성에 대한 설명으로 옳지 않은 것은?",
+      "choices": [
+        "이 데이터 집합의 최빈값(Mode)은 4이다.",
+        "이 데이터 집합의 중앙값(Median)은 4.5이다.",
+        "이 데이터 집합의 평균(Mean)은 5이다.",
+        "이 데이터 집합의 범위(Range)는 8이다."
+      ],
+      "answer": 3,
+      "explanation": "범위(Range)는 최댓값에서 최솟값을 뺀 값입니다. 최대 9, 최소 2이므로 범위는 9 - 2 = 7입니다.",
+      "whyWrong": [
+        "4가 3번 나타나 가장 자주 등장하므로 최빈값은 4입니다.",
+        "데이터 개수가 8개이므로 중앙값은 4번째(4)와 5번째(5) 값의 평균인 4.5입니다.",
+        "총합(40)을 개수(8)로 나눈 값이므로 5입니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q2032",
+      "subject": 2,
+      "chapter": "표본 추출",
+      "sectionId": "s2-5",
+      "cardId": "c2-32",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "여론 조사를 수행하기 위해 전국을 몇 개의 '도(시)' 단위로 나누고, 이 중 무작위로 3개의 '도(시)'를 선택하였다. 그리고 선택된 3개의 지역 내에 거주하는 모든 사람을 대상으로 조사를 진행했다면, 이는 어떤 표본 추출 기법인가?",
+      "choices": [
+        "단순 무작위 추출법(Simple Random Sampling)",
+        "계통 추출법(Systematic Sampling)",
+        "층화 추출법(Stratified Sampling)",
+        "군집 추출법(Cluster Sampling)"
+      ],
+      "answer": 3,
+      "explanation": "모집단을 여러 그룹(군집)으로 묶고 무작위로 일부 군집을 선택한 뒤, 선택된 군집 내의 모든 원소(혹은 샘플)를 조사하는 방식을 집락(군집) 추출법(Cluster Sampling)이라고 합니다.",
+      "whyWrong": [
+        "모든 개인이 뽑힐 확률이 동일하게 설정된 추출 기법입니다.",
+        "모집단 명부에서 일정한 간격으로 표본을 추출하는 기법입니다.",
+        "모든 지역(층)에서 각각 일정한 비율로 표본을 뽑았다면 층화 추출입니다. 일부 지역만 선택했으므로 군집 추출입니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q2033",
+      "subject": 2,
+      "chapter": "데이터 변환",
+      "sectionId": "s2-4",
+      "cardId": "c2-33",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "서로 다른 스케일을 가진 데이터 변수 X1(범위: 0~10)과 X2(범위: 0~1000)가 있다. 두 변수를 Min-Max 스케일링을 통해 모두 [0, 1] 범위로 변환했을 때, 이 스케일링 기법의 특징으로 옳은 것은?",
+      "choices": [
+        "분포의 모양(형태)은 정규분포에 가까워진다.",
+        "변수의 평균은 항상 0이 된다.",
+        "변환식은 (x - 최솟값) / (최댓값 - 최솟값) 이다.",
+        "이상치(Outlier)의 영향력이 완전히 제거된다."
+      ],
+      "answer": 2,
+      "explanation": "Min-Max 스케일링은 변환식 `(x - min) / (max - min)`을 사용하여 값을 지정된 구간(주로 0~1)으로 선형 변환하는 방법입니다.",
+      "whyWrong": [
+        "단순한 선형 변환이므로 원래 분포의 형태는 변하지 않습니다(정규화되지 않음).",
+        "평균이 0, 표준편차가 1이 되는 것은 표준화(Standardization) 기법입니다.",
+        "정답",
+        "최댓값과 최솟값을 기준으로 하므로 이상치의 영향을 크게 받습니다."
+      ]
+    },
+    {
+      "id": "Q2034",
+      "subject": 2,
+      "chapter": "탐색적 데이터 분석(EDA)",
+      "sectionId": "s2-8",
+      "cardId": "c2-34",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "데이터를 파악하기 위한 기초 데이터 프로파일링(Data Profiling) 과정에서 확인할 수 있는 정보와 거리가 가장 먼 것은?",
+      "choices": [
+        "변수의 데이터 타입(숫자형, 문자형 등)",
+        "각 변수의 결측값(Null) 개수 및 비율",
+        "최종 딥러닝 모델의 예측 정확도",
+        "고유값(Unique Values)의 개수"
+      ],
+      "answer": 2,
+      "explanation": "데이터 프로파일링은 본격적인 분석에 앞서 데이터셋의 구조, 내용, 품질 상태(결측치, 타입, 고유값 등)를 탐색적으로 살펴보는 과정입니다. 최종 예측 모델의 성능은 이 단계에서 알 수 없습니다.",
+      "whyWrong": [
+        "데이터 프로파일링의 필수 확인 요소입니다.",
+        "데이터 프로파일링의 필수 확인 요소입니다.",
+        "정답",
+        "데이터 프로파일링의 필수 확인 요소입니다."
+      ]
+    },
+    {
+      "id": "Q2035",
+      "subject": 2,
+      "chapter": "결측치 및 이상치 처리",
+      "sectionId": "s2-3",
+      "cardId": "c2-35",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "어느 센서에서 1초마다 온도를 측정하는 시계열 데이터를 수집 중인데, 네트워크 오류로 중간에 3초 동안의 데이터가 누락되었다(결측치 발생). 직전 시점과 직후 시점의 데이터를 활용하여 누락된 데이터를 연속적인 추세선상에 위치하도록 채워 넣는 보간(Interpolation) 기법은?",
+      "choices": [
+        "최빈값 대치(Mode Imputation)",
+        "선형 보간법(Linear Interpolation)",
+        "핫덱 대치법(Hot-deck Imputation)",
+        "BFF (Backward Fill)"
+      ],
+      "answer": 1,
+      "explanation": "시계열 데이터에서 결측치 전후의 값을 직선으로 연결하여 그 사이에 있는 결측치를 추정하여 채우는 방식을 선형 보간법(Linear Interpolation)이라고 합니다.",
+      "whyWrong": [
+        "가장 많이 나타난 값으로 채우는 방식이므로 시계열의 추세를 반영하지 못합니다.",
+        "정답",
+        "데이터 내의 유사한 다른 레코드의 값으로 채우는 횡단면 데이터 처리 방식입니다.",
+        "직전 데이터(Forward Fill)나 직후 데이터(Backward Fill)의 값을 그대로 가져다 쓰는 방식으로, 추세선상에 맞추는 보간법과는 다릅니다."
+      ]
+    },
+    {
+      "id": "Q3011",
+      "subject": 3,
+      "chapter": "회귀 분석",
+      "sectionId": "s3-1",
+      "cardId": "c3-11",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "선형 회귀 모델의 기본 가정에 대한 설명으로 가장 올바르지 않은 것은?",
+      "choices": [
+        "선형성(Linearity): 독립변수와 종속변수 간에는 선형적인 관계가 존재해야 한다.",
+        "독립성(Independence): 오차항들은 서로 상관관계가 없어야 한다.",
+        "등분산성(Homoscedasticity): 오차항의 분산은 독립변수의 값과 무관하게 일정해야 한다.",
+        "정규성(Normality): 독립변수 데이터 자체의 분포가 반드시 정규분포를 따라야 한다."
+      ],
+      "answer": 3,
+      "explanation": "선형 회귀의 정규성(Normality) 가정은 '독립변수'의 분포가 아니라 '오차항(Residual)'의 분포가 평균이 0인 정규분포를 따른다는 가정입니다.",
+      "whyWrong": [
+        "회귀분석의 기본 가정 중 선형성에 대한 올바른 설명입니다.",
+        "잔차들 간에 자기상관성이 없어야 한다는 독립성에 대한 설명입니다.",
+        "잔차의 분산이 일정해야 한다는 등분산성에 대한 설명입니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q3012",
+      "subject": 3,
+      "chapter": "회귀 분석",
+      "sectionId": "s3-1",
+      "cardId": "c3-12",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "다중 선형 회귀 모형에서 독립변수가 추가될수록 무조건 증가하는 단순 결정계수(R²)의 단점을 보완하기 위해 사용하는 지표는?",
+      "choices": [
+        "F-통계량 (F-statistic)",
+        "조정된 결정계수 (Adjusted R²)",
+        "MSE (Mean Squared Error)",
+        "오즈비 (Odds Ratio)"
+      ],
+      "answer": 1,
+      "explanation": "단순 결정계수(R²)는 독립변수의 수가 늘어날수록 모형의 설명력과 무관하게 값이 커지는 경향이 있습니다. 이를 페널티를 주어 보정한 것이 조정된 결정계수(Adjusted R-squared)입니다.",
+      "whyWrong": [
+        "회귀 모형 전체의 통계적 유의성을 검정하는 통계량입니다.",
+        "정답",
+        "실제값과 예측값의 차이를 제곱하여 평균한 오차 지표입니다.",
+        "로지스틱 회귀에서 성공 확률과 실패 확률의 비율을 나타냅니다."
+      ]
+    },
+    {
+      "id": "Q3013",
+      "subject": 3,
+      "chapter": "분류 알고리즘",
+      "sectionId": "s3-2",
+      "cardId": "c3-13",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "로지스틱 회귀(Logistic Regression) 모형에서 성공 확률이 $p$일 때, 선형 결합을 통해 0에서 1 사이의 확률값으로 변환하기 위해 사용하는 로짓(Logit) 함수의 정의는?",
+      "choices": [
+        "$\\ln(p)$",
+        "$\\frac{1}{1 + e^{-p}}$",
+        "$\\ln\\left(\\frac{p}{1-p}\\right)$",
+        "$\\frac{p}{1-p}$"
+      ],
+      "answer": 2,
+      "explanation": "로짓(Logit) 변환은 오즈(Odds, $\\frac{p}{1-p}$)에 자연로그를 취한 값으로, $\\ln(\\frac{p}{1-p})$ 입니다. 이 값을 회귀식과 연결하여 로지스틱 회귀를 수행합니다.",
+      "whyWrong": [
+        "단순한 자연로그 함수입니다.",
+        "로짓의 역함수인 시그모이드(Sigmoid) 함수로 예측값을 0~1 사이로 출력합니다.",
+        "정답",
+        "성공 확률을 실패 확률로 나눈 오즈(Odds)입니다."
+      ]
+    },
+    {
+      "id": "Q3014",
+      "subject": 3,
+      "chapter": "의사결정나무",
+      "sectionId": "s3-3",
+      "cardId": "c3-14",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "의사결정나무 모델 중 CART(Classification and Regression Trees) 알고리즘이 범주형 목표변수를 분류할 때 사용하는 불순도 측정 지표는?",
+      "choices": [
+        "엔트로피 지수(Entropy Index)",
+        "지니 지수(Gini Index)",
+        "카이제곱 통계량(Chi-square Statistic)",
+        "오차제곱합(SSE)"
+      ],
+      "answer": 1,
+      "explanation": "CART 알고리즘은 분류 트리(Classification Tree)의 경우 불순도 지표로 지니 지수(Gini Index)를 사용하고, 회귀 트리(Regression Tree)의 경우 오차제곱합(SSE/Variance)을 사용하여 이진 분할(Binary split)합니다.",
+      "whyWrong": [
+        "C4.5 및 C5.0 알고리즘에서 주로 사용하는 불순도 지표(정보 이득량 계산 시)입니다.",
+        "정답",
+        "CHAID 알고리즘에서 분할의 유의성을 검정할 때 사용하는 지표입니다.",
+        "CART가 회귀 트리를 생성할 때 사용하는 지표입니다."
+      ]
+    },
+    {
+      "id": "Q3015",
+      "subject": 3,
+      "chapter": "의사결정나무",
+      "sectionId": "s3-3",
+      "cardId": "c3-15",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "의사결정나무에서 데이터가 2개의 범주(Yes, No)로 구성된 노드가 있다. 총 10개의 데이터 중 Yes가 4개, No가 6개일 때, 이 노드의 지니 지수(Gini Index) 값은?",
+      "choices": [
+        "0.24",
+        "0.48",
+        "0.50",
+        "0.96"
+      ],
+      "answer": 1,
+      "explanation": "지니 지수의 계산식은 $1 - \\sum (p_i)^2$ 입니다. Yes의 확률은 0.4, No의 확률은 0.6입니다. $1 - (0.4^2 + 0.6^2) = 1 - (0.16 + 0.36) = 1 - 0.52 = 0.48$ 입니다.",
+      "whyWrong": [
+        "$0.4 \\times 0.6$ 값에 불과합니다.",
+        "정답",
+        "클래스가 5:5로 완벽히 섞여 있을 때의 최대 지니 지수 값입니다.",
+        "계산이 잘못된 임의의 값입니다."
+      ]
+    },
+    {
+      "id": "Q3016",
+      "subject": 3,
+      "chapter": "의사결정나무",
+      "sectionId": "s3-3",
+      "cardId": "c3-16",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "의사결정나무 모델이 학습 데이터에 과대적합(Overfitting)되는 것을 방지하기 위해, 완성된 트리에서 하위 노드를 병합하여 트리의 복잡도를 줄이는 과정을 무엇이라 하는가?",
+      "choices": [
+        "부스팅(Boosting)",
+        "정규화(Normalization)",
+        "가지치기(Pruning)",
+        "앙상블(Ensemble)"
+      ],
+      "answer": 2,
+      "explanation": "트리가 너무 깊어지면 과적합이 발생하므로, 의사결정나무에서는 불필요한 가지를 잘라내거나 병합하는 가지치기(Pruning)를 수행하여 일반화 성능을 높입니다.",
+      "whyWrong": [
+        "약한 모델을 결합하여 강한 모델을 만드는 앙상블 기법입니다.",
+        "데이터 스케일을 맞추는 전처리 기법입니다.",
+        "정답",
+        "여러 모델을 결합하여 예측 성능을 향상시키는 기법입니다."
+      ]
+    },
+    {
+      "id": "Q3017",
+      "subject": 3,
+      "chapter": "앙상블 분석",
+      "sectionId": "s3-4",
+      "cardId": "c3-17",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "앙상블 모델 중, 붓스트랩(Bootstrap) 샘플링을 통해 여러 개의 서로 다른 훈련 데이터를 생성하고, 각각 독립적으로 훈련된 여러 의사결정나무의 예측값을 다수결(투표) 또는 평균으로 집계(Aggregation)하는 알고리즘은 무엇인가?",
+      "choices": [
+        "에이다부스트(AdaBoost)",
+        "배깅(Bagging)",
+        "그레디언트 부스팅(GBM)",
+        "SVM(Support Vector Machine)"
+      ],
+      "answer": 1,
+      "explanation": "배깅(Bagging, Bootstrap Aggregating)은 데이터셋에서 중복을 허용하여 랜덤 샘플링(Bootstrap)한 후 여러 개의 모델을 독립적으로 학습시키고, 그 결과를 집계(Aggregating)하여 분산을 줄이는 앙상블 기법입니다.",
+      "whyWrong": [
+        "이전 모델이 틀린 오답에 가중치를 부여하여 다음 모델을 순차적으로 학습하는 부스팅 방식입니다.",
+        "정답",
+        "잔차(Residual)를 줄이는 방향으로 순차적으로 트리를 학습하는 부스팅 방식입니다.",
+        "초평면을 이용한 마진 최대화 분류 알고리즘입니다."
+      ]
+    },
+    {
+      "id": "Q3018",
+      "subject": 3,
+      "chapter": "앙상블 분석",
+      "sectionId": "s3-4",
+      "cardId": "c3-18",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "부스팅(Boosting) 알고리즘 중, 트리 분할 시 Level-wise(깊이 중심) 방식이 아닌 Leaf-wise(리프 중심) 방식을 사용하여 속도가 매우 빠르고 비대칭적인 트리를 생성하는 알고리즘은?",
+      "choices": [
+        "랜덤 포레스트(Random Forest)",
+        "XGBoost",
+        "LightGBM",
+        "에이다부스트(AdaBoost)"
+      ],
+      "answer": 2,
+      "explanation": "LightGBM은 트리를 균형 있게(Level-wise) 분할하는 기존 알고리즘들과 달리, 손실(Loss)을 가장 많이 줄일 수 있는 리프 노드만 지속적으로 분할하는 리프 중심(Leaf-wise) 트리를 사용하여 학습 속도가 빠르고 메모리 사용량이 적습니다.",
+      "whyWrong": [
+        "의사결정나무의 배깅(Bagging) 기법입니다.",
+        "Level-wise 방식을 사용하는 대표적인 트리 부스팅 알고리즘입니다.",
+        "정답",
+        "오답에 가중치를 부여하는 초기 부스팅 기법입니다."
+      ]
+    },
+    {
+      "id": "Q3019",
+      "subject": 3,
+      "chapter": "분류 알고리즘",
+      "sectionId": "s3-2",
+      "cardId": "c3-19",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "서포트 벡터 머신(SVM)에 대한 설명으로 올바른 것은?",
+      "choices": [
+        "K-Means 클러스터링 기반으로 데이터를 분류한다.",
+        "새로운 데이터가 들어왔을 때 기존 데이터와의 거리를 계산하여 K개의 이웃을 찾는다.",
+        "서로 다른 클래스 간의 간격(Margin)이 최소화되도록 초평면(Hyperplane)을 그린다.",
+        "선형적으로 분류가 불가능한 비선형 데이터를 분류하기 위해 커널 트릭(Kernel Trick)을 사용한다."
+      ],
+      "answer": 3,
+      "explanation": "SVM은 선형 분류를 기본으로 하지만, 커널 트릭(다항식, RBF 등)을 통해 저차원 데이터를 고차원으로 매핑함으로써 비선형 분류 문제를 해결할 수 있습니다. 또한, 마진(Margin)을 최대화하는 초평면을 찾습니다.",
+      "whyWrong": [
+        "비지도 학습인 군집 분석에 대한 설명입니다.",
+        "K-NN(K-최근접 이웃) 분류 알고리즘에 대한 설명입니다.",
+        "마진이 최소화가 아니라 최대화되도록 초평면을 찾습니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q3020",
+      "subject": 3,
+      "chapter": "군집 분석",
+      "sectionId": "s3-5",
+      "cardId": "c3-20",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "밀도 기반 군집 분석 알고리즘인 DBSCAN에 대한 설명으로 옳지 않은 것은?",
+      "choices": [
+        "군집의 개수(K)를 사전에 미리 지정할 필요가 없다.",
+        "이상치(Outlier/Noise) 탐지에 매우 효과적이다.",
+        "중심점(Centroid)과 거리를 기준으로 군집을 할당한다.",
+        "반경(Eps)과 최소 데이터 개수(MinPts)를 하이퍼파라미터로 사용한다."
+      ],
+      "answer": 2,
+      "explanation": "중심점과 거리(분산)를 기준으로 군집을 묶는 것은 K-Means 알고리즘입니다. DBSCAN은 특정 반경(Eps) 내의 데이터 밀도(MinPts)를 기준으로 군집을 형성하므로 비선형적이고 다양한 형태의 군집을 잘 찾아냅니다.",
+      "whyWrong": [
+        "K-Means와 달리 사전에 K를 지정하지 않습니다.",
+        "밀도가 낮은 지역의 데이터는 노이즈(이상치)로 분류하므로 효과적입니다.",
+        "정답",
+        "DBSCAN의 핵심 파라미터입니다."
+      ]
+    },
+    {
+      "id": "Q3021",
+      "subject": 3,
+      "chapter": "군집 분석",
+      "sectionId": "s3-5",
+      "cardId": "c3-21",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "군집 분석 결과의 타당성을 평가하는 실루엣 계수(Silhouette Coefficient)에 대한 설명으로 가장 옳은 것은?",
+      "choices": [
+        "값은 0에서 무한대 사이의 범위를 갖는다.",
+        "군집 내 응집도(Cohesion)는 크고, 군집 간 분리도(Separation)는 작을수록 계수 값이 1에 가까워진다.",
+        "값이 1에 가까울수록 군집화가 잘 되었다고 평가한다.",
+        "계산량이 매우 적어 대용량 빅데이터에 빠르게 적용할 수 있다."
+      ],
+      "answer": 2,
+      "explanation": "실루엣 계수는 -1에서 1 사이의 값을 가지며, 1에 가까울수록 같은 군집 내 거리는 가깝고(응집도 높음), 다른 군집과의 거리는 멀어서(분리도 높음) 군집화가 잘 된 것으로 해석합니다.",
+      "whyWrong": [
+        "값의 범위는 -1에서 1 사이입니다.",
+        "군집 내 응집도(거리)는 작아야 하고, 군집 간 분리도(거리)는 커야 1에 가까워집니다.",
+        "정답",
+        "모든 개체 간의 거리를 계산해야 하므로 연산량이 매우 커서 대용량 데이터에 적용하기 어렵습니다."
+      ]
+    },
+    {
+      "id": "Q3022",
+      "subject": 3,
+      "chapter": "연관 규칙 분석",
+      "sectionId": "s3-6",
+      "cardId": "c3-22",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "장바구니 분석(연관규칙 분석)에서 품목 A와 품목 B의 연관성을 파악하고자 한다. 전체 100번의 거래 중 품목 A가 20번, 품목 B가 30번, A와 B가 동시에 10번 거래되었다면, A를 샀을 때 B를 살 조건부 확률인 신뢰도(Confidence) A → B 의 값은?",
+      "choices": [
+        "0.1 (10%)",
+        "0.2 (20%)",
+        "0.33 (33%)",
+        "0.5 (50%)"
+      ],
+      "answer": 3,
+      "explanation": "규칙 A → B의 신뢰도(Confidence)는 P(A∩B) / P(A) 로 계산됩니다. 즉, (A와 B가 동시에 거래된 횟수) / (A가 거래된 횟수) 이므로 10 / 20 = 0.5 (50%) 입니다.",
+      "whyWrong": [
+        "10 / 100 으로, 이는 지지도(Support)를 의미합니다.",
+        "20 / 100 으로, A 단독 구매의 지지도(확률)입니다.",
+        "10 / 30 으로, 이는 B → A 의 신뢰도입니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q3023",
+      "subject": 3,
+      "chapter": "연관 규칙 분석",
+      "sectionId": "s3-6",
+      "cardId": "c3-23",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "연관규칙 분석 지표 중 향상도(Lift)에 대한 설명으로 가장 옳지 않은 것은?",
+      "choices": [
+        "품목 A와 B가 서로 독립적일 때 향상도는 1이다.",
+        "향상도가 1보다 크면 A를 구매한 사람이 B를 구매할 확률이 더 높다는 의미(양의 상관관계)이다.",
+        "향상도가 1보다 작으면 A를 구매하는 것이 오히려 B의 구매를 방해하는 음의 상관관계를 의미한다.",
+        "향상도는 지지도(Support)와 신뢰도(Confidence)의 합으로 계산된다."
+      ],
+      "answer": 3,
+      "explanation": "향상도(Lift)는 규칙 A → B 의 (신뢰도) / (품목 B의 지지도) 로 계산되며, P(A∩B) / (P(A)*P(B)) 공식을 따릅니다. 합으로 계산되지 않습니다.",
+      "whyWrong": [
+        "독립이면 P(A∩B) = P(A)P(B) 이므로 분자/분모가 같아 향상도는 1이 됩니다.",
+        "양의 상관관계를 의미합니다.",
+        "음의 상관관계를 의미합니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q3024",
+      "subject": 3,
+      "chapter": "시계열 분석",
+      "sectionId": "s3-7",
+      "cardId": "c3-24",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "시계열 분석에서 데이터가 '정상성(Stationarity)'을 만족하기 위한 조건으로 옳지 않은 것은?",
+      "choices": [
+        "시간에 상관없이 평균이 일정해야 한다.",
+        "시간에 상관없이 분산이 일정해야 한다.",
+        "자기공분산(Autocovariance)은 오직 시차(Lag)에만 의존하며 특정 시점에 의존하지 않아야 한다.",
+        "뚜렷한 장기적 추세(Trend)와 주기적인 계절성(Seasonality)이 존재해야 한다."
+      ],
+      "answer": 3,
+      "explanation": "정상성을 만족하는 시계열 데이터는 추세(Trend)와 계절성(Seasonality)이 없어야 합니다. 추세나 계절성이 있다면 차분(Differencing)을 통해 이를 제거하여 정상 시계열로 변환한 뒤 분석(예: ARIMA 모형)해야 합니다.",
+      "whyWrong": [
+        "정상성의 평균 조건입니다.",
+        "정상성의 분산 조건입니다.",
+        "정상성의 공분산 조건입니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q3025",
+      "subject": 3,
+      "chapter": "시계열 분석",
+      "sectionId": "s3-7",
+      "cardId": "c3-25",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "ARIMA(p, d, q) 모형에서 d는 무엇을 의미하는가?",
+      "choices": [
+        "자기회귀(AR) 부분의 차수",
+        "이동평균(MA) 부분의 차수",
+        "비정상 시계열을 정상 시계열로 만들기 위해 수행한 차분(Difference) 횟수",
+        "계절성(Seasonal) 주기 길이"
+      ],
+      "answer": 2,
+      "explanation": "ARIMA(p, d, q)에서 p는 자기회귀(AR) 차수, d는 데이터의 정상성을 확보하기 위한 차분(Differencing) 횟수, q는 이동평균(MA) 차수를 의미합니다.",
+      "whyWrong": [
+        "p에 대한 설명입니다.",
+        "q에 대한 설명입니다.",
+        "정답",
+        "SARIMA 모형에서 주로 사용되는 계절성 주기는 S로 표기합니다."
+      ]
+    },
+    {
+      "id": "Q3026",
+      "subject": 3,
+      "chapter": "인공신경망",
+      "sectionId": "s3-8",
+      "cardId": "c3-26",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "인공신경망(ANN)에서 모델이 학습할 때 발생할 수 있는 과대적합(Overfitting)을 방지하기 위해, 훈련(Training) 과정에서 무작위로 일부 뉴런을 비활성화(생략)하는 기법은?",
+      "choices": [
+        "역전파(Backpropagation)",
+        "드롭아웃(Dropout)",
+        "활성화 함수(Activation Function)",
+        "경사하강법(Gradient Descent)"
+      ],
+      "answer": 1,
+      "explanation": "드롭아웃(Dropout)은 신경망 학습 과정 중 은닉층의 일부 뉴런(노드)을 임의의 확률로 끄고(비활성화) 학습시킴으로써 모델의 과대적합을 방지하고 일반화 성능을 높이는 정규화 기법입니다.",
+      "whyWrong": [
+        "출력값과 정답의 오차를 바탕으로 가중치를 업데이트하는 역방향 학습 알고리즘입니다.",
+        "정답",
+        "신경망의 비선형성을 부여하기 위해 사용하는 함수(Sigmoid, ReLU 등)입니다.",
+        "오차 함수의 최솟값을 찾기 위해 파라미터를 업데이트하는 최적화 기법입니다."
+      ]
+    },
+    {
+      "id": "Q3027",
+      "subject": 3,
+      "chapter": "인공신경망",
+      "sectionId": "s3-8",
+      "cardId": "c3-27",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "심층 신경망(DNN)에서 여러 층을 거치며 역전파(Backpropagation)를 수행할 때, 주로 Sigmoid나 Tanh 활성화 함수를 사용할 경우 미분값이 지속적으로 곱해져 기울기가 0에 수렴하여 학습이 진행되지 않는 현상은?",
+      "choices": [
+        "기울기 소실(Vanishing Gradient)",
+        "기울기 폭발(Exploding Gradient)",
+        "과소적합(Underfitting)",
+        "지역 최솟값(Local Minima) 빠짐"
+      ],
+      "answer": 0,
+      "explanation": "시그모이드 함수는 미분 최댓값이 0.25이므로, 은닉층이 깊어질수록 역전파 시 1보다 작은 값들이 계속 곱해져 초기 층의 가중치가 업데이트되지 않는 '기울기 소실(Vanishing Gradient)' 문제가 발생합니다. 이를 해결하기 위해 ReLU 등의 함수를 사용합니다.",
+      "whyWrong": [
+        "정답",
+        "가중치 미분값이 1보다 매우 커서 계속 곱해지면 발산해버리는 현상입니다.",
+        "모델이 너무 단순하여 데이터의 특성을 충분히 학습하지 못한 상태입니다.",
+        "최적화 과정에서 전체 함수 공간의 최솟값(Global Minima)이 아닌 특정 지점의 최솟값에 갇히는 현상입니다."
+      ]
+    },
+    {
+      "id": "Q3028",
+      "subject": 3,
+      "chapter": "모델 최적화 및 튜닝",
+      "sectionId": "s3-9",
+      "cardId": "c3-28",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "기계학습 모델의 하이퍼파라미터(Hyperparameter) 튜닝 기법 중, 사용자가 지정한 범위 내에서 난수를 생성하여 무작위 조합을 시도해봄으로써 최적의 파라미터를 찾는 방식은?",
+      "choices": [
+        "그리드 서치(Grid Search)",
+        "랜덤 서치(Random Search)",
+        "베이지안 최적화(Bayesian Optimization)",
+        "교차 검증(Cross-validation)"
+      ],
+      "answer": 1,
+      "explanation": "랜덤 서치(Random Search)는 하이퍼파라미터 공간 내에서 무작위로 조합을 선택하여 탐색하는 방식입니다. 그리드 서치보다 탐색 속도가 빠르고 넓은 범위를 효율적으로 탐색할 수 있습니다.",
+      "whyWrong": [
+        "가능한 모든 파라미터 조합을 순차적으로 시도하는 완전 탐색 방식입니다.",
+        "정답",
+        "이전 탐색 결과를 반영하여 확률적으로 다음 탐색 지점을 추천받아 효율적으로 찾는 방식입니다.",
+        "데이터를 나누어 모델의 성능을 안정적으로 평가하는 기법입니다."
+      ]
+    },
+    {
+      "id": "Q3029",
+      "subject": 3,
+      "chapter": "모델 선택",
+      "sectionId": "s3-9",
+      "cardId": "c3-29",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "통계적 모델링에서 최적의 회귀 모형을 선택하기 위한 기준치인 AIC(Akaike Information Criterion)와 BIC(Bayesian Information Criterion)에 대한 설명으로 틀린 것은?",
+      "choices": [
+        "두 지표 모두 값이 작을수록 더 좋은 모형을 의미한다.",
+        "모형의 적합도(우도, Likelihood)가 높을수록 패널티를 부여하여 지표 값이 증가한다.",
+        "두 지표 모두 모형의 독립변수(파라미터) 개수가 늘어나면 패널티를 부여하여 모형이 복잡해지는 것을 방지한다.",
+        "일반적으로 데이터 표본의 크기가 클 경우, BIC가 AIC보다 복잡한 모형에 대해 더 강한 패널티를 부여한다."
+      ],
+      "answer": 1,
+      "explanation": "AIC와 BIC는 모형의 우도(Likelihood, 데이터 적합도)가 클수록 지표 값이 작아집니다(좋아집니다). 반면 독립변수의 개수(파라미터 수)가 많아지면 패널티가 작용하여 지표 값이 커집니다(나빠집니다). 즉, $AIC = -2\\ln(L) + 2k$ 이므로 우도(L)가 커지면 전체 값은 작아집니다.",
+      "whyWrong": [
+        "값이 작을수록 설명력이 좋고 간결한 최적의 모델입니다.",
+        "정답",
+        "두 지표 모두 복잡도를 제어하기 위한 패널티 항을 포함합니다.",
+        "BIC는 패널티 항에 샘플 수 $\\ln(n)$이 포함되어 있어 표본이 클수록 더 무거운 패널티를 부여합니다."
+      ]
+    },
+    {
+      "id": "Q3030",
+      "subject": 3,
+      "chapter": "시계열 분석",
+      "sectionId": "s3-7",
+      "cardId": "c3-30",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "시계열 데이터가 비정상성 시계열(단위근 존재 여부)임을 통계적으로 검정하기 위해 널리 사용되는 가설 검정 방법은 무엇인가?",
+      "choices": [
+        "카이제곱 검정(Chi-square Test)",
+        "ADF 검정(Augmented Dickey-Fuller Test)",
+        "샤피로-윌크 검정(Shapiro-Wilk Test)",
+        "T 검정(T-Test)"
+      ],
+      "answer": 1,
+      "explanation": "ADF(Augmented Dickey-Fuller) 검정은 시계열 데이터에 단위근(Unit Root)이 존재하는지(즉, 비정상성인지)를 판단하는 대표적인 가설 검정입니다. 귀무가설은 '단위근이 존재한다(비정상 시계열이다)'입니다.",
+      "whyWrong": [
+        "범주형 변수 간의 독립성이나 적합도를 검정합니다.",
+        "정답",
+        "데이터가 정규분포를 따르는지를 검정하는 방법입니다.",
+        "두 집단의 평균 차이를 검정하는 방법입니다."
+      ]
+    },
+    {
+      "id": "Q3031",
+      "subject": 3,
+      "chapter": "분류 알고리즘",
+      "sectionId": "s3-2",
+      "cardId": "c3-31",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "K-최근접 이웃(K-NN) 알고리즘에서 K 값의 선택에 따른 모델의 특성으로 올바른 것은?",
+      "choices": [
+        "K 값을 너무 크게 설정하면 훈련 데이터에 과적합(Overfitting)될 위험이 커진다.",
+        "K 값을 작게 설정(예: K=1)하면 결정 경계가 단순해져 과소적합(Underfitting)될 위험이 있다.",
+        "K 값을 가장 크게 설정(전체 데이터 수와 동일)하면 훈련 데이터 내 다수 클래스의 결과로만 예측하게 된다.",
+        "K 값은 모델 학습 과정에서 경사하강법을 통해 자동으로 최적화되는 가중치 파라미터이다."
+      ],
+      "answer": 2,
+      "explanation": "K-NN에서 K를 데이터 전체 수로 설정하면 무조건 가장 비율이 높은 다수 클래스(다수결)로만 분류되므로 모델이 의미를 잃게(과소적합) 됩니다. 반대로 K가 1처럼 너무 작으면 이상치 하나에도 민감하게 반응하는 복잡한 결정 경계가 만들어져 과대적합됩니다.",
+      "whyWrong": [
+        "K가 크면 이상치의 영향은 줄어들지만, 결정 경계가 단순화되어 과소적합 우려가 있습니다.",
+        "K가 작으면 결정 경계가 매우 삐뚤빼뚤하고 복잡해져 과적합 우려가 있습니다.",
+        "정답",
+        "K-NN은 거리 기반의 게으른 학습(Lazy Learning) 알고리즘으로 별도의 가중치 학습 과정이 없으며 K는 사용자가 정하는 하이퍼파라미터입니다."
+      ]
+    },
+    {
+      "id": "Q3032",
+      "subject": 3,
+      "chapter": "분류 알고리즘",
+      "sectionId": "s3-2",
+      "cardId": "c3-32",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "K-NN 등의 거리 기반 알고리즘을 사용할 때 반드시 사전에 적용해야 하는 데이터 전처리 단계는?",
+      "choices": [
+        "토큰화(Tokenization)",
+        "데이터 스케일링(Data Scaling/Normalization)",
+        "차분(Differencing)",
+        "비식별화(De-identification)"
+      ],
+      "answer": 1,
+      "explanation": "유클리디안 거리 등을 사용하는 알고리즘(K-NN, K-Means 등)은 각 변수의 값의 단위(Scale)에 따라 거리 계산이 크게 왜곡될 수 있으므로, 반드시 모든 변수를 동일한 범위로 맞추는 표준화나 정규화(Scaling)를 선행해야 합니다.",
+      "whyWrong": [
+        "텍스트 데이터 전처리 기법입니다.",
+        "정답",
+        "시계열 데이터에서 추세를 제거하기 위한 기법입니다.",
+        "개인정보 보호를 위한 익명화 기법입니다."
+      ]
+    },
+    {
+      "id": "Q3033",
+      "subject": 3,
+      "chapter": "분류 알고리즘",
+      "sectionId": "s3-2",
+      "cardId": "c3-33",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "다음 중 종속변수가 다항(클래스가 3개 이상)인 경우의 로지스틱 회귀 모델에서 마지막 출력층의 활성화 함수로 주로 사용하는 함수는?",
+      "choices": [
+        "시그모이드(Sigmoid) 함수",
+        "렐루(ReLU) 함수",
+        "소프트맥스(Softmax) 함수",
+        "하이퍼볼릭 탄젠트(Tanh) 함수"
+      ],
+      "answer": 2,
+      "explanation": "다중 클래스 분류(Multinomial Classification) 문제에서는 출력 노드가 여러 개 존재하며, 각 클래스에 속할 확률의 합이 1이 되도록 변환해 주는 소프트맥스(Softmax) 함수를 사용합니다. 이진 분류에서는 시그모이드를 씁니다.",
+      "whyWrong": [
+        "결과값이 0과 1 사이인 이진 분류에 주로 사용됩니다.",
+        "심층 신경망의 은닉층에서 기울기 소실을 막기 위해 주로 사용됩니다.",
+        "정답",
+        "은닉층에서 주로 사용되는 함수로 출력값이 -1에서 1 사이입니다."
+      ]
+    },
+    {
+      "id": "Q3034",
+      "subject": 3,
+      "chapter": "연관 규칙 분석",
+      "sectionId": "s3-6",
+      "cardId": "c3-34",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "Apriori 알고리즘은 연관규칙을 도출하기 위해 어떤 원리를 이용하는가?",
+      "choices": [
+        "한 항목집합이 빈발(Frequent)하면, 그 하위 항목집합들도 모두 빈발하다는 성질",
+        "데이터를 무작위로 K개의 군집으로 분할한 후 중심을 갱신하는 원리",
+        "결정 경계의 마진을 최대화하는 벡터를 찾는 원리",
+        "잔차(Residual)를 최소화하기 위해 순차적으로 트리를 학습하는 원리"
+      ],
+      "answer": 0,
+      "explanation": "Apriori 알고리즘은 연관규칙을 탐색할 때, \"어떤 항목집합이 빈발 집합이라면 그 부분집합들도 빈발 집합이다\"라는 성질(Apriori property)을 이용하여 최소 지지도(Min Support)를 넘지 못하는 항목을 미리 제거하여 계산량을 대폭 줄이는 방식입니다.",
+      "whyWrong": [
+        "정답",
+        "K-Means 클러스터링 알고리즘의 원리입니다.",
+        "서포트 벡터 머신(SVM)의 원리입니다.",
+        "그레디언트 부스팅(GBM)의 원리입니다."
+      ]
+    },
+    {
+      "id": "Q4011",
+      "subject": 4,
+      "chapter": "분류 모형 평가",
+      "sectionId": "s4-1",
+      "cardId": "c4-11",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "어떤 질병 진단 모델의 혼동행렬(Confusion Matrix) 결과가 다음과 같다. (TP=40, FN=10, FP=20, TN=130). 이 모델의 정밀도(Precision)와 재현율(Recall)은 각각 얼마인가?",
+      "choices": [
+        "정밀도: 0.67, 재현율: 0.80",
+        "정밀도: 0.80, 재현율: 0.67",
+        "정밀도: 0.80, 재현율: 0.87",
+        "정밀도: 0.67, 재현율: 0.87"
+      ],
+      "answer": 0,
+      "explanation": "정밀도(Precision)는 모델이 Positive로 예측한 것 중 실제 Positive의 비율이므로 TP / (TP + FP) = 40 / (40+20) = 40/60 = 약 0.67(66.7%)입니다. 재현율(Recall)은 실제 Positive 중 모델이 맞춘 비율이므로 TP / (TP + FN) = 40 / (40+10) = 40/50 = 0.80(80%)입니다.",
+      "whyWrong": [
+        "정답",
+        "정밀도와 재현율의 값이 서로 바뀌었습니다.",
+        "잘못된 계산입니다.",
+        "재현율 계산이 틀렸습니다."
+      ]
+    },
+    {
+      "id": "Q4012",
+      "subject": 4,
+      "chapter": "분류 모형 평가",
+      "sectionId": "s4-1",
+      "cardId": "c4-12",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "암 환자를 진단하는 모델을 개발할 때, 실제 암 환자를 정상으로 잘못 진단하는 경우(FN)가 환자가 아닌데 암으로 진단하는 경우(FP)보다 훨씬 치명적이다. 이 경우 모델 평가 시 가장 중점적으로 보아야 할 평가지표는 무엇인가?",
+      "choices": [
+        "정확도(Accuracy)",
+        "정밀도(Precision)",
+        "재현율(Recall)",
+        "특이도(Specificity)"
+      ],
+      "answer": 2,
+      "explanation": "실제 Positive(암 환자)를 놓치지 않고 찾아내는 비율인 재현율(Recall, 민감도)이 FN(거짓 음성)을 줄이는 데 핵심적인 지표입니다.",
+      "whyWrong": [
+        "데이터가 불균형할 경우 정확도는 전체 성능을 왜곡할 수 있습니다.",
+        "정밀도는 FP(거짓 양성)를 줄이는 데 초점을 맞추는 지표입니다(예: 스팸 메일 필터).",
+        "정답",
+        "실제 Negative(정상인) 중 정상으로 예측한 비율입니다."
+      ]
+    },
+    {
+      "id": "Q4013",
+      "subject": 4,
+      "chapter": "분류 모형 평가",
+      "sectionId": "s4-1",
+      "cardId": "c4-13",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "정밀도(Precision)와 재현율(Recall)은 보통 상충 관계(Trade-off)에 있다. 두 지표를 모두 고려하여 조화평균(Harmonic Mean)으로 산출한 종합적인 평가지표는?",
+      "choices": [
+        "F1-Score",
+        "AUC (Area Under Curve)",
+        "Kappa 통계량",
+        "거짓 긍정률(FPR)"
+      ],
+      "answer": 0,
+      "explanation": "F1-Score는 정밀도와 재현율의 조화평균으로, $2 \\times (Precision \\times Recall) / (Precision + Recall)$ 로 계산됩니다. 데이터 레이블이 불균형할 때 모델의 성능을 잘 나타냅니다.",
+      "whyWrong": [
+        "정답",
+        "ROC 커브 아래 면적을 의미하는 지표입니다.",
+        "평가자와 예측 간의 일치도를 나타내는 통계량입니다.",
+        "실제 부정 중 긍정으로 잘못 예측한 비율입니다."
+      ]
+    },
+    {
+      "id": "Q4014",
+      "subject": 4,
+      "chapter": "분류 모형 평가",
+      "sectionId": "s4-1",
+      "cardId": "c4-14",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "ROC(Receiver Operating Characteristic) 곡선에 대한 설명으로 가장 옳지 않은 것은?",
+      "choices": [
+        "X축은 거짓 긍정률(FPR, 1-특이도)이고, Y축은 참 긍정률(TPR, 민감도)이다.",
+        "곡선이 좌측 상단에 가깝게 그려질수록 모델의 성능이 우수함을 의미한다.",
+        "분류 임계값(Threshold)의 변화에 따른 모델의 예측 성능 변화를 시각적으로 보여준다.",
+        "AUC 값이 0.5일 때, 모델은 모든 데이터를 완벽하게 분류해낸 최적의 상태를 의미한다."
+      ],
+      "answer": 3,
+      "explanation": "ROC 곡선의 아래 면적인 AUC(Area Under Curve)는 1에 가까울수록 완벽한 분류기를 의미하며, 0.5인 경우는 무작위(Random)로 찍는 것과 다를 바 없는 최악의 성능을 의미합니다.",
+      "whyWrong": [
+        "ROC 곡선의 X축과 Y축에 대한 정확한 정의입니다.",
+        "좌측 상단(FPR=0, TPR=1)에 가까울수록 좋은 성능입니다.",
+        "임계값 변화에 따른 TPR과 FPR의 궤적을 그린 선입니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q4015",
+      "subject": 4,
+      "chapter": "회귀 모형 평가",
+      "sectionId": "s4-2",
+      "cardId": "c4-15",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "실제값과 예측값의 차이(오차)를 절댓값으로 변환하여 평균을 구한 지표로, 이상치(Outlier)에 상대적으로 덜 민감하여 오차의 크기를 직관적으로 파악하기 좋은 회귀 평가지표는?",
+      "choices": [
+        "MSE (Mean Squared Error)",
+        "RMSE (Root Mean Squared Error)",
+        "MAE (Mean Absolute Error)",
+        "MAPE (Mean Absolute Percentage Error)"
+      ],
+      "answer": 2,
+      "explanation": "MAE(Mean Absolute Error)는 오차에 절댓값을 취하여 평균한 지표입니다. 제곱을 취하는 MSE에 비해 이상치의 영향을 덜 받아 직관적입니다.",
+      "whyWrong": [
+        "오차를 제곱하여 더하므로 큰 이상치에 매우 민감합니다.",
+        "MSE에 루트를 씌운 값으로 역시 이상치에 영향을 받습니다.",
+        "정답",
+        "오차를 실제값으로 나눈 백분율 비율 평가지표입니다."
+      ]
+    },
+    {
+      "id": "Q4016",
+      "subject": 4,
+      "chapter": "교차 검증",
+      "sectionId": "s4-3",
+      "cardId": "c4-16",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "데이터의 양이 충분하지 않을 때, 전체 데이터를 K개의 부분 집합(Fold)으로 나누고 그 중 1개를 검증용으로, 나머지 K-1개를 훈련용으로 사용하여 이를 K번 반복하는 교차 검증 기법은?",
+      "choices": [
+        "Hold-out 교차 검증",
+        "K-Fold 교차 검증",
+        "Stratified K-Fold 교차 검증",
+        "Leave-One-Out 교차 검증 (LOOCV)"
+      ],
+      "answer": 1,
+      "explanation": "데이터를 K개의 폴드로 나누어 순차적으로 테스트 세트를 변경하며 모델을 평가하는 방법은 K-Fold 교차 검증입니다. 모든 데이터가 최소 한 번씩 훈련과 테스트에 사용되어 과적합 방지에 유리합니다.",
+      "whyWrong": [
+        "데이터를 한 번만 훈련셋과 테스트셋(예: 7대3)으로 나누는 단순한 방식입니다.",
+        "정답",
+        "클래스 비율이 불균형할 때 각 폴드의 비율을 원본과 동일하게 맞추는 K-Fold 기법입니다.",
+        "단 1개의 데이터만 테스트로 쓰고 나머지를 모두 훈련용으로 쓰는 극한의 교차 검증입니다."
+      ]
+    },
+    {
+      "id": "Q4017",
+      "subject": 4,
+      "chapter": "교차 검증",
+      "sectionId": "s4-3",
+      "cardId": "c4-17",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "시계열(Time-series) 데이터와 같이 시간적 순서가 매우 중요한 데이터를 평가할 때 일반적인 K-Fold 교차 검증을 사용할 수 없는 문제를 해결하기 위해, 과거 데이터부터 순차적으로 훈련 데이터의 크기를 늘려가며 미래 데이터를 검증하는 기법은?",
+      "choices": [
+        "Stratified K-Fold",
+        "Hold-out",
+        "전진 체인 교차 검증(Forward Chaining CV)",
+        "계층적 샘플링(Hierarchical Sampling)"
+      ],
+      "answer": 2,
+      "explanation": "시계열 데이터는 미래 데이터로 과거를 학습하는 Look-ahead bias(미래참조 편향)를 피하기 위해, 시점을 기준으로 순차적으로 훈련 범위를 늘려가는 Forward Chaining(또는 Time Series Split) 방식을 사용합니다.",
+      "whyWrong": [
+        "시간 순서와 무관하게 종속변수 비율을 맞추는 교차 검증입니다.",
+        "단순 분할입니다.",
+        "정답",
+        "시계열 교차검증 기법이 아닙니다."
+      ]
+    },
+    {
+      "id": "Q4018",
+      "subject": 4,
+      "chapter": "과대적합과 과소적합",
+      "sectionId": "s4-4",
+      "cardId": "c4-18",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "훈련 데이터(Train Set)에 대한 정확도는 99%로 매우 높지만, 새로운 테스트 데이터(Test Set)에 대한 정확도는 70%로 크게 떨어지는 현상을 무엇이라 하는가?",
+      "choices": [
+        "과소적합(Underfitting)",
+        "과대적합(Overfitting)",
+        "정규화(Regularization)",
+        "데이터 드리프트(Data Drift)"
+      ],
+      "answer": 1,
+      "explanation": "훈련 데이터의 노이즈까지 과도하게 암기하여 새로운 데이터에 대한 예측력(일반화 성능)이 크게 저하되는 현상을 과대적합(Overfitting)이라고 합니다.",
+      "whyWrong": [
+        "모델이 너무 단순해서 훈련 데이터조차 제대로 학습하지 못한 현상입니다.",
+        "정답",
+        "과대적합을 방지하기 위한 기법입니다.",
+        "시간이 지남에 따라 데이터의 통계적 분포가 변하는 현상입니다."
+      ]
+    },
+    {
+      "id": "Q4019",
+      "subject": 4,
+      "chapter": "규제(Regularization)",
+      "sectionId": "s4-5",
+      "cardId": "c4-19",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "과대적합을 방지하기 위한 정규화(Regularization) 기법 중, 회귀계수의 '절댓값의 합'을 비용 함수에 추가하여 영향력이 적은 변수의 회귀계수를 완전히 0으로 만들어 자동 변수 선택(Feature Selection) 효과를 주는 모델은?",
+      "choices": [
+        "릿지 회귀(Ridge Regression, L2 규제)",
+        "라쏘 회귀(Lasso Regression, L1 규제)",
+        "엘라스틱넷(Elastic Net)",
+        "다항 회귀(Polynomial Regression)"
+      ],
+      "answer": 1,
+      "explanation": "라쏘(Lasso) 회귀는 L1 규제(회귀계수 절댓값의 합)를 사용하여 불필요한 변수의 가중치를 0으로 만듦으로써(희소성 부여) 변수 선택 효과를 냅니다. 반면 릿지(Ridge, L2 규제)는 0에 가깝게 줄이지만 완전히 0이 되지는 않습니다.",
+      "whyWrong": [
+        "회귀계수의 제곱합을 페널티로 부여하여 가중치 크기를 줄이는 기법(L2)입니다.",
+        "정답",
+        "L1과 L2 규제를 혼합하여 사용하는 기법입니다.",
+        "규제 기법이 아니라 곡선 형태의 비선형 관계를 모델링하는 방식입니다."
+      ]
+    },
+    {
+      "id": "Q4020",
+      "subject": 4,
+      "chapter": "데이터 시각화",
+      "sectionId": "s4-6",
+      "cardId": "c4-20",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "세 개의 연속형 변수 간의 관계를 동시에 시각화하고자 한다. X축과 Y축으로 두 변수의 위치를 나타내고, 세 번째 변수의 크기에 따라 원의 크기(반경)를 다르게 표현하는 차트는 무엇인가?",
+      "choices": [
+        "산점도(Scatter Plot)",
+        "히트맵(Heatmap)",
+        "버블 차트(Bubble Chart)",
+        "파이 차트(Pie Chart)"
+      ],
+      "answer": 2,
+      "explanation": "버블 차트(Bubble Chart)는 산점도의 2차원(X, Y) 정보에 원의 크기(Size) 정보를 추가하여 총 3차원 이상의 데이터를 2차원 평면에 효과적으로 시각화하는 도표입니다.",
+      "whyWrong": [
+        "점의 크기가 고정되어 있어 일반적으로 두 개의 변수만 시각화합니다.",
+        "행렬 형태에서 색상의 농도로 값을 표현합니다.",
+        "정답",
+        "전체에 대한 각 부분의 비율을 부채꼴 꼴로 나타냅니다."
+      ]
+    },
+    {
+      "id": "Q4021",
+      "subject": 4,
+      "chapter": "데이터 시각화",
+      "sectionId": "s4-6",
+      "cardId": "c4-21",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "문서 등 텍스트 데이터에서 단어의 출현 빈도에 비례하여 텍스트의 크기를 다르게 표시함으로써 텍스트의 핵심 키워드를 한눈에 알아볼 수 있게 하는 시각화 기법은?",
+      "choices": [
+        "네트워크 그래프(Network Graph)",
+        "히스토그램(Histogram)",
+        "워드 클라우드(Word Cloud)",
+        "트리맵(Treemap)"
+      ],
+      "answer": 2,
+      "explanation": "워드 클라우드(Word Cloud)는 텍스트 마이닝 결과를 시각화할 때 빈도수가 높은 주요 단어일수록 더 큰 글씨로 나타내어 시각적으로 강조하는 기법입니다.",
+      "whyWrong": [
+        "개체(노드) 간의 관계(엣지)를 연결선으로 시각화합니다.",
+        "연속형 데이터의 구간별 빈도를 막대로 나타냅니다.",
+        "정답",
+        "계층 구조의 데이터를 중첩된 사각형의 크기로 시각화합니다."
+      ]
+    },
+    {
+      "id": "Q4022",
+      "subject": 4,
+      "chapter": "XAI (설명 가능한 AI)",
+      "sectionId": "s4-7",
+      "cardId": "c4-22",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "블랙박스 인공지능 모델의 예측 결과를 설명하기 위한 기법(XAI) 중 하나로, 예측 대상이 되는 특정 데이터 포인트 주변(Local)에 가상의 유사한 데이터들을 생성한 뒤, 이 부분에서만 단순하고 설명 가능한 선형 모형을 학습시켜 그 지역적인 특성을 통해 예측 이유를 설명하는 기법은?",
+      "choices": [
+        "SHAP (SHapley Additive exPlanations)",
+        "LIME (Local Interpretable Model-agnostic Explanations)",
+        "의사결정나무(Decision Tree)",
+        "로지스틱 회귀(Logistic Regression)"
+      ],
+      "answer": 1,
+      "explanation": "LIME은 모델에 구애받지 않고(Model-agnostic) 특정 예측값 주변(Local)에서 단순한 대리 모델(선형 모델 등)을 적합시켜 개별 예측의 이유를 설명하는 기법입니다.",
+      "whyWrong": [
+        "게임 이론의 섀플리 값(Shapley Value)을 기반으로 각 변수의 전역적/국소적 기여도를 모두 계산하는 기법입니다.",
+        "정답",
+        "그 자체로 화이트박스(해석 가능) 모델이나 XAI 기법은 아닙니다.",
+        "해석 가능한 통계 모델입니다."
+      ]
+    },
+    {
+      "id": "Q4023",
+      "subject": 4,
+      "chapter": "비즈니스 지표 연계",
+      "sectionId": "s4-8",
+      "cardId": "c4-23",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "새로운 UI 디자인을 적용한 웹사이트 A안과 기존 디자인인 B안 중 어느 것이 더 높은 구매 전환율을 보이는지 실제 사용자 트래픽을 임의로 두 그룹으로 나누어 통계적으로 검증하는 기법은?",
+      "choices": [
+        "A/B 테스트",
+        "시계열 분석",
+        "장바구니 분석(연관규칙)",
+        "클러스터링"
+      ],
+      "answer": 0,
+      "explanation": "A/B 테스트는 두 가지(혹은 그 이상)의 대안을 두고 무작위 통제 실험을 통해 어느 쪽이 사용자 행동(클릭, 구매 등)에 더 긍정적인 성과를 내는지 평가하는 실험적 방법론입니다.",
+      "whyWrong": [
+        "정답",
+        "시간 흐름에 따른 트렌드와 패턴을 분석합니다.",
+        "함께 구매되는 상품의 규칙을 찾습니다.",
+        "유사한 특성의 사용자를 묶어 군집을 형성합니다."
+      ]
+    },
+    {
+      "id": "Q4024",
+      "subject": 4,
+      "chapter": "비즈니스 지표 연계",
+      "sectionId": "s4-8",
+      "cardId": "c4-24",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "통계적 가설 검정에서, 귀무가설(Null Hypothesis)이 참이라는 가정하에 관측된 통계량이나 그보다 더 극단적인 값이 나타날 확률을 의미하며, 이 값이 유의수준(예: 0.05)보다 작을 때 귀무가설을 기각하는 지표는?",
+      "choices": [
+        "Z-Score",
+        "R-squared (R²)",
+        "유의확률 (p-value)",
+        "신뢰구간 (Confidence Interval)"
+      ],
+      "answer": 2,
+      "explanation": "p-value(유의확률)는 귀무가설이 참일 때 표본에서 이 정도의 결과가 우연히 나타날 확률입니다. p-value가 유의수준(보통 0.05)보다 작으면 우연히 일어난 일이 아니라고 보고 대립가설을 채택(귀무가설 기각)합니다.",
+      "whyWrong": [
+        "평균으로부터 표준편차의 몇 배만큼 떨어져 있는지를 나타냅니다.",
+        "회귀 모형의 설명력을 나타냅니다.",
+        "정답",
+        "모수가 포함될 것으로 추정되는 구간입니다."
+      ]
+    },
+    {
+      "id": "Q4025",
+      "subject": 4,
+      "chapter": "모델 모니터링 및 리모델링",
+      "sectionId": "s4-9",
+      "cardId": "c4-25",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "모델이 운영 환경에 배포된 이후, 시간의 흐름에 따라 소비자의 행동 양식이나 외부 환경이 변화하여 모델 학습 당시의 입력 데이터 분포와 현재 운영 데이터의 분포가 달라져 모델 성능이 저하되는 현상은?",
+      "choices": [
+        "데이터 누수(Data Leakage)",
+        "데이터 드리프트(Data Drift)",
+        "과소적합(Underfitting)",
+        "차원의 저주(Curse of Dimensionality)"
+      ],
+      "answer": 1,
+      "explanation": "데이터 드리프트(Data Drift)는 시간이 지남에 따라 입력 변수(Feature)들의 통계적 성질이나 분포가 변경되는 현상으로, 이를 방치하면 모델의 예측력이 크게 떨어지므로 지속적인 모니터링과 재학습(Retraining)이 필요합니다.",
+      "whyWrong": [
+        "학습 시점에 알 수 없는 미래의 정보나 정답 레이블 정보가 훈련 데이터에 섞여 들어가는 현상입니다.",
+        "정답",
+        "모델이 훈련 데이터를 충분히 학습하지 못한 초기 상태를 뜻합니다.",
+        "변수의 수(차원)가 늘어남에 따라 데이터 공간의 부피가 급증하여 분석 성능이 급격히 저하되는 현상입니다."
+      ]
+    },
+    {
+      "id": "Q4026",
+      "subject": 4,
+      "chapter": "비즈니스 활용",
+      "sectionId": "s4-10",
+      "cardId": "c4-26",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "빅데이터 분석 프로젝트의 경제적 타당성을 평가하기 위해 가장 널리 사용되는 지표로, '투자 수익률(Return On Investment)'을 의미하는 약어는?",
+      "choices": [
+        "KPI",
+        "CRM",
+        "ROI",
+        "ERP"
+      ],
+      "answer": 2,
+      "explanation": "ROI(Return On Investment)는 투자한 비용 대비 발생한 이익의 비율을 나타내는 지표로, 빅데이터 프로젝트 수행 전후의 경제적 효과를 평가할 때 중요합니다.",
+      "whyWrong": [
+        "핵심 성과 지표(Key Performance Indicator)입니다.",
+        "고객 관계 관리(Customer Relationship Management)입니다.",
+        "정답",
+        "전사적 자원 관리(Enterprise Resource Planning) 시스템입니다."
+      ]
+    },
+    {
+      "id": "Q4027",
+      "subject": 4,
+      "chapter": "시각화 및 보고서",
+      "sectionId": "s4-11",
+      "cardId": "c4-27",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "복잡한 데이터와 정보를 그림이나 아이콘, 그래픽 요소를 활용하여 한 장의 이미지로 빠르고 쉽게 이해할 수 있도록 전달하는 정보 시각화 기법은?",
+      "choices": [
+        "대시보드(Dashboard)",
+        "인포그래픽(Infographic)",
+        "메타데이터(Metadata)",
+        "OLAP (On-Line Analytical Processing)"
+      ],
+      "answer": 1,
+      "explanation": "인포그래픽(Infographic)은 정보(Information)와 그래픽(Graphic)의 합성어로, 다량의 데이터와 통계 수치를 시각적 스토리텔링으로 재구성하여 설득력 있게 전달하는 기법입니다.",
+      "whyWrong": [
+        "다양한 차트를 한 화면에 모아 실시간 지표 모니터링을 돕는 인터페이스입니다.",
+        "정답",
+        "데이터를 설명하는 '데이터에 대한 데이터'입니다.",
+        "사용자가 다차원 데이터를 대화식으로 분석하는 접근 방식입니다."
+      ]
+    },
+    {
+      "id": "Q4028",
+      "subject": 4,
+      "chapter": "분류 모형 평가",
+      "sectionId": "s4-1",
+      "cardId": "c4-28",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "모델의 성능 평가 지표 중에서 (실제 Positive 중 모델이 Positive로 예측한 수) / (실제 Positive 수)의 식을 가지는 지표와 동일한 의미를 갖는 용어가 아닌 것은?",
+      "choices": [
+        "재현율(Recall)",
+        "민감도(Sensitivity)",
+        "참 긍정률(True Positive Rate, TPR)",
+        "특이도(Specificity)"
+      ],
+      "answer": 3,
+      "explanation": "특이도(Specificity)는 실제 부정(Negative)인 데이터 중 모델이 제대로 부정으로 분류한 비율(TN / (FP+TN))을 뜻합니다. 재현율, 민감도, TPR은 모두 동일한 지표를 뜻하는 다른 이름입니다.",
+      "whyWrong": [
+        "재현율은 동일한 지표입니다.",
+        "의료 분야에서 재현율을 주로 민감도라 부릅니다.",
+        "TPR은 재현율과 동일한 식을 갖습니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q4029",
+      "subject": 4,
+      "chapter": "XAI (설명 가능한 AI)",
+      "sectionId": "s4-7",
+      "cardId": "c4-29",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "게임 이론의 섀플리 값(Shapley Value)을 기반으로 하여, 특정 특성(Feature)이 예측값 형성에 기여한 정도를 계산함으로써 머신러닝 모델의 개별 예측과 전체 모델의 변수 중요도를 모두 해석할 수 있는 XAI 알고리즘은?",
+      "choices": [
+        "LIME",
+        "SHAP",
+        "PDP (Partial Dependence Plot)",
+        "Grad-CAM"
+      ],
+      "answer": 1,
+      "explanation": "SHAP(SHapley Additive exPlanations)는 협조적 게임 이론의 섀플리 값을 바탕으로 각 특성이 전체 예측에 더해지는 기여도를 분배하여, 국소적 설명(단일 데이터)과 전역적 설명(전체 피처 중요도)을 모두 제공하는 강력한 XAI 도구입니다.",
+      "whyWrong": [
+        "부분적으로 선형 대리 모델을 학습시켜 설명하는 기법입니다.",
+        "정답",
+        "특정 변수가 예측 결과에 미치는 한계 효과를 1차원/2차원 그래프로 보여주는 전역적 설명 기법입니다.",
+        "CNN 등 이미지 딥러닝 모델에서 활성화 맵을 통해 어느 부분을 보고 예측했는지 시각화하는 기법입니다."
+      ]
+    },
+    {
+      "id": "Q4030",
+      "subject": 4,
+      "chapter": "회귀 모형 평가",
+      "sectionId": "s4-2",
+      "cardId": "c4-30",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "다음 중 결정계수($R^2$)에 대한 설명으로 틀린 것은?",
+      "choices": [
+        "0에서 1 사이의 값을 가지며, 1에 가까울수록 모델의 설명력이 높다.",
+        "실제값의 전체 변동 중에서 모델이 설명하는 변동의 비율을 의미한다.",
+        "종속변수와 독립변수 간의 상관계수(r)를 제곱한 값과 동일한 성질을 갖는다(단순 선형회귀 기준).",
+        "결정계수는 1보다 커질 수 있다."
+      ],
+      "answer": 3,
+      "explanation": "결정계수($R^2$)는 모델이 데이터를 얼마나 잘 설명하는지(설명력)를 0에서 1 사이의 비율로 나타냅니다. 1에 가까울수록 적합도가 좋음을 의미하며, 1을 초과할 수 없습니다.",
+      "whyWrong": [
+        "결정계수의 기본 범위와 해석입니다.",
+        "총변동(SST) 중 회귀선에 의해 설명되는 변동(SSR)의 비율(SSR/SST)입니다.",
+        "단순 선형회귀에서 피어슨 상관계수 r의 제곱과 R²는 일치합니다.",
+        "정답"
+      ]
+    },
+    {
+      "id": "Q4031",
+      "subject": 4,
+      "chapter": "과대적합과 과소적합",
+      "sectionId": "s4-4",
+      "cardId": "c4-31",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "머신러닝 모델의 일반화 오차(Generalization Error)는 '편향(Bias)', '분산(Variance)', '해소 불가능한 오차(Irreducible Error)'의 합으로 구성된다. 모델이 너무 복잡하여 훈련 데이터의 작은 노이즈에까지 민감하게 반응하여 과적합(Overfitting)이 발생한 상태를 올바르게 설명한 것은?",
+      "choices": [
+        "편향이 높고 분산이 높다.",
+        "편향이 높고 분산이 낮다.",
+        "편향이 낮고 분산이 높다.",
+        "편향이 낮고 분산이 낮다."
+      ],
+      "answer": 2,
+      "explanation": "과적합(Overfitting)된 복잡한 모델은 훈련 데이터에 정확히 들어맞으므로 '편향(Bias)'은 매우 낮지만, 훈련 데이터가 조금만 바뀌어도 예측 결과가 크게 요동치므로 '분산(Variance)'은 매우 높은 상태(High Variance, Low Bias)입니다.",
+      "whyWrong": [
+        "편향도 높고 분산도 높은 상태는 드물며 최악의 모델입니다.",
+        "모델이 너무 단순해서 학습을 못 한 과소적합(Underfitting) 상태(High Bias, Low Variance)입니다.",
+        "정답",
+        "이상적인 최적의 모델 상태입니다."
       ]
     }
   ]
