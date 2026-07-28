@@ -1,89 +1,198 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko" data-theme="light">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>빅데이터분석기사 요약노트</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  
-  <link rel="stylesheet" href="style.css" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <title>빅데이터분석기사 요약노트</title>
 
-  <script>
-    // 빠른 테마 적용 (깜빡임 방지)
-    const savedTheme = localStorage.getItem("theme") || "light";
-    document.documentElement.setAttribute("data-theme", savedTheme);
-  </script>
-</head>
-<body>
-  <!-- 모바일 메뉴 오버레이 -->
-  <div id="overlay" class="overlay"></div>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- 상단 네비게이션 바 -->
-  <header class="topbar blur-glass">
-    <button id="menuBtn" class="icon-btn" aria-label="메뉴 열기">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-    </button>
-    <h1 class="topbar-title">빅데이터분석기사</h1>
-    <div class="topbar-actions">
-      <button id="quizToggleBtn" class="quiz-btn">문제 풀기</button>
-      <button id="themeToggleBtn" class="icon-btn theme-btn" title="다크모드 전환">
-        <svg class="sun-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-        <svg class="moon-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    <link rel="stylesheet" href="style.css" />
+
+    <script>
+      // 빠른 테마 적용 (깜빡임 방지)
+      const savedTheme = localStorage.getItem("theme") || "light";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    </script>
+  </head>
+  <body>
+    <!-- 모바일 메뉴 오버레이 -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- 상단 네비게이션 바 -->
+    <header class="topbar blur-glass">
+      <button id="menuBtn" class="icon-btn" aria-label="메뉴 열기">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
       </button>
-    </div>
-  </header>
-
-  <div class="layout">
-    <!-- 사이드바 (과목 목차) -->
-    <aside id="sidebar" class="sidebar blur-glass">
-      <div class="sidebar-header">
-        <h2>과목 목차</h2>
-        <button id="closeSidebarBtn" class="icon-btn close-btn">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      <h1 class="topbar-title">빅데이터분석기사</h1>
+      <div class="topbar-actions">
+        <button id="quizToggleBtn" class="quiz-btn">문제 풀기</button>
+        <button
+          id="themeToggleBtn"
+          class="icon-btn theme-btn"
+          title="다크모드 전환"
+        >
+          <svg
+            class="sun-icon"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg
+            class="moon-icon"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
         </button>
       </div>
-      <div class="search-box">
-        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="searchInput" placeholder="키워드 검색..." />
-      </div>
-      <div class="sidebar-actions">
-        <button id="expandAllBtn" class="btn-small">전체 펼치기</button>
-        <button id="collapseAllBtn" class="btn-small">전체 접기</button>
-      </div>
-      <nav id="nav-container" class="nav-scroll"></nav>
-    </aside>
-    
-    <!-- 메인 컨텐츠 영역 -->
-    <main class="main-content">
-      <div class="content-wrapper">
-        <div id="content">
-          <div class="loading-spinner">
-            <svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
-            <p>데이터를 불러오는 중입니다...</p>
+    </header>
+
+    <div class="layout">
+      <!-- 사이드바 (과목 목차) -->
+      <aside id="sidebar" class="sidebar blur-glass">
+        <div class="sidebar-header">
+          <h2>과목 목차</h2>
+          <button
+            id="closeSidebarBtn"
+            class="icon-btn close-btn"
+            aria-label="사이드바 닫기"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="search-box">
+          <svg
+            class="search-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="키워드 검색... (Ctrl/⌘+K)"
+          />
+        </div>
+        <div id="searchStatus" class="search-status hidden"></div>
+        <div class="sidebar-actions">
+          <button id="expandAllBtn" class="btn-small">전체 펼치기</button>
+          <button id="collapseAllBtn" class="btn-small">전체 접기</button>
+        </div>
+        <nav id="nav-container" class="nav-scroll"></nav>
+      </aside>
+
+      <!-- 메인 컨텐츠 영역 -->
+      <main class="main-content">
+        <div class="content-wrapper">
+          <div id="content">
+            <div class="loading-spinner">
+              <svg class="spinner" viewBox="0 0 50 50">
+                <circle
+                  class="path"
+                  cx="25"
+                  cy="25"
+                  r="20"
+                  fill="none"
+                  stroke-width="5"
+                ></circle>
+              </svg>
+              <p>데이터를 불러오는 중입니다...</p>
+            </div>
+          </div>
+          <!-- 퀴즈 컨텐츠 영역 -->
+          <div id="quiz-content" class="hidden">
+            <div class="hero-section">
+              <h2 class="hero-title">실전 모의고사</h2>
+              <p class="hero-subtitle">
+                실제 기출 유형을 바탕으로 구성된 4지선다형 문제입니다. 클릭하여
+                정답을 확인하세요.
+              </p>
+            </div>
+            <div id="quiz-toolbar" class="quiz-toolbar"></div>
+            <div id="quiz-score" class="quiz-score"></div>
+            <div id="quiz-container"></div>
           </div>
         </div>
-        <!-- 퀴즈 컨텐츠 영역 -->
-        <div id="quiz-content" class="hidden">
-          <div class="hero-section">
-            <h2 class="hero-title">실전 모의고사</h2>
-            <p class="hero-subtitle">실제 기출 유형을 바탕으로 구성된 4지선다형 문제입니다. 클릭하여 정답을 확인하세요.</p>
-          </div>
-          <div id="quiz-container"></div>
-        </div>
-      </div>
-    </main>
-  </div>
+      </main>
+    </div>
 
-  <!-- 맨 위로 가기 버튼 -->
-  <button id="toTop" class="to-top-btn blur-glass">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-  </button>
+    <!-- 맨 위로 가기 버튼 -->
+    <button id="toTop" class="to-top-btn blur-glass" aria-label="맨 위로 가기">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      >
+        <line x1="12" y1="19" x2="12" y2="5"></line>
+        <polyline points="5 12 12 5 19 12"></polyline>
+      </svg>
+    </button>
 
-  <script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+  </body>
 </html>
