@@ -1,335 +1,89 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5"
-    />
-    <meta name="color-scheme" content="light dark" />
-    <meta
-      name="theme-color"
-      content="#F8FAFC"
-      media="(prefers-color-scheme: light)"
-    />
-    <meta
-      name="theme-color"
-      content="#070B14"
-      media="(prefers-color-scheme: dark)"
-    />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta
-      name="apple-mobile-web-app-status-bar-style"
-      content="black-translucent"
-    />
-    <meta name="apple-mobile-web-app-title" content="빅분기 요약노트" />
-    <meta
-      name="description"
-      content="빅데이터분석기사 필기 핵심 요약노트. 분석 기획, 데이터 탐색, 모델링, 결과 해석까지 암기 포인트 완벽 정리."
-    />
-    <meta name="author" content="아답터" />
-    <meta
-      property="og:title"
-      content="빅데이터분석기사 필기 · 1·2·3·4과목 요약노트"
-    />
-    <meta
-      property="og:description"
-      content="빅데이터 분석 기획, 탐색, 모델링 및 결과 해석 영역의 핵심 암기 포인트와 상세 이론을 완벽하게 정리했습니다."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:locale" content="ko_KR" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>빅데이터분석기사 요약노트</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="style.css" />
 
-    <title>빅데이터분석기사 필기 집중 완벽대비 요약노트</title>
+  <script>
+    // 빠른 테마 적용 (깜빡임 방지)
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  </script>
+</head>
+<body>
+  <!-- 모바일 메뉴 오버레이 -->
+  <div id="overlay" class="overlay"></div>
 
-    <!-- Fonts (preload + display=swap) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-
-    <link rel="stylesheet" href="style.css" />
-
-    <!-- Prevent FOUC: apply saved theme before paint -->
-    <script>
-      (function () {
-        try {
-          var t = localStorage.getItem("theme");
-          if (!t) {
-            t = window.matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light";
-          }
-          document.documentElement.setAttribute("data-theme", t);
-          var meta = document.querySelector(
-            'meta[name="theme-color"]:not([media])',
-          );
-          if (!meta) {
-            meta = document.createElement("meta");
-            meta.name = "theme-color";
-            document.head.appendChild(meta);
-          }
-          meta.content = t === "dark" ? "#070B14" : "#F8FAFC";
-        } catch (e) {}
-      })();
-    </script>
-  </head>
-
-  <body>
-    <!-- Skip link (Accessibility) -->
-    <a class="skip-link" href="#content">본문으로 건너뛰기</a>
-
-    <!-- Scroll Progress -->
-    <div
-      class="scroll-progress"
-      id="scrollProgress"
-      role="progressbar"
-      aria-valuemin="0"
-      aria-valuemax="100"
-      aria-valuenow="0"
-      aria-label="페이지 스크롤 진행률"
-    ></div>
-
-    <!-- Top Bar -->
-    <header class="topbar" role="banner">
-      <button
-        class="menu-btn"
-        id="menuBtn"
-        type="button"
-        aria-label="메뉴 열기"
-        aria-controls="sidebar"
-        aria-expanded="false"
-      >
-        <span aria-hidden="true">☰</span>
-      </button>
-
-      <div class="topbar-title" id="topbarTitle">빅데이터분석기사</div>
-
-      <div class="header-actions">
-        <button
-          class="icon-btn"
-          id="searchToggleBtn"
-          type="button"
-          aria-label="검색 열기"
-          title="검색"
-        >
-          <span aria-hidden="true">🔍</span>
-        </button>
-        <button
-          class="theme-toggle-btn"
-          id="themeToggleBtn"
-          type="button"
-          aria-label="다크 모드 전환"
-          title="테마 전환"
-        >
-          <span class="theme-icon" aria-hidden="true">🌓</span>
-        </button>
-      </div>
-    </header>
-
-    <!-- Mobile Search Bar (slides down) -->
-    <div class="mobile-search" id="mobileSearch" hidden>
-      <div class="mobile-search-inner">
-        <input
-          type="search"
-          id="mobileSearchInput"
-          class="search-input"
-          placeholder="키워드로 검색…"
-          autocomplete="off"
-          enterkeyhint="search"
-          aria-label="요약노트 검색"
-        />
-        <button
-          type="button"
-          class="search-clear"
-          id="mobileSearchClear"
-          aria-label="검색어 지우기"
-          hidden
-        >
-          ×
-        </button>
-      </div>
-    </div>
-
-    <!-- Sidebar Overlay -->
-    <div
-      class="overlay"
-      id="overlay"
-      role="presentation"
-      aria-hidden="true"
-    ></div>
-
-    <!-- Sidebar Navigation -->
-    <aside
-      class="sidebar"
-      id="sidebar"
-      role="navigation"
-      aria-label="과목 목차"
-      aria-hidden="true"
-    >
-      <div class="sidebar-logo">
-        <div class="badge" id="logo-badge">개정 2026.02.05</div>
-        <h1 id="logo-title">빅데이터분석기사<br />1·2·3·4과목 요약노트</h1>
-        <p id="logo-sub">아답터 · IT의 답을 터득하다</p>
-      </div>
-
-      <!-- Desktop / Sidebar Search -->
-      <div class="sidebar-search">
-        <div class="search-wrap">
-          <span class="search-icon" aria-hidden="true">🔍</span>
-          <input
-            type="search"
-            id="sidebarSearchInput"
-            class="search-input"
-            placeholder="키워드 검색…"
-            autocomplete="off"
-            enterkeyhint="search"
-            aria-label="요약노트 검색"
-          />
-          <button
-            type="button"
-            class="search-clear"
-            id="sidebarSearchClear"
-            aria-label="검색어 지우기"
-            hidden
-          >
-            ×
-          </button>
-        </div>
-      </div>
-
-      <!-- Expand / Collapse controls -->
-      <div class="sidebar-actions">
-        <button
-          type="button"
-          class="action-btn"
-          id="expandAllBtn"
-          title="모든 카드 펼치기"
-        >
-          <span aria-hidden="true">▾</span> 전체 펼치기
-        </button>
-        <button
-          type="button"
-          class="action-btn"
-          id="collapseAllBtn"
-          title="모든 카드 접기"
-        >
-          <span aria-hidden="true">▸</span> 전체 접기
-        </button>
-      </div>
-
-      <!-- 동적 네비게이션 삽입 지점 -->
-      <nav id="nav-container" aria-label="섹션 목록"></nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main" id="main" role="main">
-      <!-- Hero -->
-      <header class="hero" aria-labelledby="hero-title">
-        <div class="version" id="hero-version">
-          개정 버전 2026.02.05 · 아답터
-        </div>
-        <h2 id="hero-title">
-          빅데이터분석기사<br />
-          <span>완벽대비</span> 요약노트
-        </h2>
-        <p id="hero-desc">
-          빅데이터 분석 기획, 탐색, 모델링 및 결과 해석 영역의 핵심 암기
-          포인트와 상세 이론을 완벽하게 정리했습니다.
-        </p>
-        <div class="hero-stats" id="heroStats" hidden>
-          <span class="stat-chip" id="statSections">0개 섹션</span>
-          <span class="stat-chip" id="statCards">0개 카드</span>
-        </div>
-      </header>
-
-      <!-- Search Result Banner -->
-      <div class="search-banner" id="searchBanner" hidden>
-        <span id="searchBannerText"></span>
-        <button
-          type="button"
-          class="search-banner-clear"
-          id="searchBannerClear"
-        >
-          검색 초기화
-        </button>
-      </div>
-
-      <!-- 동적 섹션 렌더링 영역 -->
-      <div id="content" aria-live="polite">
-        <!-- 로딩 상태 (app.js가 data.json 로드 후 교체) -->
-        <div class="loading" id="loadingState" role="status" aria-busy="true">
-          <div class="loading-spinner" aria-hidden="true"></div>
-          <p>
-            요약노트를 불러오는 중…<br />
-            <code>data.json</code>
-          </p>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer id="footer" role="contentinfo">
-        <p>Copyright 2026. 아답터 (IT의 답을 터득하다) All rights reserved.</p>
-      </footer>
-    </main>
-
-    <!-- Bottom Navigation (Mobile) -->
-    <nav class="bottom-nav" id="bottomNav" aria-label="과목 바로가기">
-      <a
-        href="#s1-1"
-        data-subject="s1"
-        class="nav-item-flex"
-        aria-label="1과목 분석기획"
-      >
-        <span class="bn-icon" aria-hidden="true">①</span>
-        <span>분석기획</span>
-      </a>
-      <a
-        href="#s2-1"
-        data-subject="s2"
-        class="nav-item-flex"
-        aria-label="2과목 데이터 탐색"
-      >
-        <span class="bn-icon" aria-hidden="true">②</span>
-        <span>데이터 탐색</span>
-      </a>
-      <a
-        href="#s3-1"
-        data-subject="s3"
-        class="nav-item-flex"
-        aria-label="3과목 빅데이터 모델링"
-      >
-        <span class="bn-icon" aria-hidden="true">③</span>
-        <span>모델링</span>
-      </a>
-      <a
-        href="#s4-1"
-        data-subject="s4"
-        class="nav-item-flex"
-        aria-label="4과목 빅데이터 결과해석"
-      >
-        <span class="bn-icon" aria-hidden="true">④</span>
-        <span>결과해석</span>
-      </a>
-    </nav>
-
-    <!-- Floating Top Button -->
-    <button
-      class="toc-float"
-      id="toTop"
-      type="button"
-      aria-label="맨 위로 이동"
-      title="맨 위로"
-    >
-      <span aria-hidden="true">↑</span> 맨 위로
+  <!-- 상단 네비게이션 바 -->
+  <header class="topbar blur-glass">
+    <button id="menuBtn" class="icon-btn" aria-label="메뉴 열기">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
     </button>
+    <h1 class="topbar-title">빅데이터분석기사</h1>
+    <div class="topbar-actions">
+      <button id="quizToggleBtn" class="quiz-btn">문제 풀기</button>
+      <button id="themeToggleBtn" class="icon-btn theme-btn" title="다크모드 전환">
+        <svg class="sun-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="moon-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+    </div>
+  </header>
 
-    <script src="app.js" defer></script>
-  </body>
+  <div class="layout">
+    <!-- 사이드바 (과목 목차) -->
+    <aside id="sidebar" class="sidebar blur-glass">
+      <div class="sidebar-header">
+        <h2>과목 목차</h2>
+        <button id="closeSidebarBtn" class="icon-btn close-btn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="search-box">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="searchInput" placeholder="키워드 검색..." />
+      </div>
+      <div class="sidebar-actions">
+        <button id="expandAllBtn" class="btn-small">전체 펼치기</button>
+        <button id="collapseAllBtn" class="btn-small">전체 접기</button>
+      </div>
+      <nav id="nav-container" class="nav-scroll"></nav>
+    </aside>
+    
+    <!-- 메인 컨텐츠 영역 -->
+    <main class="main-content">
+      <div class="content-wrapper">
+        <div id="content">
+          <div class="loading-spinner">
+            <svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>
+            <p>데이터를 불러오는 중입니다...</p>
+          </div>
+        </div>
+        <!-- 퀴즈 컨텐츠 영역 -->
+        <div id="quiz-content" class="hidden">
+          <div class="hero-section">
+            <h2 class="hero-title">실전 모의고사</h2>
+            <p class="hero-subtitle">실제 기출 유형을 바탕으로 구성된 4지선다형 문제입니다. 클릭하여 정답을 확인하세요.</p>
+          </div>
+          <div id="quiz-container"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 맨 위로 가기 버튼 -->
+  <button id="toTop" class="to-top-btn blur-glass">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+  </button>
+
+  <script src="app.js"></script>
+</body>
 </html>

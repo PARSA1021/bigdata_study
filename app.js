@@ -1,688 +1,299 @@
 /**
- * 빅데이터분석기사 요약노트 (1·2·3·4과목 통합 버전)
- * data.json 을 읽어 페이지를 렌더링합니다.
- * 내용 추가/수정은 data.json 만 편집하면 됩니다.
- * v3 — search · expand/collapse · scroll progress · card memory · a11y · theme
+ * 빅데이터분석기사 요약노트 (Refactored for Studying)
+ * 
+ * 1. 데이터 로드 및 렌더링 (Load & Render)
+ * 2. 검색 기능 (Search)
+ * 3. UI 인터랙션 (UI Interactions - 다크모드, 사이드바, 맨 위로)
  */
 
-(function () {
-  'use strict';
+document.addEventListener("DOMContentLoaded", () => {
+  // === DOM 요소 캐싱 ===
+  const contentEl = document.getElementById("content");
+  const quizContentEl = document.getElementById("quiz-content");
+  const quizContainer = document.getElementById("quiz-container");
+  const quizToggleBtn = document.getElementById("quizToggleBtn");
+  const navEl = document.getElementById("nav-container");
+  const searchInput = document.getElementById("searchInput");
+  const themeBtn = document.getElementById("themeToggleBtn");
+  const menuBtn = document.getElementById("menuBtn");
+  const closeSidebarBtn = document.getElementById("closeSidebarBtn");
+  const sidebar = document.getElementById("sidebar");
+  const toTopBtn = document.getElementById("toTop");
+  const expandAllBtn = document.getElementById("expandAllBtn");
+  const collapseAllBtn = document.getElementById("collapseAllBtn");
 
-  // ── 유틸 ────────────────────────────────────────────────
-  const $ = (sel, root = document) => root.querySelector(sel);
-  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+  // 데이터 보관용 변수
+  let allCards = [];
+  
+  // === 1. 데이터 로드 및 렌더링 ===
+  fetch("data.json")
+    .then(response => response.json())
+    .then(data => {
+      renderNav(data.nav);
+      renderContent(data.sections);
+      bindCardEvents();
+    })
+    .catch(error => {
+      contentEl.innerHTML = `<div class="loading">데이터를 불러오는데 실패했습니다: ${error.message}</div>`;
+    });
 
-  function escapeHtml(str) {
-    if (typeof str !== 'string') return str;
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
+  fetch("cbt_bank.json")
+    .then(response => response.json())
+    .then(data => {
+      renderQuizzes(data.questions);
+    })
+    .catch(error => {
+      quizContainer.innerHTML = `<div class="loading">문제은행 데이터를 불러오는데 실패했습니다: ${error.message}</div>`;
+    });
+
+  // 1-1. 네비게이션(사이드바) 렌더링
+  function renderNav(navData) {
+    if (!navData) return;
+    let html = "";
+    navData.forEach(group => {
+      html += `<div class="nav-group-title">${group.group}</div>`;
+      group.items.forEach(item => {
+        html += `<a href="#${item.id}" class="nav-link">${item.label}</a>`;
+      });
+    });
+    navEl.innerHTML = html;
   }
 
-  // 메모/리스트 항목은 JSON에 HTML(<strong> 등)이 포함되므로
-  // 신뢰된 data.json 기준으로 그대로 삽입. 외부 입력이면 sanitize 필요.
-  function trustHtml(str) {
-    return typeof str === 'string' ? str : '';
+  // 1-2. 메인 컨텐츠 렌더링
+  function renderContent(sections) {
+    if (!sections) return;
+    let html = "";
+    allCards = []; // 검색을 위해 모든 카드 저장
+
+    sections.forEach(sec => {
+      html += `
+        <section class="section" id="${sec.id}">
+          <h2 class="section-title">${sec.num} ${sec.title}</h2>
+      `;
+      
+      sec.cards.forEach(card => {
+        allCards.push(card);
+        const blocksHtml = card.blocks.map(renderBlock).join("");
+        
+        // 카드 열림 상태 (기본적으로 첫번째 카드는 열어두거나 설정에 따라)
+        const isOpen = card.open ? "open" : "";
+        
+        html += `
+          <article class="card ${isOpen}" id="${card.id}" data-search="${card.title.toLowerCase()}">
+            <div class="card-header">
+              <h3>${card.title}</h3>
+              <span class="chevron">▾</span>
+            </div>
+            <div class="card-body">
+              ${blocksHtml}
+            </div>
+          </article>
+        `;
+      });
+      html += `</section>`;
+    });
+    contentEl.innerHTML = html;
   }
 
-  // 카드 열림 상태 저장 키
-  const OPEN_CARDS_KEY = 'bigdata-note-open-cards';
-
-  function loadOpenCards() {
-    try {
-      const raw = localStorage.getItem(OPEN_CARDS_KEY);
-      return raw ? JSON.parse(raw) : {};
-    } catch {
-      return {};
-    }
-  }
-
-  function saveOpenCards(map) {
-    try {
-      localStorage.setItem(OPEN_CARDS_KEY, JSON.stringify(map));
-    } catch {}
-  }
-
-  let openCardsMap = loadOpenCards();
-
-  // ── 블록 렌더러 ─────────────────────────────────────────
+  // 1-3. 블록 타입별 렌더링
   function renderBlock(block) {
     switch (block.type) {
-      case 'h4':
-        return `<h4>${trustHtml(block.text)}</h4>`;
+      case "h4": return `<h4>${block.text}</h4>`;
+      case "ul": return `<ul>${block.items.map(i => `<li>${i}</li>`).join("")}</ul>`;
+      case "memo": return `<div class="memo">${block.text}</div>`;
+      case "note": return `<div class="note">${block.text}</div>`;
+      case "formula": return `<div class="formula">${block.text}</div>`;
+      case "table": 
+        const heads = block.headers.map(h => `<th>${h}</th>`).join("");
+        const rows = block.rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("");
+        return `<table><thead><tr>${heads}</tr></thead><tbody>${rows}</tbody></table>`;
+      default: return "";
+    }
+  }
 
-      case 'ul':
-        return `<ul>${(block.items || [])
-          .map((item) => `<li>${trustHtml(item)}</li>`)
-          .join('')}</ul>`;
-
-      case 'memo':
-        return `<div class="memo">${trustHtml(block.text)}</div>`;
-
-      case 'note':
-        return `<div class="note">${trustHtml(block.text)}</div>`;
-
-      case 'formula':
-        return `<div class="formula">${trustHtml(block.text)}</div>`;
-
-      case 'table': {
-        const headers = block.headers || [];
-        const rows = block.rows || [];
-        const head = headers.map((h) => `<th>${trustHtml(h)}</th>`).join('');
-        const body = rows
-          .map(
-            (row) =>
-              `<tr>${row.map((cell) => `<td>${trustHtml(cell)}</td>`).join('')}</tr>`
-          )
-          .join('');
-        return `
-          <div class="table-wrap">
-            <table>
-              <thead><tr>${head}</tr></thead>
-              <tbody>${body}</tbody>
-            </table>
-          </div>`;
+  // 1-4. 퀴즈 렌더링
+  function renderQuizzes(quizzes) {
+    if (!quizzes || quizzes.length === 0) {
+      quizContainer.innerHTML = "<p>등록된 문제가 없습니다.</p>";
+      return;
+    }
+    
+    let html = "";
+    quizzes.forEach((quiz, index) => {
+      let optionsHtml = "";
+      const optionsArray = quiz.choices || quiz.options; 
+      optionsArray.forEach((opt, optIdx) => {
+        optionsHtml += `<button class="quiz-option" data-quiz-id="${quiz.id}" data-opt-idx="${optIdx}">${optIdx + 1}. ${opt}</button>`;
+      });
+      
+      let whyWrongHtml = "";
+      if (quiz.whyWrong && Array.isArray(quiz.whyWrong)) {
+        whyWrongHtml = `<ul style="margin-top: 10px; font-size: 0.9em; color: var(--text-muted); list-style-type: none; padding-left: 0;">`;
+        quiz.whyWrong.forEach((reason, i) => {
+            if (reason !== "정답") {
+                whyWrongHtml += `<li style="margin-bottom: 4px;"><strong>${i+1}번 오답 노트:</strong> ${reason}</li>`;
+            }
+        });
+        whyWrongHtml += `</ul>`;
       }
 
-      default:
-        return '';
-    }
-  }
-
-  // ── 카드 렌더러 ─────────────────────────────────────────
-  function renderCard(card) {
-    // data.json open 플래그 + localStorage 기억 상태 병합
-    const isOpen = openCardsMap[card.id] !== undefined
-      ? !!openCardsMap[card.id]
-      : !!card.open;
-    const blocksHtml = (card.blocks || []).map(renderBlock).join('');
-    return `
-      <article class="card${isOpen ? ' open' : ''}" id="${escapeHtml(card.id)}" data-card-id="${escapeHtml(card.id)}">
-        <div
-          class="card-header"
-          data-toggle
-          role="button"
-          tabindex="0"
-          aria-expanded="${isOpen}"
-          aria-controls="${escapeHtml(card.id)}-body"
-        >
-          <h3><span class="dot" aria-hidden="true"></span>${trustHtml(card.title)}</h3>
-          <span class="chevron" aria-hidden="true">▾</span>
+      html += `
+        <div class="quiz-card" id="${quiz.id}" data-answer="${quiz.answer}">
+          <div class="quiz-question">Q${index + 1}. ${quiz.question}</div>
+          <div class="quiz-options">
+            ${optionsHtml}
+          </div>
+          <div class="quiz-explanation hidden">
+            <div class="quiz-status"></div>
+            <p>${quiz.explanation}</p>
+            ${whyWrongHtml}
+          </div>
         </div>
-        <div class="card-body" id="${escapeHtml(card.id)}-body"${isOpen ? '' : ' hidden'}>
-          ${blocksHtml}
-        </div>
-      </article>`;
+      `;
+    });
+    quizContainer.innerHTML = html;
+    
+    // 퀴즈 옵션 클릭 이벤트
+    const options = quizContainer.querySelectorAll(".quiz-option");
+    options.forEach(opt => {
+      opt.addEventListener("click", (e) => {
+        const btn = e.target;
+        const quizCard = btn.closest(".quiz-card");
+        const answerIdx = parseInt(quizCard.dataset.answer);
+        const clickedIdx = parseInt(btn.dataset.optIdx);
+        
+        // 이미 푼 문제면 무시
+        if (quizCard.classList.contains("solved")) return;
+        quizCard.classList.add("solved");
+        
+        const explanation = quizCard.querySelector(".quiz-explanation");
+        const status = quizCard.querySelector(".quiz-status");
+        const allOpts = quizCard.querySelectorAll(".quiz-option");
+        
+        explanation.classList.remove("hidden");
+        
+        if (clickedIdx === answerIdx) {
+          btn.classList.add("correct");
+          status.textContent = "정답입니다! 🎉";
+          status.classList.add("correct");
+        } else {
+          btn.classList.add("incorrect");
+          status.textContent = "오답입니다. 🥲";
+          status.classList.add("incorrect");
+          // 정답 표시
+          allOpts[answerIdx].classList.add("correct");
+        }
+      });
+    });
   }
 
-  // ── 섹션 렌더러 (4과목 확장) ────────────────────────────
-  function renderSection(section) {
-    let subject = 's1';
-    if (section.id.startsWith('s2')) subject = 's2';
-    else if (section.id.startsWith('s3')) subject = 's3';
-    else if (section.id.startsWith('s4')) subject = 's4'; // [추가] 4과목 대응
-
-    const subjectClass = `subject-${subject}`;
-    const cardsHtml = (section.cards || []).map(renderCard).join('');
-    return `
-      <section class="section ${subjectClass}" id="${escapeHtml(section.id)}" data-section data-subject="${subject}">
-        <div class="section-header">
-          <span class="section-num">${escapeHtml(section.num)}</span>
-          <h2 class="section-title">${trustHtml(section.title)}</h2>
-        </div>
-        ${cardsHtml}
-      </section>`;
+  // === 2. 이벤트 바인딩 ===
+  
+  // 2-1. 카드 아코디언 토글
+  function bindCardEvents() {
+    const headers = document.querySelectorAll(".card-header");
+    headers.forEach(header => {
+      header.addEventListener("click", () => {
+        const card = header.parentElement;
+        card.classList.toggle("open");
+      });
+    });
   }
 
-  // ── 네비게이션 렌더러 ───────────────────────────────────
-  function renderNav(nav) {
-    return (nav || [])
-      .map((group) => {
-        const items = (group.items || [])
-          .map((item) => {
-            const cls = item.level === 2 ? 'nav-link sub' : 'nav-link';
-            return `<a href="#${escapeHtml(item.id)}" class="${cls}" data-nav-id="${escapeHtml(item.id)}">${trustHtml(item.label)}</a>`;
-          })
-          .join('');
-        return `
-          <div class="nav-group">
-            <div class="nav-group-title">${trustHtml(group.group)}</div>
-            ${items}
-          </div>`;
-      })
-      .join('');
-  }
+  // 2-2. 검색 기능 (단순 텍스트 필터링)
+  searchInput.addEventListener("input", (e) => {
+    const query = e.target.value.toLowerCase();
+    const cards = document.querySelectorAll(".card");
+    
+    cards.forEach(card => {
+      // 카드의 텍스트 내용 전체를 기준으로 검색
+      const text = card.textContent.toLowerCase();
+      if (text.includes(query)) {
+        card.classList.remove("hidden");
+        // 검색어가 있으면 해당 카드를 자동으로 열어줌
+        if (query.trim() !== "") card.classList.add("open");
+      } else {
+        card.classList.add("hidden");
+      }
+    });
+  });
 
-  // ── 테마 ────────────────────────────────────────────────
-  function getPreferredTheme() {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'light' || saved === 'dark') return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
-  }
+  // 2-3. 전체 펼치기 / 접기
+  expandAllBtn.addEventListener("click", () => {
+    document.querySelectorAll(".card").forEach(c => c.classList.add("open"));
+  });
+  
+  collapseAllBtn.addEventListener("click", () => {
+    document.querySelectorAll(".card").forEach(c => c.classList.remove("open"));
+  });
 
-  function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
+  // 2-4. 다크 모드 토글
+  themeBtn.addEventListener("click", () => {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute("data-theme");
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    html.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+  });
 
-    let meta = document.querySelector('meta[name="theme-color"]:not([media])');
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.name = 'theme-color';
-      document.head.appendChild(meta);
+  // 2-5. 모바일 사이드바 토글
+  const overlay = document.getElementById("overlay");
+  
+  function openSidebar() {
+    sidebar.classList.add("open");
+    if (window.innerWidth < 1024) {
+      overlay.classList.add("active");
+      document.body.style.overflow = "hidden"; // 배경 스크롤 방지
     }
-    meta.content = theme === 'dark' ? '#070B14' : '#F8FAFC';
-
-    const btn = $('#themeToggleBtn');
-    if (btn) {
-      const icon = btn.querySelector('.theme-icon') || btn;
-      icon.textContent = theme === 'dark' ? '☀️' : '🌙';
-      btn.setAttribute(
-        'aria-label',
-        theme === 'dark' ? '라이트 모드로 전환' : '다크 모드로 전환'
-      );
-    }
+  }
+  
+  function closeSidebar() {
+    sidebar.classList.remove("open");
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
   }
 
-  // ── 사이드바 ────────────────────────────────────────────
-  function setSidebarOpen(open) {
-    const sidebar = $('#sidebar');
-    const overlay = $('#overlay');
-    const menuBtn = $('#menuBtn');
-    if (!sidebar || !overlay) return;
-
-    sidebar.classList.toggle('open', open);
-    overlay.classList.toggle('show', open);
-    sidebar.setAttribute('aria-hidden', open ? 'false' : 'true');
-    overlay.setAttribute('aria-hidden', open ? 'false' : 'true');
-    if (menuBtn) {
-      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      menuBtn.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+  menuBtn.addEventListener("click", openSidebar);
+  closeSidebarBtn.addEventListener("click", closeSidebar);
+  if (overlay) overlay.addEventListener("click", closeSidebar);
+  
+  // 사이드바 링크 클릭시 모바일이면 닫기
+  navEl.addEventListener("click", (e) => {
+    if (e.target.classList.contains("nav-link") && window.innerWidth < 1024) {
+      closeSidebar();
     }
+  });
 
-    document.body.style.overflow = open ? 'hidden' : '';
-  }
-
-  // ── 카드 토글 ───────────────────────────────────────────
-  function toggleCard(header, forceOpen) {
-    const card = header.closest('.card');
-    if (!card) return;
-    const body = card.querySelector('.card-body');
-    const cardId = card.dataset.cardId || card.id;
-    let isOpen;
-
-    if (forceOpen === true) {
-      card.classList.add('open');
-      isOpen = true;
-    } else if (forceOpen === false) {
-      card.classList.remove('open');
-      isOpen = false;
+  // 2-6. 맨 위로 가기 버튼
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 300) {
+      toTopBtn.classList.add("visible");
     } else {
-      isOpen = card.classList.toggle('open');
+      toTopBtn.classList.remove("visible");
     }
+  });
+  
+  toTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
 
-    header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    if (body) {
-      if (isOpen) body.removeAttribute('hidden');
-      else body.setAttribute('hidden', '');
+  // 2-7. 퀴즈 모드 토글
+  quizToggleBtn.addEventListener("click", () => {
+    const isQuizMode = !quizContentEl.classList.contains("hidden");
+    if (isQuizMode) {
+      // 요약노트 모드로 돌아가기
+      quizContentEl.classList.add("hidden");
+      contentEl.classList.remove("hidden");
+      sidebar.style.display = ""; // 사이드바 보이기 (기본값)
+      quizToggleBtn.textContent = "문제 풀기";
+      quizToggleBtn.style.backgroundColor = "";
+    } else {
+      // 문제 풀기 모드로 전환
+      quizContentEl.classList.remove("hidden");
+      contentEl.classList.add("hidden");
+      sidebar.style.display = "none"; // 문제 풀때는 사이드바 숨기기 (공간 확보)
+      quizToggleBtn.textContent = "요약노트 보기";
+      quizToggleBtn.style.backgroundColor = "var(--success, #059669)";
     }
-
-    // 기억
-    openCardsMap[cardId] = isOpen;
-    saveOpenCards(openCardsMap);
-  }
-
-  function expandAllCards() {
-    $$('.card').forEach((card) => {
-      const header = card.querySelector('[data-toggle]');
-      if (header) toggleCard(header, true);
-    });
-  }
-
-  function collapseAllCards() {
-    $$('.card').forEach((card) => {
-      const header = card.querySelector('[data-toggle]');
-      if (header) toggleCard(header, false);
-    });
-  }
-
-  // ── 검색 ────────────────────────────────────────────────
-  let currentQuery = '';
-
-  function normalizeText(str) {
-    return (str || '')
-      .toLowerCase()
-      .replace(/<[^>]+>/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-  }
-
-  function highlightText(html, query) {
-    if (!query || query.length < 1) return html;
-    const re = new RegExp(
-      `(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
-      'gi'
-    );
-    const placeholders = [];
-    const protectedHtml = html.replace(/<[^>]+>/g, (m) => {
-      placeholders.push(m);
-      return `\u0000${placeholders.length - 1}\u0000`;
-    });
-    const highlighted = protectedHtml.replace(re, '<mark>$1</mark>');
-    return highlighted.replace(/\u0000(\d+)\u0000/g, (_, i) => placeholders[+i]);
-  }
-
-  function runSearch(query) {
-    currentQuery = (query || '').trim();
-    const q = normalizeText(currentQuery);
-    const cards = $$('.card');
-    const sections = $$('[data-section]');
-    let matchCount = 0;
-
-    cards.forEach((card) => {
-      const titleEl = card.querySelector('h3');
-      const bodyEl = card.querySelector('.card-body');
-      const titleText = normalizeText(titleEl ? titleEl.textContent : '');
-      const bodyText = normalizeText(bodyEl ? bodyEl.textContent : '');
-      const haystack = titleText + ' ' + bodyText;
-
-      const matched = !q || haystack.includes(q);
-
-      card.classList.toggle('card-hidden', !matched);
-      if (matched) matchCount++;
-
-      if (titleEl && titleEl.dataset.origTitle === undefined) {
-        titleEl.dataset.origTitle = titleEl.innerHTML;
-      }
-      if (titleEl) {
-        if (q && matched) {
-          const orig = titleEl.dataset.origTitle;
-          const dotMatch = orig.match(/^<span class="dot"[^>]*><\/span>/);
-          const rest = orig.replace(/^<span class="dot"[^>]*><\/span>/, '');
-          const plainRest = rest.replace(/<[^>]+>/g, '');
-          titleEl.innerHTML =
-            (dotMatch ? dotMatch[0] : '') +
-            highlightText(escapeHtml(plainRest), currentQuery);
-        } else if (titleEl.dataset.origTitle) {
-          titleEl.innerHTML = titleEl.dataset.origTitle;
-        }
-      }
-    });
-
-    sections.forEach((sec) => {
-      const visibleCards = sec.querySelectorAll('.card:not(.card-hidden)');
-      sec.classList.toggle('section-hidden', visibleCards.length === 0);
-    });
-
-    $$('.nav-link').forEach((link) => {
-      const id = link.dataset.navId;
-      if (!id) return;
-      const target = document.getElementById(id);
-      if (!target) return;
-      const hidden =
-        target.classList.contains('section-hidden') ||
-        target.classList.contains('card-hidden');
-      link.classList.toggle('dimmed', q && hidden);
-    });
-
-    const banner = $('#searchBanner');
-    const bannerText = $('#searchBannerText');
-    if (banner && bannerText) {
-      if (q) {
-        banner.hidden = false;
-        bannerText.textContent =
-          matchCount === 0
-            ? `"${currentQuery}" 검색 결과 없음`
-            : `"${currentQuery}" · ${matchCount}개 카드`;
-      } else {
-        banner.hidden = true;
-      }
-    }
-
-    ['sidebarSearchClear', 'mobileSearchClear'].forEach((id) => {
-      const btn = $('#' + id);
-      if (btn) btn.hidden = !q;
-    });
-  }
-
-  function clearSearch() {
-    currentQuery = '';
-    const inputs = [$('#sidebarSearchInput'), $('#mobileSearchInput')];
-    inputs.forEach((inp) => {
-      if (inp) inp.value = '';
-    });
-    runSearch('');
-  }
-
-  // ── 스크롤 진행률 ───────────────────────────────────────
-  function updateScrollProgress() {
-    const bar = $('#scrollProgress');
-    if (!bar) return;
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const docHeight =
-      document.documentElement.scrollHeight -
-      document.documentElement.clientHeight;
-    const pct = docHeight > 0 ? Math.min(100, (scrollTop / docHeight) * 100) : 0;
-    bar.style.width = pct + '%';
-    bar.setAttribute('aria-valuenow', Math.round(pct));
-
-    const toTop = $('#toTop');
-    if (toTop) {
-      toTop.classList.toggle('visible', scrollTop > 320);
-    }
-  }
-
-  // ── 메인 렌더 ───────────────────────────────────────────
-  function render(data) {
-    const badge = $('#logo-badge');
-    const title = $('#logo-title');
-    const sub = $('#logo-sub');
-    if (badge && data.meta?.version) {
-      badge.textContent = data.meta.version.replace('개정 버전 ', '개정 ');
-    }
-    if (title && data.meta?.title) {
-      title.innerHTML = escapeHtml(data.meta.title)
-        .replace(' (', '<br>(')
-        .replace(' · ', '<br>');
-    }
-    if (sub && data.meta?.publisher) {
-      sub.textContent = data.meta.publisher + ' · IT의 답을 터득하다';
-    }
-
-    const navEl = $('#nav-container');
-    if (navEl) navEl.innerHTML = renderNav(data.nav);
-
-    const heroVersion = $('#hero-version');
-    const heroTitle = $('#hero-title');
-    const heroDesc = $('#hero-desc');
-    if (heroVersion && data.meta?.version) {
-      heroVersion.textContent =
-        data.meta.version + ' · ' + (data.meta.publisher || '아답터');
-    }
-    if (heroTitle) {
-      heroTitle.innerHTML =
-        '빅데이터분석기사<br><span>완벽대비</span> 요약노트';
-    }
-    if (heroDesc && data.meta?.description) {
-      heroDesc.textContent = data.meta.description;
-    }
-
-    const sections = data.sections || [];
-    const cardCount = sections.reduce(
-      (n, s) => n + (s.cards ? s.cards.length : 0),
-      0
-    );
-    const heroStats = $('#heroStats');
-    const statSections = $('#statSections');
-    const statCards = $('#statCards');
-    if (heroStats && sections.length) {
-      heroStats.hidden = false;
-      if (statSections) statSections.textContent = `${sections.length}개 섹션`;
-      if (statCards) statCards.textContent = `${cardCount}개 카드`;
-    }
-
-    const content = $('#content');
-    if (content) {
-      content.innerHTML = sections.map(renderSection).join('');
-      content.removeAttribute('aria-busy');
-    }
-
-    const footer = $('#footer');
-    if (footer && data.footer) {
-      footer.innerHTML = `<p>${trustHtml(data.footer)}</p>`;
-    }
-
-    if (data.meta?.title) {
-      document.title = data.meta.title;
-    }
-
-    bindEvents();
-    setupScrollSpy();
-    updateScrollProgress();
-  }
-
-  // ── 이벤트 바인딩 (위임) ────────────────────────────────
-  function bindEvents() {
-    document.addEventListener('click', (e) => {
-      const header = e.target.closest('[data-toggle]');
-      if (header) toggleCard(header);
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
-      const header = e.target.closest('[data-toggle]');
-      if (header) {
-        e.preventDefault();
-        toggleCard(header);
-      }
-    });
-
-    applyTheme(getPreferredTheme());
-    const themeBtn = $('#themeToggleBtn');
-    if (themeBtn) {
-      themeBtn.addEventListener('click', () => {
-        const next =
-          document.documentElement.getAttribute('data-theme') === 'dark'
-            ? 'light'
-            : 'dark';
-        applyTheme(next);
-      });
-    }
-
-    window
-      .matchMedia('(prefers-color-scheme: dark)')
-      .addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) {
-          applyTheme(e.matches ? 'dark' : 'light');
-        }
-      });
-
-    const menuBtn = $('#menuBtn');
-    const overlay = $('#overlay');
-    if (menuBtn) {
-      menuBtn.addEventListener('click', () => {
-        const open = !$('#sidebar')?.classList.contains('open');
-        setSidebarOpen(open);
-      });
-    }
-    if (overlay) {
-      overlay.addEventListener('click', () => setSidebarOpen(false));
-    }
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        setSidebarOpen(false);
-        const ms = $('#mobileSearch');
-        if (ms && !ms.hidden) {
-          ms.hidden = true;
-          clearSearch();
-        }
-      }
-    });
-
-    document.addEventListener('click', (e) => {
-      const link = e.target.closest('.nav-link, #bottomNav a');
-      if (!link) return;
-
-      const href = link.getAttribute('href');
-      if (href && href.startsWith('#')) {
-        const target = document.getElementById(href.slice(1));
-        if (target) {
-          e.preventDefault();
-          setSidebarOpen(false);
-          if (target.classList.contains('card-hidden') || target.classList.contains('section-hidden')) {
-            clearSearch();
-          }
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          history.replaceState(null, '', href);
-        }
-      } else {
-        setSidebarOpen(false);
-      }
-    });
-
-    const toTop = $('#toTop');
-    if (toTop) {
-      const scrollTop = () =>
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      toTop.addEventListener('click', scrollTop);
-      toTop.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          scrollTop();
-        }
-      });
-    }
-
-    const expandBtn = $('#expandAllBtn');
-    const collapseBtn = $('#collapseAllBtn');
-    if (expandBtn) expandBtn.addEventListener('click', expandAllCards);
-    if (collapseBtn) collapseBtn.addEventListener('click', collapseAllCards);
-
-    const sidebarInput = $('#sidebarSearchInput');
-    const mobileInput = $('#mobileSearchInput');
-    const searchToggle = $('#searchToggleBtn');
-    const mobileSearch = $('#mobileSearch');
-
-    function onSearchInput(e) {
-      const val = e.target.value;
-      if (sidebarInput && e.target !== sidebarInput) sidebarInput.value = val;
-      if (mobileInput && e.target !== mobileInput) mobileInput.value = val;
-      runSearch(val);
-    }
-
-    if (sidebarInput) {
-      sidebarInput.addEventListener('input', onSearchInput);
-    }
-    if (mobileInput) {
-      mobileInput.addEventListener('input', onSearchInput);
-    }
-
-    if (searchToggle && mobileSearch) {
-      searchToggle.addEventListener('click', () => {
-        const willShow = mobileSearch.hidden;
-        mobileSearch.hidden = !willShow;
-        if (willShow && mobileInput) {
-          setTimeout(() => mobileInput.focus(), 50);
-        } else {
-          clearSearch();
-        }
-      });
-    }
-
-    ['sidebarSearchClear', 'mobileSearchClear', 'searchBannerClear'].forEach(
-      (id) => {
-        const btn = $('#' + id);
-        if (btn) btn.addEventListener('click', clearSearch);
-      }
-    );
-
-    let ticking = false;
-    window.addEventListener(
-      'scroll',
-      () => {
-        if (!ticking) {
-          requestAnimationFrame(() => {
-            updateScrollProgress();
-            ticking = false;
-          });
-          ticking = true;
-        }
-      },
-      { passive: true }
-    );
-  }
-
-  // ── 스크롤 스파이 (IntersectionObserver) ────────────────
-  function setupScrollSpy() {
-    const navLinks = $$('.nav-link');
-    const sections = $$('[data-section]');
-    if (!sections.length) return;
-
-    const linkMap = new Map();
-    navLinks.forEach((link) => {
-      const id = link.getAttribute('href')?.slice(1);
-      if (id) linkMap.set(id, link);
-    });
-
-    let currentId = '';
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((en) => en.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-
-        if (visible.length) {
-          currentId = visible[0].target.id;
-        } else {
-          if (window.scrollY < 80 && sections[0]) {
-            currentId = sections[0].id;
-          }
-        }
-
-        navLinks.forEach((link) => link.classList.remove('active'));
-        const activeLink = linkMap.get(currentId);
-        if (activeLink) activeLink.classList.add('active');
-
-        updateBottomNav(currentId);
-      },
-      {
-        rootMargin: '-20% 0px -55% 0px',
-        threshold: [0, 0.25, 0.5],
-      }
-    );
-
-    sections.forEach((sec) => observer.observe(sec));
-
-    if (sections[0]) {
-      currentId = sections[0].id;
-      const first = linkMap.get(currentId);
-      if (first) first.classList.add('active');
-      updateBottomNav(currentId);
-    }
-  }
-
-  // ── 바텀 네비게이션 과목 연동 (4과목 확장) ──────────────
-  function updateBottomNav(currentId) {
-    const bottomLinks = $$('#bottomNav a');
-    let subject = 's1';
-    if (currentId.startsWith('s2')) subject = 's2';
-    else if (currentId.startsWith('s3')) subject = 's3';
-    else if (currentId.startsWith('s4')) subject = 's4'; // [추가] 4과목 활성화 매칭
-
-    bottomLinks.forEach((a) => {
-      a.classList.toggle('active', a.dataset.subject === subject);
-    });
-  }
-
-  // ── 데이터 로드 ─────────────────────────────────────────
-  function showError(message) {
-    const content = $('#content');
-    if (!content) return;
-    content.innerHTML = `
-      <div class="loading" role="alert">
-        <p>
-          data.json 을 불러오지 못했습니다.<br>
-          로컬에서 열 때는 웹서버가 필요합니다.<br>
-          (예: <code>npx serve .</code> 또는 VS Code Live Server)
-        </p>
-        <p style="margin-top:12px;color:var(--muted)">오류: ${escapeHtml(message)}</p>
-      </div>`;
-  }
-
-  fetch('data.json', { cache: 'no-cache' })
-    .then((res) => {
-      if (!res.ok) throw new Error(`HTTP ${res.status} — data.json 로드 실패`);
-      return res.json();
-    })
-    .then(render)
-    .catch((err) => {
-      console.error(err);
-      showError(err.message || String(err));
-    });
-})();
+  });
+});
