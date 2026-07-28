@@ -1061,6 +1061,132 @@ tr:hover td { background: var(--primary-dim); }
 
 /* ---------- Subject Themes (OUTSIDE print) ---------- */
 
+/* ── 1과목: 빅데이터 분석 기획 및 기술 (Teal / Emerald 등 새로운 컬러 변수 적용 예시) ── */
+.section[id^="s1"] {
+  --subject: var(--success);
+  --subject-dim: var(--success-dim);
+  --subject-glow: var(--success-glow);
+}
+
+.section[id^="s1"] .section-num {
+  color: var(--success);
+  background: var(--success-dim);
+}
+
+.section[id^="s1"] .card-header .dot {
+  background: var(--success);
+  box-shadow: 0 0 0 4px var(--success-dim);
+}
+
+.section[id^="s1"] .card.open .card-header .dot {
+  box-shadow: 0 0 0 5px var(--success-glow);
+}
+
+.section[id^="s1"] .card:hover {
+  border-color: color-mix(in srgb, var(--success) 32%, var(--border));
+}
+
+.section[id^="s1"] .card.open .card-header .chevron {
+  color: var(--success);
+  background: var(--success-dim);
+}
+
+.section[id^="s1"] .card-body h4 {
+  color: var(--success);
+}
+
+.section[id^="s1"] .section-header::before {
+  content: '1과목';
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--success);
+  background: var(--success-dim);
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+/* 과목 전환 구분선 (2과목 시작점) */
+.section[id="s2-1"] {
+  margin-top: 48px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+}
+
+/* 사이드바 네비 과목색 (nth-child로 순서에 맞게 세분화) */
+.nav-group:nth-child(1) .nav-link:hover,
+.nav-group:nth-child(1) .nav-link.active {
+  color: var(--success);
+  background: var(--success-dim);
+}
+.nav-group:nth-child(2) .nav-link:hover,
+.nav-group:nth-child(2) .nav-link.active {
+  color: var(--primary);
+  background: var(--primary-dim);
+}
+.nav-group:nth-child(3) .nav-link:hover,
+.nav-group:nth-child(3) .nav-link.active {
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+@media (min-width: 900px) {
+  .nav-group:nth-child(1) .nav-link:hover,
+  .nav-group:nth-child(1) .nav-link.active {
+    border-left-color: var(--success);
+  }
+  .nav-group:nth-child(2) .nav-link:hover,
+  .nav-group:nth-child(2) .nav-link.active {
+    border-left-color: var(--primary);
+  }
+  .nav-group:nth-child(3) .nav-link:hover,
+  .nav-group:nth-child(3) .nav-link.active {
+    border-left-color: var(--accent);
+  }
+}
+
+/* 바텀 네비 활성색 */
+#bottomNav a[data-subject="s1"].active {
+  color: var(--success);
+}
+#bottomNav a[data-subject="s2"].active {
+  color: var(--primary);
+}
+#bottomNav a[data-subject="s3"].active {
+  color: var(--accent);
+}
+
+/* 메모 / formula 과목색 */
+.section[id^="s1"] .memo {
+  color: var(--success);
+  background: var(--success-dim);
+  border-color: color-mix(in srgb, var(--success) 22%, transparent);
+}
+.section[id^="s2"] .memo {
+  color: var(--primary);
+  background: var(--primary-dim);
+  border-color: color-mix(in srgb, var(--primary) 22%, transparent);
+}
+.section[id^="s3"] .memo {
+  color: var(--accent);
+  background: var(--accent-dim);
+  border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.section[id^="s1"] .formula {
+  border-left-color: var(--success);
+}
+.section[id^="s2"] .formula {
+  border-left-color: var(--primary);
+}
+.section[id^="s3"] .formula {
+  border-left-color: var(--accent);
+}
+
 /* ── 2과목: 데이터 탐색 (Sky Blue) ── */
 .section[id^="s2"] {
   --subject: var(--primary);
@@ -1214,6 +1340,92 @@ tr:hover td { background: var(--primary-dim); }
 }
 .section[id^="s3"] .formula {
   border-left-color: var(--accent);
+}
+
+/* ── 4과목: 빅데이터 결과 해석 및 활용 (Orange / Amber) ── */
+.section[id^="s4"] {
+  --subject: var(--warning, #f59e0b);
+  --subject-dim: var(--warning-dim, rgba(245, 158, 11, 0.12));
+  --subject-glow: var(--warning-glow, rgba(245, 158, 11, 0.35));
+}
+
+.section[id^="s4"] .section-num {
+  color: var(--warning, #f59e0b);
+  background: var(--warning-dim, rgba(245, 158, 11, 0.12));
+}
+
+.section[id^="s4"] .card-header .dot {
+  background: var(--warning, #f59e0b);
+  box-shadow: 0 0 0 4px var(--warning-dim, rgba(245, 158, 11, 0.12));
+}
+
+.section[id^="s4"] .card.open .card-header .dot {
+  box-shadow: 0 0 0 5px var(--warning-glow, rgba(245, 158, 11, 0.35));
+}
+
+.section[id^="s4"] .card:hover {
+  border-color: color-mix(in srgb, var(--warning, #f59e0b) 32%, var(--border));
+}
+
+.section[id^="s4"] .card.open .card-header .chevron {
+  color: var(--warning, #f59e0b);
+  background: var(--warning-dim, rgba(245, 158, 11, 0.12));
+}
+
+.section[id^="s4"] .card-body h4 {
+  color: var(--warning, #f59e0b);
+}
+
+.section[id^="s4"] .section-header::before {
+  content: '4과목';
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--warning, #f59e0b);
+  background: var(--warning-dim, rgba(245, 158, 11, 0.12));
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+/* 과목 전환 구분선 (4과목 시작점) */
+.section[id="s4-1"] {
+  margin-top: 48px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+}
+
+/* 사이드바 네비 과목색 (4번째 그룹 추가) */
+.nav-group:nth-child(4) .nav-link:hover,
+.nav-group:nth-child(4) .nav-link.active {
+  color: var(--warning, #f59e0b);
+  background: var(--warning-dim, rgba(245, 158, 11, 0.12));
+}
+
+@media (min-width: 900px) {
+  .nav-group:nth-child(4) .nav-link:hover,
+  .nav-group:nth-child(4) .nav-link.active {
+    border-left-color: var(--warning, #f59e0b);
+  }
+}
+
+/* 바텀 네비 활성색 */
+#bottomNav a[data-subject="s4"].active {
+  color: var(--warning, #f59e0b);
+}
+
+/* 메모 / formula 과목색 */
+.section[id^="s4"] .memo {
+  color: var(--warning, #f59e0b);
+  background: var(--warning-dim, rgba(245, 158, 11, 0.12));
+  border-color: color-mix(in srgb, var(--warning, #f59e0b) 22%, transparent);
+}
+
+.section[id^="s4"] .formula {
+  border-left-color: var(--warning, #f59e0b);
 }
 
 /* ---------- Responsive: Tablet ---------- */

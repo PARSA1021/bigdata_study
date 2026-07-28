@@ -25,21 +25,21 @@
     <meta name="apple-mobile-web-app-title" content="빅분기 요약노트" />
     <meta
       name="description"
-      content="빅데이터분석기사 2과목·3과목 필기 핵심 요약노트. 데이터 탐색, 모델링, 딥러닝까지 암기 포인트 완벽 정리."
+      content="빅데이터분석기사 필기 핵심 요약노트. 분석 기획, 데이터 탐색, 모델링, 결과 해석까지 암기 포인트 완벽 정리."
     />
     <meta name="author" content="아답터" />
     <meta
       property="og:title"
-      content="빅데이터분석기사 필기 · 2·3과목 요약노트"
+      content="빅데이터분석기사 필기 · 1·2·3·4과목 요약노트"
     />
     <meta
       property="og:description"
-      content="데이터 탐색 및 모델링 영역의 핵심 암기 포인트와 상세 이론을 완벽하게 정리했습니다."
+      content="빅데이터 분석 기획, 탐색, 모델링 및 결과 해석 영역의 핵심 암기 포인트와 상세 이론을 완벽하게 정리했습니다."
     />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ko_KR" />
 
-    <title>빅데이터분석기사 필기 · 2·3과목 집중 완벽대비 요약노트</title>
+    <title>빅데이터분석기사 필기 집중 완벽대비 요약노트</title>
 
     <!-- Fonts (preload + display=swap) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -86,7 +86,15 @@
     <a class="skip-link" href="#content">본문으로 건너뛰기</a>
 
     <!-- Scroll Progress -->
-    <div class="scroll-progress" id="scrollProgress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="페이지 스크롤 진행률"></div>
+    <div
+      class="scroll-progress"
+      id="scrollProgress"
+      role="progressbar"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      aria-valuenow="0"
+      aria-label="페이지 스크롤 진행률"
+    ></div>
 
     <!-- Top Bar -->
     <header class="topbar" role="banner">
@@ -101,9 +109,7 @@
         <span aria-hidden="true">☰</span>
       </button>
 
-      <div class="topbar-title" id="topbarTitle">
-        빅데이터분석기사 (2·3과목)
-      </div>
+      <div class="topbar-title" id="topbarTitle">빅데이터분석기사</div>
 
       <div class="header-actions">
         <button
@@ -139,7 +145,15 @@
           enterkeyhint="search"
           aria-label="요약노트 검색"
         />
-        <button type="button" class="search-clear" id="mobileSearchClear" aria-label="검색어 지우기" hidden>×</button>
+        <button
+          type="button"
+          class="search-clear"
+          id="mobileSearchClear"
+          aria-label="검색어 지우기"
+          hidden
+        >
+          ×
+        </button>
       </div>
     </div>
 
@@ -161,7 +175,7 @@
     >
       <div class="sidebar-logo">
         <div class="badge" id="logo-badge">개정 2026.02.05</div>
-        <h1 id="logo-title">빅데이터분석기사<br />2·3과목 요약노트</h1>
+        <h1 id="logo-title">빅데이터분석기사<br />1·2·3·4과목 요약노트</h1>
         <p id="logo-sub">아답터 · IT의 답을 터득하다</p>
       </div>
 
@@ -178,16 +192,34 @@
             enterkeyhint="search"
             aria-label="요약노트 검색"
           />
-          <button type="button" class="search-clear" id="sidebarSearchClear" aria-label="검색어 지우기" hidden>×</button>
+          <button
+            type="button"
+            class="search-clear"
+            id="sidebarSearchClear"
+            aria-label="검색어 지우기"
+            hidden
+          >
+            ×
+          </button>
         </div>
       </div>
 
       <!-- Expand / Collapse controls -->
       <div class="sidebar-actions">
-        <button type="button" class="action-btn" id="expandAllBtn" title="모든 카드 펼치기">
+        <button
+          type="button"
+          class="action-btn"
+          id="expandAllBtn"
+          title="모든 카드 펼치기"
+        >
           <span aria-hidden="true">▾</span> 전체 펼치기
         </button>
-        <button type="button" class="action-btn" id="collapseAllBtn" title="모든 카드 접기">
+        <button
+          type="button"
+          class="action-btn"
+          id="collapseAllBtn"
+          title="모든 카드 접기"
+        >
           <span aria-hidden="true">▸</span> 전체 접기
         </button>
       </div>
@@ -205,11 +237,11 @@
         </div>
         <h2 id="hero-title">
           빅데이터분석기사<br />
-          <span>2과목 · 3과목 완벽대비</span> 요약노트
+          <span>완벽대비</span> 요약노트
         </h2>
         <p id="hero-desc">
-          데이터 탐색 및 모델링 영역의 핵심 암기 포인트와 상세 이론을 완벽하게
-          정리했습니다.
+          빅데이터 분석 기획, 탐색, 모델링 및 결과 해석 영역의 핵심 암기
+          포인트와 상세 이론을 완벽하게 정리했습니다.
         </p>
         <div class="hero-stats" id="heroStats" hidden>
           <span class="stat-chip" id="statSections">0개 섹션</span>
@@ -220,12 +252,18 @@
       <!-- Search Result Banner -->
       <div class="search-banner" id="searchBanner" hidden>
         <span id="searchBannerText"></span>
-        <button type="button" class="search-banner-clear" id="searchBannerClear">검색 초기화</button>
+        <button
+          type="button"
+          class="search-banner-clear"
+          id="searchBannerClear"
+        >
+          검색 초기화
+        </button>
       </div>
 
       <!-- 동적 섹션 렌더링 영역 -->
       <div id="content" aria-live="polite">
-        <!-- 로딩 상태 (app.js가 데이터 로드 후 교체) -->
+        <!-- 로딩 상태 (app.js가 data.json 로드 후 교체) -->
         <div class="loading" id="loadingState" role="status" aria-busy="true">
           <div class="loading-spinner" aria-hidden="true"></div>
           <p>
@@ -244,6 +282,15 @@
     <!-- Bottom Navigation (Mobile) -->
     <nav class="bottom-nav" id="bottomNav" aria-label="과목 바로가기">
       <a
+        href="#s1-1"
+        data-subject="s1"
+        class="nav-item-flex"
+        aria-label="1과목 분석기획"
+      >
+        <span class="bn-icon" aria-hidden="true">①</span>
+        <span>분석기획</span>
+      </a>
+      <a
         href="#s2-1"
         data-subject="s2"
         class="nav-item-flex"
@@ -259,7 +306,16 @@
         aria-label="3과목 빅데이터 모델링"
       >
         <span class="bn-icon" aria-hidden="true">③</span>
-        <span>빅데이터 모델링</span>
+        <span>모델링</span>
+      </a>
+      <a
+        href="#s4-1"
+        data-subject="s4"
+        class="nav-item-flex"
+        aria-label="4과목 빅데이터 결과해석"
+      >
+        <span class="bn-icon" aria-hidden="true">④</span>
+        <span>결과해석</span>
       </a>
     </nav>
 

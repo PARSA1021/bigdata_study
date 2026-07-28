@@ -1,5 +1,5 @@
 /**
- * 빅데이터분석기사 요약노트 (2·3과목 집중 버전)
+ * 빅데이터분석기사 요약노트 (1·2·3·4과목 통합 버전)
  * data.json 을 읽어 페이지를 렌더링합니다.
  * 내용 추가/수정은 data.json 만 편집하면 됩니다.
  * v3 — search · expand/collapse · scroll progress · card memory · a11y · theme
@@ -118,12 +118,17 @@
       </article>`;
   }
 
-  // ── 섹션 렌더러 ─────────────────────────────────────────
+  // ── 섹션 렌더러 (4과목 확장) ────────────────────────────
   function renderSection(section) {
-    const subjectClass = section.id.startsWith('s3') ? 'subject-s3' : 'subject-s2';
+    let subject = 's1';
+    if (section.id.startsWith('s2')) subject = 's2';
+    else if (section.id.startsWith('s3')) subject = 's3';
+    else if (section.id.startsWith('s4')) subject = 's4'; // [추가] 4과목 대응
+
+    const subjectClass = `subject-${subject}`;
     const cardsHtml = (section.cards || []).map(renderCard).join('');
     return `
-      <section class="section ${subjectClass}" id="${escapeHtml(section.id)}" data-section data-subject="${section.id.startsWith('s3') ? 's3' : 's2'}">
+      <section class="section ${subjectClass}" id="${escapeHtml(section.id)}" data-section data-subject="${subject}">
         <div class="section-header">
           <span class="section-num">${escapeHtml(section.num)}</span>
           <h2 class="section-title">${trustHtml(section.title)}</h2>
@@ -258,12 +263,10 @@
 
   function highlightText(html, query) {
     if (!query || query.length < 1) return html;
-    // 단순 텍스트 하이라이트 (태그 보호를 위해 텍스트 노드만 처리하는 대신 간단 버전)
     const re = new RegExp(
       `(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
       'gi'
     );
-    // HTML 태그를 일시 보호
     const placeholders = [];
     const protectedHtml = html.replace(/<[^>]+>/g, (m) => {
       placeholders.push(m);
@@ -280,9 +283,6 @@
     const sections = $$('[data-section]');
     let matchCount = 0;
 
-    // 이전 하이라이트 제거를 위해 재렌더는 하지 않고, 표시/숨김만 처리
-    // 하이라이트는 카드 제목 + body 텍스트에 적용
-
     cards.forEach((card) => {
       const titleEl = card.querySelector('h3');
       const bodyEl = card.querySelector('.card-body');
@@ -295,14 +295,12 @@
       card.classList.toggle('card-hidden', !matched);
       if (matched) matchCount++;
 
-      // 하이라이트 (제목만 안전하게)
       if (titleEl && titleEl.dataset.origTitle === undefined) {
         titleEl.dataset.origTitle = titleEl.innerHTML;
       }
       if (titleEl) {
         if (q && matched) {
           const orig = titleEl.dataset.origTitle;
-          // 점(span.dot)은 유지
           const dotMatch = orig.match(/^<span class="dot"[^>]*><\/span>/);
           const rest = orig.replace(/^<span class="dot"[^>]*><\/span>/, '');
           const plainRest = rest.replace(/<[^>]+>/g, '');
@@ -315,26 +313,22 @@
       }
     });
 
-    // 섹션: 내부 카드가 하나도 안 보이면 숨김
     sections.forEach((sec) => {
       const visibleCards = sec.querySelectorAll('.card:not(.card-hidden)');
       sec.classList.toggle('section-hidden', visibleCards.length === 0);
     });
 
-    // 네비 dim
     $$('.nav-link').forEach((link) => {
       const id = link.dataset.navId;
       if (!id) return;
       const target = document.getElementById(id);
       if (!target) return;
-      // 섹션 또는 카드
       const hidden =
         target.classList.contains('section-hidden') ||
         target.classList.contains('card-hidden');
       link.classList.toggle('dimmed', q && hidden);
     });
 
-    // 배너
     const banner = $('#searchBanner');
     const bannerText = $('#searchBannerText');
     if (banner && bannerText) {
@@ -349,7 +343,6 @@
       }
     }
 
-    // clear 버튼
     ['sidebarSearchClear', 'mobileSearchClear'].forEach((id) => {
       const btn = $('#' + id);
       if (btn) btn.hidden = !q;
@@ -377,7 +370,6 @@
     bar.style.width = pct + '%';
     bar.setAttribute('aria-valuenow', Math.round(pct));
 
-    // 맨 위로 버튼 표시
     const toTop = $('#toTop');
     if (toTop) {
       toTop.classList.toggle('visible', scrollTop > 320);
@@ -386,7 +378,6 @@
 
   // ── 메인 렌더 ───────────────────────────────────────────
   function render(data) {
-    // 사이드바 로고
     const badge = $('#logo-badge');
     const title = $('#logo-title');
     const sub = $('#logo-sub');
@@ -402,11 +393,9 @@
       sub.textContent = data.meta.publisher + ' · IT의 답을 터득하다';
     }
 
-    // 네비게이션
     const navEl = $('#nav-container');
     if (navEl) navEl.innerHTML = renderNav(data.nav);
 
-    // 히어로
     const heroVersion = $('#hero-version');
     const heroTitle = $('#hero-title');
     const heroDesc = $('#hero-desc');
@@ -416,13 +405,12 @@
     }
     if (heroTitle) {
       heroTitle.innerHTML =
-        '빅데이터분석기사<br><span>2과목 · 3과목 완벽대비</span> 요약노트';
+        '빅데이터분석기사<br><span>완벽대비</span> 요약노트';
     }
     if (heroDesc && data.meta?.description) {
       heroDesc.textContent = data.meta.description;
     }
 
-    // 통계
     const sections = data.sections || [];
     const cardCount = sections.reduce(
       (n, s) => n + (s.cards ? s.cards.length : 0),
@@ -437,20 +425,17 @@
       if (statCards) statCards.textContent = `${cardCount}개 카드`;
     }
 
-    // 본문
     const content = $('#content');
     if (content) {
       content.innerHTML = sections.map(renderSection).join('');
       content.removeAttribute('aria-busy');
     }
 
-    // 푸터
     const footer = $('#footer');
     if (footer && data.footer) {
       footer.innerHTML = `<p>${trustHtml(data.footer)}</p>`;
     }
 
-    // 문서 제목 보강
     if (data.meta?.title) {
       document.title = data.meta.title;
     }
@@ -462,7 +447,6 @@
 
   // ── 이벤트 바인딩 (위임) ────────────────────────────────
   function bindEvents() {
-    // 카드 토글 (클릭 + 키보드)
     document.addEventListener('click', (e) => {
       const header = e.target.closest('[data-toggle]');
       if (header) toggleCard(header);
@@ -477,7 +461,6 @@
       }
     });
 
-    // 테마
     applyTheme(getPreferredTheme());
     const themeBtn = $('#themeToggleBtn');
     if (themeBtn) {
@@ -498,7 +481,6 @@
         }
       });
 
-    // 모바일 메뉴
     const menuBtn = $('#menuBtn');
     const overlay = $('#overlay');
     if (menuBtn) {
@@ -511,7 +493,6 @@
       overlay.addEventListener('click', () => setSidebarOpen(false));
     }
 
-    // ESC
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         setSidebarOpen(false);
@@ -523,7 +504,6 @@
       }
     });
 
-    // 네비 링크
     document.addEventListener('click', (e) => {
       const link = e.target.closest('.nav-link, #bottomNav a');
       if (!link) return;
@@ -534,7 +514,6 @@
         if (target) {
           e.preventDefault();
           setSidebarOpen(false);
-          // 검색으로 숨겨진 경우 잠시 표시
           if (target.classList.contains('card-hidden') || target.classList.contains('section-hidden')) {
             clearSearch();
           }
@@ -546,7 +525,6 @@
       }
     });
 
-    // 맨 위로
     const toTop = $('#toTop');
     if (toTop) {
       const scrollTop = () =>
@@ -560,13 +538,11 @@
       });
     }
 
-    // 전체 펼치기 / 접기
     const expandBtn = $('#expandAllBtn');
     const collapseBtn = $('#collapseAllBtn');
     if (expandBtn) expandBtn.addEventListener('click', expandAllCards);
     if (collapseBtn) collapseBtn.addEventListener('click', collapseAllCards);
 
-    // 검색
     const sidebarInput = $('#sidebarSearchInput');
     const mobileInput = $('#mobileSearchInput');
     const searchToggle = $('#searchToggleBtn');
@@ -574,7 +550,6 @@
 
     function onSearchInput(e) {
       const val = e.target.value;
-      // 동기화
       if (sidebarInput && e.target !== sidebarInput) sidebarInput.value = val;
       if (mobileInput && e.target !== mobileInput) mobileInput.value = val;
       runSearch(val);
@@ -599,7 +574,6 @@
       });
     }
 
-    // clear 버튼들
     ['sidebarSearchClear', 'mobileSearchClear', 'searchBannerClear'].forEach(
       (id) => {
         const btn = $('#' + id);
@@ -607,7 +581,6 @@
       }
     );
 
-    // 스크롤
     let ticking = false;
     window.addEventListener(
       'scroll',
@@ -674,9 +647,14 @@
     }
   }
 
+  // ── 바텀 네비게이션 과목 연동 (4과목 확장) ──────────────
   function updateBottomNav(currentId) {
     const bottomLinks = $$('#bottomNav a');
-    const subject = currentId.startsWith('s3') ? 's3' : 's2';
+    let subject = 's1';
+    if (currentId.startsWith('s2')) subject = 's2';
+    else if (currentId.startsWith('s3')) subject = 's3';
+    else if (currentId.startsWith('s4')) subject = 's4'; // [추가] 4과목 활성화 매칭
+
     bottomLinks.forEach((a) => {
       a.classList.toggle('active', a.dataset.subject === subject);
     });
