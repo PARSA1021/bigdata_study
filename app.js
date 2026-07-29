@@ -44,6 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let wrongIds = new Set();
   let solvedMap = new Map(); // quizId -> boolean(correct)
   let chosenAnswerMap = new Map(); // quizId -> selected option index
+  const QUIZ_PAGE_SIZE = 10;
+  let currentPage = 1;
 
   function loadBookmarks() {
     try {
@@ -195,6 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     document.getElementById("shuffleBtn").addEventListener("click", () => {
       shuffleArray(workingQuizzes);
+      currentPage = 1;
       renderQuizzes(workingQuizzes);
     });
     document.getElementById("resetQuizBtn").addEventListener("click", () => {
@@ -224,10 +227,75 @@ document.addEventListener("DOMContentLoaded", () => {
       if (quizFilter.onlyBookmarked && !bookmarks.has(q.id)) return false;
       return true;
     });
+    currentPage = 1;
     renderQuizzes(workingQuizzes);
   }
 
   // 1-4. 퀴즈 렌더링
+  // 문제 본문에 포함된 줄바꿈과 ㄱ.ㄴ.ㄷ.ㄹ. 보기를 보기 좋게 구조화해서 렌더링
+  function formatQuestionText(text) {
+    const lines = String(text).split("\n");
+    const introLines = [];
+    const statementLines = [];
+    let inStatements = false;
+    lines.forEach(raw => {
+      const line = raw.trim();
+      if (line === "") return;
+      if (/^[ㄱㄴㄷㄹㅁ]\.\s?/.test(line)) {
+        inStatements = true;
+        statementLines.push(line);
+      } else if (!inStatements) {
+        introLines.push(line);
+      } else {
+        // 보기 항목이 줄바꿈으로 이어지는 경우 마지막 항목에 이어붙임
+        statementLines[statementLines.length - 1] += " " + line;
+      }
+    });
+    let html = `<div class="question-intro">${introLines.join("<br>")}</div>`;
+    if (statementLines.length > 0) {
+      html += `<ul class="statement-list">${statementLines.map(l => {
+        const m = l.match(/^([ㄱㄴㄷㄹㅁ])\.\s?(.*)$/);
+        if (!m) return `<li>${l}</li>`;
+        return `<li><span class="statement-tag">${m[1]}</span><span class="statement-text">${m[2]}</span></li>`;
+      }).join("")}</ul>`;
+    }
+    return html;
+  }
+
+  function renderPaginationControls(totalItems, totalPages, position) {
+    if (totalPages <= 1) return "";
+    const start = (currentPage - 1) * QUIZ_PAGE_SIZE + 1;
+    const end = Math.min(currentPage * QUIZ_PAGE_SIZE, totalItems);
+
+    // 페이지 번호 버튼: 현재 페이지 주변 몇 개만 표시
+    const pageNumbers = [];
+    const windowSize = 2;
+    for (let p = 1; p <= totalPages; p++) {
+      if (p === 1 || p === totalPages || (p >= currentPage - windowSize && p <= currentPage + windowSize)) {
+        pageNumbers.push(p);
+      } else if (pageNumbers[pageNumbers.length - 1] !== "…") {
+        pageNumbers.push("…");
+      }
+    }
+
+    const pageBtns = pageNumbers.map(p =>
+      p === "…"
+        ? `<span class="page-ellipsis">…</span>`
+        : `<button class="page-btn ${p === currentPage ? 'active' : ''}" data-page="${p}">${p}</button>`
+    ).join("");
+
+    return `
+      <div class="quiz-pagination" data-position="${position}">
+        <span class="page-range-label">${start}–${end} / 전체 ${totalItems}문항</span>
+        <div class="page-controls">
+          <button class="page-nav-btn" data-page="prev" ${currentPage === 1 ? 'disabled' : ''}>‹ 이전</button>
+          <div class="page-numbers">${pageBtns}</div>
+          <button class="page-nav-btn" data-page="next" ${currentPage === totalPages ? 'disabled' : ''}>다음 ›</button>
+        </div>
+      </div>
+    `;
+  }
+
   function renderQuizzes(quizzes) {
     if (!quizzes || quizzes.length === 0) {
       quizContainer.innerHTML = `<div class="loading">조건에 맞는 문제가 없습니다. 필터를 조정해보세요.</div>`;
@@ -235,8 +303,19 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    let html = "";
-    quizzes.forEach((quiz, index) => {
+    const totalItems = quizzes.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / QUIZ_PAGE_SIZE));
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+    const pageStart = (currentPage - 1) * QUIZ_PAGE_SIZE;
+    const pageItems = quizzes.slice(pageStart, pageStart + QUIZ_PAGE_SIZE);
+
+    const topPagination = renderPaginationControls(totalItems, totalPages, "top");
+    const bottomPagination = renderPaginationControls(totalItems, totalPages, "bottom");
+
+    let html = topPagination;
+    pageItems.forEach((quiz, i) => {
+      const index = pageStart + i; // 필터링된 목록 내 전체 순번(0-base)
       let optionsHtml = "";
       const optionsArray = quiz.choices || quiz.options;
       optionsArray.forEach((opt, optIdx) => {
@@ -250,10 +329,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let whyWrongHtml = "";
       if (quiz.whyWrong && Array.isArray(quiz.whyWrong)) {
-        whyWrongHtml = `<ul style="margin-top: 10px; font-size: 0.9em; color: var(--text-muted); list-style-type: none; padding-left: 0;">`;
-        quiz.whyWrong.forEach((reason, i) => {
+        whyWrongHtml = `<ul class="why-wrong-list">`;
+        quiz.whyWrong.forEach((reason, i2) => {
             if (reason !== "정답") {
-                whyWrongHtml += `<li style="margin-bottom: 4px;"><strong>${i+1}번 오답 노트:</strong> ${reason}</li>`;
+                const letter = String.fromCharCode(65 + i2);
+                whyWrongHtml += `<li><strong>${letter}:</strong> ${reason}</li>`;
             }
         });
         whyWrongHtml += `</ul>`;
@@ -270,7 +350,10 @@ document.addEventListener("DOMContentLoaded", () => {
             <span class="quiz-meta">${SUBJECT_NAMES[quiz.subject] || ""} ${diffLabel ? "· " + diffLabel : ""}</span>
             <button class="bookmark-btn ${isBookmarked ? 'active' : ''}" data-quiz-id="${quiz.id}" title="즐겨찾기">${isBookmarked ? "⭐" : "☆"}</button>
           </div>
-          <div class="quiz-question">Q${index + 1}. ${quiz.question}</div>
+          <div class="quiz-question">
+            <span class="q-number">Q${index + 1}</span>
+            <div class="q-body">${formatQuestionText(quiz.question)}</div>
+          </div>
           <div class="quiz-options">
             ${optionsHtml}
           </div>
@@ -282,7 +365,20 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
     });
+    html += bottomPagination;
     quizContainer.innerHTML = html;
+
+    // 페이지네이션 버튼 이벤트
+    quizContainer.querySelectorAll(".page-btn, .page-nav-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const val = btn.dataset.page;
+        if (val === "prev") currentPage = Math.max(1, currentPage - 1);
+        else if (val === "next") currentPage = Math.min(totalPages, currentPage + 1);
+        else currentPage = parseInt(val, 10);
+        renderQuizzes(workingQuizzes);
+        quizContentEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
 
     // 옵션 상태 마무리 처리 (아이콘 표시, 미선택 오답 흐리게, 클릭 잠금)
     function finalizeCard(card, answerIdx, chosenIdx, isCorrect) {
@@ -303,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 이미 푼 문제 상태 복원
-    quizzes.forEach(quiz => {
+    pageItems.forEach(quiz => {
       if (!solvedMap.has(quiz.id)) return;
       const card = document.getElementById(quiz.id);
       if (!card) return;
