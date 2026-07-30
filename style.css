@@ -831,3 +831,561 @@ mark {
     display: none;
   }
 }
+
+/* =========================================================
+   NEW: Mode Tabs, CBT Timer, OMR Drawer, Split View & Stats
+   ========================================================= */
+
+/* Topbar Badges & Icons */
+.badge-tag {
+  font-size: 0.72rem;
+  background: linear-gradient(135deg, var(--primary-color), #5856D6);
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  margin-left: 6px;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+.split-btn.active {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+/* Mode Switcher Tabs */
+.mode-tabs {
+  display: flex;
+  background-color: var(--border-color);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  margin-bottom: 24px;
+  gap: 4px;
+}
+
+.mode-tab {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.mode-tab:hover {
+  color: var(--text-color);
+}
+
+.mode-tab.active {
+  background-color: var(--surface-color);
+  color: var(--primary-color);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Mock Exam Header & Timer */
+.mock-banner {
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.1), rgba(88, 86, 214, 0.1));
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color);
+}
+
+.mock-info-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.timer-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.timer-value {
+  font-family: 'SF Mono', 'Courier New', monospace;
+  font-size: 1.6rem;
+  color: var(--primary-color);
+  background-color: var(--surface-color);
+  padding: 4px 14px;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}
+.timer-value.warning {
+  color: var(--danger-color);
+  animation: blink 1s infinite;
+}
+@keyframes blink { 50% { opacity: 0.5; } }
+
+.mock-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.omr-toggle-btn {
+  background-color: var(--surface-color);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.submit-exam-btn {
+  background-color: var(--danger-color) !important;
+  border-color: var(--danger-color) !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+/* OMR Answer Sheet Drawer */
+.omr-drawer {
+  position: fixed;
+  top: var(--topbar-height);
+  right: 0;
+  width: 340px;
+  height: calc(100vh - var(--topbar-height) - 60px);
+  z-index: 1050;
+  border-left: 0.5px solid var(--border-color);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.omr-drawer.hidden {
+  transform: translateX(100%);
+  display: flex !important; /* Allow transition */
+  pointer-events: none;
+}
+
+.omr-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 0.5px solid var(--border-color);
+}
+
+.omr-summary {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  border-bottom: 0.5px solid var(--border-color);
+}
+.omr-summary strong { color: var(--primary-color); }
+
+.omr-grid {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  padding: 14px 0;
+}
+
+.omr-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.78rem;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.omr-item:hover {
+  border-color: var(--primary-color);
+}
+
+.omr-item.answered {
+  background-color: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+}
+
+.omr-item.flagged {
+  border: 2px solid #FF9500;
+}
+.omr-item.flagged::after {
+  content: '🚩';
+  position: absolute;
+  top: -4px;
+  right: -2px;
+  font-size: 0.65rem;
+}
+
+.omr-footer {
+  padding-top: 12px;
+  border-top: 0.5px solid var(--border-color);
+}
+
+.w-full { width: 100%; }
+
+/* Flag / Bookmark actions in Quiz Card */
+.quiz-actions-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flag-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+.flag-btn.active {
+  background-color: rgba(255, 149, 0, 0.15);
+  border-color: #FF9500;
+  color: #FF9500;
+  font-weight: 600;
+}
+
+/* Cross-linking concept button (Enhanced UX) */
+.concept-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, rgba(0, 122, 255, 0.12), rgba(88, 86, 214, 0.12));
+  border: 1.5px solid var(--primary-color);
+  color: var(--primary-color);
+  border-radius: var(--radius-full);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.15);
+  transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.concept-link-btn:hover {
+  background: linear-gradient(135deg, var(--primary-color), #5856D6);
+  color: #fff;
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 122, 255, 0.3);
+}
+.concept-link-btn:active {
+  transform: scale(0.96);
+}
+
+/* Concept Preview Modal */
+.concept-preview-modal {
+  max-width: 640px;
+  border: 1.5px solid var(--primary-color);
+  animation: modalPopIn 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes modalPopIn {
+  0% { opacity: 0; transform: scale(0.92) translateY(10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-title-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+#conceptModalTitle {
+  font-size: 1.25rem;
+  color: var(--text-color);
+}
+
+#conceptModalBody {
+  font-size: 0.98rem;
+  line-height: 1.6;
+}
+
+#conceptModalBody .memo,
+#conceptModalBody .note,
+#conceptModalBody .formula {
+  margin: 14px 0;
+}
+
+#conceptModalBody table {
+  margin: 16px 0;
+}
+
+/* Card Pulse Highlight Animation */
+@keyframes highlightPulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.7); }
+  50% { box-shadow: 0 0 0 12px rgba(0, 122, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 122, 255, 0); }
+}
+.card.highlight-target {
+  animation: highlightPulse 1.5s ease-in-out 2;
+  border: 2px solid var(--primary-color);
+}
+
+/* Split View Layout (Desktop / Tablet) */
+@media (min-width: 900px) {
+  .layout.split-view {
+    max-width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .layout.split-view .sidebar {
+    display: none !important;
+  }
+  .layout.split-view .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+  .layout.split-view .content-wrapper {
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .layout.split-view #content,
+  .layout.split-view #quiz-content {
+    display: block !important;
+    height: calc(100vh - var(--topbar-height) - 40px);
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+}
+
+/* Modal Overlay & Card */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-card {
+  background-color: var(--surface-color);
+  width: 100%;
+  max-width: 580px;
+  max-height: 85vh;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.modal-header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 0.5px solid var(--border-color);
+}
+.modal-header h2 { font-size: 1.25rem; }
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.stats-summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-box {
+  background-color: var(--bg-color);
+  border-radius: var(--radius-md);
+  padding: 14px 10px;
+  text-align: center;
+}
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.stats-section-title {
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.subject-stats-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.subject-stat-item {
+  background-color: var(--bg-color);
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+}
+
+.subject-stat-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.progress-bar-bg {
+  height: 8px;
+  background-color: var(--border-color);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: var(--primary-color);
+  border-radius: var(--radius-full);
+  transition: width 0.5s ease;
+}
+.progress-bar-fill.warning {
+  background-color: var(--danger-color);
+}
+.progress-bar-fill.good {
+  background-color: var(--success-color);
+}
+
+.weakness-alert {
+  margin-top: 20px;
+  padding: 14px;
+  background-color: rgba(255, 59, 48, 0.1);
+  border: 1px solid var(--danger-color);
+  border-radius: var(--radius-md);
+  color: var(--danger-color);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.modal-footer {
+  padding: 16px 20px;
+  border-top: 0.5px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.text-danger {
+  border-color: var(--danger-color) !important;
+  color: var(--danger-color) !important;
+}
+
+/* Result Modal Scorecard */
+.result-status-badge {
+  text-align: center;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.result-status-badge.pass {
+  background-color: rgba(52, 199, 89, 0.15);
+  color: var(--success-color);
+  border: 1px solid var(--success-color);
+}
+.result-status-badge.fail {
+  background-color: rgba(255, 59, 48, 0.15);
+  color: var(--danger-color);
+  border: 1px solid var(--danger-color);
+}
+
+/* Mobile Bottom Nav Bar */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: none;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 0.5px solid var(--border-color);
+  z-index: 990;
+}
+
+.bottom-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px 0;
+  gap: 2px;
+}
+
+.nav-icon { font-size: 1.2rem; }
+.nav-label { font-size: 0.72rem; font-weight: 500; }
+
+.bottom-nav-item.active {
+  color: var(--primary-color);
+}
+
+@media (max-width: 767px) {
+  .bottom-nav {
+    display: flex;
+  }
+  .omr-drawer {
+    width: 100%;
+    height: 75vh;
+    top: auto;
+    bottom: 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    border-left: none;
+    border-top: 0.5px solid var(--border-color);
+  }
+  .omr-drawer.hidden {
+    transform: translateY(100%);
+  }
+  .to-top-btn {
+    bottom: 75px;
+  }
+  .content-wrapper {
+    padding-bottom: 100px;
+  }
+  .topbar-title .badge-tag {
+    display: none;
+  }
+}
