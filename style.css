@@ -216,7 +216,7 @@ h1, h2, h3, h4 {
 }
 .search-box input {
   width: 100%;
-  padding: 10px 10px 10px 36px;
+  padding: 10px 32px 10px 36px;
   border: none;
   border-radius: var(--radius-sm);
   background-color: var(--border-color); /* Matches iOS search bar */
@@ -226,6 +226,27 @@ h1, h2, h3, h4 {
   transition: background-color var(--transition);
 }
 .search-box input:focus { box-shadow: 0 0 0 2px var(--primary-color); }
+.search-clear-btn {
+  position: absolute;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--text-muted);
+  color: var(--surface-color);
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.7rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+.search-clear-btn:hover { opacity: 1; }
 
 .sidebar-actions {
   display: flex;
@@ -661,6 +682,20 @@ mark {
   font-weight: 700;
   transition: all 0.2s;
 }
+.option-keycap {
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--surface-hover);
+  border: 1px solid var(--border-color);
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: 0.85;
+}
+@media (max-width: 767px) {
+  .option-keycap { display: none; }
+}
 .option-text { flex: 1; }
 .option-icon { flex: 0 0 auto; font-size: 1rem; font-weight: 700; opacity: 0; transform: scale(0.6); transition: all 0.2s; }
 
@@ -950,7 +985,24 @@ mark {
   font-weight: 600;
 }
 
-/* OMR Answer Sheet Drawer */
+/* OMR Answer Sheet Overlay & Drawer */
+.omr-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  z-index: 1040;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+}
+.omr-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 .omr-drawer {
   position: fixed;
   top: var(--topbar-height);

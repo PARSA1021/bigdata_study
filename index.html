@@ -153,6 +153,7 @@
             id="searchInput"
             placeholder="키워드 검색... (Ctrl/⌘+K)"
           />
+          <button id="clearSearchBtn" class="search-clear-btn hidden" aria-label="검색어 지우기">✕</button>
         </div>
         <div id="searchStatus" class="search-status hidden"></div>
         <div class="sidebar-actions">
@@ -212,6 +213,10 @@
                   <button id="submitExamBtn" class="btn-small submit-exam-btn">🏁 최종 제출하기</button>
                 </div>
               </div>
+              <div class="mock-presets" style="margin-top: 14px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                <button id="mockPreset10th" class="btn-small active" style="background-color:var(--primary-color); color:#fff; border-color:var(--primary-color);">🏆 10회 기출 실전 모의고사 (80제)</button>
+                <button id="mockPresetRandom" class="btn-small">🔀 랜덤과목 조합 모의고사 (80제)</button>
+              </div>
             </div>
 
             <div id="quiz-toolbar" class="quiz-toolbar"></div>
@@ -221,6 +226,9 @@
         </div>
       </main>
     </div>
+
+    <!-- OMR 답안지 오버레이 (모바일 터치 닫기) -->
+    <div id="omrOverlay" class="omr-overlay hidden"></div>
 
     <!-- OMR 답안지 드로어/패널 -->
     <div id="omrDrawer" class="omr-drawer blur-glass hidden">

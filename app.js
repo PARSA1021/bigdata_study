@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const statsToggleBtn = document.getElementById("statsToggleBtn");
   const navEl = document.getElementById("nav-container");
   const searchInput = document.getElementById("searchInput");
+  const clearSearchBtn = document.getElementById("clearSearchBtn");
   const searchStatusEl = document.getElementById("searchStatus");
   const themeBtn = document.getElementById("themeToggleBtn");
   const menuBtn = document.getElementById("menuBtn");
@@ -39,9 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const openOmrBtn = document.getElementById("openOmrBtn");
   const submitExamBtn = document.getElementById("submitExamBtn");
   const omrSolvedCountEl = document.getElementById("omrSolvedCount");
+  const mockPreset10th = document.getElementById("mockPreset10th");
+  const mockPresetRandom = document.getElementById("mockPresetRandom");
 
-  // OMR 드로어
+  // OMR 드로어 & 오버레이
   const omrDrawer = document.getElementById("omrDrawer");
+  const omrOverlay = document.getElementById("omrOverlay");
   const closeOmrBtn = document.getElementById("closeOmrBtn");
   const omrGrid = document.getElementById("omrGrid");
   const omrProgress = document.getElementById("omrProgress");
@@ -79,7 +83,9 @@ document.addEventListener("DOMContentLoaded", () => {
     2: "2과목 · 데이터 탐색",
     3: "3과목 · 데이터 모델링",
     4: "4과목 · 결과 해석",
-    5: "5과목 · 자주 출제되는 개념"
+    5: "5과목 · 자주 출제되는 개념",
+    6: "🏆 10회 기출문제",
+    "exam10th": "🏆 10회 기출문제 (80제)"
   };
 
   const BOOKMARK_KEY = "cbt_bookmarks";
@@ -158,15 +164,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function recordStat(subjectId, isCorrect, cardId) {
-    if (!subjectId || subjectId > 4) return;
     cumulativeStats.totalSolved++;
     if (isCorrect) cumulativeStats.totalCorrect++;
 
-    if (!cumulativeStats.subjects[subjectId]) {
-      cumulativeStats.subjects[subjectId] = { solved: 0, correct: 0 };
+    if (subjectId && cumulativeStats.subjects) {
+      if (!cumulativeStats.subjects[subjectId]) {
+        cumulativeStats.subjects[subjectId] = { solved: 0, correct: 0 };
+      }
+      cumulativeStats.subjects[subjectId].solved++;
+      if (isCorrect) cumulativeStats.subjects[subjectId].correct++;
     }
-    cumulativeStats.subjects[subjectId].solved++;
-    if (isCorrect) cumulativeStats.subjects[subjectId].correct++;
 
     if (cardId) {
       if (!cumulativeStats.concepts) cumulativeStats.concepts = {};
@@ -371,14 +378,44 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 2-1. 실전 모의고사 생성
-  function initMockExam() {
-    const s1 = shuffleArray([...allQuizzes.filter(q => q.subject === 1)]).slice(0, 20);
-    const s2 = shuffleArray([...allQuizzes.filter(q => q.subject === 2)]).slice(0, 20);
-    const s3 = shuffleArray([...allQuizzes.filter(q => q.subject === 3)]).slice(0, 20);
-    const s4 = shuffleArray([...allQuizzes.filter(q => q.subject === 4)]).slice(0, 20);
+  let currentMockPreset = "10th";
 
-    mockQuizzes = [...s1, ...s2, ...s3, ...s4];
-    if (mockQuizzes.length === 0) mockQuizzes = shuffleArray([...allQuizzes]).slice(0, 80);
+  function initMockExam(presetMode) {
+    if (presetMode) currentMockPreset = presetMode;
+
+    if (currentMockPreset === "10th") {
+      mockQuizzes = allQuizzes.filter(q => q.sectionId === "exam10th");
+      if (mockQuizzes.length === 0) {
+        mockQuizzes = allQuizzes.slice(0, 80);
+      }
+    } else {
+      const s1 = shuffleArray([...allQuizzes.filter(q => q.subject === 1 && q.sectionId !== "exam10th")]).slice(0, 20);
+      const s2 = shuffleArray([...allQuizzes.filter(q => q.subject === 2 && q.sectionId !== "exam10th")]).slice(0, 20);
+      const s3 = shuffleArray([...allQuizzes.filter(q => q.subject === 3 && q.sectionId !== "exam10th")]).slice(0, 20);
+      const s4 = shuffleArray([...allQuizzes.filter(q => q.subject === 4 && q.sectionId !== "exam10th")]).slice(0, 20);
+      mockQuizzes = [...s1, ...s2, ...s3, ...s4];
+      if (mockQuizzes.length < 80) {
+        mockQuizzes = shuffleArray([...allQuizzes]).slice(0, 80);
+      }
+    }
+
+    if (mockPreset10th && mockPresetRandom) {
+      if (currentMockPreset === "10th") {
+        mockPreset10th.classList.add("active");
+        mockPreset10th.style.backgroundColor = "var(--primary-color)";
+        mockPreset10th.style.color = "#fff";
+        mockPresetRandom.classList.remove("active");
+        mockPresetRandom.style.backgroundColor = "";
+        mockPresetRandom.style.color = "";
+      } else {
+        mockPresetRandom.classList.add("active");
+        mockPresetRandom.style.backgroundColor = "var(--primary-color)";
+        mockPresetRandom.style.color = "#fff";
+        mockPreset10th.classList.remove("active");
+        mockPreset10th.style.backgroundColor = "";
+        mockPreset10th.style.color = "";
+      }
+    }
 
     mockSolvedMap.clear();
     mockFlaggedSet.clear();
@@ -399,6 +436,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderMockQuizzes();
     renderOmrGrid();
+  }
+
+  if (mockPreset10th) {
+    mockPreset10th.addEventListener("click", () => initMockExam("10th"));
+  }
+  if (mockPresetRandom) {
+    mockPresetRandom.addEventListener("click", () => initMockExam("random"));
   }
 
   function updateTimerDisplay() {
@@ -436,6 +480,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class="quiz-option ${statusClass}" data-quiz-id="${quiz.id}" data-opt-idx="${optIdx}" ${isMockSubmitted ? 'disabled' : ''}>
             <span class="option-badge">${letter}</span>
             <span class="option-text">${opt}</span>
+            <span class="option-keycap">${optIdx + 1}</span>
             <span class="option-icon">${statusClass === 'correct' ? '✓' : (statusClass === 'incorrect' ? '✗' : '')}</span>
           </button>
         `;
@@ -513,9 +558,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const quizId = btn.dataset.quizId;
         const optIdx = parseInt(btn.dataset.optIdx, 10);
         mockSolvedMap.set(quizId, optIdx);
+        updateMockQuizCard(quizId);
+        updateOmrItem(quizId);
         updateOmrCounts();
-        renderMockQuizzes();
-        renderOmrGrid();
       });
     });
 
@@ -524,9 +569,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const quizId = btn.dataset.quizId;
         if (mockFlaggedSet.has(quizId)) mockFlaggedSet.delete(quizId);
         else mockFlaggedSet.add(quizId);
+        updateMockQuizCard(quizId);
+        updateOmrItem(quizId);
         updateOmrCounts();
-        renderMockQuizzes();
-        renderOmrGrid();
       });
     });
 
@@ -536,11 +581,53 @@ document.addEventListener("DOMContentLoaded", () => {
         if (bookmarks.has(quizId)) bookmarks.delete(quizId);
         else bookmarks.add(quizId);
         saveBookmarks();
-        renderMockQuizzes();
+        updateMockQuizCard(quizId);
       });
     });
 
     bindConceptLinkButtons();
+  }
+
+  function updateMockQuizCard(quizId) {
+    const cardEl = document.getElementById(`mock-q-${quizId}`);
+    if (!cardEl) return;
+    const quiz = mockQuizzes.find(q => q.id === quizId);
+    if (!quiz) return;
+
+    const userChosen = mockSolvedMap.get(quizId);
+    const isFlagged = mockFlaggedSet.has(quizId);
+    const isBookmarked = bookmarks.has(quizId);
+
+    const optBtns = cardEl.querySelectorAll(".quiz-option");
+    optBtns.forEach((btn, optIdx) => {
+      let statusClass = "";
+      if (isMockSubmitted) {
+        if (optIdx === quiz.answer) statusClass = "correct";
+        else if (userChosen === optIdx) statusClass = "incorrect";
+        else statusClass = "dimmed";
+      } else if (userChosen === optIdx) {
+        statusClass = "correct";
+      }
+
+      btn.className = `quiz-option ${statusClass}`;
+      if (isMockSubmitted) btn.disabled = true;
+      const icon = btn.querySelector(".option-icon");
+      if (icon) {
+        icon.textContent = statusClass === 'correct' ? '✓' : (statusClass === 'incorrect' ? '✗' : '');
+      }
+    });
+
+    const flagBtn = cardEl.querySelector(".flag-btn");
+    if (flagBtn) {
+      flagBtn.className = `flag-btn ${isFlagged ? 'active' : ''}`;
+      flagBtn.textContent = isFlagged ? '🚩 검토중' : '🏳️ 검토';
+    }
+
+    const bookmarkBtn = cardEl.querySelector(".bookmark-btn");
+    if (bookmarkBtn) {
+      bookmarkBtn.className = `bookmark-btn ${isBookmarked ? 'active' : ''}`;
+      bookmarkBtn.textContent = isBookmarked ? '⭐' : '☆';
+    }
   }
 
   function updateOmrCounts() {
@@ -548,6 +635,20 @@ document.addEventListener("DOMContentLoaded", () => {
     omrSolvedCountEl.textContent = count;
     if (omrProgress) omrProgress.textContent = `${count} / 80`;
     if (omrFlagCount) omrFlagCount.textContent = mockFlaggedSet.size;
+  }
+
+  function updateOmrItem(quizId) {
+    const itemEl = omrGrid.querySelector(`.omr-item[data-quiz-id="${quizId}"]`);
+    if (!itemEl) return;
+
+    const isSolved = mockSolvedMap.has(quizId);
+    const isFlagged = mockFlaggedSet.has(quizId);
+    const chosenOpt = mockSolvedMap.get(quizId);
+    const letter = chosenOpt !== undefined ? String.fromCharCode(65 + chosenOpt) : "";
+
+    itemEl.className = `omr-item ${isSolved ? 'answered' : ''} ${isFlagged ? 'flagged' : ''}`;
+    const choiceEl = itemEl.querySelector(".omr-choice");
+    if (choiceEl) choiceEl.textContent = letter || '-';
   }
 
   function renderOmrGrid() {
@@ -573,7 +674,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const targetEl = document.getElementById(`mock-q-${qId}`);
         if (targetEl) {
           targetEl.scrollIntoView({ behavior: "smooth", block: "center" });
-          if (window.innerWidth < 768) omrDrawer.classList.add("hidden");
+          if (window.innerWidth < 768) toggleOmr(false);
         }
       });
     });
@@ -659,17 +760,24 @@ document.addEventListener("DOMContentLoaded", () => {
     weaknessAlert.classList.add("hidden");
   }
 
-  openOmrBtn.addEventListener("click", () => omrDrawer.classList.toggle("hidden"));
-  closeOmrBtn.addEventListener("click", () => omrDrawer.classList.add("hidden"));
+  function toggleOmr(show) {
+    const isHidden = omrDrawer.classList.contains("hidden");
+    const targetState = show !== undefined ? !show : !isHidden;
+    omrDrawer.classList.toggle("hidden", targetState);
+    if (omrOverlay) omrOverlay.classList.toggle("hidden", targetState);
+  }
+
+  openOmrBtn.addEventListener("click", () => toggleOmr());
+  closeOmrBtn.addEventListener("click", () => toggleOmr(false));
+  if (omrOverlay) omrOverlay.addEventListener("click", () => toggleOmr(false));
   submitExamBtn.addEventListener("click", submitMockExam);
   omrSubmitBtn.addEventListener("click", submitMockExam);
 
   // === 3. 퀴즈 툴바 & 연습 모드 ===
   function renderQuizToolbar() {
-    const subjects = [...new Set(allQuizzes.map(q => q.subject))].sort();
-
     let subjectBtns = `<button class="filter-chip ${quizFilter.subject === 'all' && !quizFilter.conceptCardId ? 'active' : ''}" data-filter="subject" data-value="all">전체과목</button>`;
-    subjects.forEach(s => {
+    subjectBtns += `<button class="filter-chip ${quizFilter.subject === 'exam10th' && !quizFilter.conceptCardId ? 'active' : ''}" data-filter="subject" data-value="exam10th" style="border-color:var(--primary-color);">🏆 10회 기출 (80제)</button>`;
+    [1, 2, 3, 4].forEach(s => {
       subjectBtns += `<button class="filter-chip ${quizFilter.subject === s && !quizFilter.conceptCardId ? 'active' : ''}" data-filter="subject" data-value="${s}">${SUBJECT_NAMES[s] || (s + "과목")}</button>`;
     });
 
@@ -727,7 +835,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener("click", () => {
         const key = btn.dataset.filter;
         let value = btn.dataset.value;
-        if (key === "subject" && value !== "all") value = parseInt(value, 10);
+        if (key === "subject" && value !== "all" && value !== "exam10th") value = parseInt(value, 10);
         quizFilter[key] = value;
         quizFilter.conceptCardId = null;
         applyQuizFilter();
@@ -783,7 +891,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         return false;
       }
-      if (quizFilter.subject !== "all" && q.subject !== quizFilter.subject) return false;
+      if (quizFilter.subject === "exam10th") {
+        if (q.sectionId !== "exam10th") return false;
+      } else if (quizFilter.subject !== "all" && q.subject !== quizFilter.subject) {
+        return false;
+      }
       if (quizFilter.difficulty !== "all" && q.difficulty !== quizFilter.difficulty) return false;
       if (quizFilter.onlyWrong && !wrongIds.has(q.id)) return false;
       if (quizFilter.onlyBookmarked && !bookmarks.has(q.id)) return false;
@@ -888,6 +1000,7 @@ document.addEventListener("DOMContentLoaded", () => {
         optionsHtml += `<button class="quiz-option" data-quiz-id="${quiz.id}" data-opt-idx="${optIdx}">
           <span class="option-badge">${letter}</span>
           <span class="option-text">${opt}</span>
+          <span class="option-keycap">${optIdx + 1}</span>
           <span class="option-icon"></span>
         </button>`;
       });
@@ -1360,7 +1473,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   let searchDebounceTimer = null;
+  if (clearSearchBtn) {
+    clearSearchBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      clearSearchBtn.classList.add("hidden");
+      runSearch("");
+    });
+  }
+
   searchInput.addEventListener("input", (e) => {
+    if (clearSearchBtn) {
+      clearSearchBtn.classList.toggle("hidden", e.target.value.trim() === "");
+    }
     clearTimeout(searchDebounceTimer);
     searchDebounceTimer = setTimeout(() => runSearch(e.target.value), 150);
   });
@@ -1503,6 +1627,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // === 8. PC 키보드 단축키 (1, 2, 3, 4 선택, F 검토, Ctrl+K 검색) ===
   document.addEventListener("keydown", (e) => {
     if (["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
+
+    const isModalOpen = (statsModal && !statsModal.classList.contains("hidden")) ||
+                        (conceptModal && !conceptModal.classList.contains("hidden")) ||
+                        (omrDrawer && !omrDrawer.classList.contains("hidden"));
+    if (isModalOpen) return;
 
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
       e.preventDefault();

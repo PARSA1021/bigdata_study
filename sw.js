@@ -1,9 +1,9 @@
 /**
- * BigData Note PWA Service Worker (v1.0)
+ * BigData Note PWA Service Worker (v2.0)
  * 완벽한 오프라인 환경(노데이터/노와이파이) 지원 Caching Engine
  */
 
-const CACHE_NAME = 'bigdata-master-v1';
+const CACHE_NAME = 'bigdata-master-v2';
 const PRECACHE_ASSETS = [
   './',
   './index.html',
