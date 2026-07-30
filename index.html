@@ -265,6 +265,7 @@
           <div id="subjectStatsContainer" class="subject-stats-list"></div>
 
           <div id="weaknessAlert" class="weakness-alert hidden"></div>
+          <div id="weakConceptContainer" class="weak-concept-container hidden"></div>
         </div>
         <div class="modal-footer">
           <button id="resetStatsBtn" class="btn-small text-danger">기록 초기화</button>
@@ -283,10 +284,23 @@
           </div>
           <button id="closeConceptBtn" class="icon-btn">✕</button>
         </div>
-        <div class="modal-body" id="conceptModalBody">
-          <!-- 개념 내용 및 블록 렌더링 -->
+        
+        <!-- 개념 미리보기 vs 관련 기출문제 탭 -->
+        <div class="concept-modal-tabs">
+          <button id="tabConceptNote" class="concept-tab active">📖 핵심 요약노트</button>
+          <button id="tabConceptQuiz" class="concept-tab">📝 관련 기출문제 (<span id="conceptRelatedCount">0</span>)</button>
+        </div>
+
+        <div class="modal-body">
+          <div id="conceptModalBodyNote" class="concept-modal-pane">
+            <!-- 개념 내용 및 블록 렌더링 -->
+          </div>
+          <div id="conceptModalBodyQuiz" class="concept-modal-pane hidden">
+            <!-- 관련 기출문제 목록 렌더링 -->
+          </div>
         </div>
         <div class="modal-footer">
+          <button id="practiceConceptBtn" class="btn-small btn-primary-accent">🎯 이 개념 문제만 풀어보기</button>
           <button id="jumpToFullNoteBtn" class="btn-small">전체 요약노트 위치로 이동 ↗</button>
           <button id="closeConceptModalBtn" class="quiz-btn">닫기</button>
         </div>

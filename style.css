@@ -1389,3 +1389,197 @@ mark {
     display: none;
   }
 }
+
+/* =========================================================
+   Dual-Way Concept & Problem Linkage Styles
+   ========================================================= */
+
+/* 1. Quiz Card Concept Badge Tag */
+.concept-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: rgba(0, 122, 255, 0.1);
+  color: var(--primary-color);
+  border: 1px solid rgba(0, 122, 255, 0.25);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 8px;
+}
+.concept-badge:hover {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
+/* 2. Card Header Related Quiz Badge */
+.concept-related-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: rgba(52, 199, 89, 0.12);
+  color: var(--success-color);
+  border: 1px solid rgba(52, 199, 89, 0.3);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-right: 8px;
+}
+.concept-related-btn:hover {
+  background-color: var(--success-color);
+  color: #ffffff;
+}
+
+/* 3. Inline Related Quizzes Container in Note Cards */
+.card-related-quizzes {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border-color);
+  background-color: rgba(0, 0, 0, 0.02);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+[data-theme="dark"] .card-related-quizzes {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+.related-quizzes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 12px;
+}
+.related-quiz-item {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-sm);
+}
+
+/* 4. Quiz Toolbar Concept & Search Input */
+.quiz-search-box {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+}
+.quiz-search-box input {
+  width: 100%;
+  padding: 7px 12px 7px 34px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  font-size: 0.85rem;
+  outline: none;
+}
+.quiz-search-box input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
+}
+.quiz-search-box .search-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* 5. Concept Modal Tabs & Content Panes */
+.concept-modal-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--surface-sunken);
+  padding: 4px 16px 0;
+  gap: 8px;
+}
+.concept-tab {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+.concept-tab:hover {
+  color: var(--text-color);
+}
+.concept-tab.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+.concept-modal-pane {
+  padding-top: 8px;
+}
+
+.btn-primary-accent {
+  background-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  border: none !important;
+}
+.btn-primary-accent:hover {
+  background-color: var(--primary-hover) !important;
+}
+
+/* 6. Weakness Concept List in Stats Modal */
+.weak-concept-container {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: rgba(255, 59, 48, 0.08);
+  border: 1px solid rgba(255, 59, 48, 0.25);
+  border-radius: var(--radius-md);
+}
+.weak-concept-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--danger-color);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.weak-concept-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.weak-concept-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--surface-color);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+.weak-concept-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.weak-concept-name {
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+.weak-concept-stats {
+  font-size: 0.76rem;
+  color: var(--danger-color);
+}
+.weak-concept-actions {
+  display: flex;
+  gap: 6px;
+}

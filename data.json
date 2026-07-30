@@ -9,48 +9,166 @@
     {
       "group": "1과목 빅데이터 분석 기획 및 기술",
       "items": [
-        { "id": "s1-1", "label": "01. 빅데이터의 이해", "level": 1 },
-        { "id": "s1-2", "label": "02. 빅데이터 기술 및 제도", "level": 1 },
-        { "id": "s1-3", "label": "03. 데이터분석 계획", "level": 1 },
-        { "id": "s1-4", "label": "04. 데이터 수집 및 저장 계획", "level": 1 }
+        {
+          "id": "s1-1",
+          "label": "01. 빅데이터의 이해",
+          "level": 1
+        },
+        {
+          "id": "s1-2",
+          "label": "02. 빅데이터 기술 및 제도",
+          "level": 1
+        },
+        {
+          "id": "s1-3",
+          "label": "03. 데이터분석 계획",
+          "level": 1
+        },
+        {
+          "id": "s1-4",
+          "label": "04. 데이터 수집 및 저장 계획",
+          "level": 1
+        }
       ]
     },
     {
       "group": "2과목 빅데이터 탐색",
       "items": [
-        { "id": "s2-1", "label": "01. 분석 절차 수립", "level": 1 },
-        { "id": "s2-2", "label": "02. 분석 환경 구축", "level": 1 },
-        { "id": "s2-3", "label": "03. 데이터 정제", "level": 1 },
-        { "id": "s2-4", "label": "04. 결측값·이상값 처리", "level": 1 },
-        { "id": "s2-5", "label": "05. 분석 변수 처리", "level": 1 },
-        { "id": "s2-6", "label": "06. 데이터 탐색 개요", "level": 1 },
-        { "id": "s2-7", "label": "07. 고급 데이터 탐색", "level": 1 }
+        {
+          "id": "s2-1",
+          "label": "01. 분석 절차 수립",
+          "level": 1
+        },
+        {
+          "id": "s2-2",
+          "label": "02. 분석 환경 구축",
+          "level": 1
+        },
+        {
+          "id": "s2-3",
+          "label": "03. 데이터 정제",
+          "level": 1
+        },
+        {
+          "id": "s2-4",
+          "label": "04. 결측값·이상값 처리",
+          "level": 1
+        },
+        {
+          "id": "s2-5",
+          "label": "05. 분석 변수 처리",
+          "level": 1
+        },
+        {
+          "id": "s2-6",
+          "label": "06. 데이터 탐색 개요",
+          "level": 1
+        },
+        {
+          "id": "s2-7",
+          "label": "07. 고급 데이터 탐색",
+          "level": 1
+        }
       ]
     },
     {
       "group": "3과목 빅데이터 모델링",
       "items": [
-        { "id": "s3-1", "label": "01. 회귀분석 종류 및 가정", "level": 1 },
-        { "id": "s3-2", "label": "02. 회귀 모형 구축·다중공선성", "level": 1 },
-        { "id": "s3-3", "label": "03. 로지스틱 회귀분석", "level": 1 },
-        { "id": "s3-4", "label": "04. 의사결정나무·분류 모델", "level": 1 },
-        { "id": "s3-5", "label": "05. 인공신경망·다층 퍼셉트론", "level": 1 },
-        { "id": "s3-6", "label": "06. 서포트 벡터 머신(SVM)", "level": 1 },
-        { "id": "s3-7", "label": "07. 연관성 분석·빈발항목", "level": 1 },
-        { "id": "s3-8", "label": "08. 회귀모형 평가지표", "level": 1 },
-        { "id": "s3-9", "label": "09. 분류·군집 분석 심화", "level": 1 },
-        { "id": "s3-10", "label": "10. 고급 분석기법", "level": 1 },
-        { "id": "s3-11", "label": "11. 딥러닝 분석", "level": 1 },
-        { "id": "s3-12", "label": "12. 비정형·앙상블·비모수", "level": 1 }
+        {
+          "id": "s3-1",
+          "label": "01. 회귀분석 종류 및 가정",
+          "level": 1
+        },
+        {
+          "id": "s3-2",
+          "label": "02. 회귀 모형 구축·다중공선성",
+          "level": 1
+        },
+        {
+          "id": "s3-3",
+          "label": "03. 로지스틱 회귀분석",
+          "level": 1
+        },
+        {
+          "id": "s3-4",
+          "label": "04. 의사결정나무·분류 모델",
+          "level": 1
+        },
+        {
+          "id": "s3-5",
+          "label": "05. 인공신경망·다층 퍼셉트론",
+          "level": 1
+        },
+        {
+          "id": "s3-6",
+          "label": "06. 서포트 벡터 머신(SVM)",
+          "level": 1
+        },
+        {
+          "id": "s3-7",
+          "label": "07. 연관성 분석·빈발항목",
+          "level": 1
+        },
+        {
+          "id": "s3-8",
+          "label": "08. 회귀모형 평가지표",
+          "level": 1
+        },
+        {
+          "id": "s3-9",
+          "label": "09. 분류·군집 분석 심화",
+          "level": 1
+        },
+        {
+          "id": "s3-10",
+          "label": "10. 고급 분석기법",
+          "level": 1
+        },
+        {
+          "id": "s3-11",
+          "label": "11. 딥러닝 분석",
+          "level": 1
+        },
+        {
+          "id": "s3-12",
+          "label": "12. 비정형·앙상블·비모수",
+          "level": 1
+        }
       ]
     },
     {
       "group": "4과목 빅데이터 결화해석",
       "items": [
-        { "id": "s4-1", "label": "01. 분석모형 평가 및 진단", "level": 1 },
-        { "id": "s4-2", "label": "02. 분석모형 개선", "level": 1 },
-        { "id": "s4-3", "label": "03. 분석결과 시각화", "level": 1 },
-        { "id": "s4-4", "label": "04. 분석결과 활용", "level": 1 }
+        {
+          "id": "s4-1",
+          "label": "01. 분석모형 평가 및 진단",
+          "level": 1
+        },
+        {
+          "id": "s4-2",
+          "label": "02. 분석모형 개선",
+          "level": 1
+        },
+        {
+          "id": "s4-3",
+          "label": "03. 분석결과 시각화",
+          "level": 1
+        },
+        {
+          "id": "s4-4",
+          "label": "04. 분석결과 활용",
+          "level": 1
+        }
+      ]
+    },
+    {
+      "group": "5과목 자주 출제되는 핵심 개념",
+      "items": [
+        {
+          "id": "s5-1",
+          "label": "01. 자주 출제되는 핵심 개념 픽",
+          "level": 1
+        }
       ]
     }
   ],
@@ -65,7 +183,10 @@
           "title": "데이터의 정의 및 특징",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "데이터와 정보" },
+            {
+              "type": "h4",
+              "text": "데이터와 정보"
+            },
             {
               "type": "ul",
               "items": [
@@ -81,7 +202,10 @@
           "title": "DIKW 피라미드",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "데이터 계층 구조" },
+            {
+              "type": "h4",
+              "text": "데이터 계층 구조"
+            },
             {
               "type": "ul",
               "items": [
@@ -98,7 +222,10 @@
           "title": "암묵지와 형식지",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "지식의 상호작용 (공표연내)" },
+            {
+              "type": "h4",
+              "text": "지식의 상호작용 (공표연내)"
+            },
             {
               "type": "ul",
               "items": [
@@ -117,7 +244,10 @@
           "title": "데이터베이스의 특징",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "DB의 4대 특징 및 관점 (공통저변)" },
+            {
+              "type": "h4",
+              "text": "DB의 4대 특징 및 관점 (공통저변)"
+            },
             {
               "type": "ul",
               "items": [
@@ -135,7 +265,10 @@
           "title": "빅데이터 출현 배경과 3V",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "출현 배경 및 핵심 요소" },
+            {
+              "type": "h4",
+              "text": "출현 배경 및 핵심 요소"
+            },
             {
               "type": "ul",
               "items": [
@@ -152,7 +285,10 @@
           "title": "빅데이터의 변화와 데이터 사이언스",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "패러다임 변화 및 사이언티스트" },
+            {
+              "type": "h4",
+              "text": "패러다임 변화 및 사이언티스트"
+            },
             {
               "type": "ul",
               "items": [
@@ -176,7 +312,10 @@
           "title": "빅데이터 플랫폼 및 인공지능",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "플랫폼 계층 및 AI 기술" },
+            {
+              "type": "h4",
+              "text": "플랫폼 계층 및 AI 기술"
+            },
             {
               "type": "ul",
               "items": [
@@ -193,7 +332,10 @@
           "title": "개인정보 법제도 및 비식별 조치",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "데이터 3법 및 프라이버시 보호" },
+            {
+              "type": "h4",
+              "text": "데이터 3법 및 프라이버시 보호"
+            },
             {
               "type": "ul",
               "items": [
@@ -217,7 +359,10 @@
           "title": "분석 방안 수립 및 문제 정의",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "하향식과 상향식 접근법" },
+            {
+              "type": "h4",
+              "text": "하향식과 상향식 접근법"
+            },
             {
               "type": "ul",
               "items": [
@@ -234,7 +379,10 @@
           "title": "분석 방법론 및 수준 진단",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "주요 방법론 및 분석 준비도/성숙도" },
+            {
+              "type": "h4",
+              "text": "주요 방법론 및 분석 준비도/성숙도"
+            },
             {
               "type": "ul",
               "items": [
@@ -258,7 +406,10 @@
           "title": "데이터 수집 및 품질 검증",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "수집 기술 및 품질 기준" },
+            {
+              "type": "h4",
+              "text": "수집 기술 및 품질 기준"
+            },
             {
               "type": "ul",
               "items": [
@@ -274,7 +425,10 @@
           "title": "데이터 적재 및 저장소",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "분산 시스템 및 하둡" },
+            {
+              "type": "h4",
+              "text": "분산 시스템 및 하둡"
+            },
             {
               "type": "ul",
               "items": [
@@ -298,7 +452,10 @@
           "title": "분석모형 선정",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "분석모형 선정 유형" },
+            {
+              "type": "h4",
+              "text": "분석모형 선정 유형"
+            },
             {
               "type": "ul",
               "items": [
@@ -315,7 +472,10 @@
           "title": "분석모형 정의 시 고려사항",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "모형 정의 및 오류 요소" },
+            {
+              "type": "h4",
+              "text": "모형 정의 및 오류 요소"
+            },
             {
               "type": "ul",
               "items": [
@@ -333,7 +493,10 @@
           "title": "분석모형 구축 절차",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "구축 4단계 프로세스" },
+            {
+              "type": "h4",
+              "text": "구축 4단계 프로세스"
+            },
             {
               "type": "ul",
               "items": [
@@ -357,7 +520,10 @@
           "title": "분석 도구 선정 (R vs Python)",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "주요 분석 도구 특징" },
+            {
+              "type": "h4",
+              "text": "주요 분석 도구 특징"
+            },
             {
               "type": "ul",
               "items": [
@@ -372,7 +538,10 @@
           "title": "데이터 분할",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "데이터 분할 목적 및 구성" },
+            {
+              "type": "h4",
+              "text": "데이터 분할 목적 및 구성"
+            },
             {
               "type": "memo",
               "text": "과대적합과 과소적합을 방지하고, 데이터가 불균형한 문제를 해결하기 위해 사용"
@@ -399,7 +568,10 @@
           "title": "데이터의 종류",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "척도 기준 구분" },
+            {
+              "type": "h4",
+              "text": "척도 기준 구분"
+            },
             {
               "type": "ul",
               "items": [
@@ -409,7 +581,10 @@
                 "<strong>양적 척도 - 비율척도:</strong> 절대적 기준 0이 존재하고 사칙연산 가능, 가장 많이 수집되는 자료 (예: 무게, 나이 등)"
               ]
             },
-            { "type": "h4", "text": "관측 기준 구분" },
+            {
+              "type": "h4",
+              "text": "관측 기준 구분"
+            },
             {
               "type": "ul",
               "items": [
@@ -429,7 +604,10 @@
           "title": "데이터 정제 기법",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "주요 데이터 정제 방법" },
+            {
+              "type": "h4",
+              "text": "주요 데이터 정제 방법"
+            },
             {
               "type": "ul",
               "items": [
@@ -453,7 +631,10 @@
           "title": "결측값(Missing Value) 종류",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "결측 메커니즘 3가지" },
+            {
+              "type": "h4",
+              "text": "결측 메커니즘 3가지"
+            },
             {
               "type": "memo",
               "text": "존재하지 않는 데이터는 주로 null/NA로 표시됨"
@@ -473,7 +654,10 @@
           "title": "결측값 처리 방법",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "단순대치법 및 다중대치법" },
+            {
+              "type": "h4",
+              "text": "단순대치법 및 다중대치법"
+            },
             {
               "type": "ul",
               "items": [
@@ -490,7 +674,10 @@
           "title": "데이터 이상값(Outlier) 처리 기법",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "이상값 판단 기준 및 방법" },
+            {
+              "type": "h4",
+              "text": "이상값 판단 기준 및 방법"
+            },
             {
               "type": "memo",
               "text": "극단적으로 크거나 작은 값이며 의미 있는 데이터일 수도 있으므로 이상값을 항상 제거하는 것은 아님"
@@ -518,7 +705,10 @@
           "title": "변수 선택",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "변수 선택 방법 3가지" },
+            {
+              "type": "h4",
+              "text": "변수 선택 방법 3가지"
+            },
             {
               "type": "memo",
               "text": "분석 성능 향상을 위해 중요한 변수만 선별"
@@ -538,7 +728,10 @@
           "title": "차원 축소",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "차원 축소 효과 및 기법" },
+            {
+              "type": "h4",
+              "text": "차원 축소 효과 및 기법"
+            },
             {
               "type": "memo",
               "text": "차원의 저주(데이터 학습 시 차원이 높아질수록 알고리즘 성능이 저하되는 현상) 해소"
@@ -558,7 +751,10 @@
           "title": "파생변수 생성 및 변수 변환",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "변수 요약 및 변환 방법" },
+            {
+              "type": "h4",
+              "text": "변수 요약 및 변환 방법"
+            },
             {
               "type": "ul",
               "items": [
@@ -575,7 +771,10 @@
           "title": "불균형 데이터 처리",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "불균형 데이터 해결 방법" },
+            {
+              "type": "h4",
+              "text": "불균형 데이터 해결 방법"
+            },
             {
               "type": "ul",
               "items": [
@@ -598,7 +797,10 @@
           "title": "EDA (탐색적 자료 분석)",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "EDA의 4가지 주제 (저잔재현)" },
+            {
+              "type": "h4",
+              "text": "EDA의 4가지 주제 (저잔재현)"
+            },
             {
               "type": "ul",
               "items": [
@@ -615,7 +817,10 @@
           "title": "상관관계 분석",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "상관분석의 유형 및 방법" },
+            {
+              "type": "h4",
+              "text": "상관분석의 유형 및 방법"
+            },
             {
               "type": "ul",
               "items": [
@@ -637,21 +842,30 @@
           "title": "기초통계량 추출 및 이해",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "중심경향성 측면" },
+            {
+              "type": "h4",
+              "text": "중심경향성 측면"
+            },
             {
               "type": "ul",
               "items": [
                 "<strong>중심경향성:</strong> 산술평균(모든 값 합산 후 개수로 나눔), 기하평균(곱한 후 n제곱근, 비율적 증가율), 조화평균(역수의 산술평균 후 역수, 비율 계산), 중앙값(크기 순서 중간 값), 최빈값(가장 자주 나타나는 값)"
               ]
             },
-            { "type": "h4", "text": "분산 정도 측면" },
+            {
+              "type": "h4",
+              "text": "분산 정도 측면"
+            },
             {
               "type": "ul",
               "items": [
                 "<strong>분산 정도:</strong> 범위(최댓값-최솟값, 이상치에 민감), 분산(평균과의 거리 제곱 지표), 표준편차(분산의 제곱근), 사분위수(IQR, 25%와 75% 지점 사이 범위), 변동계수(CV, 표준편차/평균, 단위 다른 변수 간 상대적 비교)"
               ]
             },
-            { "type": "h4", "text": "관계 측면 및 기댓값/분산 특성" },
+            {
+              "type": "h4",
+              "text": "관계 측면 및 기댓값/분산 특성"
+            },
             {
               "type": "ul",
               "items": [
@@ -659,7 +873,10 @@
                 "<strong>기댓값과 분산 특성:</strong> 서로 독립인 X, Y에 대해 E(5X + 7Y + 15) = 5E(X) + 7E(Y) + 15, V(5X + 7Y + 15) = 25V(X) + 49V(Y) (V(상수) = 0)"
               ]
             },
-            { "type": "h4", "text": "첨도와 왜도" },
+            {
+              "type": "h4",
+              "text": "첨도와 왜도"
+            },
             {
               "type": "ul",
               "items": [
@@ -680,7 +897,10 @@
           "title": "시공간 및 다변량 데이터 탐색",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "시공간 데이터 및 다변량 탐색" },
+            {
+              "type": "h4",
+              "text": "시공간 데이터 및 다변량 탐색"
+            },
             {
               "type": "memo",
               "text": "시공간 데이터 활용 핵심 키워드: '패지격' (시공간 패턴 예측, 지도 위치정보, 지리공간 격자 차트 결합)"
@@ -700,7 +920,10 @@
           "title": "비정형 데이터 탐색 (자연어 전처리)",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "자연어 전처리 5단계" },
+            {
+              "type": "h4",
+              "text": "자연어 전처리 5단계"
+            },
             {
               "type": "memo",
               "text": "한국어는 띄어쓰기가 일정하지 않고 형태소 단위로 분리해야 하므로 토큰화가 어려움"
@@ -729,7 +952,10 @@
           "title": "회귀분석의 5가지 유형과 선형회귀 가정",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "회귀분석의 종류" },
+            {
+              "type": "h4",
+              "text": "회귀분석의 종류"
+            },
             {
               "type": "ul",
               "items": [
@@ -740,8 +966,14 @@
                 "<strong>(5) 교호항이 포함된 회귀:</strong> 독립변수들의 교호작용(상호작용)이 포함된 회귀 모형"
               ]
             },
-            { "type": "h4", "text": "선형회귀분석의 4대 가정" },
-            { "type": "memo", "text": "암기 키워드: 선분정독" },
+            {
+              "type": "h4",
+              "text": "선형회귀분석의 4대 가정"
+            },
+            {
+              "type": "memo",
+              "text": "암기 키워드: 선분정독"
+            },
             {
               "type": "ul",
               "items": [
@@ -765,7 +997,10 @@
           "title": "회귀 모형 구축 절차, 다중공선성 및 변수 선택",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "회귀 모형 구축 절차 및 검정" },
+            {
+              "type": "h4",
+              "text": "회귀 모형 구축 절차 및 검정"
+            },
             {
               "type": "ul",
               "items": [
@@ -774,7 +1009,10 @@
                 "<strong>모형 유의성:</strong> 모형에 대한 F검정 수행"
               ]
             },
-            { "type": "h4", "text": "다중공선성(Multicollinearity) 문제" },
+            {
+              "type": "h4",
+              "text": "다중공선성(Multicollinearity) 문제"
+            },
             {
               "type": "ul",
               "items": [
@@ -783,7 +1021,10 @@
                 "<strong>해결 방안:</strong> 독립변수 제거, 차원 축소, 변수 선택, 규제항이 포함된 회귀 적용"
               ]
             },
-            { "type": "h4", "text": "최적의 회귀 방정식 탐색 방법" },
+            {
+              "type": "h4",
+              "text": "최적의 회귀 방정식 탐색 방법"
+            },
             {
               "type": "ul",
               "items": [
@@ -807,14 +1048,20 @@
           "title": "로지스틱 회귀분석 원리 및 검정",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "로지스틱 회귀분석 개요" },
+            {
+              "type": "h4",
+              "text": "로지스틱 회귀분석 개요"
+            },
             {
               "type": "ul",
               "items": [
                 "<strong>정의:</strong> 종속변수가 범주형 데이터를 대상으로 성공과 실패 2개의 집단을 분류하는 문제에 활용"
               ]
             },
-            { "type": "h4", "text": "로지스틱 회귀분석의 원리" },
+            {
+              "type": "h4",
+              "text": "로지스틱 회귀분석의 원리"
+            },
             {
               "type": "ul",
               "items": [
@@ -823,7 +1070,10 @@
                 "<strong>시그모이드 함수:</strong> 로짓 함수의 역함수를 통하여, 0~1 사이 확률을 도출하는 함수"
               ]
             },
-            { "type": "h4", "text": "로지스틱 회귀분석의 검정" },
+            {
+              "type": "h4",
+              "text": "로지스틱 회귀분석의 검정"
+            },
             {
               "type": "ul",
               "items": [
@@ -845,7 +1095,10 @@
           "title": "의사결정나무 개념 및 노드 분할 방법",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "의사결정나무(Decision Tree) 특징" },
+            {
+              "type": "h4",
+              "text": "의사결정나무(Decision Tree) 특징"
+            },
             {
               "type": "ul",
               "items": [
@@ -854,7 +1107,10 @@
                 "<strong>과적합 방지 방안:</strong> 정지규칙(더 이상 분리하지 않고 성장을 멈춤) 및 가지치기(일부 가지 제거)"
               ]
             },
-            { "type": "h4", "text": "노드 분할 방법" },
+            {
+              "type": "h4",
+              "text": "노드 분할 방법"
+            },
             {
               "type": "ul",
               "items": [
@@ -876,7 +1132,10 @@
           "title": "다층 퍼셉트론 및 인공신경망 학습 원리",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "다층 퍼셉트론(MLP) 개요" },
+            {
+              "type": "h4",
+              "text": "다층 퍼셉트론(MLP) 개요"
+            },
             {
               "type": "ul",
               "items": [
@@ -885,7 +1144,10 @@
                 "<strong>은닉층 영향:</strong> 은닉층 수가 많아지면 복잡한 문제 해결이 가능하나 과적합 위험이 증가하고, 적어지면 과소적합 가능성이 높아짐"
               ]
             },
-            { "type": "h4", "text": "인공신경망 학습 방법" },
+            {
+              "type": "h4",
+              "text": "인공신경망 학습 방법"
+            },
             {
               "type": "ul",
               "items": [
@@ -902,7 +1164,10 @@
           "title": "활성함수, 손실함수 및 과적합 방지",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "활성함수와 손실함수" },
+            {
+              "type": "h4",
+              "text": "활성함수와 손실함수"
+            },
             {
               "type": "ul",
               "items": [
@@ -911,7 +1176,10 @@
                 "<strong>손실함수:</strong> 예측값과 실제값 차이 측정 (MSE-회귀, 이진 크로스 엔트로피-이진 분류, 크로스 엔트로피-다중 분류)"
               ]
             },
-            { "type": "h4", "text": "인공신경망의 과적합 방지 방안" },
+            {
+              "type": "h4",
+              "text": "인공신경망의 과적합 방지 방안"
+            },
             {
               "type": "ul",
               "items": [
@@ -934,7 +1202,10 @@
           "title": "서포트 벡터 머신(SVM) 원리 및 유형",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "서포트 벡터 머신(SVM) 개요" },
+            {
+              "type": "h4",
+              "text": "서포트 벡터 머신(SVM) 개요"
+            },
             {
               "type": "ul",
               "items": [
@@ -945,7 +1216,10 @@
                 "<strong>커널 함수:</strong> 저차원 데이터를 고차원 데이터로 변경하는 함수"
               ]
             },
-            { "type": "h4", "text": "서포트 벡터 머신(SVM)의 유형" },
+            {
+              "type": "h4",
+              "text": "서포트 벡터 머신(SVM)의 유형"
+            },
             {
               "type": "ul",
               "items": [
@@ -967,7 +1241,10 @@
           "title": "연관성 분석 특징, 평가지표 및 빈발항목 알고리즘",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "연관성 분석(Association Analysis) 개요" },
+            {
+              "type": "h4",
+              "text": "연관성 분석(Association Analysis) 개요"
+            },
             {
               "type": "ul",
               "items": [
@@ -976,8 +1253,14 @@
                 "<strong>확장:</strong> 연관 분석에 시간 개념을 추가하여 순차 패턴 분석 수행 가능"
               ]
             },
-            { "type": "h4", "text": "연관성 분석의 3대 평가지표" },
-            { "type": "memo", "text": "암기 키워드: 지신향" },
+            {
+              "type": "h4",
+              "text": "연관성 분석의 3대 평가지표"
+            },
+            {
+              "type": "memo",
+              "text": "암기 키워드: 지신향"
+            },
             {
               "type": "ul",
               "items": [
@@ -986,7 +1269,10 @@
                 "<strong>향상도(Lift):</strong> A와 B의 상관성 P(A ∩ B) / (P(A) * P(B)). 1보다 크면 양의 상관관계, 1이면 독립(상관없음), 1보다 작으면 음의 상관관계"
               ]
             },
-            { "type": "h4", "text": "빈발항목 도출 알고리즘" },
+            {
+              "type": "h4",
+              "text": "빈발항목 도출 알고리즘"
+            },
             {
               "type": "ul",
               "items": [
@@ -1008,7 +1294,10 @@
           "title": "회귀모형 평가지표 및 로지스틱 회귀 요약",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "회귀모형 주요 평가지표 및 진단" },
+            {
+              "type": "h4",
+              "text": "회귀모형 주요 평가지표 및 진단"
+            },
             {
               "type": "ul",
               "items": [
@@ -1016,7 +1305,10 @@
                 "<strong>다중공선성(전통적 진단):</strong> 독립변수 간 강한 상관관계가 존재할 때 발생하며, VIF 값이 10 이상이면 문제 의심"
               ]
             },
-            { "type": "h4", "text": "로지스틱 회귀분석 핵심 요약" },
+            {
+              "type": "h4",
+              "text": "로지스틱 회귀분석 핵심 요약"
+            },
             {
               "type": "ul",
               "items": [
@@ -1034,11 +1326,14 @@
       "title": "분류 및 군집 분석 심화",
       "cards": [
         {
-          "id": "c4-1",
+          "id": "c3-10",
           "title": "군집분석(Clustering) 총정리",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "군집분석 개요" },
+            {
+              "type": "h4",
+              "text": "군집분석 개요"
+            },
             {
               "type": "ul",
               "items": [
@@ -1047,7 +1342,10 @@
                 "<strong>(2) 비계층적 방법:</strong> 계층적 방법 외의 대표적 군집분석 기법"
               ]
             },
-            { "type": "h4", "text": "거리 측정 방식 (데이터 간 및 군집 간)" },
+            {
+              "type": "h4",
+              "text": "거리 측정 방식 (데이터 간 및 군집 간)"
+            },
             {
               "type": "ul",
               "items": [
@@ -1056,7 +1354,10 @@
                 "<strong>군집 간 거리 측정 방식:</strong> 최단 연결법(단일), 최장 연결법(완전), 평균 연결법, 중심 연결법, 와드 연결법(편차 제곱합 최소)"
               ]
             },
-            { "type": "h4", "text": "주요 비계층적 군집분석 알고리즘" },
+            {
+              "type": "h4",
+              "text": "주요 비계층적 군집분석 알고리즘"
+            },
             {
               "type": "ul",
               "items": [
@@ -1075,11 +1376,14 @@
       "title": "고급 분석기법 (시계열·범주형·다변량)",
       "cards": [
         {
-          "id": "c5-1",
+          "id": "c3-11",
           "title": "범주형 자료 분석 및 다변량 분석",
           "open": true,
           "blocks": [
-            { "type": "h4", "text": "분할표(교차표) 및 연관성 지표" },
+            {
+              "type": "h4",
+              "text": "분할표(교차표) 및 연관성 지표"
+            },
             {
               "type": "ul",
               "items": [
@@ -1088,7 +1392,10 @@
                 "<strong>오즈비(Odds Ratio):</strong> (노출집단 오즈) / (비노출집단 오즈) (예: (0.7/0.3) / (0.2/0.8) = 9.33)"
               ]
             },
-            { "type": "h4", "text": "카이제곱 검정의 3가지 유형" },
+            {
+              "type": "h4",
+              "text": "카이제곱 검정의 3가지 유형"
+            },
             {
               "type": "ul",
               "items": [
@@ -1097,7 +1404,10 @@
                 "<strong>(3) 동질성 검정:</strong> 두 개 이상의 집단이 동일한 분포를 따르는지 검정 (교차표 활용)"
               ]
             },
-            { "type": "h4", "text": "다변량 분석 기법" },
+            {
+              "type": "h4",
+              "text": "다변량 분석 기법"
+            },
             {
               "type": "ul",
               "items": [
@@ -1109,11 +1419,14 @@
           ]
         },
         {
-          "id": "c5-2",
+          "id": "c3-12",
           "title": "시계열 분석 및 베이지안 기법",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "시계열 분석 및 정상성" },
+            {
+              "type": "h4",
+              "text": "시계열 분석 및 정상성"
+            },
             {
               "type": "ul",
               "items": [
@@ -1122,7 +1435,10 @@
                 "<strong>백색 잡음:</strong> 평균 및 분산이 일정하고 자기상관이 없는 시계열 오차항 (평균 0인 경우 가우시안 백색잡음)"
               ]
             },
-            { "type": "h4", "text": "시계열 모형 및 분해시계열" },
+            {
+              "type": "h4",
+              "text": "시계열 모형 및 분해시계열"
+            },
             {
               "type": "ul",
               "items": [
@@ -1132,7 +1448,10 @@
                 "<strong>분해시계열:</strong> 추세요인(장기 증감), 계절요인(고정 주기), 순환요인(알려지지 않은 주기), 불규칙요인(설명 불가)으로 분리"
               ]
             },
-            { "type": "h4", "text": "베이지안 기법 및 나이브 베이즈" },
+            {
+              "type": "h4",
+              "text": "베이지안 기법 및 나이브 베이즈"
+            },
             {
               "type": "ul",
               "items": [
@@ -1150,18 +1469,24 @@
       "title": "딥러닝 분석",
       "cards": [
         {
-          "id": "c6-1",
+          "id": "c3-13",
           "title": "DNN, CNN 및 RNN 구조",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "DNN (심층 신경망)" },
+            {
+              "type": "h4",
+              "text": "DNN (심층 신경망)"
+            },
             {
               "type": "ul",
               "items": [
                 "<strong>개념:</strong> 은닉층이 2개 이상으로 구성된 인공신경망 (입력층 – 은닉층 – 출력층)"
               ]
             },
-            { "type": "h4", "text": "CNN (합성곱 신경망)" },
+            {
+              "type": "h4",
+              "text": "CNN (합성곱 신경망)"
+            },
             {
               "type": "ul",
               "items": [
@@ -1171,7 +1496,10 @@
                 "<strong>주요 모델:</strong> 분류(LeNet, AlexNet, VGG Nets, GoogLeNet, ResNet, EfficientNet), 객체 탐지(RCNN, SPP Net, YOLO, Attention Net, EfficientDet), 분할/세그먼테이션(FCN, DeepLab, U-net, Segnet)"
               ]
             },
-            { "type": "h4", "text": "RNN (순환 신경망)" },
+            {
+              "type": "h4",
+              "text": "RNN (순환 신경망)"
+            },
             {
               "type": "ul",
               "items": [
@@ -1183,11 +1511,14 @@
           ]
         },
         {
-          "id": "c6-2",
+          "id": "c3-14",
           "title": "오토인코더, Seq2Seq 및 트랜스포머",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "오토인코더 (Autoencoder)" },
+            {
+              "type": "h4",
+              "text": "오토인코더 (Autoencoder)"
+            },
             {
               "type": "ul",
               "items": [
@@ -1197,7 +1528,10 @@
                 "<strong>이상 탐지 활용:</strong> 정상 데이터만 학습하여 비정상 데이터를 판별"
               ]
             },
-            { "type": "h4", "text": "Seq2Seq 및 트랜스포머 (Transformer)" },
+            {
+              "type": "h4",
+              "text": "Seq2Seq 및 트랜스포머 (Transformer)"
+            },
             {
               "type": "ul",
               "items": [
@@ -1218,11 +1552,14 @@
       "title": "비정형 데이터 분석 및 앙상블·비모수 통계",
       "cards": [
         {
-          "id": "c7-1",
+          "id": "c3-15",
           "title": "단어 표현 및 워드 임베딩",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "단어 표현 (Word Representation)" },
+            {
+              "type": "h4",
+              "text": "단어 표현 (Word Representation)"
+            },
             {
               "type": "ul",
               "items": [
@@ -1233,7 +1570,10 @@
                 "<strong>카운트 기반 - LSA:</strong> SVD(특이값 분해)를 활용하여 잠재적인 의미를 반영하고 차원을 축소하는 기법"
               ]
             },
-            { "type": "h4", "text": "워드 임베딩 (Word Embedding)" },
+            {
+              "type": "h4",
+              "text": "워드 임베딩 (Word Embedding)"
+            },
             {
               "type": "ul",
               "items": [
@@ -1246,11 +1586,14 @@
           ]
         },
         {
-          "id": "c7-2",
+          "id": "c3-16",
           "title": "비정형 데이터 분석 기법",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "비정형 데이터 분석 주요 기법" },
+            {
+              "type": "h4",
+              "text": "비정형 데이터 분석 주요 기법"
+            },
             {
               "type": "ul",
               "items": [
@@ -1264,11 +1607,14 @@
           ]
         },
         {
-          "id": "c7-3",
+          "id": "c3-17",
           "title": "앙상블 분석 및 비모수 통계",
           "open": false,
           "blocks": [
-            { "type": "h4", "text": "앙상블(Ensemble) 기법" },
+            {
+              "type": "h4",
+              "text": "앙상블(Ensemble) 기법"
+            },
             {
               "type": "ul",
               "items": [
@@ -1280,7 +1626,10 @@
                 "<strong>스태킹(Stacking):</strong> 개별 모델들의 예측 결과를 메타 학습기의 입력으로 사용하여 최종 학습 수행"
               ]
             },
-            { "type": "h4", "text": "비모수 검정 (Non-parametric Test)" },
+            {
+              "type": "h4",
+              "text": "비모수 검정 (Non-parametric Test)"
+            },
             {
               "type": "ul",
               "items": [
@@ -1612,6 +1961,144 @@
           ]
         }
       ]
+    },
+    {
+      "id": "s5-1",
+      "num": "01",
+      "title": "자주 출제되는 핵심 개념 픽",
+      "cards": [
+        {
+          "id": "c5-1",
+          "title": "KNN(K-Nearest Neighbor) 및 거리 측정 기법",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "KNN 알고리즘 원리"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>기반:</strong> 지도학습 분류/회귀 알고리즘으로, 새로운 데이터와 가장 가까운 K개 이웃의 범주로 분류 (유클리디안, 맨해튼 거리 사용)",
+                "<strong>특징:</strong> 모델을 사전에 학습하지 않는 게으른 학습(Lazy Learning), K가 너무 작으면 과적합, 너무 크면 과소적합 발생"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-2",
+          "title": "나이브 베이즈 및 베이즈 정리",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "나이브 베이즈 분류기"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>기반:</strong> 조건부 확률과 베이즈 정리에 기반한 조건부 독립성 가정 지도학습 분류기",
+                "<strong>특징:</strong> 스팸 메일 분류 및 텍스트 분류에 탁월, 모든 특성(Feature)이 독립이라는 강력한 가정 사용"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-3",
+          "title": "편향-분산 트레이드오프 (Bias-Variance Tradeoff)",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "모델 오차의 구성 요인"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>편향(Bias):</strong> 모델의 지나친 단순화로 발생하는 오차 (높으면 과소적합 Underfitting)",
+                "<strong>분산(Variance):</strong> 모델이 훈련 데이터의 노이즈까지 학습하여 발생하는 변동성 (높으면 과대적합 Overfitting)",
+                "<strong>트레이드오프:</strong> 모델 복잡도가 증가하면 편향은 감소하나 분산은 증가함"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-4",
+          "title": "하이퍼파라미터 최적화 기법",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "하이퍼파라미터 튜닝 방식 비교"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>Grid Search:</strong> 하이퍼파라미터 후보군을 격자망으로 설정하여 전수 탐색 (정확하나 느림)",
+                "<strong>Random Search:</strong> 지정된 범위 내 무작위 조합 탐색 (빠르고 효율적)",
+                "<strong>Bayesian Optimization:</strong> 이전 탐색 결과를 바탕으로 확률적 대리모델(Surrogate Model)을 통해 최적 조합 추정"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-5",
+          "title": "설명 가능한 인공지능 (XAI: SHAP & LIME)",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "XAI 및 SHAP 원리"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>SHAP (Shapley Additive exPlanations):</strong> 게임 이론의 섀플리 값(Shapley Value) 기반으로 특성 기여도 산출",
+                "<strong>LIME:</strong> 국소적 대리 모델을 통해 개별 샘플의 예측 원인 설명"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-6",
+          "title": "카이제곱 검정 (Chi-Square Test)",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "범주형 데이터 검정"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>독립성 검정:</strong> 두 범주형 변수 간의 연관성/독립성 여부 판단",
+                "<strong>적합도 검정:</strong> 관측 빈도가 기대 빈도와 일치하는지 검정",
+                "<strong>자유도:</strong> 교차표 (행 수 - 1) × (열 수 - 1)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-7",
+          "title": "경사하강법 최적화 알고리즘 (Optimizer)",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "딥러닝 옵티마이저 종류"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>SGD:</strong> 확률적 경사하강법 (노이즈 존재)",
+                "<strong>Momentum:</strong> 관성을 고려하여 진행 방향으로 가속",
+                "<strong>RMSProp / Adagrad:</strong> 학습률을 변수별로 적응적 조정",
+                "<strong>Adam:</strong> Momentum과 RMSProp을 결합한 대표적 최적화 기법"
+              ]
+            }
+          ]
+        }
+      ]
     }
   ],
   "footer": "Copyright 2026. 아답터 (IT의 답을 터득하다) All rights reserved.",
@@ -1631,7 +2118,12 @@
     {
       "id": "q2",
       "question": "분석용 데이터를 데이터 웨어하우스(DW)나 데이터 마트(DM)로 이동시키기 위해 주기적으로 수행하는 추출, 변환, 적재 과정을 의미하는 용어는?",
-      "options": ["EDA", "ETL", "JSON", "RDBMS"],
+      "options": [
+        "EDA",
+        "ETL",
+        "JSON",
+        "RDBMS"
+      ],
       "answer": 1,
       "explanation": "ETL(Extract, Transform, Load)은 데이터를 추출하고(Extract), 목적에 맞게 변환하며(Transform), 데이터 저장소에 적재(Load)하는 일련의 과정입니다."
     },
@@ -1686,7 +2178,12 @@
     {
       "id": "q7",
       "question": "다음 중 하둡 에코시스템에서 데이터 마이닝과 머신러닝을 지원하는 라이브러리(프로젝트)는?",
-      "options": ["Mahout", "Zookeeper", "Flume", "Oozie"],
+      "options": [
+        "Mahout",
+        "Zookeeper",
+        "Flume",
+        "Oozie"
+      ],
       "answer": 0,
       "explanation": "Mahout은 하둡 기반의 기계학습(머신러닝) 라이브러리로, 분류, 군집, 추천 등의 알고리즘을 제공합니다."
     },
@@ -1765,7 +2262,12 @@
     {
       "id": "q14",
       "question": "상관분석(Correlation Analysis)에서 두 변수 간의 선형 관계의 강도를 나타내는 상관계수(r)의 범위는?",
-      "options": ["0 ≤ r ≤ 1", "-1 ≤ r ≤ 1", "0 ≤ r ≤ 100", "-∞ < r < ∞"],
+      "options": [
+        "0 ≤ r ≤ 1",
+        "-1 ≤ r ≤ 1",
+        "0 ≤ r ≤ 100",
+        "-∞ < r < ∞"
+      ],
       "answer": 1,
       "explanation": "피어슨 상관계수는 -1(완전한 음의 상관관계)에서 1(완전한 양의 상관관계) 사이의 값을 가집니다."
     },

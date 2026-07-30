@@ -1,11 +1,11 @@
 /**
  * 빅데이터분석기사 필기 합격 마스터 (Refactored & Expanded for All Devices)
  *
- * 1. 요약노트 & 문제은행 로드 & 개념 연계 (팝업 미리보기 + 요약노트 이동)
+ * 1. 요약노트 & 문제은행 로드 & 양방향 개념 연계 (Dual-Way Concept Linkage)
  * 2. [연습 모드] vs [실전 CBT 모의고사 (80제, 120분, OMR)] 이원화
- * 3. 듀얼 화면 분할 뷰 (Split View: 노트 + 문제 나란히 보기)
- * 4. 과목별 성적 및 약점 진단 통계 엔진
- * 5. 키보드 단축키 (1~4 선택, 좌우 이동, F 검토) & 모바일 바텀바 지원
+ * 3. 듀얼 화면 분할 뷰 (Split View: 노트 + 문제 나란히 보기 & 양방향 동기화)
+ * 4. 과목별 & 개념별 성적 및 약점 진단 엔진 (취약 개념 Top 3 집중 보충)
+ * 5. 개념 검색/필터링 및 키보드 단축키 (1~4 선택, 좌우 이동, F 검토) & 모바일 바텀바 지원
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -58,14 +58,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const statBookmarks = document.getElementById("statBookmarks");
   const subjectStatsContainer = document.getElementById("subjectStatsContainer");
   const weaknessAlert = document.getElementById("weaknessAlert");
+  const weakConceptContainer = document.getElementById("weakConceptContainer");
 
   // 개념 미리보기 모달
   const conceptModal = document.getElementById("conceptModal");
   const conceptModalTitle = document.getElementById("conceptModalTitle");
-  const conceptModalBody = document.getElementById("conceptModalBody");
+  const tabConceptNote = document.getElementById("tabConceptNote");
+  const tabConceptQuiz = document.getElementById("tabConceptQuiz");
+  const conceptRelatedCount = document.getElementById("conceptRelatedCount");
+  const conceptModalBodyNote = document.getElementById("conceptModalBodyNote");
+  const conceptModalBodyQuiz = document.getElementById("conceptModalBodyQuiz");
   const closeConceptBtn = document.getElementById("closeConceptBtn");
   const closeConceptModalBtn = document.getElementById("closeConceptModalBtn");
   const jumpToFullNoteBtn = document.getElementById("jumpToFullNoteBtn");
+  const practiceConceptBtn = document.getElementById("practiceConceptBtn");
 
   // 과목 상수
   const SUBJECT_NAMES = {
@@ -84,12 +90,21 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentMode = "practice"; // 'practice' | 'mock'
   let bookmarks = new Set(loadBookmarks());
 
-  // 데이터 맵
-  let cardMap = new Map(); // cardId -> card data object
+  // 데이터 맵 & 양방향 연계 맵
+  let cardMap = new Map();         // cardId -> card data object
+  let cardToQuizMap = new Map();   // cardId -> Array<quiz>
+  let sectionToQuizMap = new Map();// sectionId -> Array<quiz>
   let activeConceptCardId = null;
 
   // 연습 모드 상태
-  let quizFilter = { subject: "all", difficulty: "all", onlyWrong: false, onlyBookmarked: false };
+  let quizFilter = {
+    subject: "all",
+    difficulty: "all",
+    onlyWrong: false,
+    onlyBookmarked: false,
+    conceptCardId: null,
+    keyword: ""
+  };
   let wrongIds = new Set();
   let solvedMap = new Map(); // quizId -> boolean(correct)
   let chosenAnswerMap = new Map(); // quizId -> selected option index
@@ -133,7 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
         2: { solved: 0, correct: 0 },
         3: { solved: 0, correct: 0 },
         4: { solved: 0, correct: 0 }
-      }
+      },
+      concepts: {}
     };
   }
 
@@ -141,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem(STATS_KEY, JSON.stringify(cumulativeStats));
   }
 
-  function recordStat(subjectId, isCorrect) {
+  function recordStat(subjectId, isCorrect, cardId) {
     if (!subjectId || subjectId > 4) return;
     cumulativeStats.totalSolved++;
     if (isCorrect) cumulativeStats.totalCorrect++;
@@ -152,31 +168,36 @@ document.addEventListener("DOMContentLoaded", () => {
     cumulativeStats.subjects[subjectId].solved++;
     if (isCorrect) cumulativeStats.subjects[subjectId].correct++;
 
+    if (cardId) {
+      if (!cumulativeStats.concepts) cumulativeStats.concepts = {};
+      if (!cumulativeStats.concepts[cardId]) {
+        cumulativeStats.concepts[cardId] = { solved: 0, correct: 0 };
+      }
+      cumulativeStats.concepts[cardId].solved++;
+      if (isCorrect) cumulativeStats.concepts[cardId].correct++;
+    }
+
     saveStats();
   }
 
-  // === 1. 데이터 로드 ===
-  fetch("data.json")
-    .then(response => response.json())
-    .then(data => {
-      renderNav(data.nav);
-      renderContent(data.sections);
-      bindCardEvents();
-    })
-    .catch(error => {
-      contentEl.innerHTML = `<div class="loading">데이터를 불러오는데 실패했습니다: ${error.message}</div>`;
-    });
+  // === 1. 데이터 병렬 로드 및 양방향 개념 맵 빌드 ===
+  Promise.all([
+    fetch("data.json").then(res => res.json()),
+    fetch("cbt_bank.json").then(res => res.json())
+  ]).then(([noteData, cbtData]) => {
+    allQuizzes = cbtData.questions || [];
+    renderNav(noteData.nav);
+    renderContent(noteData.sections);
+    bindCardEvents();
 
-  fetch("cbt_bank.json")
-    .then(response => response.json())
-    .then(data => {
-      allQuizzes = data.questions || [];
-      applyQuizFilter();
-      renderQuizToolbar();
-    })
-    .catch(error => {
-      quizContainer.innerHTML = `<div class="loading">문제은행 데이터를 불러오는데 실패했습니다: ${error.message}</div>`;
-    });
+    buildQuizConceptMaps();
+    updateNoteRelatedBadges();
+
+    applyQuizFilter();
+    renderQuizToolbar();
+  }).catch(error => {
+    contentEl.innerHTML = `<div class="loading">데이터를 불러오는데 실패했습니다: ${error.message}</div>`;
+  });
 
   // 1-1. 사이드바 네비게이션 렌더링
   function renderNav(navData) {
@@ -239,6 +260,85 @@ document.addEventListener("DOMContentLoaded", () => {
         return `<table><thead><tr>${heads}</tr></thead><tbody>${rows}</tbody></table>`;
       default: return "";
     }
+  }
+
+  // 1-4. 양방향 개념-문제 매핑 빌드
+  function buildQuizConceptMaps() {
+    cardToQuizMap.clear();
+    sectionToQuizMap.clear();
+    allQuizzes.forEach(quiz => {
+      if (quiz.cardId) {
+        if (!cardToQuizMap.has(quiz.cardId)) cardToQuizMap.set(quiz.cardId, []);
+        cardToQuizMap.get(quiz.cardId).push(quiz);
+      }
+      if (quiz.sectionId) {
+        if (!sectionToQuizMap.has(quiz.sectionId)) sectionToQuizMap.set(quiz.sectionId, []);
+        sectionToQuizMap.get(quiz.sectionId).push(quiz);
+      }
+    });
+  }
+
+  function getQuizzesForCard(cardId) {
+    if (cardToQuizMap.has(cardId)) {
+      return cardToQuizMap.get(cardId);
+    }
+    const cardData = cardMap.get(cardId);
+    if (cardData && cardData.title) {
+      const title = cardData.title.toLowerCase();
+      return allQuizzes.filter(q =>
+        (q.question && q.question.toLowerCase().includes(title)) ||
+        (q.chapter && q.chapter.toLowerCase().includes(title))
+      );
+    }
+    return [];
+  }
+
+  function getConceptCardForQuiz(quiz) {
+    if (!quiz) return null;
+    if (quiz.cardId && cardMap.has(quiz.cardId)) {
+      return cardMap.get(quiz.cardId);
+    }
+    if (quiz.chapter) {
+      for (let card of cardMap.values()) {
+        if (card.title.includes(quiz.chapter) || quiz.chapter.includes(card.title)) {
+          return card;
+        }
+      }
+    }
+    return null;
+  }
+
+  // 1-5. 요약노트 카드 헤더에 관련 문제 배지 부착
+  function updateNoteRelatedBadges() {
+    document.querySelectorAll(".card").forEach(cardEl => {
+      const cardId = cardEl.id;
+      const quizzes = getQuizzesForCard(cardId);
+      const headerEl = cardEl.querySelector(".card-header");
+      if (headerEl && quizzes.length > 0) {
+        let badgeBtn = headerEl.querySelector(".concept-related-btn");
+        if (!badgeBtn) {
+          badgeBtn = document.createElement("button");
+          badgeBtn.className = "concept-related-btn";
+          badgeBtn.title = "관련 기출문제 풀어보기";
+          const chevron = headerEl.querySelector(".chevron");
+          if (chevron) headerEl.insertBefore(badgeBtn, chevron);
+          else headerEl.appendChild(badgeBtn);
+        }
+        badgeBtn.innerHTML = `📝 관련 문제 ${quizzes.length}개`;
+        badgeBtn.dataset.cardId = cardId;
+
+        badgeBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (mainLayout.classList.contains("split-view")) {
+            quizFilter.conceptCardId = cardId;
+            applyQuizFilter();
+            renderQuizToolbar();
+          } else {
+            openConceptModal(cardId, "quiz");
+          }
+        });
+      }
+    });
   }
 
   // === 2. 모드 전환 ===
@@ -344,6 +444,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const isFlagged = mockFlaggedSet.has(quiz.id);
       const isBookmarked = bookmarks.has(quiz.id);
 
+      const conceptCard = getConceptCardForQuiz(quiz);
+      const conceptBadgeHtml = conceptCard
+        ? `<button class="concept-badge" data-card-id="${conceptCard.id}" title="개념 미리보기">🏷️ ${conceptCard.title}</button>`
+        : '';
+
       let explanationHtml = "";
       if (isMockSubmitted) {
         let whyWrongHtml = "";
@@ -372,7 +477,10 @@ document.addEventListener("DOMContentLoaded", () => {
       html += `
         <div class="quiz-card" id="mock-q-${quiz.id}" data-quiz-id="${quiz.id}">
           <div class="quiz-card-top">
-            <span class="quiz-meta">${SUBJECT_NAMES[quiz.subject] || ""}</span>
+            <div style="display:flex; align-items:center; flex-wrap:wrap; gap:6px;">
+              <span class="quiz-meta">${SUBJECT_NAMES[quiz.subject] || ""}</span>
+              ${conceptBadgeHtml}
+            </div>
             <div class="quiz-actions-top">
               <button class="flag-btn ${isFlagged ? 'active' : ''}" data-quiz-id="${quiz.id}">${isFlagged ? '🚩 검토중' : '🏳️ 검토'}</button>
               <button class="bookmark-btn ${isBookmarked ? 'active' : ''}" data-quiz-id="${quiz.id}">${isBookmarked ? '⭐' : '☆'}</button>
@@ -496,7 +604,7 @@ document.addEventListener("DOMContentLoaded", () => {
           subjectScores[quiz.subject] += 5;
         }
       }
-      recordStat(quiz.subject, isCorrect);
+      recordStat(quiz.subject, isCorrect, quiz.cardId);
     });
 
     const overallScore = Math.round((totalCorrect / 80) * 100);
@@ -560,9 +668,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderQuizToolbar() {
     const subjects = [...new Set(allQuizzes.map(q => q.subject))].sort();
 
-    let subjectBtns = `<button class="filter-chip ${quizFilter.subject === 'all' ? 'active' : ''}" data-filter="subject" data-value="all">전체과목</button>`;
+    let subjectBtns = `<button class="filter-chip ${quizFilter.subject === 'all' && !quizFilter.conceptCardId ? 'active' : ''}" data-filter="subject" data-value="all">전체과목</button>`;
     subjects.forEach(s => {
-      subjectBtns += `<button class="filter-chip ${quizFilter.subject === s ? 'active' : ''}" data-filter="subject" data-value="${s}">${SUBJECT_NAMES[s] || (s + "과목")}</button>`;
+      subjectBtns += `<button class="filter-chip ${quizFilter.subject === s && !quizFilter.conceptCardId ? 'active' : ''}" data-filter="subject" data-value="${s}">${SUBJECT_NAMES[s] || (s + "과목")}</button>`;
     });
 
     const diffLabels = { all: "전체 난이도", easy: "쉬움", medium: "보통", hard: "어려움" };
@@ -570,8 +678,22 @@ document.addEventListener("DOMContentLoaded", () => {
       `<button class="filter-chip diff-chip ${quizFilter.difficulty === d ? 'active' : ''}" data-filter="difficulty" data-value="${d}">${diffLabels[d]}</button>`
     ).join("");
 
+    let conceptChip = "";
+    if (quizFilter.conceptCardId) {
+      const cCard = cardMap.get(quizFilter.conceptCardId);
+      const cTitle = cCard ? cCard.title : quizFilter.conceptCardId;
+      conceptChip = `<button id="clearConceptFilterBtn" class="filter-chip active" style="background-color:var(--success-color); border-color:var(--success-color);">🎯 개념: ${cTitle} ✕</button>`;
+    }
+
     quizToolbarEl.innerHTML = `
-      <div class="filter-row">${subjectBtns}</div>
+      <div class="filter-row" style="align-items:center;">
+        ${conceptChip}
+        ${subjectBtns}
+        <div class="quiz-search-box">
+          <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="quizSearchInput" placeholder="개념/문제 키워드 검색..." value="${quizFilter.keyword || ''}" />
+        </div>
+      </div>
       <div class="filter-row">${diffBtns}</div>
       <div class="filter-row action-row">
         <button id="wrongOnlyBtn" class="btn-small ${quizFilter.onlyWrong ? 'active' : ''}">오답만 복습 (${wrongIds.size})</button>
@@ -581,12 +703,33 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
-    quizToolbarEl.querySelectorAll(".filter-chip").forEach(btn => {
+    if (document.getElementById("clearConceptFilterBtn")) {
+      document.getElementById("clearConceptFilterBtn").addEventListener("click", () => {
+        quizFilter.conceptCardId = null;
+        applyQuizFilter();
+        renderQuizToolbar();
+      });
+    }
+
+    const quizSearchInput = document.getElementById("quizSearchInput");
+    if (quizSearchInput) {
+      let qDebounce = null;
+      quizSearchInput.addEventListener("input", (e) => {
+        clearTimeout(qDebounce);
+        qDebounce = setTimeout(() => {
+          quizFilter.keyword = e.target.value;
+          applyQuizFilter();
+        }, 200);
+      });
+    }
+
+    quizToolbarEl.querySelectorAll(".filter-chip:not(#clearConceptFilterBtn)").forEach(btn => {
       btn.addEventListener("click", () => {
         const key = btn.dataset.filter;
         let value = btn.dataset.value;
         if (key === "subject" && value !== "all") value = parseInt(value, 10);
         quizFilter[key] = value;
+        quizFilter.conceptCardId = null;
         applyQuizFilter();
         renderQuizToolbar();
       });
@@ -594,13 +737,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("wrongOnlyBtn").addEventListener("click", () => {
       quizFilter.onlyWrong = !quizFilter.onlyWrong;
-      if (quizFilter.onlyWrong) quizFilter.onlyBookmarked = false;
+      if (quizFilter.onlyWrong) { quizFilter.onlyBookmarked = false; quizFilter.conceptCardId = null; }
       applyQuizFilter();
       renderQuizToolbar();
     });
     document.getElementById("bookmarkOnlyBtn").addEventListener("click", () => {
       quizFilter.onlyBookmarked = !quizFilter.onlyBookmarked;
-      if (quizFilter.onlyBookmarked) quizFilter.onlyWrong = false;
+      if (quizFilter.onlyBookmarked) { quizFilter.onlyWrong = false; quizFilter.conceptCardId = null; }
       applyQuizFilter();
       renderQuizToolbar();
     });
@@ -615,6 +758,8 @@ document.addEventListener("DOMContentLoaded", () => {
       solvedMap.clear();
       chosenAnswerMap.clear();
       quizFilter.onlyWrong = false;
+      quizFilter.conceptCardId = null;
+      quizFilter.keyword = "";
       applyQuizFilter();
       renderQuizToolbar();
     });
@@ -630,10 +775,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function applyQuizFilter() {
     workingQuizzes = allQuizzes.filter(q => {
+      if (quizFilter.conceptCardId) {
+        if (q.cardId === quizFilter.conceptCardId) return true;
+        const card = cardMap.get(quizFilter.conceptCardId);
+        if (card && ((q.question && q.question.includes(card.title)) || (q.chapter && q.chapter.includes(card.title)))) {
+          return true;
+        }
+        return false;
+      }
       if (quizFilter.subject !== "all" && q.subject !== quizFilter.subject) return false;
       if (quizFilter.difficulty !== "all" && q.difficulty !== quizFilter.difficulty) return false;
       if (quizFilter.onlyWrong && !wrongIds.has(q.id)) return false;
       if (quizFilter.onlyBookmarked && !bookmarks.has(q.id)) return false;
+      if (quizFilter.keyword && quizFilter.keyword.trim() !== "") {
+        const kw = quizFilter.keyword.trim().toLowerCase();
+        const qText = (q.question + " " + q.explanation).toLowerCase();
+        const concept = getConceptCardForQuiz(q);
+        const cTitle = concept ? concept.title.toLowerCase() : "";
+        if (!qText.includes(kw) && !cTitle.includes(kw)) return false;
+      }
       return true;
     });
     currentPage = 1;
@@ -749,10 +909,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const solvedClass = solved ? "solved" : "";
       const diffLabel = { easy: "쉬움", medium: "보통", hard: "어려움" }[quiz.difficulty] || quiz.difficulty || "";
 
+      const conceptCard = getConceptCardForQuiz(quiz);
+      const conceptBadgeHtml = conceptCard
+        ? `<button class="concept-badge" data-card-id="${conceptCard.id}" title="개념 미리보기">🏷️ ${conceptCard.title}</button>`
+        : '';
+
       html += `
         <div class="quiz-card ${solvedClass}" id="${quiz.id}" data-answer="${quiz.answer}">
           <div class="quiz-card-top">
-            <span class="quiz-meta">${SUBJECT_NAMES[quiz.subject] || ""} ${diffLabel ? "· " + diffLabel : ""}</span>
+            <div style="display:flex; align-items:center; flex-wrap:wrap; gap:6px;">
+              <span class="quiz-meta">${SUBJECT_NAMES[quiz.subject] || ""} ${diffLabel ? "· " + diffLabel : ""}</span>
+              ${conceptBadgeHtml}
+            </div>
             <button class="bookmark-btn ${isBookmarked ? 'active' : ''}" data-quiz-id="${quiz.id}" title="즐겨찾기">${isBookmarked ? "⭐" : "☆"}</button>
           </div>
           <div class="quiz-question">
@@ -766,7 +934,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="quiz-status"></div>
             <p>${quiz.explanation}</p>
             ${whyWrongHtml}
-            ${quiz.cardId ? `<button class="concept-link-btn" data-card-id="${quiz.cardId}">📖 핵심 개념 요약 미리보기</button>` : ''}
+            ${conceptCard ? `<button class="concept-link-btn" data-card-id="${conceptCard.id}">📖 핵심 개념 요약 미리보기</button>` : ''}
           </div>
         </div>
       `;
@@ -846,7 +1014,7 @@ document.addEventListener("DOMContentLoaded", () => {
         chosenAnswerMap.set(quizId, clickedIdx);
 
         const currentQuiz = allQuizzes.find(q => q.id === quizId);
-        if (currentQuiz) recordStat(currentQuiz.subject, isCorrect);
+        if (currentQuiz) recordStat(currentQuiz.subject, isCorrect, currentQuiz.cardId);
 
         updateScoreBar();
       });
@@ -873,33 +1041,99 @@ document.addEventListener("DOMContentLoaded", () => {
     updateScoreBar();
   }
 
-  // === 개념 미리보기 모달 및 연계 처리 ===
+  // === 4. 개념 미리보기 모달 2.0 및 양방향 연계 처리 ===
   function bindConceptLinkButtons() {
-    document.querySelectorAll(".concept-link-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
+    document.querySelectorAll(".concept-link-btn, .concept-badge").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
         const cardId = btn.dataset.cardId;
         if (!cardId) return;
-        activeConceptCardId = cardId;
 
-        // 화면 분할 뷰 중인 경우: 좌측 영역 스크롤 및 하이라이트
         if (mainLayout.classList.contains("split-view")) {
           jumpToFullNote(cardId);
           return;
         }
 
-        // 그렇지 않으면 즉시 팝업 모달로 개념 내용 시각화
-        const cardData = cardMap.get(cardId);
-        if (cardData) {
-          conceptModalTitle.textContent = cardData.title;
-          conceptModalBody.innerHTML = cardData.blocks.map(renderBlock).join("");
-          conceptModal.classList.remove("hidden");
-        } else {
-          // 데이터 매핑이 없으면 직접 이동
-          jumpToFullNote(cardId);
-        }
+        openConceptModal(cardId, "note");
       });
     });
   }
+
+  function openConceptModal(cardId, initialTab = "note") {
+    activeConceptCardId = cardId;
+    const cardData = cardMap.get(cardId) || { id: cardId, title: "핵심 개념", blocks: [] };
+    const relatedQuizzes = getQuizzesForCard(cardId);
+
+    conceptModalTitle.textContent = cardData.title;
+    conceptRelatedCount.textContent = relatedQuizzes.length;
+
+    // 1. 요약노트 블록 렌더링
+    if (cardData.blocks && cardData.blocks.length > 0) {
+      conceptModalBodyNote.innerHTML = cardData.blocks.map(renderBlock).join("");
+    } else {
+      conceptModalBodyNote.innerHTML = `<div class="note">해당 개념의 핵심 요약 내용입니다.</div>`;
+    }
+
+    // 2. 관련 기출문제 렌더링
+    if (relatedQuizzes.length > 0) {
+      conceptModalBodyQuiz.innerHTML = relatedQuizzes.map((q, idx) => {
+        const opts = q.choices || q.options || [];
+        const answerLetter = String.fromCharCode(65 + q.answer);
+        return `
+          <div class="related-quiz-item">
+            <div style="font-weight:600; margin-bottom:8px;">Q${idx + 1}. ${q.question}</div>
+            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:6px;">
+              정답: <strong style="color:var(--success-color);">${answerLetter}. ${opts[q.answer] || ''}</strong>
+            </div>
+            <div style="font-size:0.83rem; background:rgba(0,122,255,0.06); padding:8px 12px; border-radius:6px; color:var(--text-color);">
+              💡 <strong>해설:</strong> ${q.explanation}
+            </div>
+          </div>
+        `;
+      }).join("");
+    } else {
+      conceptModalBodyQuiz.innerHTML = `<div class="note">이 개념에 직접 연결된 기출문제가 없습니다.</div>`;
+    }
+
+    switchConceptModalTab(initialTab);
+    conceptModal.classList.remove("hidden");
+  }
+
+  function switchConceptModalTab(tabName) {
+    if (tabName === "quiz") {
+      tabConceptNote.classList.remove("active");
+      tabConceptQuiz.classList.add("active");
+      conceptModalBodyNote.classList.add("hidden");
+      conceptModalBodyQuiz.classList.remove("hidden");
+    } else {
+      tabConceptNote.classList.add("active");
+      tabConceptQuiz.classList.remove("active");
+      conceptModalBodyNote.classList.remove("hidden");
+      conceptModalBodyQuiz.classList.add("hidden");
+    }
+  }
+
+  tabConceptNote.addEventListener("click", () => switchConceptModalTab("note"));
+  tabConceptQuiz.addEventListener("click", () => switchConceptModalTab("quiz"));
+
+  practiceConceptBtn.addEventListener("click", () => {
+    if (!activeConceptCardId) return;
+    conceptModal.classList.add("hidden");
+    quizFilter.conceptCardId = activeConceptCardId;
+    quizFilter.onlyWrong = false;
+    quizFilter.onlyBookmarked = false;
+
+    if (quizContentEl.classList.contains("hidden")) {
+      quizContentEl.classList.remove("hidden");
+      contentEl.classList.add("hidden");
+      sidebar.style.display = "none";
+      quizToggleBtn.textContent = "요약노트 보기";
+      quizToggleBtn.style.backgroundColor = "var(--success-color)";
+    }
+    setMode("practice");
+    applyQuizFilter();
+    renderQuizToolbar();
+  });
 
   function jumpToFullNote(cardId) {
     conceptModal.classList.add("hidden");
@@ -945,7 +1179,7 @@ document.addEventListener("DOMContentLoaded", () => {
       : "";
   }
 
-  // === 4. 화면 분할 뷰 (Split View) ===
+  // === 5. 화면 분할 뷰 (Split View) ===
   splitViewBtn.addEventListener("click", () => {
     const isSplit = mainLayout.classList.toggle("split-view");
     splitViewBtn.classList.toggle("active", isSplit);
@@ -966,7 +1200,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // === 5. 학습 통계 및 약점 분석 모달 ===
+  // === 6. 학습 통계 및 약점 분석 모달 (취약 개념 Top 3 진단) ===
   statsToggleBtn.addEventListener("click", openStatsModal);
   closeStatsBtn.addEventListener("click", () => statsModal.classList.add("hidden"));
   closeStatsModalBtn.addEventListener("click", () => statsModal.classList.add("hidden"));
@@ -1022,6 +1256,72 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       weaknessAlert.classList.add("hidden");
     }
+
+    // === 취약 개념 Top 3 진단 ===
+    const conceptsData = cumulativeStats.concepts || {};
+    const weakList = [];
+
+    Object.keys(conceptsData).forEach(cId => {
+      const stat = conceptsData[cId];
+      if (stat.solved >= 2) {
+        const acc = Math.round((stat.correct / stat.solved) * 100);
+        if (acc < 70) {
+          const card = cardMap.get(cId);
+          const title = card ? card.title : `개념 (${cId})`;
+          weakList.push({ cardId: cId, title, solved: stat.solved, correct: stat.correct, acc });
+        }
+      }
+    });
+
+    weakList.sort((a, b) => a.acc - b.acc);
+    const topWeak = weakList.slice(0, 3);
+
+    if (topWeak.length > 0) {
+      weakConceptContainer.classList.remove("hidden");
+      let listHtml = topWeak.map(item => `
+        <div class="weak-concept-item">
+          <div class="weak-concept-info">
+            <span class="weak-concept-name">${item.title}</span>
+            <span class="weak-concept-stats">정답률 ${item.acc}% (${item.correct}/${item.solved}문항)</span>
+          </div>
+          <div class="weak-concept-actions">
+            <button class="btn-small weak-note-btn" data-card-id="${item.cardId}">📖 복습</button>
+            <button class="btn-small weak-quiz-btn" data-card-id="${item.cardId}">🎯 문제 풀기</button>
+          </div>
+        </div>
+      `).join("");
+
+      weakConceptContainer.innerHTML = `
+        <div class="weak-concept-title">🔥 취약 개념 집중 보충 추천 Top ${topWeak.length}</div>
+        <div class="weak-concept-list">${listHtml}</div>
+      `;
+
+      weakConceptContainer.querySelectorAll(".weak-note-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          statsModal.classList.add("hidden");
+          openConceptModal(btn.dataset.cardId, "note");
+        });
+      });
+
+      weakConceptContainer.querySelectorAll(".weak-quiz-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          statsModal.classList.add("hidden");
+          quizFilter.conceptCardId = btn.dataset.cardId;
+          applyQuizFilter();
+          renderQuizToolbar();
+          if (quizContentEl.classList.contains("hidden")) {
+            quizContentEl.classList.remove("hidden");
+            contentEl.classList.add("hidden");
+            sidebar.style.display = "none";
+            quizToggleBtn.textContent = "요약노트 보기";
+            quizToggleBtn.style.backgroundColor = "var(--success-color)";
+          }
+          setMode("practice");
+        });
+      });
+    } else {
+      weakConceptContainer.classList.add("hidden");
+    }
   }
 
   resetStatsBtn.addEventListener("click", () => {
@@ -1029,13 +1329,14 @@ document.addEventListener("DOMContentLoaded", () => {
     cumulativeStats = {
       totalSolved: 0,
       totalCorrect: 0,
-      subjects: { 1: { solved: 0, correct: 0 }, 2: { solved: 0, correct: 0 }, 3: { solved: 0, correct: 0 }, 4: { solved: 0, correct: 0 } }
+      subjects: { 1: { solved: 0, correct: 0 }, 2: { solved: 0, correct: 0 }, 3: { solved: 0, correct: 0 }, 4: { solved: 0, correct: 0 } },
+      concepts: {}
     };
     saveStats();
     openStatsModal();
   });
 
-  // === 6. UI 기본 인터랙션 ===
+  // === 7. UI 기본 인터랙션 ===
   function bindCardEvents() {
     const headers = document.querySelectorAll(".card-header");
     headers.forEach(header => {
@@ -1199,7 +1500,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // === 7. PC 키보드 단축키 (1, 2, 3, 4 선택, F 검토, Ctrl+K 검색) ===
+  // === 8. PC 키보드 단축키 (1, 2, 3, 4 선택, F 검토, Ctrl+K 검색) ===
   document.addEventListener("keydown", (e) => {
     if (["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
 
@@ -1235,7 +1536,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // === 8. PWA 서비스 워커 등록 & 오프라인 감지 ===
+  // === 9. PWA 서비스 워커 등록 & 오프라인 감지 ===
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       navigator.serviceWorker.register("./sw.js")
@@ -1244,7 +1545,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 네트워크 연결 상태 변경 감지
   function updateOnlineStatus() {
     if (!navigator.onLine) {
       console.log("Offline mode activated!");
