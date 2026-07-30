@@ -1,0 +1,24 @@
+{
+  "name": "빅데이터분석기사 필기 마스터",
+  "short_name": "빅분기 필기",
+  "description": "빅데이터분석기사 필기 요약노트 및 160제 CBT 실전 모의고사 (완벽 오프라인 지원)",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F2F2F7",
+  "theme_color": "#007AFF",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

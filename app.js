@@ -1234,4 +1234,22 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
+
+  // === 8. PWA 서비스 워커 등록 & 오프라인 감지 ===
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./sw.js")
+        .then(reg => console.log("PWA ServiceWorker registered:", reg.scope))
+        .catch(err => console.error("PWA ServiceWorker registration failed:", err));
+    });
+  }
+
+  // 네트워크 연결 상태 변경 감지
+  function updateOnlineStatus() {
+    if (!navigator.onLine) {
+      console.log("Offline mode activated!");
+    }
+  }
+  window.addEventListener("online", updateOnlineStatus);
+  window.addEventListener("offline", updateOnlineStatus);
 });
