@@ -58,6 +58,32 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #555;
+}
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
 body {
   font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: var(--bg-color);
@@ -383,7 +409,11 @@ h1, h2, h3, h4 {
   align-items: center;
   -webkit-user-select: none;
   user-select: none;
+  position: sticky;
+  top: 0;
+  z-index: 10;
   background-color: var(--surface-color);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
   transition: background-color 0.2s;
 }
 .card-header:active { background-color: var(--surface-hover); }
@@ -815,12 +845,27 @@ mark {
 @media (min-width: 1024px) {
   #menuBtn { display: none; } /* Hide hamburger menu */
   .close-btn { display: none; }
+  
+  .main-content {
+    display: flex;
+    justify-content: center;
+  }
+  .content-wrapper {
+    max-width: 850px;
+    width: 100%;
+  }
 }
 
 /* Tablet / Smaller Desktop */
 @media (max-width: 1023px) {
   .main-content {
     margin-left: 0;
+    display: flex;
+    justify-content: center;
+  }
+  .content-wrapper {
+    max-width: 850px;
+    width: 100%;
   }
   
   .sidebar {
@@ -841,22 +886,38 @@ mark {
   
   .hero-title { font-size: 1.6rem; }
   
+  /* 터치 타겟 여백 확대 */
+  .nav-link { padding: 12px; }
+  .btn-learned, .btn-direct-quiz { padding: 8px 12px; font-size: 0.85rem; }
+  
+  /* 모바일 바텀 네비게이션 개선 */
+  .bottom-nav.blur-glass {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.85);
+  }
+  [data-theme="dark"] .bottom-nav.blur-glass {
+    background-color: rgba(28, 28, 30, 0.85);
+  }
+  
+  /* 브라우저 상단 공백 이슈 해결 */
+  .card-header { top: -1px; }
+  
   .quiz-card {
     padding: 16px;
   }
   
   .quiz-option {
-    padding: 12px 14px;
+    padding: 14px 14px; /* 더 누르기 쉽게 */
     gap: 10px;
   }
   .option-badge {
-    flex-basis: 22px;
-    width: 22px;
-    height: 22px;
-    font-size: 0.72rem;
+    flex-basis: 24px;
+    width: 24px;
+    height: 24px;
+    font-size: 0.8rem;
   }
   .quiz-question {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
   .statement-list li {
     padding: 7px 10px;
