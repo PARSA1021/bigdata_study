@@ -128,6 +128,25 @@ document.addEventListener("DOMContentLoaded", () => {
   // 누적 통계 데이터 로드
   let cumulativeStats = loadStats();
 
+  const LEARNED_KEY = "cbt_learned_concepts";
+  const MEMO_KEY = "cbt_concept_memos";
+  let learnedConcepts = new Set(loadLearnedConcepts());
+  let conceptMemos = loadConceptMemos();
+
+  function loadLearnedConcepts() {
+    try { const raw = localStorage.getItem(LEARNED_KEY); return raw ? JSON.parse(raw) : []; } catch(e) { return []; }
+  }
+  function saveLearnedConcepts() {
+    localStorage.setItem(LEARNED_KEY, JSON.stringify([...learnedConcepts]));
+    updateProgressBar();
+  }
+  function loadConceptMemos() {
+    try { const raw = localStorage.getItem(MEMO_KEY); return raw ? JSON.parse(raw) : {}; } catch(e) { return {}; }
+  }
+  function saveConceptMemos() {
+    localStorage.setItem(MEMO_KEY, JSON.stringify(conceptMemos));
+  }
+
   function loadBookmarks() {
     try {
       const raw = localStorage.getItem(BOOKMARK_KEY);
@@ -233,17 +252,70 @@ document.addEventListener("DOMContentLoaded", () => {
 
       sec.cards.forEach(card => {
         cardMap.set(card.id, card);
+        
+        // 기출문제 연계 처리
+        const relatedQuizzes = allQuizzes.filter(q => q.cardId === card.id || (q.question && q.question.toLowerCase().includes(card.title.toLowerCase())));
+        const quizCount = relatedQuizzes.length;
+        
+        let badgeHtml = "";
+        if (quizCount >= 3) {
+          badgeHtml = `<span class="badge-hot">🔥🔥 A급 빈출 (${quizCount}문제)</span>`;
+        } else if (quizCount > 0) {
+          badgeHtml = `<span class="badge-normal">🔥 기출됨</span>`;
+        }
+
+        let pastExamPointsHtml = "";
+        if (quizCount > 0) {
+          const points = relatedQuizzes
+            .filter(q => q.explanation)
+            .slice(0, 3)
+            .map(q => `<li>${q.explanation.replace(/정답(입니다|임|이다)?\.?/g, '').trim()}</li>`)
+            .join("");
+          if (points) {
+            pastExamPointsHtml = `
+              <div class="past-exam-point">
+                <div class="pep-title">💡 기출문제에서는 이렇게 물어봅니다!</div>
+                <ul class="pep-list">${points}</ul>
+              </div>
+            `;
+          }
+        }
+
         const blocksHtml = card.blocks.map(renderBlock).join("");
         const isOpen = card.open ? "open" : "";
+        const isLearned = learnedConcepts.has(card.id);
+        const learnedClass = isLearned ? "learned" : "";
+        const learnedBtnClass = isLearned ? "active" : "";
+        const learnedText = isLearned ? "✓ 학습 완료" : "학습 완료";
+        
+        const memoText = conceptMemos[card.id] || "";
+        const memoDisplay = memoText ? "flex" : "none";
 
         html += `
-          <article class="card ${isOpen}" id="${card.id}" data-search="${card.title.toLowerCase()}">
+          <article class="card ${isOpen} ${learnedClass}" id="${card.id}" data-search="${card.title.toLowerCase()}">
             <div class="card-header">
-              <h3 class="card-title-text">${card.title}</h3>
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <h3 class="card-title-text">${card.title}</h3>
+                ${badgeHtml}
+                <div class="card-header-actions" style="margin-left: auto;">
+                  ${quizCount > 0 ? `<button class="btn-direct-quiz" data-card-id="${card.id}">🎯 기출 풀기</button>` : ''}
+                  <button class="btn-learned ${learnedBtnClass}" data-card-id="${card.id}">${learnedText}</button>
+                </div>
+              </div>
               <span class="chevron">▾</span>
             </div>
             <div class="card-body">
               ${blocksHtml}
+              ${pastExamPointsHtml}
+              <div class="memo-container">
+                <button class="memo-toggle-btn" data-card-id="${card.id}">
+                  ✏️ 나만의 메모장 ${memoText ? '(작성됨)' : ''}
+                </button>
+                <div class="memo-content" id="memo-content-${card.id}" style="display: ${memoDisplay}">
+                  <textarea class="memo-textarea" id="memo-input-${card.id}" placeholder="여기에 나만의 암기법이나 요약 내용을 작성해보세요.">${memoText}</textarea>
+                  <button class="memo-save-btn" data-card-id="${card.id}">메모 저장</button>
+                </div>
+              </div>
             </div>
           </article>
         `;
@@ -254,16 +326,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // 1-3. 블록 타입별 렌더링
+  function applyHighlight(text) {
+    if (typeof text !== 'string') return text;
+    return text.replace(/<strong>(.*?)<\/strong>/g, '<strong class="highlight-text">$1</strong>');
+  }
+
   function renderBlock(block) {
     switch (block.type) {
-      case "h4": return `<h4>${block.text}</h4>`;
-      case "ul": return `<ul>${block.items.map(i => `<li>${i}</li>`).join("")}</ul>`;
-      case "memo": return `<div class="memo">${block.text}</div>`;
-      case "note": return `<div class="note">${block.text}</div>`;
-      case "formula": return `<div class="formula">${block.text}</div>`;
+      case "h4": return `<h4>${applyHighlight(block.text)}</h4>`;
+      case "ul": return `<ul>${block.items.map(i => `<li>${applyHighlight(i)}</li>`).join("")}</ul>`;
+      case "memo": return `<div class="memo">${applyHighlight(block.text)}</div>`;
+      case "note": return `<div class="note">${applyHighlight(block.text)}</div>`;
+      case "formula": return `<div class="formula">${applyHighlight(block.text)}</div>`;
       case "table":
-        const heads = block.headers.map(h => `<th>${h}</th>`).join("");
-        const rows = block.rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("");
+        const heads = block.headers.map(h => `<th>${applyHighlight(h)}</th>`).join("");
+        const rows = block.rows.map(r => `<tr>${r.map(c => `<td>${applyHighlight(c)}</td>`).join("")}</tr>`).join("");
         return `<table><thead><tr>${heads}</tr></thead><tbody>${rows}</tbody></table>`;
       default: return "";
     }
@@ -1449,15 +1526,125 @@ document.addEventListener("DOMContentLoaded", () => {
     openStatsModal();
   });
 
+  function updateProgressBar() {
+    const progressContainer = document.getElementById("progressContainer");
+    const progressPercent = document.getElementById("progressPercent");
+    const progressBar = document.getElementById("progressBar");
+    
+    if (!progressContainer) return;
+    
+    const totalCards = cardMap.size;
+    if (totalCards === 0) return;
+    
+    let learnedCount = 0;
+    learnedConcepts.forEach(id => {
+      if (cardMap.has(id)) learnedCount++;
+    });
+    
+    const percentage = Math.round((learnedCount / totalCards) * 100);
+    
+    progressContainer.classList.remove("hidden");
+    progressPercent.textContent = `${percentage}%`;
+    progressBar.style.width = `${percentage}%`;
+  }
+
   // === 7. UI 기본 인터랙션 ===
   function bindCardEvents() {
     const headers = document.querySelectorAll(".card-header");
     headers.forEach(header => {
-      header.addEventListener("click", () => {
+      header.addEventListener("click", (e) => {
+        if(e.target.closest('.card-header-actions')) return;
         const card = header.parentElement;
         card.classList.toggle("open");
       });
     });
+
+    document.querySelectorAll(".btn-learned").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const cardId = btn.dataset.cardId;
+        const cardEl = document.getElementById(cardId);
+        
+        if (learnedConcepts.has(cardId)) {
+          learnedConcepts.delete(cardId);
+          btn.classList.remove("active");
+          btn.textContent = "학습 완료";
+          cardEl.classList.remove("learned");
+        } else {
+          learnedConcepts.add(cardId);
+          btn.classList.add("active");
+          btn.textContent = "✓ 학습 완료";
+          cardEl.classList.add("learned");
+        }
+        saveLearnedConcepts();
+      });
+    });
+
+    document.querySelectorAll(".btn-direct-quiz").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const cardId = btn.dataset.cardId;
+        
+        activeConceptCardId = cardId;
+        quizFilter.conceptCardId = cardId;
+        quizFilter.onlyWrong = false;
+        quizFilter.onlyBookmarked = false;
+        
+        if (quizContentEl.classList.contains("hidden")) {
+          quizContentEl.classList.remove("hidden");
+          contentEl.classList.add("hidden");
+          sidebar.style.display = "none";
+          quizToggleBtn.textContent = "요약노트 보기";
+          quizToggleBtn.style.backgroundColor = "var(--success-color)";
+          
+          document.querySelectorAll('.bottom-nav-item').forEach(n => n.classList.remove('active'));
+          const practiceNav = document.querySelector('.bottom-nav-item[data-nav="practice"]');
+          if(practiceNav) practiceNav.classList.add('active');
+        }
+        
+        setMode("practice");
+        applyQuizFilter();
+        renderQuizToolbar();
+      });
+    });
+
+    document.querySelectorAll(".memo-toggle-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const cardId = btn.dataset.cardId;
+        const memoContent = document.getElementById(`memo-content-${cardId}`);
+        if (memoContent.style.display === "none") {
+          memoContent.style.display = "flex";
+        } else {
+          memoContent.style.display = "none";
+        }
+      });
+    });
+
+    document.querySelectorAll(".memo-save-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const cardId = btn.dataset.cardId;
+        const textarea = document.getElementById(`memo-input-${cardId}`);
+        const text = textarea.value.trim();
+        
+        conceptMemos[cardId] = text;
+        saveConceptMemos();
+        
+        const toggleBtn = document.querySelector(`.memo-toggle-btn[data-card-id="${cardId}"]`);
+        if (text) {
+          toggleBtn.innerHTML = "✏️ 나만의 메모장 (작성됨)";
+        } else {
+          toggleBtn.innerHTML = "✏️ 나만의 메모장";
+        }
+        
+        const originalText = btn.textContent;
+        btn.textContent = "저장됨!";
+        setTimeout(() => { btn.textContent = originalText; }, 1500);
+      });
+    });
+    
+    updateProgressBar();
   }
 
   function escapeRegex(str) {

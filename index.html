@@ -166,6 +166,16 @@
       <!-- 메인 컨텐츠 영역 -->
       <main class="main-content" id="mainContent">
         <div class="content-wrapper">
+          <!-- 진도율 표시 바 (추가) -->
+          <div id="progressContainer" class="progress-container hidden">
+            <div class="progress-info">
+              <span id="progressLabel" class="progress-label">과목 진도율</span>
+              <span id="progressPercent" class="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div id="progressBar" class="progress-bar-fill"></div>
+            </div>
+          </div>
           <div id="content">
             <div class="loading-spinner">
               <svg class="spinner" viewBox="0 0 50 50">
