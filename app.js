@@ -96,6 +96,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let allQuizzes = [];       // 전체 문제
   let workingQuizzes = [];   // 연습 모드 필터 문제
   let currentMode = "practice"; // 'practice' | 'mock'
+  let studyMode = false; // 정답/해설 바로 보기
+  let mockWrongOnly = false; // 모의고사 오답만 보기
   let bookmarks = new Set(loadBookmarks());
 
   // 데이터 맵 & 양방향 연계 맵
@@ -521,13 +523,38 @@ document.addEventListener("DOMContentLoaded", () => {
       updateTimerDisplay();
       if (timerSeconds <= 0) {
         clearInterval(timerInterval);
-        alert("⏱️ 시험 시간이 종료되었습니다! 답안이 자동 제출됩니다.");
-        submitMockExam();
+        showCustomAlert("⏱️ 시험 시간이 종료되었습니다!<br>답안이 자동 제출됩니다.", () => {
+          submitMockExam();
+        });
       }
     }, 1000);
 
     renderMockQuizzes();
     renderOmrGrid();
+  }
+
+  function showCustomAlert(msg, callback) {
+    let alertOverlay = document.getElementById("customAlertOverlay");
+    if (!alertOverlay) {
+      alertOverlay = document.createElement("div");
+      alertOverlay.id = "customAlertOverlay";
+      alertOverlay.className = "modal-overlay";
+      alertOverlay.style.zIndex = "2000";
+      alertOverlay.innerHTML = `
+        <div class="modal-card blur-glass" style="max-width: 400px; text-align: center; padding: 30px 20px;">
+          <div id="customAlertMsg" style="font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; line-height: 1.5;"></div>
+          <button id="customAlertBtn" class="quiz-btn w-full" style="padding: 12px; font-size: 1.05rem;">확인</button>
+        </div>
+      `;
+      document.body.appendChild(alertOverlay);
+      document.getElementById("customAlertBtn").addEventListener("click", () => {
+        alertOverlay.classList.add("hidden");
+        if (alertOverlay.callback) alertOverlay.callback();
+      });
+    }
+    document.getElementById("customAlertMsg").innerHTML = msg;
+    alertOverlay.callback = callback;
+    alertOverlay.classList.remove("hidden");
   }
 
   if (mockPreset10th) {
@@ -551,7 +578,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderMockQuizzes() {
     let html = "";
-    mockQuizzes.forEach((quiz, index) => {
+    
+    // 모의고사 오답 필터링 적용
+    let quizzesToRender = mockQuizzes;
+    if (isMockSubmitted && mockWrongOnly) {
+      quizzesToRender = mockQuizzes.filter(q => mockSolvedMap.get(q.id) !== q.answer);
+    }
+
+    if (quizzesToRender.length === 0 && isMockSubmitted && mockWrongOnly) {
+      quizContainer.innerHTML = `<div class="loading" style="padding: 40px; text-align: center;">🎉 틀린 문제가 없습니다! 완벽합니다.</div>`;
+      quizScoreEl.innerHTML = `최종 제출 완료 · 틀린 문제가 없습니다.`;
+      return;
+    }
+
+    quizzesToRender.forEach((quiz, idx) => {
+      const index = mockQuizzes.indexOf(quiz);
       const optionsArray = quiz.choices || quiz.options;
       let optionsHtml = "";
       const userChosen = mockSolvedMap.get(quiz.id);
@@ -842,6 +883,11 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         `).join("")}
       </div>
+      <div style="margin-top: 24px; text-align: center;">
+        <button id="mockWrongOnlyToggle" class="quiz-btn" style="background: ${mockWrongOnly ? 'var(--text-muted)' : 'var(--danger-color)'}; width: 100%; padding: 12px; font-size: 1.05rem; box-shadow: var(--shadow-sm);">
+          ${mockWrongOnly ? '전체 문제 다시 보기' : '🎯 틀린 문제만 모아보기'}
+        </button>
+      </div>
     `;
 
     statsModal.classList.remove("hidden");
@@ -850,6 +896,16 @@ document.addEventListener("DOMContentLoaded", () => {
     statsModal.querySelector(".stats-section-title").textContent = "과목별 상세 채점 결과";
     subjectStatsContainer.innerHTML = detailHtml;
     weaknessAlert.classList.add("hidden");
+
+    const toggleBtn = document.getElementById("mockWrongOnlyToggle");
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", () => {
+        mockWrongOnly = !mockWrongOnly;
+        renderMockQuizzes();
+        statsModal.classList.add("hidden");
+        document.querySelector("#mock-header").scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
   }
 
   function toggleOmr(show) {
@@ -885,13 +941,25 @@ document.addEventListener("DOMContentLoaded", () => {
       conceptChip = `<button id="clearConceptFilterBtn" class="filter-chip active" style="background-color:var(--success-color); border-color:var(--success-color);">🎯 개념: ${cTitle} ✕</button>`;
     }
 
+    const studyModeToggle = `
+      <label class="study-mode-toggle" style="display: flex; align-items: center; gap: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; color: var(--primary-color); background: rgba(0,122,255,0.08); padding: 6px 12px; border-radius: 20px;">
+        <input type="checkbox" id="studyModeCheckbox" ${studyMode ? 'checked' : ''} style="width: 16px; height: 16px; cursor: pointer;">
+        📖 정답/해설 바로 보기 (학습 모드)
+      </label>
+    `;
+
     quizToolbarEl.innerHTML = `
+      <div class="filter-row" style="align-items:center; justify-content: space-between;">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          ${conceptChip}
+          ${subjectBtns}
+        </div>
+        ${studyModeToggle}
+      </div>
       <div class="filter-row" style="align-items:center;">
-        ${conceptChip}
-        ${subjectBtns}
-        <div class="quiz-search-box">
+        <div class="quiz-search-box" style="flex: 1;">
           <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" id="quizSearchInput" placeholder="개념/문제 키워드 검색..." value="${quizFilter.keyword || ''}" />
+          <input type="text" id="quizSearchInput" placeholder="개념/문제 키워드 검색..." value="${quizFilter.keyword || ''}" style="width:100%; border:none; background:transparent; padding:8px 8px 8px 36px; outline:none;" />
         </div>
       </div>
       <div class="filter-row">${diffBtns}</div>
@@ -902,6 +970,14 @@ document.addEventListener("DOMContentLoaded", () => {
         <button id="resetQuizBtn" class="btn-small">↺ 초기화</button>
       </div>
     `;
+
+    const studyModeCheckbox = document.getElementById("studyModeCheckbox");
+    if (studyModeCheckbox) {
+      studyModeCheckbox.addEventListener("change", (e) => {
+        studyMode = e.target.checked;
+        renderQuizzes(workingQuizzes);
+      });
+    }
 
     if (document.getElementById("clearConceptFilterBtn")) {
       document.getElementById("clearConceptFilterBtn").addEventListener("click", () => {
@@ -1179,9 +1255,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     pageItems.forEach(quiz => {
-      if (!solvedMap.has(quiz.id)) return;
       const card = document.getElementById(quiz.id);
       if (!card) return;
+      
+      const isSolved = solvedMap.has(quiz.id);
+      
+      if (studyMode && !isSolved) {
+        const answerIdx = quiz.answer;
+        const explanation = card.querySelector(".quiz-explanation");
+        const status = card.querySelector(".quiz-status");
+        
+        explanation.classList.remove("hidden");
+        status.textContent = "📖 학습 모드";
+        status.className = "quiz-status";
+        status.style.color = "var(--primary-color)";
+        
+        finalizeCard(card, answerIdx, -1, true);
+        card.classList.add("solved");
+        return;
+      }
+      
+      if (!isSolved) return;
       const wasCorrect = solvedMap.get(quiz.id);
       const answerIdx = quiz.answer;
       const chosenIdx = wasCorrect ? answerIdx : (chosenAnswerMap.get(quiz.id) ?? -1);
@@ -1213,10 +1307,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const fbDiv = quizCard.querySelector(`#feedback-${quizId}-${clickedIdx}`);
         const isCorrect = clickedIdx === answerIdx;
         
-        if (!isCorrect && fbDiv && currentQuizObj && currentQuizObj.whyWrong && currentQuizObj.whyWrong[clickedIdx]) {
-          const reason = currentQuizObj.whyWrong[clickedIdx];
-          if (reason !== "정답") {
-            fbDiv.textContent = `💡 오답 노트: ${reason}`;
+        if (!isCorrect) {
+          // 오답 선택 시 버튼 흔들림 효과
+          btn.classList.add("shake-animation");
+          setTimeout(() => btn.classList.remove("shake-animation"), 400);
+
+          if (fbDiv) {
+            let reasonText = "";
+            if (currentQuizObj && currentQuizObj.whyWrong && currentQuizObj.whyWrong[clickedIdx]) {
+              const reason = currentQuizObj.whyWrong[clickedIdx];
+              if (reason !== "정답") reasonText = reason;
+            }
+            
+            if (reasonText) {
+              fbDiv.innerHTML = `<span class="feedback-icon">💡</span> <div><strong style="color:var(--danger-color); display:block; margin-bottom:4px;">왜 틀렸을까요?</strong> <span style="color:var(--text-color);">${reasonText}</span></div>`;
+            } else {
+              fbDiv.innerHTML = `<span class="feedback-icon">💡</span> <div><strong style="color:var(--danger-color); display:block; margin-bottom:4px;">오답입니다!</strong> <span style="color:var(--text-color);">아쉽게도 정답이 아닙니다. 아래 해설을 통해 이유를 확인해 보세요!</span></div>`;
+            }
             fbDiv.classList.remove("hidden");
           }
         }
@@ -1511,14 +1618,11 @@ document.addEventListener("DOMContentLoaded", () => {
       let wrongQuizzes = allQuizzes.filter(q => wrongList.includes(q.id));
       
       // 5. 조합 (오답 최대 10문제 + 취약과목 랜덤 10문제)
-      // Array 섞기 유틸
-      const shuffle = (array) => array.sort(() => Math.random() - 0.5);
-      
       let selectedQuizzes = [];
-      shuffle(wrongQuizzes);
+      shuffleArray(wrongQuizzes);
       selectedQuizzes.push(...wrongQuizzes.slice(0, 10));
       
-      shuffle(weakSubjectQuizzes);
+      shuffleArray(weakSubjectQuizzes);
       let needed = 20 - selectedQuizzes.length;
       // 중복 방지
       let additional = weakSubjectQuizzes.filter(q => !selectedQuizzes.includes(q)).slice(0, needed);
@@ -1527,13 +1631,13 @@ document.addEventListener("DOMContentLoaded", () => {
       // 만약 20문제가 안채워지면 전체 랜덤으로 채우기
       if (selectedQuizzes.length < 20) {
         let allShuffled = [...allQuizzes];
-        shuffle(allShuffled);
+        shuffleArray(allShuffled);
         needed = 20 - selectedQuizzes.length;
         let more = allShuffled.filter(q => !selectedQuizzes.includes(q)).slice(0, needed);
         selectedQuizzes.push(...more);
       }
       
-      shuffle(selectedQuizzes); // 최종 셔플
+      shuffleArray(selectedQuizzes); // 최종 셔플
       
       // 퀴즈 렌더링 시작
       workingQuizzes = selectedQuizzes;
@@ -1542,7 +1646,7 @@ document.addEventListener("DOMContentLoaded", () => {
       renderQuizzes(workingQuizzes);
       
       // UI 알림
-      alert(`⚡ [스마트 학습] 취약 과목(${lowestSub}과목) 및 오답 위주로 20문제가 출제되었습니다. 꼭 다 맞혀보세요!`);
+      showCustomAlert(`⚡ [스마트 학습] 취약 과목(${lowestSub}과목) 및 오답 위주로 20문제가 출제되었습니다. 꼭 다 맞혀보세요!`);
     });
   }
 
@@ -1998,6 +2102,18 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       searchInput.focus();
       searchInput.select();
+      return;
+    }
+
+    if (e.key === "ArrowLeft") {
+      const prevBtn = document.querySelector('.page-nav-btn[data-page="prev"]');
+      if (prevBtn && !prevBtn.disabled) prevBtn.click();
+      return;
+    }
+    
+    if (e.key === "ArrowRight") {
+      const nextBtn = document.querySelector('.page-nav-btn[data-page="next"]');
+      if (nextBtn && !nextBtn.disabled) nextBtn.click();
       return;
     }
 
