@@ -2398,6 +2398,215 @@
               ]
             }
           ]
+        },
+        {
+          "id": "c5-8",
+          "title": "혼동 행렬 (Confusion Matrix) 및 평가 지표",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "분류 모델의 주요 평가 지표"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>정확도(Accuracy):</strong> 전체 데이터 중 맞게 예측한 비율",
+                "<strong>정밀도(Precision):</strong> Positive로 예측한 것 중 실제 Positive인 비율 (오진이 치명적일 때 중요)",
+                "<strong>재현율(Recall / Sensitivity):</strong> 실제 Positive 중 예측이 적중한 비율 (질병 진단 등 놓치면 안 될 때 중요)",
+                "<strong>F1 Score:</strong> 정밀도와 재현율의 조화평균 (데이터 불균형 시 유용)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-9",
+          "title": "앙상블 기법 (Ensemble Learning)",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "다수결을 통한 성능 향상"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>배깅(Bagging):</strong> 훈련 데이터를 복원 추출하여 여러 모델을 독립적으로 학습 (예: Random Forest, 분산 감소에 효과적)",
+                "<strong>부스팅(Boosting):</strong> 이전 모델의 오답에 가중치를 부여하며 순차적으로 학습 (예: XGBoost, LightGBM, 편향 감소에 효과적)",
+                "<strong>스태킹(Stacking):</strong> 여러 모델의 예측값을 다시 훈련 데이터로 사용하여 최종 모델을 학습"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-10",
+          "title": "결측치(Missing Value) 및 이상치(Outlier) 처리",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "데이터 전처리 핵심"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>결측치 대치법:</strong> 단순 대치(평균, 중앙값, 최빈값), K-NN 대치법, 다중 대치법(Multiple Imputation)",
+                "<strong>이상치 탐지(ESD):</strong> 평균으로부터 3 표준편차 이상 떨어진 값 제거",
+                "<strong>이상치 탐지(IQR):</strong> Q1 - 1.5 * IQR 미만, Q3 + 1.5 * IQR 초과인 데이터 탐지 및 제거"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-11",
+          "title": "딥러닝 활성화 함수 (Activation Function)",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "비선형성 부여 함수"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>Sigmoid:</strong> 0~1 사이의 값으로 변환 (이진 분류의 출력층에 주로 사용)",
+                "<strong>Softmax:</strong> 여러 값들의 합이 1이 되도록 변환 (다중 분류의 출력층에 사용)",
+                "<strong>ReLU:</strong> 음수는 0, 양수는 그대로 반환 (기울기 소실 문제 해결, 은닉층에서 가장 널리 쓰임)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-12",
+          "title": "차원 축소 기법 (PCA vs t-SNE)",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "데이터 압축 및 시각화"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>PCA (주성분 분석):</strong> 데이터의 분산을 최대한 보존하는 새로운 직교 기저(주성분)를 찾아 선형적으로 차원을 축소",
+                "<strong>t-SNE:</strong> 데이터 점들 간의 거리/유사도를 기반으로 고차원 데이터를 2차원 또는 3차원으로 비선형 축소 (시각화에 탁월)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-13",
+          "title": "데이터 불균형 해결 (Data Imbalance Handling)",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "샘플링 기법"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>오버샘플링(Oversampling):</strong> 적은 클래스의 데이터를 복제하여 증가시킴 (과적합 위험 있음)",
+                "<strong>SMOTE (Synthetic Minority Over-sampling Technique):</strong> 소수 클래스 데이터의 K-최근접 이웃을 찾아 그 사이를 가상의 데이터로 채우는 기법 (가장 빈출)",
+                "<strong>언더샘플링(Undersampling):</strong> 많은 클래스의 데이터를 줄여 비율을 맞춤 (데이터 손실 문제 발생)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-14",
+          "title": "연관 분석 (Association Rules)",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "장바구니 분석의 3대 지표"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>지지도(Support):</strong> 전체 거래 중 항목 A와 B를 동시에 포함하는 거래의 비율 (P(A∩B))",
+                "<strong>신뢰도(Confidence):</strong> 항목 A를 포함한 거래 중에서 B도 포함하는 비율 (P(B|A))",
+                "<strong>향상도(Lift):</strong> A가 주어지지 않았을 때 B의 확률에 비해 A가 주어졌을 때 B의 확률 증가 비율. 1보다 크면 양의 상관관계, 1이면 독립"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-15",
+          "title": "군집 분석 평가 지표 (Clustering Evaluation)",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "비지도 학습의 품질 평가"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>실루엣 계수 (Silhouette Coefficient):</strong> -1에서 1 사이의 값을 가지며, 1에 가까울수록 군집화가 잘 된 것 (클러스터 내 거리는 가깝고, 클러스터 간 거리는 멀다)",
+                "<strong>Dunn Index:</strong> 군집 간 거리의 최솟값을 군집 내 거리의 최댓값으로 나눈 값 (클수록 좋음)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-16",
+          "title": "교차 검증 (Cross Validation)",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "과적합 방지 및 모델 일반화"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>K-Fold 교차 검증:</strong> 데이터를 K개로 분할하여 K-1개로 훈련, 1개로 검증을 K번 반복",
+                "<strong>Stratified K-Fold:</strong> 불균형 데이터에서 각 폴드가 원본 데이터의 클래스 비율을 유지하도록 분할",
+                "<strong>LOOCV (Leave-One-Out CV):</strong> 데이터 1개만 검증용으로, 나머지를 훈련용으로 사용하는 방식 (시간 오래 걸림)"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-17",
+          "title": "과적합(Overfitting) 방지 기법",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "정규화 및 딥러닝 규제"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>L1 규제 (Lasso):</strong> 가중치의 절댓값 합을 패널티로 부여하여 일부 변수의 가중치를 0으로 만듦 (변수 선택 효과)",
+                "<strong>L2 규제 (Ridge):</strong> 가중치의 제곱 합을 패널티로 부여하여 가중치 크기를 전반적으로 줄임",
+                "<strong>드롭아웃 (Dropout):</strong> 딥러닝 학습 시 은닉층의 뉴런을 무작위로 꺼서(0으로 만듦) 특정 뉴런에 대한 의존도를 낮춤",
+                "<strong>조기 종료 (Early Stopping):</strong> 검증 오차가 증가하기 시작할 때 학습을 미리 멈춤"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "c5-18",
+          "title": "데이터 스케일링 (Data Scaling)",
+          "open": false,
+          "blocks": [
+            {
+              "type": "h4",
+              "text": "수치형 데이터 정규화"
+            },
+            {
+              "type": "ul",
+              "items": [
+                "<strong>표준화 (Standardization / Z-score):</strong> 평균을 0, 표준편차를 1로 변환. 이상치에 덜 민감함.",
+                "<strong>최소-최대 스케일링 (Min-Max Scaling):</strong> 최솟값을 0, 최댓값을 1로 변환. 이상치에 매우 취약함.",
+                "<strong>Robust Scaler:</strong> 중앙값(Median)과 사분위수(IQR)를 사용하여 이상치의 영향을 최소화"
+              ]
+            }
+          ]
         }
       ]
     },
