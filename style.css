@@ -1929,3 +1929,36 @@ mark {
 .pep-list li {
   margin-bottom: 4px;
 }
+
+/* =========================================================
+   Focus Mode & Reading Mode Optimizations
+   ========================================================= */
+
+body.focus-mode .sidebar { display: none !important; }
+body.focus-mode .bottom-nav { display: none !important; }
+body.focus-mode .topbar { background: transparent !important; border-bottom: none !important; box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+body.focus-mode .topbar > *:not(.topbar-actions) { opacity: 0; pointer-events: none; }
+body.focus-mode .topbar-actions > *:not(.focus-btn) { display: none !important; }
+body.focus-mode .layout { padding-top: 20px !important; margin-top: 40px; }
+body.focus-mode .layout.split-view .content-wrapper { grid-template-columns: 1fr !important; }
+body.focus-mode .main-content { margin-left: 0 !important; width: 100% !important; }
+body.focus-mode .content-wrapper { max-width: 900px !important; }
+body.focus-mode .quiz-toolbar { opacity: 0.3; transition: opacity 0.3s; }
+body.focus-mode .quiz-toolbar:hover { opacity: 1; }
+body.focus-mode .quiz-score { border: none; background: transparent; box-shadow: none; }
+
+/* Reading Mode / Typography Enhancements */
+.memo mark, .note mark {
+  background: linear-gradient(120deg, rgba(255,235,59,0.5) 0%, rgba(255,235,59,0.5) 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 40%;
+  background-position: 0 88%;
+  font-weight: 700;
+  padding: 0 2px;
+  color: var(--text-color);
+}
+.memo strong, .note strong {
+  color: var(--primary-color);
+  font-weight: 800;
+  font-size: 1.05em;
+}
