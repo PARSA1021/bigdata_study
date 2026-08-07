@@ -16,11 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const quizContainer = document.getElementById("quiz-container");
   const quizToolbarEl = document.getElementById("quiz-toolbar");
   const quizScoreEl = document.getElementById("quiz-score");
-  const quizToggleBtn = document.getElementById("quizToggleBtn");
   const themeToggleBtn = document.getElementById("themeToggleBtn");
-  const splitViewBtn = document.getElementById("splitViewBtn");
   const focusToggleBtn = document.getElementById("focusToggleBtn");
-  const statsToggleBtn = document.getElementById("statsToggleBtn");
   const smartWeaknessBtn = document.getElementById("smartWeaknessBtn");
   const navEl = document.getElementById("nav-container");
   const searchInput = document.getElementById("searchInput");
@@ -648,6 +645,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <p>${quiz.explanation}</p>
             ${whyWrongHtml}
             ${quiz.cardId ? `<button class="concept-link-btn" data-card-id="${quiz.cardId}">📖 핵심 개념 요약 미리보기</button>` : ''}
+            ${getRelatedConceptsHtml(quiz)}
           </div>
         `;
       }
@@ -1068,11 +1066,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (quizFilter.onlyWrong && !wrongIds.has(q.id)) return false;
       if (quizFilter.onlyBookmarked && !bookmarks.has(q.id)) return false;
       if (quizFilter.keyword && quizFilter.keyword.trim() !== "") {
-        const kw = quizFilter.keyword.trim().toLowerCase();
-        const qText = (q.question + " " + q.explanation).toLowerCase();
+        const keywords = quizFilter.keyword.trim().toLowerCase().split(/\s+/);
+        const qText = (q.question + " " + (q.explanation || "")).toLowerCase();
         const concept = getConceptCardForQuiz(q);
         const cTitle = concept ? concept.title.toLowerCase() : "";
-        if (!qText.includes(kw) && !cTitle.includes(kw)) return false;
+        const allKeywordsMatch = keywords.every(kw => qText.includes(kw) || cTitle.includes(kw));
+        if (!allKeywordsMatch) return false;
       }
       return true;
     });
@@ -1106,6 +1105,33 @@ document.addEventListener("DOMContentLoaded", () => {
       }).join("")}</ul>`;
     }
     return html;
+  }
+
+  function getRelatedConceptsHtml(quiz) {
+    let relatedHtml = "";
+    const relatedCards = [];
+    const qText = (quiz.question + " " + (quiz.explanation || "") + " " + (quiz.whyWrong ? quiz.whyWrong.join(" ") : "")).toLowerCase();
+    
+    cardMap.forEach((card, cardId) => {
+      // 본래 매핑된 카드는 제외
+      if (cardId === quiz.cardId) return;
+      
+      const cTitle = card.title.toLowerCase();
+      // 개념명이 2글자 이상인 경우에만 (너무 짧은 단어 제외)
+      if (cTitle.length >= 2 && qText.includes(cTitle)) {
+        relatedCards.push(card);
+      }
+    });
+
+    if (relatedCards.length > 0) {
+      relatedHtml += `<div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">`;
+      relatedHtml += `<span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">연관 개념:</span>`;
+      relatedCards.forEach(card => {
+        relatedHtml += `<button class="concept-link-btn" data-card-id="${card.id}" style="padding: 4px 8px; font-size: 0.8rem; background: rgba(59,130,246,0.1); color: var(--primary-color); border: 1px solid rgba(59,130,246,0.2);">🏷️ ${card.title}</button>`;
+      });
+      relatedHtml += `</div>`;
+    }
+    return relatedHtml;
   }
 
   function renderPaginationControls(totalItems, totalPages, position) {
@@ -1218,6 +1244,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <p>${quiz.explanation}</p>
             ${whyWrongHtml}
             ${conceptCard ? `<button class="concept-link-btn" data-card-id="${conceptCard.id}">📖 핵심 개념 요약 미리보기</button>` : ''}
+            ${getRelatedConceptsHtml(quiz)}
             <button class="next-quiz-btn hidden">다음 문제로 이동 ↓</button>
           </div>
         </div>
@@ -1507,8 +1534,6 @@ document.addEventListener("DOMContentLoaded", () => {
       quizContentEl.classList.remove("hidden");
       contentEl.classList.add("hidden");
       sidebar.style.display = "none";
-      quizToggleBtn.textContent = "요약노트 보기";
-      quizToggleBtn.style.backgroundColor = "var(--success-color)";
     }
     setMode("practice");
     applyQuizFilter();
@@ -1518,13 +1543,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function jumpToFullNote(cardId) {
     conceptModal.classList.add("hidden");
 
-    if (!mainLayout.classList.contains("split-view")) {
-      quizContentEl.classList.add("hidden");
-      contentEl.classList.remove("hidden");
-      sidebar.style.display = "";
-      quizToggleBtn.textContent = "문제 풀기";
-      quizToggleBtn.style.backgroundColor = "";
-    }
+    quizContentEl.classList.add("hidden");
+    contentEl.classList.remove("hidden");
+    sidebar.style.display = "";
 
     const targetCard = document.getElementById(cardId);
     if (targetCard) {
@@ -1650,29 +1671,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // === 6. 화면 분할 뷰 (Split View) ===
-  splitViewBtn.addEventListener("click", () => {
-    const isSplit = mainLayout.classList.toggle("split-view");
-    splitViewBtn.classList.toggle("active", isSplit);
-
-    if (isSplit) {
-      contentEl.classList.remove("hidden");
-      quizContentEl.classList.remove("hidden");
-      sidebar.style.display = "none";
-    } else {
-      if (quizToggleBtn.textContent === "요약노트 보기") {
-        contentEl.classList.add("hidden");
-        quizContentEl.classList.remove("hidden");
-      } else {
-        contentEl.classList.remove("hidden");
-        quizContentEl.classList.add("hidden");
-        sidebar.style.display = "";
-      }
-    }
-  });
-
   // === 6. 학습 통계 및 약점 분석 모달 (취약 개념 Top 3 진단) ===
-  statsToggleBtn.addEventListener("click", openStatsModal);
   closeStatsBtn.addEventListener("click", () => statsModal.classList.add("hidden"));
   closeStatsModalBtn.addEventListener("click", () => statsModal.classList.add("hidden"));
 
@@ -1959,23 +1958,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function runSearch(rawQuery) {
     const query = rawQuery.trim().toLowerCase();
+    const keywords = query ? query.split(/\s+/) : [];
     const cards = document.querySelectorAll(".card");
     let visibleCount = 0;
 
     clearHighlights();
+    
+    // 정규식 인스턴스화 최적화 (단 한번만 생성)
+    const pattern = keywords.map(kw => escapeRegex(kw)).join('|');
+    const searchRegex = pattern ? new RegExp(`(${pattern})`, "ig") : null;
 
     cards.forEach(card => {
       const text = card.textContent.toLowerCase();
-      const matches = query === "" || text.includes(query);
+      const matches = keywords.length === 0 || keywords.every(kw => text.includes(kw));
       if (matches) {
         card.classList.remove("hidden");
-        if (query !== "") {
+        if (keywords.length > 0) {
           card.classList.add("open");
           visibleCount++;
           const titleEl = card.querySelector(".card-title-text");
-          if (titleEl && query.length > 0) {
-            const re = new RegExp(`(${escapeRegex(rawQuery.trim())})`, "ig");
-            titleEl.innerHTML = titleEl.textContent.replace(re, "<mark>$1</mark>");
+          if (titleEl && searchRegex) {
+            titleEl.innerHTML = titleEl.textContent.replace(searchRegex, "<mark>$1</mark>");
           }
         }
       } else {
@@ -1985,10 +1988,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.querySelectorAll(".section").forEach(section => {
       const visibleCards = section.querySelectorAll(".card:not(.hidden)");
-      section.classList.toggle("hidden", query !== "" && visibleCards.length === 0);
+      section.classList.toggle("hidden", keywords.length > 0 && visibleCards.length === 0);
     });
 
-    if (query === "") {
+    if (keywords.length === 0) {
       searchStatusEl.classList.add("hidden");
     } else {
       searchStatusEl.classList.remove("hidden");
@@ -2036,27 +2039,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  quizToggleBtn.addEventListener("click", () => {
-    const isQuizHidden = quizContentEl.classList.contains("hidden");
-    document.querySelectorAll(".bottom-nav-item").forEach(i => i.classList.remove("active"));
-    
-    if (isQuizHidden) {
-      quizContentEl.classList.remove("hidden");
-      contentEl.classList.add("hidden");
-      sidebar.style.display = "none";
-      quizToggleBtn.textContent = "요약노트 보기";
-      quizToggleBtn.style.backgroundColor = "var(--success-color)";
-      document.querySelector('.bottom-nav-item[data-nav="practice"]')?.classList.add("active");
-    } else {
-      quizContentEl.classList.add("hidden");
-      contentEl.classList.remove("hidden");
-      sidebar.style.display = "";
-      quizToggleBtn.textContent = "문제 풀기";
-      quizToggleBtn.style.backgroundColor = "";
-      document.querySelector('.bottom-nav-item[data-nav="notes"]')?.classList.add("active");
-    }
-  });
-
   document.querySelectorAll(".bottom-nav-item").forEach(item => {
     item.addEventListener("click", () => {
       document.querySelectorAll(".bottom-nav-item").forEach(i => i.classList.remove("active"));
@@ -2067,21 +2049,15 @@ document.addEventListener("DOMContentLoaded", () => {
         quizContentEl.classList.add("hidden");
         contentEl.classList.remove("hidden");
         sidebar.style.display = "";
-        quizToggleBtn.textContent = "문제 풀기";
-        quizToggleBtn.style.backgroundColor = "";
       } else if (targetNav === "practice") {
         quizContentEl.classList.remove("hidden");
         contentEl.classList.add("hidden");
         sidebar.style.display = "none";
-        quizToggleBtn.textContent = "요약노트 보기";
-        quizToggleBtn.style.backgroundColor = "var(--success-color)";
         setMode("practice");
       } else if (targetNav === "mock") {
         quizContentEl.classList.remove("hidden");
         contentEl.classList.add("hidden");
         sidebar.style.display = "none";
-        quizToggleBtn.textContent = "요약노트 보기";
-        quizToggleBtn.style.backgroundColor = "var(--success-color)";
         setMode("mock");
       } else if (targetNav === "stats") {
         openStatsModal();

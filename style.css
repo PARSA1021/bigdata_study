@@ -336,7 +336,7 @@ h1, h2, h3, h4 {
 .content-wrapper {
   max-width: 800px;
   margin: 0 auto;
-  padding: 30px 20px 80px; /* Bottom padding for scroll */
+  padding: 30px 20px 120px; /* Bottom padding for floating dock */
 }
 
 /* Loading */
@@ -386,11 +386,11 @@ h1, h2, h3, h4 {
 
 .card {
   background-color: var(--surface-color);
-  border-radius: var(--radius-md);
+  border-radius: 18px;
   margin-bottom: 16px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  transition: box-shadow var(--transition), transform 0.2s;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
   scroll-margin-top: calc(var(--topbar-height) + 16px);
 }
 .card mark {
@@ -399,7 +399,10 @@ h1, h2, h3, h4 {
   padding: 0 2px;
   border-radius: 3px;
 }
-.card:hover { box-shadow: var(--shadow-md); }
+.card:hover {
+  box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
 
 .card-header {
   padding: 16px 20px;
@@ -413,7 +416,7 @@ h1, h2, h3, h4 {
   top: 0;
   z-index: 10;
   background-color: var(--surface-color);
-  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  border-radius: 18px 18px 0 0;
   transition: background-color 0.2s;
 }
 .card-header:active { background-color: var(--surface-hover); }
@@ -607,10 +610,15 @@ mark {
 
 .quiz-card {
   background-color: var(--surface-color);
-  border-radius: var(--radius-lg);
+  border-radius: 18px;
   padding: 24px;
   margin-bottom: 24px;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+.quiz-card:hover {
+  box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
 }
 .quiz-card-top {
   display: flex;
@@ -642,7 +650,7 @@ mark {
   font-size: 1.08rem;
   font-weight: 600;
   margin-bottom: 20px;
-  line-height: 1.55;
+  line-height: 1.6;
 }
 .q-number {
   flex: 0 0 auto;
@@ -731,7 +739,9 @@ mark {
 
 .quiz-option:hover:not(:disabled) {
   border-color: var(--primary-color);
-  background-color: var(--surface-color);
+  background-color: var(--surface-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 .quiz-option:hover:not(:disabled) .option-badge {
   background-color: var(--primary-color);
@@ -810,7 +820,7 @@ mark {
 /* To Top Button */
 .to-top-btn {
   position: fixed;
-  bottom: 30px;
+  bottom: 100px;
   right: 30px;
   width: 50px;
   height: 50px;
@@ -1257,35 +1267,7 @@ mark {
   border: 2px solid var(--primary-color);
 }
 
-/* Split View Layout (Desktop / Tablet) */
-@media (min-width: 900px) {
-  .layout.split-view {
-    max-width: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  .layout.split-view .sidebar {
-    display: none !important;
-  }
-  .layout.split-view .main-content {
-    margin-left: 0;
-    width: 100%;
-  }
-  .layout.split-view .content-wrapper {
-    max-width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    align-items: start;
-  }
-  .layout.split-view #content,
-  .layout.split-view #quiz-content {
-    display: block !important;
-    height: calc(100vh - var(--topbar-height) - 40px);
-    overflow-y: auto;
-    padding-right: 8px;
-  }
-}
+/* Split View Layout (Desktop / Tablet) Removed */
 
 /* Modal Overlay & Card */
 .modal-overlay {
@@ -1441,14 +1423,14 @@ mark {
   border: 1px solid var(--danger-color);
 }
 
-/* Mobile Bottom Nav Bar */
+/* Bottom Nav / Floating Dock (Responsive) */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   height: 60px;
-  display: none;
+  display: flex;
   justify-content: space-around;
   align-items: center;
   border-top: 0.5px solid var(--border-color);
@@ -1476,10 +1458,44 @@ mark {
   color: var(--primary-color);
 }
 
-@media (max-width: 767px) {
+/* Floating Dock for PC/Tablet */
+@media (min-width: 768px) {
   .bottom-nav {
-    display: flex;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    min-width: 400px;
+    height: 64px;
+    border-radius: 32px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    background-color: var(--surface-color);
+    padding: 0 16px;
+    gap: 8px;
   }
+  [data-theme="dark"] .bottom-nav {
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    background-color: rgba(30, 30, 30, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  .bottom-nav-item {
+    flex: 0 1 auto;
+    padding: 8px 16px;
+    border-radius: 16px;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+  .bottom-nav-item:hover {
+    background-color: var(--surface-hover);
+    transform: translateY(-2px);
+  }
+  .nav-label {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 767px) {
   .omr-drawer {
     width: 100%;
     height: 75vh;
@@ -1541,12 +1557,14 @@ mark {
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
   margin-right: 8px;
 }
 .concept-related-btn:hover {
   background-color: var(--success-color);
   color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(52, 199, 89, 0.25);
 }
 
 /* 3. Inline Related Quizzes Container in Note Cards */
