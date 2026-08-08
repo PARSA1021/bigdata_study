@@ -751,7 +751,7 @@ mark {
   outline: 2px solid var(--primary-color);
   outline-offset: 2px;
 }
-.quiz-option:active:not(:disabled) { transform: scale(0.98); }
+.quiz-option:active:not(:disabled) { transform: scale(0.95); box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
 
 .quiz-option.correct {
   background-color: var(--success-color);
@@ -1187,6 +1187,13 @@ mark {
   border-color: #FF9500;
   color: #FF9500;
   font-weight: 600;
+  animation: flagPulse 1.5s infinite;
+}
+
+@keyframes flagPulse {
+  0% { box-shadow: 0 0 0 0 rgba(255, 149, 0, 0.4); }
+  70% { box-shadow: 0 0 0 6px rgba(255, 149, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 149, 0, 0); }
 }
 
 /* Cross-linking concept button (Enhanced UX) */
@@ -1952,6 +1959,10 @@ mark {
    Focus Mode & Reading Mode Optimizations
    ========================================================= */
 
+body.focus-mode {
+  background-color: #0d0d0f;
+  transition: background-color 0.4s ease;
+}
 body.focus-mode .sidebar { display: none !important; }
 body.focus-mode .bottom-nav { display: none !important; }
 body.focus-mode .topbar { background: transparent !important; border-bottom: none !important; box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
@@ -1959,11 +1970,56 @@ body.focus-mode .topbar > *:not(.topbar-actions) { opacity: 0; pointer-events: n
 body.focus-mode .topbar-actions > *:not(.focus-btn) { display: none !important; }
 body.focus-mode .layout { padding-top: 20px !important; margin-top: 40px; }
 body.focus-mode .layout.split-view .content-wrapper { grid-template-columns: 1fr !important; }
-body.focus-mode .main-content { margin-left: 0 !important; width: 100% !important; }
-body.focus-mode .content-wrapper { max-width: 900px !important; }
-body.focus-mode .quiz-toolbar { opacity: 0.3; transition: opacity 0.3s; }
+body.focus-mode .main-content { margin-left: 0 !important; width: 100% !important; max-width: 800px; margin: 0 auto !important; }
+body.focus-mode .content-wrapper { max-width: 800px !important; margin: 0 auto; }
+body.focus-mode .quiz-toolbar { opacity: 0.2; transition: opacity 0.3s; }
 body.focus-mode .quiz-toolbar:hover { opacity: 1; }
-body.focus-mode .quiz-score { border: none; background: transparent; box-shadow: none; }
+body.focus-mode .quiz-score { border: none; background: transparent; box-shadow: none; opacity: 0.2; }
+body.focus-mode .card:not(.open) {
+  opacity: 0.12;
+  filter: grayscale(100%) blur(1px);
+  pointer-events: none;
+  transform: scale(0.98);
+}
+body.focus-mode .card.open {
+  transform: scale(1.03);
+  box-shadow: 0 0 35px rgba(0, 0, 0, 0.9), 0 0 0 1.5px var(--primary-color);
+  z-index: 10;
+  position: relative;
+  background-color: var(--surface-color);
+}
+
+/* Mastery Badges */
+.badge-mastery {
+  font-size: 0.72rem;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+}
+.badge-mastery.new {
+  background-color: rgba(52, 199, 89, 0.12);
+  color: var(--success-color);
+  border: 1px solid var(--success-color);
+}
+.badge-mastery.master {
+  background-color: rgba(52, 199, 89, 0.2);
+  color: var(--success-color);
+  border: 1.5px solid var(--success-color);
+  box-shadow: 0 0 10px rgba(52, 199, 89, 0.3);
+}
+.badge-mastery.normal {
+  background-color: rgba(255, 149, 0, 0.15);
+  color: #FF9500;
+  border: 1px solid #FF9500;
+}
+.badge-mastery.weak {
+  background-color: rgba(255, 59, 48, 0.15);
+  color: var(--danger-color);
+  border: 1.5px solid var(--danger-color);
+  box-shadow: 0 0 12px rgba(255, 59, 48, 0.4);
+}
 
 /* Reading Mode / Typography Enhancements */
 .memo mark, .note mark {

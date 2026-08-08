@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const submitExamBtn = document.getElementById("submitExamBtn");
   const omrSolvedCountEl = document.getElementById("omrSolvedCount");
   const mockPreset10th = document.getElementById("mockPreset10th");
+  const mockPreset4th = document.getElementById("mockPreset4th");
   const mockPresetRandom = document.getElementById("mockPresetRandom");
 
   // OMR 드로어 & 오버레이
@@ -84,7 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
     4: "4과목 · 결과 해석",
     5: "5과목 · 자주 출제되는 개념",
     6: "🏆 10회 기출문제",
-    "exam10th": "🏆 10회 기출문제 (80제)"
+    7: "🎯 4회 기출문제",
+    "exam10th": "🏆 10회 기출문제 (80제)",
+    "exam4th": "🎯 4회 기출문제 (80제)"
   };
 
   const BOOKMARK_KEY = "cbt_bookmarks";
@@ -295,6 +298,17 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         }
 
+        const conceptStat = cumulativeStats.concepts?.[card.id];
+        let masteryBadgeHtml = "";
+        if (!conceptStat || conceptStat.solved === 0) {
+          masteryBadgeHtml = `<span class="badge-mastery new">🌱 첫 학습</span>`;
+        } else {
+          const acc = Math.round((conceptStat.correct / conceptStat.solved) * 100);
+          if (acc >= 80) masteryBadgeHtml = `<span class="badge-mastery master">👑 완벽 숙지</span>`;
+          else if (acc >= 60) masteryBadgeHtml = `<span class="badge-mastery normal">🤔 복습 요망</span>`;
+          else masteryBadgeHtml = `<span class="badge-mastery weak">🚨 취약/경고</span>`;
+        }
+
         const blocksHtml = card.blocks.map(renderBlock).join("");
         const isOpen = card.open ? "open" : "";
         const isLearned = learnedConcepts.has(card.id);
@@ -310,6 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="card-header">
               <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
                 <h3 class="card-title-text">${card.title}</h3>
+                ${masteryBadgeHtml}
                 ${badgeHtml}
                 <div class="card-header-actions" style="margin-left: auto;">
                   ${quizCount > 0 ? `<button class="btn-direct-quiz" data-card-id="${card.id}">🎯 기출 풀기</button>` : ''}
@@ -329,6 +344,11 @@ document.addEventListener("DOMContentLoaded", () => {
                   <textarea class="memo-textarea" id="memo-input-${card.id}" placeholder="여기에 나만의 암기법이나 요약 내용을 작성해보세요.">${memoText}</textarea>
                   <button class="memo-save-btn" data-card-id="${card.id}">메모 저장</button>
                 </div>
+              </div>
+              
+              <div class="inline-quiz-container" style="margin-top: 24px; padding-top: 16px; border-top: 1px dashed var(--border-color); text-align: center;">
+                <button class="inline-quiz-btn quiz-btn" data-card-id="${card.id}" style="background: linear-gradient(135deg, var(--primary-color), #5856D6); box-shadow: 0 4px 15px rgba(0, 122, 255, 0.2);">✨ 방금 읽은 개념, 딱 1문제로 확인하기</button>
+                <div id="inline-quiz-render-${card.id}" class="inline-quiz-render-area hidden" style="margin-top: 16px; text-align: left;"></div>
               </div>
             </div>
           </article>
@@ -479,6 +499,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (mockQuizzes.length === 0) {
         mockQuizzes = allQuizzes.slice(0, 80);
       }
+    } else if (currentMockPreset === "4th") {
+      mockQuizzes = allQuizzes.filter(q => q.id.startsWith("Q4_"));
+      if (mockQuizzes.length === 0) {
+        mockQuizzes = allQuizzes.slice(0, 80);
+      }
     } else {
       const s1 = shuffleArray([...allQuizzes.filter(q => q.subject === 1 && q.sectionId !== "exam10th")]).slice(0, 20);
       const s2 = shuffleArray([...allQuizzes.filter(q => q.subject === 2 && q.sectionId !== "exam10th")]).slice(0, 20);
@@ -490,22 +515,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    if (mockPreset10th && mockPresetRandom) {
-      if (currentMockPreset === "10th") {
-        mockPreset10th.classList.add("active");
-        mockPreset10th.style.backgroundColor = "var(--primary-color)";
-        mockPreset10th.style.color = "#fff";
-        mockPresetRandom.classList.remove("active");
-        mockPresetRandom.style.backgroundColor = "";
-        mockPresetRandom.style.color = "";
-      } else {
-        mockPresetRandom.classList.add("active");
-        mockPresetRandom.style.backgroundColor = "var(--primary-color)";
-        mockPresetRandom.style.color = "#fff";
-        mockPreset10th.classList.remove("active");
-        mockPreset10th.style.backgroundColor = "";
-        mockPreset10th.style.color = "";
-      }
+    [mockPreset10th, mockPreset4th, mockPresetRandom].forEach(btn => {
+      if (!btn) return;
+      btn.classList.remove("active");
+      btn.style.backgroundColor = "";
+      btn.style.color = "";
+    });
+    
+    let activeBtn = mockPresetRandom;
+    if (currentMockPreset === "10th") activeBtn = mockPreset10th;
+    else if (currentMockPreset === "4th") activeBtn = mockPreset4th;
+    
+    if (activeBtn) {
+      activeBtn.classList.add("active");
+      activeBtn.style.backgroundColor = "var(--primary-color)";
+      activeBtn.style.color = "#fff";
     }
 
     mockSolvedMap.clear();
@@ -556,6 +580,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (mockPreset10th) {
     mockPreset10th.addEventListener("click", () => initMockExam("10th"));
+  }
+  if (mockPreset4th) {
+    mockPreset4th.addEventListener("click", () => initMockExam("4th"));
   }
   if (mockPresetRandom) {
     mockPresetRandom.addEventListener("click", () => initMockExam("random"));
@@ -644,7 +671,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
             <p>${quiz.explanation}</p>
             ${whyWrongHtml}
-            ${quiz.cardId ? `<button class="concept-link-btn" data-card-id="${quiz.cardId}">📖 핵심 개념 요약 미리보기</button>` : ''}
+            ${quiz.cardId ? `<button class="concept-link-btn" data-card-id="${quiz.cardId}">✨ 관련 개념 인포그래픽 뷰어</button>` : ''}
             ${getRelatedConceptsHtml(quiz)}
           </div>
         `;
@@ -923,6 +950,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderQuizToolbar() {
     let subjectBtns = `<button class="filter-chip ${quizFilter.subject === 'all' && !quizFilter.conceptCardId ? 'active' : ''}" data-filter="subject" data-value="all">전체과목</button>`;
     subjectBtns += `<button class="filter-chip ${quizFilter.subject === 'exam10th' && !quizFilter.conceptCardId ? 'active' : ''}" data-filter="subject" data-value="exam10th" style="border-color:var(--primary-color);">🏆 10회 기출 (80제)</button>`;
+    subjectBtns += `<button class="filter-chip ${quizFilter.subject === 'exam4th' && !quizFilter.conceptCardId ? 'active' : ''}" data-filter="subject" data-value="exam4th" style="border-color:var(--primary-color);">🎯 4회 기출 (80제)</button>`;
     [1, 2, 3, 4].forEach(s => {
       subjectBtns += `<button class="filter-chip ${quizFilter.subject === s && !quizFilter.conceptCardId ? 'active' : ''}" data-filter="subject" data-value="${s}">${SUBJECT_NAMES[s] || (s + "과목")}</button>`;
     });
@@ -1001,7 +1029,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener("click", () => {
         const key = btn.dataset.filter;
         let value = btn.dataset.value;
-        if (key === "subject" && value !== "all" && value !== "exam10th") value = parseInt(value, 10);
+        if (key === "subject" && value !== "all" && value !== "exam10th" && value !== "exam4th") value = parseInt(value, 10);
         quizFilter[key] = value;
         quizFilter.conceptCardId = null;
         applyQuizFilter();
@@ -1057,8 +1085,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         return false;
       }
+      // 10회/4회 기출문제 필터
       if (quizFilter.subject === "exam10th") {
         if (q.sectionId !== "exam10th") return false;
+      } else if (quizFilter.subject === "exam4th") {
+        if (!q.id.startsWith("Q4_")) return false;
       } else if (quizFilter.subject !== "all" && q.subject !== quizFilter.subject) {
         return false;
       }
@@ -1243,7 +1274,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="quiz-status"></div>
             <p>${quiz.explanation}</p>
             ${whyWrongHtml}
-            ${conceptCard ? `<button class="concept-link-btn" data-card-id="${conceptCard.id}">📖 핵심 개념 요약 미리보기</button>` : ''}
+            ${conceptCard ? `<button class="concept-link-btn" data-card-id="${conceptCard.id}">✨ 관련 개념 인포그래픽 뷰어</button>` : ''}
             ${getRelatedConceptsHtml(quiz)}
             <button class="next-quiz-btn hidden">다음 문제로 이동 ↓</button>
           </div>
@@ -1599,13 +1630,13 @@ document.addEventListener("DOMContentLoaded", () => {
         focusToggleBtn.style.color = "var(--danger-color)";
         // 풀스크린 시도
         if (document.documentElement.requestFullscreen) {
-          document.documentElement.requestFullscreen().catch(e => console.log(e));
+          document.documentElement.requestFullscreen().catch(() => {});
         }
       } else {
         focusToggleBtn.style.color = "";
         // 풀스크린 해제
         if (document.exitFullscreen && document.fullscreenElement) {
-          document.exitFullscreen().catch(e => console.log(e));
+          document.exitFullscreen().catch(() => {});
         }
       }
     });
@@ -1617,57 +1648,70 @@ document.addEventListener("DOMContentLoaded", () => {
       // 1. 오답인 문제 ID들 (wrongIds)
       const wrongList = Array.from(wrongIds);
       
-      // 2. 정답률이 가장 낮은 과목 찾기
-      let lowestSub = 1;
-      let lowestAcc = 101;
-      [1, 2, 3, 4].forEach(sub => {
-        const sData = cumulativeStats.subjects[sub] || { solved: 0, correct: 0 };
-        const acc = sData.solved > 0 ? (sData.correct / sData.solved) * 100 : 0;
-        if (acc < lowestAcc) {
-          lowestAcc = acc;
-          lowestSub = sub;
+      // 2. 취약 개념 Top 파악 (Spaced Repetition)
+      let weakList = [];
+      const conceptsData = cumulativeStats.concepts || {};
+      Object.keys(conceptsData).forEach(cId => {
+        const stat = conceptsData[cId];
+        if (stat.solved >= 1) {
+          const acc = stat.correct / stat.solved;
+          weakList.push({ cardId: cId, acc: acc });
         }
       });
+      weakList.sort((a, b) => a.acc - b.acc);
+      const topWeakCardIds = weakList.slice(0, 5).map(w => w.cardId);
       
-      // 3. 해당 과목의 모든 기출문제 추출
-      let weakSubjectQuizzes = [];
-      allQuizzes.forEach(q => {
-        if (q.subject === lowestSub) weakSubjectQuizzes.push(q);
-      });
-      
-      // 4. 오답 문제 객체 추출
-      let wrongQuizzes = allQuizzes.filter(q => wrongList.includes(q.id));
-      
-      // 5. 조합 (오답 최대 10문제 + 취약과목 랜덤 10문제)
-      let selectedQuizzes = [];
-      shuffleArray(wrongQuizzes);
-      selectedQuizzes.push(...wrongQuizzes.slice(0, 10));
-      
-      shuffleArray(weakSubjectQuizzes);
-      let needed = 20 - selectedQuizzes.length;
-      // 중복 방지
-      let additional = weakSubjectQuizzes.filter(q => !selectedQuizzes.includes(q)).slice(0, needed);
-      selectedQuizzes.push(...additional);
-      
-      // 만약 20문제가 안채워지면 전체 랜덤으로 채우기
-      if (selectedQuizzes.length < 20) {
+      // 3. 복습 풀 (오답 + 취약 개념 + 북마크)
+      let selectedQuizzes = new Set();
+      const bQuizzes = allQuizzes.filter(q => bookmarks.has(q.id));
+      const wQuizzes = allQuizzes.filter(q => wrongList.includes(q.id));
+      const conceptQuizzes = allQuizzes.filter(q => topWeakCardIds.includes(q.cardId));
+
+      let pool = [...wQuizzes, ...conceptQuizzes, ...bQuizzes];
+      shuffleArray(pool);
+      // 가장 취약한 부분을 먼저 최대 15개 채움
+      pool.slice(0, 15).forEach(q => selectedQuizzes.add(q));
+
+      // 4. 공간을 채우기 위해 가장 정답률 낮은 과목 기출 추가
+      if (selectedQuizzes.size < 20) {
+        let lowestSub = 1;
+        let lowestAcc = 101;
+        [1, 2, 3, 4].forEach(sub => {
+          const sData = cumulativeStats.subjects[sub] || { solved: 0, correct: 0 };
+          const acc = sData.solved > 0 ? (sData.correct / sData.solved) * 100 : 0;
+          if (acc < lowestAcc) {
+            lowestAcc = acc;
+            lowestSub = sub;
+          }
+        });
+        const weakSubjectQuizzes = allQuizzes.filter(q => q.subject === lowestSub);
+        shuffleArray(weakSubjectQuizzes);
+        for (let q of weakSubjectQuizzes) {
+          if (selectedQuizzes.size >= 20) break;
+          selectedQuizzes.add(q);
+        }
+      }
+
+      // 여전히 20이 안되면 전체 기출에서 랜덤 추가
+      if (selectedQuizzes.size < 20) {
         let allShuffled = [...allQuizzes];
         shuffleArray(allShuffled);
-        needed = 20 - selectedQuizzes.length;
-        let more = allShuffled.filter(q => !selectedQuizzes.includes(q)).slice(0, needed);
-        selectedQuizzes.push(...more);
+        for (let q of allShuffled) {
+          if (selectedQuizzes.size >= 20) break;
+          selectedQuizzes.add(q);
+        }
       }
       
-      shuffleArray(selectedQuizzes); // 최종 셔플
+      let selectedQuizzesArray = Array.from(selectedQuizzes);
       
       // 퀴즈 렌더링 시작
-      workingQuizzes = selectedQuizzes;
+      workingQuizzes = selectedQuizzesArray;
       currentPage = 1;
       setMode("practice");
       renderQuizzes(workingQuizzes);
       
       // UI 알림
-      showCustomAlert(`⚡ [스마트 학습] 취약 과목(${lowestSub}과목) 및 오답 위주로 20문제가 출제되었습니다. 꼭 다 맞혀보세요!`);
+      showCustomAlert(`⚡ [스마트 학습] 에빙하우스 복습!\n자주 틀린 약점과 북마크 위주로 최적화된 20문제가 출제되었습니다. 꼭 다 맞혀보세요!`);
     });
   }
 
@@ -1885,6 +1929,51 @@ document.addEventListener("DOMContentLoaded", () => {
         setMode("practice");
         applyQuizFilter();
         renderQuizToolbar();
+      });
+    });
+
+    document.querySelectorAll(".inline-quiz-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const cardId = btn.dataset.cardId;
+        const renderArea = document.getElementById(`inline-quiz-render-${cardId}`);
+        
+        if (!renderArea.classList.contains("hidden")) {
+          // Toggle off
+          renderArea.classList.add("hidden");
+          btn.textContent = "✨ 방금 읽은 개념, 딱 1문제로 확인하기";
+          return;
+        }
+
+        // Generate 1 quiz
+        const cQuizzes = getQuizzesForCard(cardId);
+        if (cQuizzes.length === 0) {
+          renderArea.innerHTML = `<div style="padding:10px; color:var(--text-muted); font-size:0.9rem;">이 개념과 관련된 기출문제가 아직 없습니다.</div>`;
+          renderArea.classList.remove("hidden");
+          return;
+        }
+
+        shuffleArray(cQuizzes);
+        const q = cQuizzes[0];
+        
+        renderArea.innerHTML = `
+          <div class="inline-quiz-box">
+            <div style="font-weight:700; margin-bottom:12px; font-size:1.05rem;">Q. ${formatQuestionText(q.question)}</div>
+            <div class="inline-options" style="display:flex; flex-direction:column; gap:8px;">
+              ${(q.choices || q.options).map((opt, i) => `
+                <button class="inline-opt-btn" onclick="checkInlineQuiz(this, '${cardId}', ${i}, ${q.answer})" style="text-align:left; padding:10px 14px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-color); cursor:pointer; font-size:0.95rem; display:flex; gap:10px;">
+                  <span style="font-weight:bold; color:var(--text-muted);">${String.fromCharCode(65+i)}</span> <span>${opt}</span>
+                </button>
+              `).join("")}
+            </div>
+            <div id="inline-exp-${cardId}" class="inline-quiz-explanation hidden" style="margin-top:12px; padding:14px; background:var(--surface-hover); border-radius:8px; font-size:0.95rem; border-left:3px solid var(--primary-color);">
+              <div id="inline-res-${cardId}" style="font-weight:700; margin-bottom:6px; font-size:1.1rem;"></div>
+              <p>${q.explanation}</p>
+            </div>
+          </div>
+        `;
+        renderArea.classList.remove("hidden");
+        btn.textContent = "접기 ✕";
       });
     });
 
@@ -2121,17 +2210,48 @@ document.addEventListener("DOMContentLoaded", () => {
   // === 9. PWA 서비스 워커 등록 & 오프라인 감지 ===
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./sw.js")
-        .then(reg => console.log("PWA ServiceWorker registered:", reg.scope))
-        .catch(err => console.error("PWA ServiceWorker registration failed:", err));
+      navigator.serviceWorker.register("./sw.js").catch(() => {});
     });
   }
 
   function updateOnlineStatus() {
-    if (!navigator.onLine) {
-      console.log("Offline mode activated!");
-    }
+    // Online state handled gracefully
   }
   window.addEventListener("online", updateOnlineStatus);
   window.addEventListener("offline", updateOnlineStatus);
 });
+
+// Helper for inline quiz check
+window.checkInlineQuiz = function(btnEl, cardId, selectedIdx, correctIdx) {
+  const isCorrect = (selectedIdx === correctIdx);
+  const expDiv = document.getElementById(`inline-exp-${cardId}`);
+  const resDiv = document.getElementById(`inline-res-${cardId}`);
+  
+  // Disable all options
+  const container = btnEl.parentElement;
+  container.querySelectorAll('.inline-opt-btn').forEach(b => {
+    b.disabled = true;
+    b.style.cursor = 'default';
+  });
+  
+  // Style the selected button
+  if (isCorrect) {
+    btnEl.style.backgroundColor = 'var(--success-color)';
+    btnEl.style.color = '#fff';
+    resDiv.innerHTML = '🎉 정답입니다! 개념을 완벽하게 이해하셨네요.';
+    resDiv.style.color = 'var(--success-color)';
+  } else {
+    btnEl.style.backgroundColor = 'var(--danger-color)';
+    btnEl.style.color = '#fff';
+    resDiv.innerHTML = '🥲 오답입니다. 해설을 읽고 관련된 내용을 다시 복습해보세요.';
+    resDiv.style.color = 'var(--danger-color)';
+    
+    // Highlight correct one
+    const correctBtn = container.querySelectorAll('.inline-opt-btn')[correctIdx];
+    if (correctBtn) {
+      correctBtn.style.border = '2px solid var(--success-color)';
+      correctBtn.style.backgroundColor = 'rgba(52, 199, 89, 0.1)';
+    }
+  }
+  expDiv.classList.remove('hidden');
+};

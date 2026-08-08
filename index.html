@@ -221,6 +221,7 @@
               </div>
               <div class="mock-presets" style="margin-top: 14px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
                 <button id="mockPreset10th" class="btn-small active" style="background-color:var(--primary-color); color:#fff; border-color:var(--primary-color);">🏆 10회 기출 실전 모의고사 (80제)</button>
+                <button id="mockPreset4th" class="btn-small">🎯 4회 기출 실전 모의고사 (80제)</button>
                 <button id="mockPresetRandom" class="btn-small">🔀 랜덤과목 조합 모의고사 (80제)</button>
               </div>
             </div>
@@ -275,11 +276,11 @@
             </div>
           </div>
 
+          <div id="weaknessAlert" class="weakness-alert hidden"></div>
+          <div id="weakConceptContainer" class="weak-concept-container hidden" style="margin-bottom: 24px;"></div>
+
           <h3 class="stats-section-title">과목별 정답률 및 보충 필요도</h3>
           <div id="subjectStatsContainer" class="subject-stats-list"></div>
-
-          <div id="weaknessAlert" class="weakness-alert hidden"></div>
-          <div id="weakConceptContainer" class="weak-concept-container hidden"></div>
         </div>
         <div class="modal-footer">
           <button id="resetStatsBtn" class="btn-small text-danger">기록 초기화</button>

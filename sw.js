@@ -42,43 +42,34 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// 3. 캐시 우선(Cache-First) 전략 (오프라인 지원 핵심)
+// 3. 네트워크 우선(Network-First) 전략 (오프라인 지원 유지, 실시간 업데이트)
 self.addEventListener('fetch', (event) => {
   // HTTP/HTTPS 요청만 처리
   if (!event.request.url.startsWith('http')) return;
 
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        // 캐시된 자원이 있으면 즉시 반환 (속도 및 오프라인 보장)
-        // 네트워크 연결 시 백그라운드 업데이트 추진
-        fetch(event.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, networkResponse.clone());
-            });
-          }
-        }).catch(() => {/* 오프라인 시 네트워크 에러 무시 */});
-
-        return cachedResponse;
-      }
-
-      // 캐시에 없으면 네트워크 요청 후 결과 캐싱
-      return fetch(event.request).then((networkResponse) => {
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-          return networkResponse;
+    fetch(event.request)
+      .then((networkResponse) => {
+        // 네트워크 통신 성공 시 캐시를 최신 파일로 업데이트
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
         }
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(event.request, responseToCache);
-        });
         return networkResponse;
-      }).catch(() => {
-        // 오프라인이면서 캐시가 없는 경우 (index.html 폴백)
-        if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
-        }
-      });
-    })
+      })
+      .catch(() => {
+        // 오프라인이거나 통신 실패 시 기존 캐시(Fallback) 반환
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          // 저장된 캐시마저 없으면 기본 HTML 반환
+          if (event.request.mode === 'navigate') {
+            return caches.match('./index.html');
+          }
+        });
+      })
   );
 });

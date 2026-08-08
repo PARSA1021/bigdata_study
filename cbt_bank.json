@@ -8724,6 +8724,1507 @@
         "클래스 불균형 해소 등을 위해 알고리즘으로 인위적으로 만들어낸 가짜 데이터입니다."
       ],
       "id": "Q5130"
+    },
+    {
+      "id": "Q4_1_01",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] HDFS에 대한 설명으로 옳은 것은?",
+      "choices": [
+        "복제의 횟수는 내부에서 결정된다.",
+        "ETL, NTFA가 상위 프로그램이다.",
+        "GFS와 동일한 소스코드를 사용한다.",
+        "네임노드는 저장공간에 네임노드 데이터를 같이 저장한다."
+      ],
+      "answer": 2,
+      "explanation": "HDFS(Hadoop Distributed File System)는 Google의 GFS(Google File System) 논문을 기반으로 개발되어 동일한 소스코드를 사용합니다. 복제 횟수는 관리자가 설정할 수 있고, 네임노드는 메타데이터를\n별도로 관리합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_02",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 인공지능학습에 대한 설명으로 옳지 않은 것은?",
+      "choices": [
+        "훌륭한 알고리즘을 보유하였다면 학습을 생략해도 된다.",
+        "강인공지능은 범용으로 사용되기는 시기 상조이다.",
+        "약인공지능의 제한된 기능을 뛰어넘어 더 발달된 인공지능이다.",
+        "강인공지능이라고 불릴 만한 수준의 인공지능은 지금도 개발되지 않았다."
+      ],
+      "answer": 0,
+      "explanation": "아무리 훌륭한 알고리즘이라도 데이터를 통한 학습 과정은 필수입니다. 학습을 통해 패턴을 찾고\n모델을 최적화해야 합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_03",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 분산파일 시스템에 대한 설명으로 옳은 것은?",
+      "choices": [
+        "데이터베이스를 분산 저장한다.",
+        "x86 서버의 CPU, RAM 등을 사용하므로 장비 증가에 따른 성능향상에 용이하다.",
+        "여러 컴퓨터를 하나의 서버 환경에 저장한다.",
+        "네트워크를 통한 여러 파일을 관리 및 저장하는 개념이다."
+      ],
+      "answer": 3,
+      "explanation": "분산파일시스템은 네트워크로 연결된 여러 컴퓨터에 파일을 분산 저장하고 관리하는 시스템입니다. 데이터베이스가 아닌 파일을 대상으로 합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_04",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 분석로드맵 설정시 우선순위 고려해야할 사항 아닌 것은?",
+      "choices": [
+        "비즈니스 성관 및 ROI",
+        "시급성",
+        "분석 데이터 적용",
+        "전략적 중요도"
+      ],
+      "answer": 2,
+      "explanation": "분석로드맵 설정 시에는 비즈니스 성과, ROI, 시급성, 전략적 중요도를 고려하며, '분석 데이터 적용'은 우선순위 설정 기준이 아닙니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_05",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 분석 시나리오 적용을 해야 하는 이유로 가장 적절하지 않은 것은?",
+      "choices": [
+        "이해관계자 도출",
+        "업무성과 판단",
+        "최신 업무 형태 반영",
+        "분석 목표 도출"
+      ],
+      "answer": 2,
+      "explanation": "분석 시나리오는 이해관계자 도출, 업무성과 판단, 분석 목표 도출을 위해 적용하며, 최신 업무 형태 반영은 직접적인 목적이 아닙니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_06",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 빅데이터 분석기획 절차는?",
+      "choices": [
+        "프로젝트정의→ 범위설정 → 위험계획수립 → 수행계획수립",
+        "프로젝트정의→ 범위설정 → 수행계획수립 → 위험계획수립",
+        "범위설정 → 프로젝트정의 → 수행계획수립 → 위험계획수립",
+        "범위설정 → 프로젝트정의 → 위험계획수립 → 수행계획수립"
+      ],
+      "answer": 2,
+      "explanation": "빅데이터 분석기획은 먼저 범위를 설정하고, 프로젝트를 정의한 후, 수행계획을 수립하고 마지막에\n위험계획을 수립하는 순서입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_07",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 개인정보 비동의 시에도 사용 가능한 경우가 아닌 것은?",
+      "choices": [
+        "법령상 의무를 준수하기 위하여 불가피한 경우",
+        "계약의 체결 및 이행을 위하여 불가피하게 필요한 경우",
+        "정보주체 또는 제3자의 급박한 생명, 신체, 재산의 이익을 위하여 필요하다고 인정되는 경우",
+        "개인 편의 제공 시 합당한 이유가 있으면 가능하다."
+      ],
+      "answer": 3,
+      "explanation": "개인정보보호법상 비동의 시에도 사용 가능한 경우는 법령상 의무, 계약 이행, 급박한 위험 상황\n등으로 제한되며, 단순한 편의 제공은 해당되지 않습니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_08",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 개인정보 비식별화 기술에 대한 설명 중 가장 적절하지 않은 것은?",
+      "choices": [
+        "총계처리: 데이터의 총합 값으로 처리하여 개인 데이터의 값을 보이지 않도록 하는 기술",
+        "데이터 마스킹 : 개인식별에중요한 데이터 값을 삭제하는 기술",
+        "가명처리: 개인 식별에 중요한 데이터를 식별할수 없는 다른 값으로 변경하는 기술",
+        "범주화: 데이터의 값을 범주의 값으로 변환하여 값을 변경하는 기술"
+      ],
+      "answer": 1,
+      "explanation": "데이터 마스킹은 삭제가 아닌 특정 문자(*, #)로 치환하거나 일부를 가리는 기술입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_09",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 가트너가 정의한 빅데이터 처리 플랫폼 특징 중 3V에 속하지 않는 것은?",
+      "choices": [
+        "Value",
+        "Volume",
+        "Velocity",
+        "Variety"
+      ],
+      "answer": 0,
+      "explanation": "가트너의 빅데이터 3V는 Volume(크기), Velocity(속도), Variety(다양성)입니다. Value(가치)는 나중에 추가된 4V의 요소입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_10",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 1제타바이트에 1byte의 아스키 코드를 넣으면 얼만큼 넣을 수 있는가?",
+      "choices": [
+        "2의 40승",
+        "2의 50승",
+        "2의 60승",
+        "2의 70승"
+      ],
+      "answer": 3,
+      "explanation": "1 제타바이트 = 2^70 바이트이므로, 1byte씩 넣을 수 있는 개수는 2^70개입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_11",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 다음 중 인메모리기반의 데이터 처리와 연관된 오픈소스 프로젝트는?",
+      "choices": [
+        "스파크",
+        "맵리듀스",
+        "하이브",
+        "피그"
+      ],
+      "answer": 0,
+      "explanation": "Apache Spark는 인메모리 기반의 빠른 데이터 처리를 제공하는 오픈소스 프로젝트입니다. 맵리듀스는 디스크 기반 처리입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_12",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 다음 중 데이터분석 모델링과 관련하여 수행하는 업무가 아닌 것은?",
+      "choices": [
+        "데이터 분할",
+        "데이터 모델링",
+        "프로젝트 성과 분석 및 평가 보고",
+        "모델 적용 및 운영방안"
+      ],
+      "answer": 2,
+      "explanation": "프로젝트 성과 분석 및 평가 보고는 모델링 완료 후의 업무로, 모델링 단계의 업무가 아닙니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_13",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 다음 중 정형데이터와 비정형데이터와 관련된 것 중 옳은 것은?",
+      "choices": [
+        "동영상, 오디오 데이터는 정형 데이터에 속한다.",
+        "형태소는 정형데이터를 분석하기 위한 단위이다.",
+        "정형데이터는 지정된 행과열에 의해 데이터의 속성이 구별되는 스프레드시트 형태의 데이터이다.",
+        "비정형 데이터는 잠재적 가치가 가장 낮다."
+      ],
+      "answer": 2,
+      "explanation": "정형데이터는 행과 열로 구성된 표 형태의 구조화된 데이터입니다. 동영상/오디오는 비정형, 형태소는 비정형 텍스트 분석 단위입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_14",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 다음 중 고품질데이터의 특성이 아닌 것은?",
+      "choices": [
+        "정확성(Accuracy)",
+        "적시성(Timeliness)",
+        "불편의성(Uncompleteness)",
+        "일관성(Consistency)"
+      ],
+      "answer": 2,
+      "explanation": "고품질 데이터의 특성은 정확성, 적시성, 일관성, 완전성(Completeness) 등이며, 불편의성은 해당되지 않습니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_15",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 다음 중 시스템의전방에 위치하여 클라이언트로부터 다양한 서비스를 처리하고, 내부 시스템으로\n전달하는 미들웨어는?",
+      "choices": [
+        "API 게이트웨이",
+        "데이터베이스",
+        "Paas",
+        "ESB(Enterprise Service Bus)"
+      ],
+      "answer": 0,
+      "explanation": "API 게이트웨이는 클라이언트 요청을 받아 적절한 백엔드 서비스로 라우팅하는 미들웨어 역할을\n합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_16",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 데이터 3법에 포함되는 것이 아닌 것은?",
+      "choices": [
+        "개인정보보호법",
+        "정보통신산업 진흥법",
+        "정보통신망 이용촉진 및 정보보호 등에 관한 법률",
+        "신용정보의 이용 및 보호에 관한 법률"
+      ],
+      "answer": 1,
+      "explanation": "데이터 3법은 개인정보보호법, 정보통신망법, 신용정보법으로 구성됩니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_17",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 공공데이터에서 제공하는 파일의 형식이 아닌 것은?",
+      "choices": [
+        "xml",
+        "Sql",
+        "Json",
+        "Csv"
+      ],
+      "answer": 1,
+      "explanation": "공공데이터는 주로 XML, JSON, CSV 형태로 제공되며, SQL은 데이터베이스 질의 언어로 파일 형식이 아닙니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_18",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 데이터 저장소가 아닌 것은?",
+      "choices": [
+        "데이터 웨어하우스",
+        "데이터 레이크",
+        "데이터 마이닝",
+        "데이터 댐"
+      ],
+      "answer": 2,
+      "explanation": "데이터 마이닝은 데이터 분석 기법이지 저장소가 아닙니다. 나머지는 모두 데이터 저장소입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_19",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 데이터에 노이즈를 추가해 개인정보와 데이터분석을 모두 진행할 수 있는 방법은?",
+      "choices": [
+        "K익명성",
+        "가명화",
+        "개인정보차등보호",
+        "L다양성"
+      ],
+      "answer": 2,
+      "explanation": "차등프라이버시(Differential Privacy)는 데이터에 노이즈를 추가하여 개인정보를 보호하면서 통계적\n분석을 가능하게 하는 기법입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_1_20",
+      "subject": 1,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s1-1",
+      "cardId": "c1-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 빅데이터 저장기술 중 옳은 것은?",
+      "choices": [
+        "맵리듀스",
+        "직렬화",
+        "가시화",
+        "Nosql"
+      ],
+      "answer": 3,
+      "explanation": "NoSQL은 빅데이터 저장을 위한 비관계형 데이터베이스 기술입니다. 맵리듀스는 처리 기술, 직렬화는 데이터 변환 기술, 가시화는 시각화 기술입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_21",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 다음 중 대표값관련 설명으로 옳지 않은 것은",
+      "choices": [
+        "평균은 중앙값보다 이상값에 영향을 더 적게 받는다.",
+        "Q3-Q1같은 사분위수 범위를 의미한다.",
+        "변동률 등은 기하 평균으로 구한다.",
+        "변동계수는 분산과 관련이 있다."
+      ],
+      "answer": 0,
+      "explanation": "평균은 중앙값보다 이상값(outlier)에 더 민감합니다. 중앙값이 이상값에 더 강건(robust)한 통계량입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_22",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 사람의 평균수명 검정 문제\n표본 100명, 표본평균 72.4년, 모표준편차 12년, 평균수명이 70년보다 긴지 검정(α=0.05)",
+      "choices": [
+        "표준정규확률변수 z=2, 귀무가설 채택",
+        "표준정규확률변수 z=2, 귀무가설 기각",
+        "표준정규확률변수 z=3, 귀무가설 채택",
+        "표준정규확률변수 z=3, 귀무가설 기각"
+      ],
+      "answer": 1,
+      "explanation": "z = (72.4-70)/(12/√100) = 2.4/1.2 =",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_23",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 다음 중 시공간데이터가 아닌 것은?",
+      "choices": [
+        "지도 데이터",
+        "패턴 데이터",
+        "패널 데이터",
+        "격자 데이터"
+      ],
+      "answer": 1,
+      "explanation": "시공간 데이터는 시간과 공간 정보를 모두 포함하는 데이터로, 지도 데이터, 패널 데이터, 격자 데이터가 해당됩니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_24",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 다음 중 이상값을 찾는 방법에 대한 설명이 아닌 것은?",
+      "choices": [
+        "박스플롯과 스캐터 플롯 등에서 멀리 떨어진 값",
+        "정규분포에서 표준편차가 3이상인 값",
+        "도메인 지식에서 이론적이나 물리적으로 맞지 않는 값",
+        "가설 검정의 노이즈 값"
+      ],
+      "answer": 3,
+      "explanation": "이상값 탐지 방법으로는 시각적 방법, 통계적 방법(3σ 규칙), 도메인 지식 활용이 있으며, 가설 검정의 노이즈는 직접적인 이상값 탐지 방법이 아닙니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_25",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 다음 중 주성분분석에 대한 설명으로 틀린 것은?",
+      "choices": [
+        "선형 결합하여 새로운 변수를 만든다.",
+        "분산이 커지도록 한다.",
+        "데이터가 이산적인 경우에 사용한다.",
+        "직관적으로 이해할 수 있다."
+      ],
+      "answer": 3,
+      "explanation": "주성분분석은 차원축소 기법으로 원래 변수들의 선형결합으로 새로운 변수를 만들지만, 새로운 변수의 의미를 직관적으로 해석하기 어렵습니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_26",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 상관관계에 대한 설명 중 틀린 것은?",
+      "choices": [
+        "상관계수는 결정계수의 제곱이다.",
+        "범위는 -1에서 1사이 이다.",
+        "0에 가까우면 상관성이 낮다.",
+        "관계를 산점도로 알 수 있다."
+      ],
+      "answer": 0,
+      "explanation": "결정계수(R²)가 상관계수(r)의 제곱입니다. 즉, R² = r²입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_27",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 정규 모집단 N(50,2²)에서 크기 n=16의 표본을 무작위 추출할때 표본평균 분포의 표준편차 또한\n표본평균이 51이상일때의 표준화 점수, 이에 대한 분포는?",
+      "choices": [
+        "σₓ = 1/2, z=2, N(0,1)",
+        "σₓ = 1, z=2, N(50,2²)",
+        "σₓ = 1/2, z=2, N(50,2²)",
+        "σₓ = 1, z=2, N(0,1)"
+      ],
+      "answer": 0,
+      "explanation": "표본평균의 표준오차 σₓ = σ/√n = 2/√16 = 1/2. z = (51-50)/(1/2) =",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_28",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 박스 플롯에서 3Q보다 작은 것은?",
+      "choices": [
+        "중앙값",
+        "평균",
+        "80퍼센트",
+        "Max값"
+      ],
+      "answer": 0,
+      "explanation": "박스플롯에서 3사분위수(Q3)는 75백분위수이므로, 중앙값(Q2, 50백분위수)이 Q3보다 작습니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_29",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 자료의 분포가 오른쪽으로 긴꼬리일 경우에 대한 설명으로 맞는 것은?",
+      "choices": [
+        "왜도 > 0, 빈도수 < 중위수 < 평균",
+        "왜도 > 0, 평균 < 중앙값 < 최빈값",
+        "왜도 < 0, 중앙값 < 최빈값 < 평균",
+        "왜도 < 0, 최빈값 < 중앙값 < 평균"
+      ],
+      "answer": 0,
+      "explanation": "오른쪽 꼬리 분포(우편향)는 왜도가 양수이며, 최빈값 < 중앙값 < 평균 순서입니다. (빈도수는 최빈값의 오타로 추정)",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_30",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 이산 확률 변수 X에 대해 E(X) = 4, E(X²) = 25일 때, 확률 변수 Y = 3X - 4의 평균과 분산으로 옳은 것은?",
+      "choices": [
+        "E(Y) = 8, V(Y) = 81",
+        "E(Y) = 16, V(Y) = 9",
+        "E(Y) = 8, V(Y) = 25",
+        "E(Y) = 16, V(Y) = 81"
+      ],
+      "answer": 0,
+      "explanation": "- V(X) = E(X²) - [E(X)]² = 25 - 16 = 9\n- E(Y) = E(3X-4) = 3E(X) - 4 = 3×4 - 4 = 8\n- V(Y) = V(3X-4) = 9V(X) = 9×9 = 81",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_31",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 정규화에 대한 설명으로 옳은 것은?",
+      "choices": [
+        "Min-max 정규화 범위는 0과 1 사이 이다.",
+        "평균은 0, 표준편차는 1로 변환 하는 방법 이다.",
+        "정규화를 표준화하면 표준정규분포다",
+        "Minmax 정규화보다 z값이 이상치에 영양을 덜 받는다."
+      ],
+      "answer": 0,
+      "explanation": "Min-max 정규화는 데이터를 최솟값 0, 최댓값 1 범위로 변환합니다. ②는 표준화(Z-score)에 대한\n설명입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_32",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 정규 분포의 설명이 아닌 것은?",
+      "choices": [
+        "왜도가 3, 첨도가 0이다.",
+        "직선 x=μ(평균)에 대해 대칭인 종 모양의 곡선이다.",
+        "곡선과 x축으로 둘러싸인 영역의 넓이는 1이다.",
+        "곡선의 모양은 표준편차가 일정할 때, 평균이 변하면 대칭축의 위치와 곡선의 모양이 바뀐다."
+      ],
+      "answer": 0,
+      "explanation": "정규분포의 왜도는 0, 첨도는 3입니다. (초과첨도는 0)",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_33",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 포아송 분포 적합도 검정에 대한 설명\nㄱ. 하루에 몇회인지 평균을 구해야한다. ㄴ. 카이제곱 값이 클수록 귀무가설 기각\nㄷ. 자유도 4",
+      "choices": [
+        "ㄱ,ㄴ",
+        "ㄱ,ㄷ",
+        "ㄴ,ㄷ",
+        "ㄱ,ㄴ,ㄷ"
+      ],
+      "answer": 0,
+      "explanation": "포아송 분포 적합도 검정에서는 평균을 구해야 하고, 카이제곱 값이 클수록 귀무가설을 기각합니다. 자유도는 범주 수에서 추정된 모수 개수를 뺀 값입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_34",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 각각의 사례에 알맞은 분석 방법으로 옳은 것은?",
+      "choices": [
+        "어떤 규칙이나 방법을 찾는데 회귀분석이나 군집분석을 사용한다.",
+        "수요예측은 회귀분석 등 연속형 모델 등을 이용하여 분석할 수 있고 인공신경망을 사용할 수도 있다.",
+        "일정한 단위 시간의 변화에 따른 개개의 상품이나상품의 집합체에 관한 경제변량의 기본적인 관계를\n나타내는 계수를 추정 및 분석하는 방법은 차원축소 분석을 사용한다.",
+        "동일한 공간상에 비교한 상표들의 상대적 위치를 나타내는 분석방법은 요인분석이다."
+      ],
+      "answer": 1,
+      "explanation": "수요예측은 회귀분석이나 시계열 분석, 인공신경망 등 다양한 방법을 사용할 수 있습니다. ④는 다차원척도법에 대한 설명입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_35",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 비정형 텍스트 데이터 전처리 기법이 아닌 것은?",
+      "choices": [
+        "Tokenizing",
+        "API 이용",
+        "POS tagging",
+        "Stemming"
+      ],
+      "answer": 1,
+      "explanation": "Tokenizing(토큰화), POS tagging(품사태깅), Stemming(어간추출)은 모두 텍스트 전처리 기법이며, API 이용은 전처리 기법이 아닙니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_36",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 빅데이터 탐색에 대한 설명으로 적절하지 않은 것은?",
+      "choices": [
+        "빅데이터의 전체 분포를 검토하는 과정이다.",
+        "데이터 분석과정에서 결과를 도출한다.",
+        "데이터 탐색 시 잠재적 문제를 발견하는 과정이다.",
+        "데이터 탐색 시 패턴을 찾는 과정이다."
+      ],
+      "answer": 1,
+      "explanation": "빅데이터 탐색은 분석 전 단계로 데이터의 특성을 파악하는 과정이며, 최종 결과 도출은 분석 단계에서 이루어집니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_37",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 표준화와 점수분포에 관한 설명으로 적절한 것은?",
+      "choices": [
+        "표준화는 각 요소에서 평균을 뺀 값을 분산으로 나눈다.",
+        "표준화의 최대값은 1이다.",
+        "표준화의 표준편차는 0이다.",
+        "정규분포를 표준화하면 표준정규분포가 된다."
+      ],
+      "answer": 3,
+      "explanation": "표준화는 (X-μ)/σ로 계산하며, 정규분포를 표준화하면 N(0,1)인 표준정규분포가 됩니다. ①은 표준편차로 나누는 것이 맞습니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_38",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 소수의 극단값의 영향을 받지 않으므로 변동성 척도로서 적절한 것은?",
+      "choices": [
+        "범위",
+        "변동계수",
+        "사분위범위",
+        "표준편차"
+      ],
+      "answer": 2,
+      "explanation": "사분위범위(IQR = Q3-Q1)는 극단값에 강건한 변동성 척도입니다. 범위와 표준편차는 극단값에 민감합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_39",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 초기하 분포의 설명으로 적절하지 않은 것은?",
+      "choices": [
+        "확률변수 값으로서 일정횟수의 베르누이 시행에서 성공횟수를 가진다.",
+        "성공확률은 일정하지 않다.",
+        "각 시행은 독립적이다.",
+        "이산형 확률분포를 따른다."
+      ],
+      "answer": 2,
+      "explanation": "초기하분포는 복원하지 않고 추출하므로 각 시행이 독립적이지 않습니다. 성공확률도 시행마다 변합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_40",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 박스플롯에 대한 설명으로 적절하지 않은 것은?",
+      "choices": [
+        "토요일의 분산은 금요일보다 크다.",
+        "금요일의 평균은 10에 가깝다.",
+        "목요일의 1사분위수는 12에 가깝다.",
+        "금요일에 이상값이 존재한다."
+      ],
+      "answer": 1,
+      "explanation": "박스플롯에서는 평균을 직접 확인할 수 없으며, 중앙값만 확인 가능합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_41",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 텍스트 문맥 파악을 위해서 단어 단위로 끊어서 판별하는 기법은?",
+      "choices": [
+        "토픽 모델링",
+        "워드 클라우드",
+        "N-Gram",
+        "TFIDF"
+      ],
+      "answer": 2,
+      "explanation": "N-Gram은 연속된 N개의 단어나 문자로 텍스트 분할하여 문맥을 파악하는 기법입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_42",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 선형회귀분석 오차항의 특성이 아닌 것은?",
+      "choices": [
+        "선형성",
+        "독립성",
+        "정규성",
+        "등분산성"
+      ],
+      "answer": 0,
+      "explanation": "선형회귀분석의 오차항 가정은 독립성, 정규성, 등분산성, 평균이 0입니다. 선형성은 회귀식의 특성이지 오차항의 특성이 아닙니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_43",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 비지도학습에 대한 설명으로 다음 빈칸에 들어갈 말로 알맞은 것은?\n정답을 ( ), ( )이 이에 속한다.",
+      "choices": [
+        "가르쳐주지 않고, 회귀분석",
+        "가르쳐주고, 회귀분석",
+        "가르쳐주지 않고, 군집분석",
+        "가르쳐주고, 군집분석"
+      ],
+      "answer": 2,
+      "explanation": "비지도학습은 정답(레이블)을 가르쳐주지 않고 학습하는 방법으로, 군집분석이 대표적인 예입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_44",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 인공지능에 대한 설명으로 가장 거리가 먼 것은?",
+      "choices": [
+        "모델 예측값과 실제값의 오차인 비용함수(Cost Function)는 인공지능 학습에서 최적화된 비용에 관련된 모든 변량에 대하여 어떤 관계를 나타내는 함수이다.",
+        "일반적으로 여러개의 은닉층을 가진 신경망을 통해 데이터를 학습 하는 것을 딥러닝이라 한다.",
+        "딥러닝은 인공신경망으로 발전했다.",
+        "인공지능이 기울기 소실 문제로 인해 암흑기가 발생한 적이 있다."
+      ],
+      "answer": 2,
+      "explanation": "딥러닝은 인공신경망에서 발전한 것이지, 딥러닝이 인공신경망으로 발전한 것이 아닙니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_45",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 인공신경망의 단층퍼셉트론 문제로 표현이 불가능한 논리회로는?",
+      "choices": [
+        "AND",
+        "OR",
+        "NOR",
+        "XOR"
+      ],
+      "answer": 3,
+      "explanation": "단층퍼셉트론은 선형분리 가능한 문제만 해결할 수 있으며, XOR 문제는 선형분리가 불가능해 다층퍼셉트론이 필요합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_46",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 오토인코더에 대한 설명으로 가장 잘못된 것은?",
+      "choices": [
+        "비지도 학습이다.",
+        "사전학습으로 사용된다.",
+        "입력수는 은닉층 수보다 항상 작다.",
+        "인코더 입력수와 디코더 출력수는 동일하다."
+      ],
+      "answer": 2,
+      "explanation": "오토인코더에서 은닉층의 노드 수는 입력층보다 작을 수도 클 수도 있으며, 항상 작다는 것은 잘못된 설명입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_47",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] Boolean Function 나이브 베이즈 함수로 잘못된 것은?",
+      "choices": [
+        "P(A,B|C) = P(A) × P(B|C)",
+        "P(A,B,C|E) = P(A|E) × P(B|E) × P(C|E)",
+        "P(A,B|C) = P(A|C) × P(B|C)",
+        "P(A,E|C) = P(A|C) × P(E|C)"
+      ],
+      "answer": 0,
+      "explanation": "나이브 베이즈에서 조건부 독립성을 가정할 때, P(A,B|C) = P(A|C) × P(B|C)가 맞습니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_48",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 의사결정나무에 대한 설명 중 틀린 것은?",
+      "choices": [
+        "가지에 하나가 남는 끝까지 진행한다.",
+        "변수를 하나 골라서 한계치 설정한다.",
+        "나무구조에 의해 모델이 표현되기 때문에 해석이 용이한 편이다.",
+        "분류 및 예측 목적으로 사용할 수 있다."
+      ],
+      "answer": 0,
+      "explanation": "의사결정나무는 과적합 방지를 위해 적절한 중단 규칙(stopping criteria)을 사용하며, 하나가 남을\n때까지 무조건 진행하지 않습니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_49",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 범주형에 대한 분류방법이 아닌 것은?",
+      "choices": [
+        "인공신경망",
+        "선형회귀분석",
+        "서포트 벡터머신",
+        "의사결정나무"
+      ],
+      "answer": 1,
+      "explanation": "선형회귀분석은 연속형 종속변수를 예측하는 방법이며, 범주형 분류에는 사용하지 않습니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_50",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 다음이 설명하는 시계열의 특성은 무엇인가? (중장기적, 빈번한 발생 빈도가 없는 패턴)",
+      "choices": [
+        "추세",
+        "주기",
+        "계절",
+        "불규칙"
+      ],
+      "answer": 1,
+      "explanation": "주기성(cycle)은 중장기적이고 불규칙한 간격으로 나타나는 패턴을 의미합니다. 계절성은 규칙적인\n간격으로 반복됩니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_51",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 연관분석기법으로 알맞은 것은?",
+      "choices": [
+        "회귀분석",
+        "Apriori",
+        "군집분석",
+        "월콕슨순위합"
+      ],
+      "answer": 1,
+      "explanation": "Apriori 알고리즘은 연관규칙 마이닝의 대표적인 기법입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_52",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 로지스틱 회귀분석에 대한 설명으로 잘못된 것은?",
+      "choices": [
+        "분류에 주로 사용한다.",
+        "자료형이 범주형을 갖는 경우 사용하는 분석기법이다.",
+        "Y값은 0과 1사이이다.",
+        "대표적인 비지도 학습 알고리즘이다."
+      ],
+      "answer": 3,
+      "explanation": "로지스틱 회귀분석은 지도학습 알고리즘입니다. 종속변수(레이블)가 있어야 학습이 가능합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_53",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 비지도 학습 알고리즘 유형으로 알맞은 것은?",
+      "choices": [
+        "회귀분석",
+        "로지스틱 회귀분석",
+        "서포트 벡터",
+        "군집분석"
+      ],
+      "answer": 3,
+      "explanation": "군집분석은 레이블 없이 데이터의 유사성을 기반으로 그룹을 만드는 비지도학습 방법입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_54",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 정준연결(Canonical link)의 로그함수로 알맞은 것은?",
+      "choices": [
+        "정규분포",
+        "베르누이",
+        "포아송",
+        "감마"
+      ],
+      "answer": 2,
+      "explanation": "포아송 분포의 정준연결함수는 로그함수입니다. GLM에서 각 분포별로 고유한 정준연결함수를 가집니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_55",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 통계에서 평균에 대한 차이검정으로 모집단 3개 이상 사용하는 분석방법으로 가장 알맞은 것은?",
+      "choices": [
+        "t검정",
+        "z검정",
+        "분산분석",
+        "상관분석"
+      ],
+      "answer": 2,
+      "explanation": "분산분석(ANOVA)은 3개 이상의 집단 평균을 동시에 비교하는 방법입니다. t검정은 2개 집단 비교에 사용됩니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_56",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 비모수 통계 분석기법인 Wilcoxon Signed rank와 Wilcoxon rank sum 설명 중 가장 옳지 않은 것은?",
+      "choices": [
+        "윌콕슨 부호순위는 일변량 검정이다.",
+        "윌콕슨 순위합은 이변량 검정이다.",
+        "주로 30개 이하의 작은 샘플일때 사용한다.",
+        "윌콕슨 부호 순위 검정은 검정 결과가 대칭되어야 검정 가능하다."
+      ],
+      "answer": 3,
+      "explanation": "윌콕슨 부호순위 검정에서는 차이값의 분포가 대칭이어야 하며, 검정 결과가 대칭이어야 한다는\n조건은 없습니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_57",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 아래의 수식이 나타내는 회귀는?",
+      "choices": [
+        "라쏘",
+        "릿지",
+        "엘라스틱넷 회귀",
+        "단순 회귀"
+      ],
+      "answer": 1,
+      "explanation": "릿지 회귀는 L2 정규화를 사용하여 회귀계수의 제곱합에 페널티를 부과하는 방법입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_58",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 다음 설명 중 배깅에 대한 내용으로 가장 옳은 것은?",
+      "choices": [
+        "편향이 낮은 과소적합 모델을 사용한다.",
+        "편향이 높은 과대적합 모델을 사용한다.",
+        "부트스트랩 자료를 생성하고 각 부트스트랩 자료를 결합하여 최종 예측모형 산출",
+        "가중치를 활용하여 약 분류기를 강 분류기로 만드는방법"
+      ],
+      "answer": 2,
+      "explanation": "배깅(Bagging)은 Bootstrap Aggregating의 줄임말로, 부트스트랩 샘플링으로 여러 모델을 학습시켜 결합하는 앙상블 기법입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_59",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 하이퍼파라미터의 최적화로 옳지 않은 것은?",
+      "choices": [
+        "랜덤 서치",
+        "그리드 서치",
+        "베이지안 최적화",
+        "경사하강법"
+      ],
+      "answer": 3,
+      "explanation": "경사하강법은 모델 파라미터 최적화에 사용되며, 하이퍼파라미터 최적화 방법이 아닙니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_2_60",
+      "subject": 2,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s2-1",
+      "cardId": "c2-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 맨하탄 거리를 계산하시오 점A에서 2번째로 가까운 점의 거리는?\n4개의 보기 A(1,1), B(1,2), C(2,2), D(4,1)",
+      "choices": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "answer": 1,
+      "explanation": "- A에서 B까지: |1-1| + |1-2| = 1\n- A에서 C까지: |1-2| + |1-2| = 2 - A에서 D까지: |1-4| + |1-1| = 3\n가장 가까운 점은 B(거리=1), 두 번째로 가까운 점은 C(거리=2)입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_61",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 시공간 시각화 기법 중 옳은 것은?",
+      "choices": [
+        "히스토그램",
+        "체르노프 페이스",
+        "지도맵핑",
+        "평행 좌표계"
+      ],
+      "answer": 2,
+      "explanation": "지도맵핑은 지리적 위치와 시간 정보를 함께 표현하는 시공간 시각화 기법입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_62",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 실루엣 계수를 이용한 최적의 군집분석 갯수는?",
+      "choices": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "answer": 1,
+      "explanation": "실루엣 계수가 가장 높은 지점이 최적의 군집 수입니다. (그래프 분석 필요)",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_63",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 다음 그래프의 이름으로 적절한 것은?",
+      "choices": [
+        "히트맵",
+        "트리맵",
+        "영역차트",
+        "누적영역차트"
+      ],
+      "answer": 0,
+      "explanation": "히트맵은 데이터 값을 색상으로 표현하는 시각화 방법입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_64",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 효과적인 인포그래픽의 조건 중 가장 적절하지 않은 것은?",
+      "choices": [
+        "인포메이션(Information)과 시각적 그래프의 합성어이다.",
+        "최대한 많은 정보를 담는다.",
+        "쉽게 이해할 수 있도록 그래픽과 텍스트를 조합해 사용한다.",
+        "누적영역차트"
+      ],
+      "answer": 1,
+      "explanation": "효과적인 인포그래픽은 핵심 정보를 간결하고 명확하게 전달하는 것이 중요하며, 너무 많은 정보는 오히려 가독성을 해칩니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_65",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] y=0 혹은 y=1 값을 가지는 이진 분류 분석에서 y=1의 값이 y=0 값의 2배일 때, 민감도, 특이도, 정확도에 대한 설명으로 적절한 것은?",
+      "choices": [
+        "민감도와 특이도 둘다 1일때 정확도는 1이다.",
+        "특이도가 1일 때 정확도는 1/2이다.",
+        "민감도가 1/2일 때 정확도는 1/2이다.",
+        "민감도와 특이도가 같을 때 정확도도 특이도와 같다."
+      ],
+      "answer": 0,
+      "explanation": "민감도와 특이도가 모두 1이면 모든 예측이 정확하므로 정확도도 1입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_66",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 홀드아웃 관련 데이터가 아닌 것은?",
+      "choices": [
+        "검증데이터",
+        "학습데이터",
+        "평가데이터",
+        "증강데이터"
+      ],
+      "answer": 3,
+      "explanation": "홀드아웃 방법은 데이터를 학습용, 검증용, 평가용으로 나누는 방법이며, 증강데이터는 홀드아웃과\n직접적인 관련이 없습니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_67",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] ROC 그래프의 설명으로 적절하지 않은 것은?",
+      "choices": [
+        "민감도가 1, 특이도가 0인 점을 지난다.",
+        "민감도가 0, 특이도가 1인 점을 지난다.",
+        "가장 이상적인 그래프는 민감도가 1, 특이도가 1인 점을 지난다.",
+        "특이도가 증가하는 그래프이다."
+      ],
+      "answer": 3,
+      "explanation": "ROC 곡선의 x축은 1-특이도(위양성률)이므로, x축이 증가할수록 특이도는 감소합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_68",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] A상품에 대한 인지도 조사결과\n|구분|알고있음|모름|합계|\n|---|---|---|---|\n|아이가 있는 남자(명)|460|40|500|\n|아이가 없는 남자(명)|440|60|500|\n|합계|900|100|1000|",
+      "choices": [
+        "A제품을 알고있을 확률은 0.90이다.",
+        "아이가 있는 남자이면서 A제품을 모르고 있을 확률은 0.04이다.",
+        "아이가 없는 남자이면서 A제품을 모르고 있을 확률은 0.06이다.",
+        "아이가 있는 남자 중에서 A제품을 알고 있을 확률은 약 0.92이다."
+      ],
+      "answer": 0,
+      "explanation": "",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_69",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 다음 관측값에 대한 설명으로 옳지 않은 것은?\n54, 46, 60, 40",
+      "choices": [
+        "기대빈도 50",
+        "비율이 p1 = p2 = p3 = p4 = 1/4",
+        "카이제곱 값이 4.64",
+        "카이제곱(3) = 7.8이라면, 귀무가설을 기각한다."
+      ],
+      "answer": 3,
+      "explanation": "계산된 카이제곱 값 4.64가 임계값 7.8보다 작으므로 귀무가설을 채택합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_70",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 포아송 분포가 맞는지 적합도 검정을 한다면 보기중 가장 알맞은 것은?",
+      "choices": [
+        "연속형 확률 분포에서 주로 사용한다.",
+        "유의 수준은 사용하지 않는다.",
+        "P-value가 유의수준보다 작으면 귀무가설을 기각한다.",
+        "람다는 어떤 일정 시간과 공간의 구간 안에서 발생한 평균 사건 수를 의미하지 않는다."
+      ],
+      "answer": 2,
+      "explanation": "가설검정에서 p값이 유의수준보다 작으면 귀무가설을 기각하는 것이 일반적인 규칙입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_71",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 비교 그래프가 아닌것은?",
+      "choices": [
+        "막대그래프",
+        "레이더차트",
+        "히트맵",
+        "산점도"
+      ],
+      "answer": 3,
+      "explanation": "산점도는 두 변수 간의 관계를 보는 상관관계 그래프이며, 비교를 위한 그래프가 아닙니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_73",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 누적 히스토그램에 대한 설명으로 가장 알맞은 것은?",
+      "choices": [
+        "범주형과 수치형 모두의 분포를 알 수 있다.",
+        "히스토그램의 y축을 평균으로도 나타낼 수 있다.",
+        "계급수를 잘 정해야 정확한 분포 파악이 가능하다.",
+        "누적확률분포표는 누적확률밀도함수와 비슷한 형태를 보인다."
+      ],
+      "answer": 2,
+      "explanation": "히스토그램에서 계급의 수와 폭은 분포의 모양에 큰 영향을 미치므로 적절한 설정이 중요합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_74",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 과적합일 때 대응방법이 아닌 것은?",
+      "choices": [
+        "Regularization",
+        "Batch Normalization",
+        "Drop-out",
+        "Max Pooling"
+      ],
+      "answer": 3,
+      "explanation": "Max Pooling은 차원축소를 위한 방법이며, 과적합 해결을 직접적인 목적으로 하지 않습니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_75",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 회귀분석 log(odds) = a + bx 설명으로 가장 거리가 먼것은?",
+      "choices": [
+        "a,b 둘다 0이면 y확률 0이다.",
+        "Log 연산을 통해 0에서 1사이의 Logit을 획득한다.",
+        "오즈(Odds)는 클래스 0에 속하는 확률에 대한 클래스 1에 속하는 확률의 비이다.",
+        "승산비(Odd Ratio)사건이 발생한 확률과 발생하지 않을 확률 간의 비율이다."
+      ],
+      "answer": 0,
+      "explanation": "a,b가 모두 0이면 log(odds) = 0, 즉 odds = 1이 되어 확률은 0.5가 됩니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_76",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 혼동행렬에서의 FN 해석에 대한 것으로 알맞은 것은?",
+      "choices": [
+        "예측값 False 실제값 False",
+        "예측값 False 실제값 True",
+        "예측값 True 실제값 False",
+        "예측값 True 실제값 True"
+      ],
+      "answer": 1,
+      "explanation": "FN(False Negative)은 실제로는 Positive인데 Negative로 잘못 예측한 경우입니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_77",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 데이터 불균형이 있을 경우 사용하는 평가지표로 옳지 않은 것은?",
+      "choices": [
+        "민감도",
+        "정확도",
+        "오분류율",
+        "ROC곡선"
+      ],
+      "answer": 1,
+      "explanation": "데이터 불균형이 있을 때 정확도는 편향된 결과를 보일 수 있어 적절하지 않습니다. 대신 민감도, 특이도, F1-score, ROC곡선 등을 사용합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_78",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 보고서 작성시 방법으로 가장 거리가 먼 것은?",
+      "choices": [
+        "전문용어를 많이 사용한다.",
+        "쉽게 이해할 수 있도록 작성한다.",
+        "비즈니스에 사용할 수 있도록 한다.",
+        "보고서를 통해 성과 기준과 기여도를 표현할 수 있도록 한다."
+      ],
+      "answer": 0,
+      "explanation": "효과적인 보고서는 독자가 쉽게 이해할 수 있도록 작성해야 하며, 과도한 전문용어 사용은 피해야\n합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_79",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 회귀계수의 유의성 검정 (유사한 유형)\n어느 중학교에서 1학년 학생들의 키의 차이가 2학년이 되면 더 커질 것이라고 예상된다. 1학년에서 6명을 뽑고, 2학년에서 8명을 뽑아서 각각의 성적의 분산을 조사해 봤더니, 1학년의 분산은 10.0이었고 2학년의 분산은 50.0이었다. 두 모집단의 분산은 같다고 볼 수 있을까? α=0.05에서 검정해보자.",
+      "choices": [
+        "F통계량, p-value < 유의수준, 귀무가설 채택",
+        "F통계량, p-value < 유의수준, 귀무가설 기각",
+        "카이제곱, p-value < 유의수준, 귀무가설 채택",
+        "카이제곱, p-value < 유의수준, 귀무가설 기각"
+      ],
+      "answer": 1,
+      "explanation": "두 모집단의 분산 비교는 F검정을 사용합니다. F = 50.0/10.0 = 5.0으로, 이는 상당히 큰 값이므로\n귀무가설(분산이 같다)을 기각합니다.",
+      "whyWrong": []
+    },
+    {
+      "id": "Q4_4_80",
+      "subject": 4,
+      "chapter": "제4회 기출문제",
+      "sectionId": "s4-1",
+      "cardId": "c4-99",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[제4회 기출] 분석모형 리모델링 및 활용 과정별 명칭과 그 내용에 대하여 잘못 짝지어진 것은?\n정의 → 표준화 → ( ) → 일반화",
+      "choices": [
+        "정규화",
+        "최적화",
+        "합리화",
+        "단어: 중복제거"
+      ],
+      "answer": 1,
+      "explanation": "분석모형의 일반적인 과정은 정의 → 표준화 → 정규화 → 일반화 순서입니다. 최적화는 이 과정에서 적절하지 않습니다.",
+      "whyWrong": []
     }
   ]
 }
