@@ -157,6 +157,45 @@
       <!-- 메인 컨텐츠 영역 -->
       <main class="main-content" id="mainContent">
         <div class="content-wrapper">
+          <!-- 홈 대시보드 (신설) -->
+          <div id="home-dashboard" class="home-dashboard">
+             <div class="home-hero">
+                <h2 class="hero-title">합격을 향한 첫 걸음! 🚀</h2>
+                <p class="hero-subtitle">무엇부터 시작할까요? 궁금한 개념을 검색하거나 아래 훈련을 선택하세요.</p>
+                <div class="home-search-container">
+                   <input type="text" id="homeSearchInput" placeholder="모르는 개념 통합 검색... (예: 라쏘, LOOCV)" class="home-search-input" />
+                   <button id="homeSearchBtn" class="quiz-btn">즉시 검색</button>
+                </div>
+             </div>
+             
+             <div class="quick-action-cards">
+                <div class="quick-card" id="quickResumeNote">
+                   <div class="qc-icon">📚</div>
+                   <div class="qc-text">
+                     <h3>요약노트 정주행</h3>
+                     <p>출제자 관점의 핵심 개념과 암기 꿀팁을 순서대로 학습합니다.</p>
+                   </div>
+                   <div class="qc-arrow">→</div>
+                </div>
+                <div class="quick-card" id="quickStartMock">
+                   <div class="qc-icon">⏱️</div>
+                   <div class="qc-text">
+                     <h3>실전 모의고사 (80제)</h3>
+                     <p>진짜 시험처럼! 120분 타이머와 OMR을 활용해 실전 감각을 키워보세요.</p>
+                   </div>
+                   <div class="qc-arrow">→</div>
+                </div>
+                <div class="quick-card" id="quickWeakStats">
+                   <div class="qc-icon">📊</div>
+                   <div class="qc-text">
+                     <h3>내 성적 및 약점 분석</h3>
+                     <p>내가 자주 틀리는 과목과 취약한 개념을 한눈에 파악하고 보충합니다.</p>
+                   </div>
+                   <div class="qc-arrow">→</div>
+                </div>
+             </div>
+          </div>
+
           <!-- 진도율 표시 바 (추가) -->
           <div id="progressContainer" class="progress-container hidden">
             <div class="progress-info">
@@ -167,7 +206,7 @@
               <div id="progressBar" class="progress-bar-fill"></div>
             </div>
           </div>
-          <div id="content">
+          <div id="content" class="hidden">
             <div class="loading-spinner">
               <svg class="spinner" viewBox="0 0 50 50">
                 <circle
@@ -324,7 +363,11 @@
 
     <!-- 모바일 하단 네비게이션 바 -->
     <nav class="bottom-nav blur-glass">
-      <button class="bottom-nav-item active" data-nav="notes">
+      <button class="bottom-nav-item active" data-nav="home">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">홈</span>
+      </button>
+      <button class="bottom-nav-item" data-nav="notes">
         <span class="nav-icon">📚</span>
         <span class="nav-label">요약노트</span>
       </button>

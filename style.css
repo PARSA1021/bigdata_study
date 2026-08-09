@@ -2077,3 +2077,113 @@ body.focus-mode .card.open {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+
+/* Home Dashboard */
+.home-dashboard {
+  animation: fadeIn 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-top: 10px;
+}
+.home-hero {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, var(--primary-color), #5856D6);
+  border-radius: 24px;
+  color: white;
+  box-shadow: 0 10px 30px rgba(0, 122, 255, 0.3);
+}
+.home-hero .hero-title {
+  color: white;
+  margin-bottom: 12px;
+  font-size: 2.2rem;
+}
+.home-hero .hero-subtitle {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 1.1rem;
+  margin-bottom: 24px;
+}
+.home-search-container {
+  display: flex;
+  gap: 10px;
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+}
+.home-search-input {
+  flex: 1;
+  padding: 14px 20px;
+  border-radius: var(--radius-full);
+  border: none;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  outline: none;
+}
+.home-search-input:focus {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+}
+
+.quick-action-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.quick-card {
+  display: flex;
+  align-items: center;
+  background-color: var(--surface-color);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+.quick-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-color);
+}
+.quick-card .qc-icon {
+  font-size: 2.5rem;
+  margin-right: 20px;
+  background: var(--surface-hover);
+  width: 60px; height: 60px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 16px;
+}
+.quick-card .qc-text {
+  flex: 1;
+}
+.quick-card .qc-text h3 {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+  color: var(--text-color);
+}
+.quick-card .qc-text p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+.quick-card .qc-arrow {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  opacity: 0.5;
+  transition: transform 0.2s;
+}
+.quick-card:hover .qc-arrow {
+  transform: translateX(5px);
+  opacity: 1;
+}
+
+/* 텍스트 하이라이트 애니메이션 */
+@keyframes highlightBlink {
+  0% { background-color: rgba(255, 204, 0, 0.8); }
+  50% { background-color: rgba(255, 204, 0, 0.2); }
+  100% { background-color: rgba(255, 204, 0, 0.8); }
+}
+.highlight-focused {
+  animation: highlightBlink 1.5s infinite;
+  border-radius: 4px;
+}

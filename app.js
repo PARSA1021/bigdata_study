@@ -11,6 +11,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   // === DOM 요소 캐싱 ===
   const mainLayout = document.getElementById("mainLayout");
+  const homeDashboard = document.getElementById("home-dashboard");
   const contentEl = document.getElementById("content");
   const quizContentEl = document.getElementById("quiz-content");
   const quizContainer = document.getElementById("quiz-container");
@@ -162,6 +163,64 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function saveBookmarks() {
     localStorage.setItem(BOOKMARK_KEY, JSON.stringify([...bookmarks]));
+  }
+
+
+  // === 퀵 액션 카드 이벤트 ===
+  const quickResumeNote = document.getElementById("quickResumeNote");
+  const quickStartMock = document.getElementById("quickStartMock");
+  const quickWeakStats = document.getElementById("quickWeakStats");
+  const homeSearchBtn = document.getElementById("homeSearchBtn");
+  const homeSearchInput = document.getElementById("homeSearchInput");
+
+  if(quickResumeNote) quickResumeNote.addEventListener("click", () => switchNav("notes"));
+  if(quickStartMock) quickStartMock.addEventListener("click", () => {
+    switchNav("mock");
+    initMockExam("10th"); // 10회 모의고사를 기본으로 실행
+  });
+  if(quickWeakStats) quickWeakStats.addEventListener("click", () => openStatsModal());
+  
+  if(homeSearchBtn) {
+    homeSearchBtn.addEventListener("click", () => {
+       const keyword = homeSearchInput.value.trim();
+       if(keyword) performGlobalSearch(keyword);
+    });
+    homeSearchInput.addEventListener("keydown", (e) => {
+       if(e.key === "Enter") {
+          const keyword = homeSearchInput.value.trim();
+          if(keyword) performGlobalSearch(keyword);
+       }
+    });
+  }
+
+  function performGlobalSearch(keyword) {
+     // 사이드바 검색창과 연동 및 동작 실행
+     const sbSearch = document.getElementById("searchInput");
+     if(sbSearch) {
+       sbSearch.value = keyword;
+       const event = new Event('input', { bubbles: true });
+       sbSearch.dispatchEvent(event);
+     }
+     
+     // 노트 뷰로 전환하고, 결과 카드로 화면 이동 및 검색창 포커스
+     switchNav("notes");
+
+     // 찾은 결과로 스크롤 (조금 지연시켜 렌더링 후 이동)
+     setTimeout(() => {
+        const foundMarker = document.querySelector('mark');
+        if(foundMarker) {
+           foundMarker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+           foundMarker.classList.add('highlight-focused');
+           setTimeout(() => foundMarker.classList.remove('highlight-focused'), 3000);
+        }
+     }, 300);
+  }
+
+  function switchNav(targetName) {
+    const targetItem = Array.from(document.querySelectorAll('.bottom-nav-item')).find(el => el.dataset.nav === targetName);
+    if(targetItem) {
+      targetItem.click(); // 기존 하단 네비게이션 이벤트 재활용
+    }
   }
 
   async function init() {
@@ -2130,26 +2189,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll(".bottom-nav-item").forEach(item => {
     item.addEventListener("click", () => {
+      const navTarget = item.dataset.nav;
+      
       document.querySelectorAll(".bottom-nav-item").forEach(i => i.classList.remove("active"));
       item.classList.add("active");
-      const targetNav = item.dataset.nav;
 
-      if (targetNav === "notes") {
-        quizContentEl.classList.add("hidden");
-        contentEl.classList.remove("hidden");
-        sidebar.style.display = "";
-      } else if (targetNav === "practice") {
-        quizContentEl.classList.remove("hidden");
-        contentEl.classList.add("hidden");
-        sidebar.style.display = "none";
-        setMode("practice");
-      } else if (targetNav === "mock") {
-        quizContentEl.classList.remove("hidden");
-        contentEl.classList.add("hidden");
-        sidebar.style.display = "none";
-        setMode("mock");
-      } else if (targetNav === "stats") {
-        openStatsModal();
+      // 패널 숨김 초기화
+      if (homeDashboard) homeDashboard.classList.add("hidden");
+      document.getElementById("content").classList.add("hidden");
+      document.getElementById("quiz-content").classList.add("hidden");
+      document.getElementById("progressContainer").classList.add("hidden");
+      
+      if (navTarget === "home") {
+         if (homeDashboard) homeDashboard.classList.remove("hidden");
+      } else if (navTarget === "notes") {
+         document.getElementById("content").classList.remove("hidden");
+         document.getElementById("progressContainer").classList.remove("hidden");
+      } else if (navTarget === "practice") {
+         document.getElementById("quiz-content").classList.remove("hidden");
+         setMode("practice");
+      } else if (navTarget === "mock") {
+         document.getElementById("quiz-content").classList.remove("hidden");
+         setMode("mock");
+      } else if (navTarget === "stats") {
+         // 다시 홈으로 돌려두고 모달 전시 (stats는 모달 형태)
+         if (homeDashboard) homeDashboard.classList.remove("hidden");
+         openStatsModal();
       }
     });
   });
