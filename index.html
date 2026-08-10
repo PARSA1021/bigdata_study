@@ -217,6 +217,14 @@
              </div>
              
              <div class="quick-action-cards">
+                <div class="quick-card" id="quickStrategyGuide">
+                   <div class="qc-icon" style="background: rgba(255, 204, 0, 0.1); color: #FFCC00;">💡</div>
+                   <div class="qc-text">
+                     <h3>실전 객관식 찍기 비법</h3>
+                     <p>2지선다의 늪에서 탈출! 합격자의 문제풀이 3단계 알고리즘</p>
+                   </div>
+                   <div class="qc-arrow">→</div>
+                </div>
                 <div class="quick-card" id="quickSosRescue">
                    <div class="qc-icon" style="background: rgba(255, 59, 48, 0.1); color: var(--danger-color);">🚨</div>
                    <div class="qc-text">
@@ -422,6 +430,84 @@
           <button id="practiceConceptBtn" class="btn-small btn-primary-accent">🎯 이 개념 문제만 풀어보기</button>
           <button id="jumpToFullNoteBtn" class="btn-small">전체 요약노트 위치로 이동 ↗</button>
           <button id="closeConceptModalBtn" class="quiz-btn">닫기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 합격 비법 모달 -->
+    <div id="strategyModal" class="modal-overlay hidden">
+      <div class="modal-card blur-glass strategy-modal-card">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <span class="badge-tag" style="background-color: #FFCC00; color: #000; border: none;">💡 꿀팁</span>
+            <h2>합격자의 실전 찍기 비법</h2>
+          </div>
+          <button id="closeStrategyBtn" class="icon-btn">✕</button>
+        </div>
+        
+        <div class="concept-modal-tabs">
+          <button id="tabStrategyStudy" class="concept-tab active">📚 과목별 학습 전략</button>
+          <button id="tabStrategySolve" class="concept-tab">🎯 실전 문제풀이 3단계</button>
+        </div>
+
+        <div class="modal-body" style="padding-top: 20px;">
+          <!-- 학습 전략 탭 -->
+          <div id="strategyStudyPane" class="concept-modal-pane">
+            <div class="strategy-list">
+              <div class="strategy-item">
+                <div class="strategy-num">1과목</div>
+                <div class="strategy-content">
+                  <h4>기획 및 기술: 다독과 단권화</h4>
+                  <p>비즈니스/상식 문제가 많으나 법, 제도 용어의 휘발성이 강합니다. <strong>기출문제 다독</strong>과 헷갈리는 개념(하둡 에코시스템, 비식별화 기법 등) 단권화가 필수입니다.</p>
+                </div>
+              </div>
+              <div class="strategy-item">
+                <div class="strategy-num danger">2과목</div>
+                <div class="strategy-content">
+                  <h4>데이터 탐색: 수포자의 최대 고비</h4>
+                  <p>통계 노베이스라면 책만 보지 말고 <strong>EBSi 확통 기초 강의나 무료 유튜브 기초 통계</strong>를 병행하세요. 수식 자체보단 <strong>결과 해석(p-value 등)</strong>에 집중하세요.</p>
+                </div>
+              </div>
+              <div class="strategy-item">
+                <div class="strategy-num danger">3과목</div>
+                <div class="strategy-content">
+                  <h4>데이터 모델링: 굵직한 뼈대 잡기</h4>
+                  <p>알고리즘 종류가 쏟아집니다. 세부 수식보다 <strong>지도/비지도 분류 체계</strong>와 주요 앙상블(배깅, 부스팅) 차이점 위주로 굵직하게 뼈대를 잡는 것이 1순위입니다.</p>
+                </div>
+              </div>
+              <div class="strategy-item">
+                <div class="strategy-num success">4과목</div>
+                <div class="strategy-content">
+                  <h4>결과 해석: 고득점 점수 자판기</h4>
+                  <p>2, 3과목에서 잃은 점수를 메꾸는 효자 과목입니다. <strong>혼동행렬(Confusion Matrix)과 평가지표 계산 공식</strong>은 무조건 암기해서 100% 맞춰야 합니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 문제풀이 탭 -->
+          <div id="strategySolvePane" class="concept-modal-pane hidden">
+            <div class="strategy-step">
+              <div class="step-badge">STEP 1</div>
+              <h4>스캐닝: 단정적/부정적 단어 찾기</h4>
+              <p>문제와 선지를 훑으며 극단적 단어(<mark>항상</mark>, <mark>모든</mark>, <mark>반드시</mark>, <mark>~만</mark>)나 부정적 서술어(<mark>~할 수 없다</mark>, <mark>불가능하다</mark>)를 찾습니다. <strong>'틀린 것을 고르시오'에서 오답 선지(정답)일 확률이 매우 높습니다.</strong></p>
+            </div>
+            
+            <div class="strategy-step">
+              <div class="step-badge">STEP 2</div>
+              <h4>소거법: 이질적인 선지와 스왑 함정</h4>
+              <p>4개의 선지 중 <strong>카테고리가 다른 1개</strong>(예: 3개는 지도학습, 1개는 비지도학습)를 찾거나, A와 B의 설명이 교묘하게 바뀐 <strong>'스왑(Swap) 함정'</strong>을 찾아 지워냅니다.</p>
+            </div>
+            
+            <div class="strategy-step">
+              <div class="step-badge">STEP 3</div>
+              <h4>결단의 시간: 2개가 남았을 때</h4>
+              <p>선지가 2개 남았을 땐 <strong>첫 느낌</strong>을 믿으세요. 고치면 틀립니다.<br>둘 중 <strong>조건이나 괄호 설명이 구구절절 길고 정교한 선지</strong>, 혹은 <strong>가장 포괄적이고 일반적인 문장</strong>이 맞는 설명일 확률이 높습니다.</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="closeStrategyModalBtn" class="quiz-btn w-full">확인했습니다</button>
         </div>
       </div>
     </div>

@@ -78,6 +78,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const jumpToFullNoteBtn = document.getElementById("jumpToFullNoteBtn");
   const practiceConceptBtn = document.getElementById("practiceConceptBtn");
 
+  // 전략/비법 모달
+  const strategyModal = document.getElementById("strategyModal");
+  const closeStrategyBtn = document.getElementById("closeStrategyBtn");
+  const closeStrategyModalBtn = document.getElementById("closeStrategyModalBtn");
+  const tabStrategyStudy = document.getElementById("tabStrategyStudy");
+  const tabStrategySolve = document.getElementById("tabStrategySolve");
+  const strategyStudyPane = document.getElementById("strategyStudyPane");
+  const strategySolvePane = document.getElementById("strategySolvePane");
+
   // 과목 상수
   const SUBJECT_NAMES = {
     1: "1과목 · 분석 기획",
@@ -171,8 +180,42 @@ document.addEventListener("DOMContentLoaded", () => {
   const quickStartMock = document.getElementById("quickStartMock");
   const quickWeakStats = document.getElementById("quickWeakStats");
   const quickSosRescue = document.getElementById("quickSosRescue");
+  const quickStrategyGuide = document.getElementById("quickStrategyGuide");
   const homeSearchBtn = document.getElementById("homeSearchBtn");
   const homeSearchInput = document.getElementById("homeSearchInput");
+
+  if(quickStrategyGuide) {
+    quickStrategyGuide.addEventListener("click", () => {
+      strategyModal.classList.remove("hidden");
+    });
+  }
+  
+  if(closeStrategyBtn) {
+    closeStrategyBtn.addEventListener("click", () => {
+      strategyModal.classList.add("hidden");
+    });
+  }
+  
+  if(closeStrategyModalBtn) {
+    closeStrategyModalBtn.addEventListener("click", () => {
+      strategyModal.classList.add("hidden");
+    });
+  }
+  
+  if(tabStrategyStudy && tabStrategySolve) {
+    tabStrategyStudy.addEventListener("click", () => {
+      tabStrategyStudy.classList.add("active");
+      tabStrategySolve.classList.remove("active");
+      strategyStudyPane.classList.remove("hidden");
+      strategySolvePane.classList.add("hidden");
+    });
+    tabStrategySolve.addEventListener("click", () => {
+      tabStrategySolve.classList.add("active");
+      tabStrategyStudy.classList.remove("active");
+      strategySolvePane.classList.remove("hidden");
+      strategyStudyPane.classList.add("hidden");
+    });
+  }
 
   if(quickResumeNote) quickResumeNote.addEventListener("click", () => switchNav("notes"));
   if(quickStartMock) quickStartMock.addEventListener("click", () => {
