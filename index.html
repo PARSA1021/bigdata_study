@@ -151,6 +151,9 @@
           <button id="expandAllBtn" class="btn-small">전체 펼치기</button>
           <button id="collapseAllBtn" class="btn-small">전체 접기</button>
         </div>
+        <div class="sidebar-actions" style="padding-top: 0; padding-bottom: 15px;">
+          <button id="filterTarget13thBtn" class="btn-small" style="border-color: var(--danger-color); color: var(--danger-color); font-weight: 600;">⭐ 13회차 필수 개념만 보기</button>
+        </div>
         <nav id="nav-container" class="nav-scroll"></nav>
       </aside>
 
@@ -162,13 +165,66 @@
              <div class="home-hero">
                 <h2 class="hero-title">합격을 향한 첫 걸음! 🚀</h2>
                 <p class="hero-subtitle">무엇부터 시작할까요? 궁금한 개념을 검색하거나 아래 훈련을 선택하세요.</p>
-                <div class="home-search-container">
+                 <div class="home-search-container">
                    <input type="text" id="homeSearchInput" placeholder="모르는 개념 통합 검색... (예: 라쏘, LOOCV)" class="home-search-input" />
                    <button id="homeSearchBtn" class="quiz-btn">즉시 검색</button>
                 </div>
              </div>
              
+             <!-- 실시간 합격 예측 및 맞춤 코멘트 위젯 -->
+             <div id="passPredictionWidget" class="pass-predict-card blur-glass">
+                <div class="predict-header">
+                  <h3>📊 나의 합격 예측 현황</h3>
+                  <span id="predictStatusBadge" class="predict-badge loading">분석 중...</span>
+                </div>
+                <div class="predict-body">
+                  <div class="predict-score-row">
+                    <div class="predict-score-item">
+                      <span class="score-label">현재 예상 평균</span>
+                      <span id="predictAvgScore" class="score-value">-점</span>
+                    </div>
+                    <div class="predict-score-item">
+                      <span class="score-label">과락 위험 과목</span>
+                      <span id="predictFailSubject" class="score-value text-danger">-</span>
+                    </div>
+                  </div>
+                  <div id="predictExaminerComment" class="examiner-comment">
+                    "문제를 더 풀고 정확한 합격 예측과 맞춤 전략을 받아보세요!"
+                  </div>
+                </div>
+             </div>
+             
+             <!-- 13회차 시험 대비 가이드 -->
+             <div class="exam-trend-card blur-glass">
+                <div class="exam-trend-header">
+                  <h3>📢 제13회 빅데이터분석기사 필기 대비 가이드</h3>
+                  <span class="badge-tag" style="background-color: var(--danger-color); color: white; margin-left: 8px; border-color: var(--danger-color);">NEW</span>
+                </div>
+                <div class="exam-trend-body">
+                  <p class="trend-summary"><strong>예상 난이도:</strong> 중간~중상 수준 (개념 위주 문항 익숙화, 통계/모델링 응용력 요구)</p>
+                  <ul class="trend-list">
+                    <li><strong>과목별 체감 난이도:</strong> <span style="color: var(--danger-color); font-weight: 600;">2과목(빅데이터 탐색), 3과목(빅데이터 모델링)</span> 통계적 추론 및 알고리즘 파트 주의</li>
+                    <li><strong>출제 경향:</strong> 지엽적 암기보단 <strong>기본 개념 및 핵심 알고리즘 위주</strong>. 신유형은 기존 기출 응용 및 실무 연계 개념 출제</li>
+                    <li><strong>대비 전략:</strong> 
+                      <ul>
+                        <li>상대적으로 이론 위주인 1과목(분석 기획)에서 점수 최대한 확보</li>
+                        <li>복잡한 계산보다 <strong>가설검정, 회귀분석, 데이터 전처리 핵심 프로세스</strong> 위주 정리</li>
+                        <li>최근 기출문제 선지 분석을 통해 주요 개념 출제 범위 파악 필수</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+             </div>
+             
              <div class="quick-action-cards">
+                <div class="quick-card" id="quickSosRescue">
+                   <div class="qc-icon" style="background: rgba(255, 59, 48, 0.1); color: var(--danger-color);">🚨</div>
+                   <div class="qc-text">
+                     <h3>과락 방지 긴급 구조 (SOS)</h3>
+                     <p>현재 내 점수가 가장 낮은 취약 과목만 20제 강제 트레이닝합니다.</p>
+                   </div>
+                   <div class="qc-arrow">→</div>
+                </div>
                 <div class="quick-card" id="quickResumeNote">
                    <div class="qc-icon">📚</div>
                    <div class="qc-text">
@@ -239,9 +295,18 @@
               <p class="hero-subtitle">
                 개념별 기출 유형 문제 풀어보기 · 즉시 정답 및 맞춤 요약노트 해설 연동
               </p>
-              <div style="margin-top: 16px;">
-                <button id="smartWeaknessBtn" class="quiz-btn" style="background: linear-gradient(135deg, var(--danger-color), #FF9500); padding: 10px 24px; font-size: 1.05rem; box-shadow: 0 4px 15px rgba(255,59,48,0.3);">
+              <div style="margin-top: 16px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+                <button id="smartWeaknessBtn" class="quiz-btn" style="background: linear-gradient(135deg, var(--primary-color), #5856D6); padding: 10px 24px; font-size: 1.05rem; box-shadow: 0 4px 15px rgba(0,122,255,0.3);">
                   ⚡ 오늘의 취약점 즉시 보충하기 (20제)
+                </button>
+                <button id="target13thQuizBtn" class="quiz-btn" style="background: linear-gradient(135deg, var(--danger-color), #FF9500); padding: 10px 24px; font-size: 1.05rem; box-shadow: 0 4px 15px rgba(255,59,48,0.3);">
+                  ⭐ 13회차 핵심 타겟 문제 (20제)
+                </button>
+                <button id="termStatQuizBtn" class="quiz-btn" style="background: linear-gradient(135deg, #34C759, #28CD41); padding: 10px 24px; font-size: 1.05rem; box-shadow: 0 4px 15px rgba(52,199,89,0.3);">
+                  🔄 빈출 용어·방법론·통계 집중 (20제)
+                </button>
+                <button id="wrongOnlyQuizBtn" class="quiz-btn" style="background: var(--surface-color); color: var(--danger-color); border: 1px solid var(--danger-color); padding: 10px 24px; font-size: 1.05rem;">
+                  📖 내가 틀린 문제만 다시 풀기
                 </button>
               </div>
             </div>
