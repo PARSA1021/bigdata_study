@@ -151,117 +151,13 @@
           <button id="expandAllBtn" class="btn-small">전체 펼치기</button>
           <button id="collapseAllBtn" class="btn-small">전체 접기</button>
         </div>
-        <div class="sidebar-actions" style="padding-top: 0; padding-bottom: 15px;">
-          <button id="filterTarget13thBtn" class="btn-small" style="border-color: var(--danger-color); color: var(--danger-color); font-weight: 600;">⭐ 13회차 필수 개념만 보기</button>
-        </div>
         <nav id="nav-container" class="nav-scroll"></nav>
       </aside>
 
       <!-- 메인 컨텐츠 영역 -->
       <main class="main-content" id="mainContent">
         <div class="content-wrapper">
-          <!-- 홈 대시보드 (신설) -->
-          <div id="home-dashboard" class="home-dashboard">
-             <div class="home-hero">
-                <h2 class="hero-title">합격을 향한 첫 걸음! 🚀</h2>
-                <p class="hero-subtitle">무엇부터 시작할까요? 궁금한 개념을 검색하거나 아래 훈련을 선택하세요.</p>
-                 <div class="home-search-container">
-                   <input type="text" id="homeSearchInput" placeholder="모르는 개념 통합 검색... (예: 라쏘, LOOCV)" class="home-search-input" />
-                   <button id="homeSearchBtn" class="quiz-btn">즉시 검색</button>
-                </div>
-             </div>
-             
-             <!-- 실시간 합격 예측 및 맞춤 코멘트 위젯 -->
-             <div id="passPredictionWidget" class="pass-predict-card blur-glass">
-                <div class="predict-header">
-                  <h3>📊 나의 합격 예측 현황</h3>
-                  <span id="predictStatusBadge" class="predict-badge loading">분석 중...</span>
-                </div>
-                <div class="predict-body">
-                  <div class="predict-score-row">
-                    <div class="predict-score-item">
-                      <span class="score-label">현재 예상 평균</span>
-                      <span id="predictAvgScore" class="score-value">-점</span>
-                    </div>
-                    <div class="predict-score-item">
-                      <span class="score-label">과락 위험 과목</span>
-                      <span id="predictFailSubject" class="score-value text-danger">-</span>
-                    </div>
-                  </div>
-                  <div id="predictExaminerComment" class="examiner-comment">
-                    "문제를 더 풀고 정확한 합격 예측과 맞춤 전략을 받아보세요!"
-                  </div>
-                </div>
-             </div>
-             
-             <!-- 13회차 시험 대비 가이드 -->
-             <div class="exam-trend-card blur-glass">
-                <div class="exam-trend-header">
-                  <h3>📢 제13회 빅데이터분석기사 필기 대비 가이드</h3>
-                  <span class="badge-tag" style="background-color: var(--danger-color); color: white; margin-left: 8px; border-color: var(--danger-color);">NEW</span>
-                </div>
-                <div class="exam-trend-body">
-                  <p class="trend-summary"><strong>예상 난이도:</strong> 중간~중상 수준 (개념 위주 문항 익숙화, 통계/모델링 응용력 요구)</p>
-                  <ul class="trend-list">
-                    <li><strong>과목별 체감 난이도:</strong> <span style="color: var(--danger-color); font-weight: 600;">2과목(빅데이터 탐색), 3과목(빅데이터 모델링)</span> 통계적 추론 및 알고리즘 파트 주의</li>
-                    <li><strong>출제 경향:</strong> 지엽적 암기보단 <strong>기본 개념 및 핵심 알고리즘 위주</strong>. 신유형은 기존 기출 응용 및 실무 연계 개념 출제</li>
-                    <li><strong>대비 전략:</strong> 
-                      <ul>
-                        <li>상대적으로 이론 위주인 1과목(분석 기획)에서 점수 최대한 확보</li>
-                        <li>복잡한 계산보다 <strong>가설검정, 회귀분석, 데이터 전처리 핵심 프로세스</strong> 위주 정리</li>
-                        <li>최근 기출문제 선지 분석을 통해 주요 개념 출제 범위 파악 필수</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </div>
-             </div>
-             
-             <div class="quick-action-cards">
-                <div class="quick-card" id="quickStrategyGuide">
-                   <div class="qc-icon" style="background: rgba(255, 204, 0, 0.1); color: #FFCC00;">💡</div>
-                   <div class="qc-text">
-                     <h3>실전 객관식 찍기 비법</h3>
-                     <p>2지선다의 늪에서 탈출! 합격자의 문제풀이 3단계 알고리즘</p>
-                   </div>
-                   <div class="qc-arrow">→</div>
-                </div>
-                <div class="quick-card" id="quickSosRescue">
-                   <div class="qc-icon" style="background: rgba(255, 59, 48, 0.1); color: var(--danger-color);">🚨</div>
-                   <div class="qc-text">
-                     <h3>과락 방지 긴급 구조 (SOS)</h3>
-                     <p>현재 내 점수가 가장 낮은 취약 과목만 20제 강제 트레이닝합니다.</p>
-                   </div>
-                   <div class="qc-arrow">→</div>
-                </div>
-                <div class="quick-card" id="quickResumeNote">
-                   <div class="qc-icon">📚</div>
-                   <div class="qc-text">
-                     <h3>요약노트 정주행</h3>
-                     <p>출제자 관점의 핵심 개념과 암기 꿀팁을 순서대로 학습합니다.</p>
-                   </div>
-                   <div class="qc-arrow">→</div>
-                </div>
-                <div class="quick-card" id="quickStartMock">
-                   <div class="qc-icon">⏱️</div>
-                   <div class="qc-text">
-                     <h3>실전 모의고사 (80제)</h3>
-                     <p>진짜 시험처럼! 120분 타이머와 OMR을 활용해 실전 감각을 키워보세요.</p>
-                   </div>
-                   <div class="qc-arrow">→</div>
-                </div>
-                <div class="quick-card" id="quickWeakStats">
-                   <div class="qc-icon">📊</div>
-                   <div class="qc-text">
-                     <h3>내 성적 및 약점 분석</h3>
-                     <p>내가 자주 틀리는 과목과 취약한 개념을 한눈에 파악하고 보충합니다.</p>
-                   </div>
-                   <div class="qc-arrow">→</div>
-                </div>
-             </div>
-          </div>
-
-          <!-- 진도율 표시 바 (추가) -->
-          <div id="progressContainer" class="progress-container hidden">
+          <div id="progressContainer" class="progress-container">
             <div class="progress-info">
               <span id="progressLabel" class="progress-label">과목 진도율</span>
               <span id="progressPercent" class="progress-percent">0%</span>
@@ -270,7 +166,7 @@
               <div id="progressBar" class="progress-bar-fill"></div>
             </div>
           </div>
-          <div id="content" class="hidden">
+          <div id="content">
             <div class="loading-spinner">
               <svg class="spinner" viewBox="0 0 50 50">
                 <circle
@@ -304,14 +200,8 @@
                 개념별 기출 유형 문제 풀어보기 · 즉시 정답 및 맞춤 요약노트 해설 연동
               </p>
               <div style="margin-top: 16px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-                <button id="smartWeaknessBtn" class="quiz-btn" style="background: linear-gradient(135deg, var(--primary-color), #5856D6); padding: 10px 24px; font-size: 1.05rem; box-shadow: 0 4px 15px rgba(0,122,255,0.3);">
+                <button id="smartWeaknessBtn" class="quiz-btn" style="padding: 10px 24px; font-size: 1.05rem;">
                   ⚡ 오늘의 취약점 즉시 보충하기 (20제)
-                </button>
-                <button id="target13thQuizBtn" class="quiz-btn" style="background: linear-gradient(135deg, var(--danger-color), #FF9500); padding: 10px 24px; font-size: 1.05rem; box-shadow: 0 4px 15px rgba(255,59,48,0.3);">
-                  ⭐ 13회차 핵심 타겟 문제 (20제)
-                </button>
-                <button id="termStatQuizBtn" class="quiz-btn" style="background: linear-gradient(135deg, #34C759, #28CD41); padding: 10px 24px; font-size: 1.05rem; box-shadow: 0 4px 15px rgba(52,199,89,0.3);">
-                  🔄 빈출 용어·방법론·통계 집중 (20제)
                 </button>
                 <button id="wrongOnlyQuizBtn" class="quiz-btn" style="background: var(--surface-color); color: var(--danger-color); border: 1px solid var(--danger-color); padding: 10px 24px; font-size: 1.05rem;">
                   📖 내가 틀린 문제만 다시 풀기
@@ -434,91 +324,9 @@
       </div>
     </div>
 
-    <!-- 합격 비법 모달 -->
-    <div id="strategyModal" class="modal-overlay hidden">
-      <div class="modal-card blur-glass strategy-modal-card">
-        <div class="modal-header">
-          <div class="modal-title-group">
-            <span class="badge-tag" style="background-color: #FFCC00; color: #000; border: none;">💡 꿀팁</span>
-            <h2>합격자의 실전 찍기 비법</h2>
-          </div>
-          <button id="closeStrategyBtn" class="icon-btn">✕</button>
-        </div>
-        
-        <div class="concept-modal-tabs">
-          <button id="tabStrategyStudy" class="concept-tab active">📚 과목별 학습 전략</button>
-          <button id="tabStrategySolve" class="concept-tab">🎯 실전 문제풀이 3단계</button>
-        </div>
-
-        <div class="modal-body" style="padding-top: 20px;">
-          <!-- 학습 전략 탭 -->
-          <div id="strategyStudyPane" class="concept-modal-pane">
-            <div class="strategy-list">
-              <div class="strategy-item">
-                <div class="strategy-num">1과목</div>
-                <div class="strategy-content">
-                  <h4>기획 및 기술: 다독과 단권화</h4>
-                  <p>비즈니스/상식 문제가 많으나 법, 제도 용어의 휘발성이 강합니다. <strong>기출문제 다독</strong>과 헷갈리는 개념(하둡 에코시스템, 비식별화 기법 등) 단권화가 필수입니다.</p>
-                </div>
-              </div>
-              <div class="strategy-item">
-                <div class="strategy-num danger">2과목</div>
-                <div class="strategy-content">
-                  <h4>데이터 탐색: 수포자의 최대 고비</h4>
-                  <p>통계 노베이스라면 책만 보지 말고 <strong>EBSi 확통 기초 강의나 무료 유튜브 기초 통계</strong>를 병행하세요. 수식 자체보단 <strong>결과 해석(p-value 등)</strong>에 집중하세요.</p>
-                </div>
-              </div>
-              <div class="strategy-item">
-                <div class="strategy-num danger">3과목</div>
-                <div class="strategy-content">
-                  <h4>데이터 모델링: 굵직한 뼈대 잡기</h4>
-                  <p>알고리즘 종류가 쏟아집니다. 세부 수식보다 <strong>지도/비지도 분류 체계</strong>와 주요 앙상블(배깅, 부스팅) 차이점 위주로 굵직하게 뼈대를 잡는 것이 1순위입니다.</p>
-                </div>
-              </div>
-              <div class="strategy-item">
-                <div class="strategy-num success">4과목</div>
-                <div class="strategy-content">
-                  <h4>결과 해석: 고득점 점수 자판기</h4>
-                  <p>2, 3과목에서 잃은 점수를 메꾸는 효자 과목입니다. <strong>혼동행렬(Confusion Matrix)과 평가지표 계산 공식</strong>은 무조건 암기해서 100% 맞춰야 합니다.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- 문제풀이 탭 -->
-          <div id="strategySolvePane" class="concept-modal-pane hidden">
-            <div class="strategy-step">
-              <div class="step-badge">STEP 1</div>
-              <h4>스캐닝: 단정적/부정적 단어 찾기</h4>
-              <p>문제와 선지를 훑으며 극단적 단어(<mark>항상</mark>, <mark>모든</mark>, <mark>반드시</mark>, <mark>~만</mark>)나 부정적 서술어(<mark>~할 수 없다</mark>, <mark>불가능하다</mark>)를 찾습니다. <strong>'틀린 것을 고르시오'에서 오답 선지(정답)일 확률이 매우 높습니다.</strong></p>
-            </div>
-            
-            <div class="strategy-step">
-              <div class="step-badge">STEP 2</div>
-              <h4>소거법: 이질적인 선지와 스왑 함정</h4>
-              <p>4개의 선지 중 <strong>카테고리가 다른 1개</strong>(예: 3개는 지도학습, 1개는 비지도학습)를 찾거나, A와 B의 설명이 교묘하게 바뀐 <strong>'스왑(Swap) 함정'</strong>을 찾아 지워냅니다.</p>
-            </div>
-            
-            <div class="strategy-step">
-              <div class="step-badge">STEP 3</div>
-              <h4>결단의 시간: 2개가 남았을 때</h4>
-              <p>선지가 2개 남았을 땐 <strong>첫 느낌</strong>을 믿으세요. 고치면 틀립니다.<br>둘 중 <strong>조건이나 괄호 설명이 구구절절 길고 정교한 선지</strong>, 혹은 <strong>가장 포괄적이고 일반적인 문장</strong>이 맞는 설명일 확률이 높습니다.</p>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button id="closeStrategyModalBtn" class="quiz-btn w-full">확인했습니다</button>
-        </div>
-      </div>
-    </div>
-
     <!-- 모바일 하단 네비게이션 바 -->
     <nav class="bottom-nav blur-glass">
-      <button class="bottom-nav-item active" data-nav="home">
-        <span class="nav-icon">🏠</span>
-        <span class="nav-label">홈</span>
-      </button>
-      <button class="bottom-nav-item" data-nav="notes">
+      <button class="bottom-nav-item active" data-nav="notes">
         <span class="nav-icon">📚</span>
         <span class="nav-label">요약노트</span>
       </button>

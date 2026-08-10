@@ -11,7 +11,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   // === DOM 요소 캐싱 ===
   const mainLayout = document.getElementById("mainLayout");
-  const homeDashboard = document.getElementById("home-dashboard");
   const contentEl = document.getElementById("content");
   const quizContentEl = document.getElementById("quiz-content");
   const quizContainer = document.getElementById("quiz-container");
@@ -78,14 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const jumpToFullNoteBtn = document.getElementById("jumpToFullNoteBtn");
   const practiceConceptBtn = document.getElementById("practiceConceptBtn");
 
-  // 전략/비법 모달
-  const strategyModal = document.getElementById("strategyModal");
-  const closeStrategyBtn = document.getElementById("closeStrategyBtn");
-  const closeStrategyModalBtn = document.getElementById("closeStrategyModalBtn");
-  const tabStrategyStudy = document.getElementById("tabStrategyStudy");
-  const tabStrategySolve = document.getElementById("tabStrategySolve");
-  const strategyStudyPane = document.getElementById("strategyStudyPane");
-  const strategySolvePane = document.getElementById("strategySolvePane");
+
 
   // 과목 상수
   const SUBJECT_NAMES = {
@@ -175,120 +167,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // === 퀵 액션 카드 이벤트 ===
-  const quickResumeNote = document.getElementById("quickResumeNote");
-  const quickStartMock = document.getElementById("quickStartMock");
-  const quickWeakStats = document.getElementById("quickWeakStats");
-  const quickSosRescue = document.getElementById("quickSosRescue");
-  const quickStrategyGuide = document.getElementById("quickStrategyGuide");
-  const homeSearchBtn = document.getElementById("homeSearchBtn");
-  const homeSearchInput = document.getElementById("homeSearchInput");
-
-  if(quickStrategyGuide) {
-    quickStrategyGuide.addEventListener("click", () => {
-      strategyModal.classList.remove("hidden");
-    });
-  }
-  
-  if(closeStrategyBtn) {
-    closeStrategyBtn.addEventListener("click", () => {
-      strategyModal.classList.add("hidden");
-    });
-  }
-  
-  if(closeStrategyModalBtn) {
-    closeStrategyModalBtn.addEventListener("click", () => {
-      strategyModal.classList.add("hidden");
-    });
-  }
-  
-  if(tabStrategyStudy && tabStrategySolve) {
-    tabStrategyStudy.addEventListener("click", () => {
-      tabStrategyStudy.classList.add("active");
-      tabStrategySolve.classList.remove("active");
-      strategyStudyPane.classList.remove("hidden");
-      strategySolvePane.classList.add("hidden");
-    });
-    tabStrategySolve.addEventListener("click", () => {
-      tabStrategySolve.classList.add("active");
-      tabStrategyStudy.classList.remove("active");
-      strategySolvePane.classList.remove("hidden");
-      strategyStudyPane.classList.add("hidden");
-    });
-  }
-
-  if(quickResumeNote) quickResumeNote.addEventListener("click", () => switchNav("notes"));
-  if(quickStartMock) quickStartMock.addEventListener("click", () => {
-    switchNav("mock");
-    initMockExam("10th"); // 10회 모의고사를 기본으로 실행
-  });
-  if(quickWeakStats) quickWeakStats.addEventListener("click", () => openStatsModal());
-  if(quickSosRescue) quickSosRescue.addEventListener("click", () => {
-    let lowestSub = 1;
-    let lowestAcc = 101;
-    [1, 2, 3, 4].forEach(sub => {
-      const sData = cumulativeStats.subjects[sub] || { solved: 0, correct: 0 };
-      const acc = sData.solved > 0 ? (sData.correct / sData.solved) * 100 : 0;
-      if (acc < lowestAcc) {
-        lowestAcc = acc;
-        lowestSub = sub;
-      }
-    });
-
-    const weakSubjectQuizzes = allQuizzes.filter(q => q.subject === lowestSub);
-    let pool = [...weakSubjectQuizzes];
-    shuffleArray(pool);
-    let selectedQuizzesArray = pool.slice(0, 20);
-    
-    if(selectedQuizzesArray.length === 0) {
-      showCustomAlert("해당 과목의 기출문제가 부족합니다.");
-      return;
-    }
-    
-    switchNav("practice");
-    workingQuizzes = selectedQuizzesArray;
-    currentPage = 1;
-    setMode("practice");
-    renderQuizzes(workingQuizzes);
-    
-    showCustomAlert(`🚨 [긴급 구조] 가장 취약한 ${lowestSub}과목(현재 정답률 ${Math.round(lowestAcc)}%)의 성적을 끌어올리기 위한 20제가 출제되었습니다. 과락을 면하려면 집중하세요!`);
-  });
-  
-  if(homeSearchBtn) {
-    homeSearchBtn.addEventListener("click", () => {
-       const keyword = homeSearchInput.value.trim();
-       if(keyword) performGlobalSearch(keyword);
-    });
-    homeSearchInput.addEventListener("keydown", (e) => {
-       if(e.key === "Enter") {
-          const keyword = homeSearchInput.value.trim();
-          if(keyword) performGlobalSearch(keyword);
-       }
-    });
-  }
-
-  function performGlobalSearch(keyword) {
-     // 사이드바 검색창과 연동 및 동작 실행
-     const sbSearch = document.getElementById("searchInput");
-     if(sbSearch) {
-       sbSearch.value = keyword;
-       const event = new Event('input', { bubbles: true });
-       sbSearch.dispatchEvent(event);
-     }
-     
-     // 노트 뷰로 전환하고, 결과 카드로 화면 이동 및 검색창 포커스
-     switchNav("notes");
-
-     // 찾은 결과로 스크롤 (조금 지연시켜 렌더링 후 이동)
-     setTimeout(() => {
-        const foundMarker = document.querySelector('mark');
-        if(foundMarker) {
-           foundMarker.scrollIntoView({ behavior: 'smooth', block: 'center' });
-           foundMarker.classList.add('highlight-focused');
-           setTimeout(() => foundMarker.classList.remove('highlight-focused'), 3000);
-        }
-     }, 300);
-  }
 
   function switchNav(targetName) {
     const targetItem = Array.from(document.querySelectorAll('.bottom-nav-item')).find(el => el.dataset.nav === targetName);
@@ -354,26 +232,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     saveStats();
-    if (typeof updatePassPrediction === "function") {
-      updatePassPrediction();
-    }
   }
 
-  // 13회차 필수 개념 키워드 및 식별 함수
   let allNoteSections = [];
-  let filterTarget13thConcept = false;
-  const target13thKeywords = ["가설검정", "회귀분석", "전처리", "결측치", "이상치", "군집분석", "교차검증", "의사결정나무", "p-value", "신뢰구간"];
-  
-  function isTarget13th(text) {
-    if (!text) return false;
-    return target13thKeywords.some(kw => text.includes(kw));
-  }
-
-  const termStatKeywords = ["용어", "방법론", "통계", "기법", "분석", "모형", "알고리즘", "확률", "검정", "추정", "상관"];
-  function isTermStat(text) {
-    if (!text) return false;
-    return termStatKeywords.some(kw => text.includes(kw));
-  }
 
   // === 1. 데이터 병렬 로드 및 양방향 개념 맵 빌드 ===
   Promise.all([
@@ -391,10 +252,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     applyQuizFilter();
     renderQuizToolbar();
-    
-    if (typeof updatePassPrediction === "function") {
-      updatePassPrediction();
-    }
   }).catch(error => {
     contentEl.innerHTML = `<div class="loading">데이터를 불러오는데 실패했습니다: ${error.message}</div>`;
   });
@@ -419,9 +276,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     sections.forEach(sec => {
       let displayCards = sec.cards;
-      if (filterTarget13thConcept) {
-         displayCards = displayCards.filter(c => isTarget13th(c.title));
-      }
+
       if (displayCards.length === 0) return;
 
       html += `
@@ -437,12 +292,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const quizCount = relatedQuizzes.length;
         
         let badgeHtml = "";
-        if (isTarget13th(card.title)) {
-          badgeHtml += `<span class="badge-target13th">⭐ 13회차 필수</span> `;
-        }
-        if (isTermStat(card.title)) {
-          badgeHtml += `<span class="badge-target13th" style="background-color: rgba(52, 199, 89, 0.1); color: #34C759; border-color: #34C759;">🔄 빈출 용어/통계</span> `;
-        }
         if (quizCount >= 3) {
           badgeHtml += `<span class="badge-hot">🔥🔥 A급 빈출 (${quizCount}문제)</span>`;
         } else if (quizCount > 0) {
@@ -2372,22 +2221,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".card").forEach(c => c.classList.remove("open"));
   });
 
-  const filterTarget13thBtn = document.getElementById("filterTarget13thBtn");
-  if(filterTarget13thBtn) {
-    filterTarget13thBtn.addEventListener("click", () => {
-      filterTarget13thConcept = !filterTarget13thConcept;
-      if(filterTarget13thConcept) {
-        filterTarget13thBtn.style.backgroundColor = "var(--danger-color)";
-        filterTarget13thBtn.style.color = "white";
-      } else {
-        filterTarget13thBtn.style.backgroundColor = "";
-        filterTarget13thBtn.style.color = "var(--danger-color)";
-      }
-      renderContent(allNoteSections);
-      bindCardEvents(); 
-      updateNoteRelatedBadges(); 
-    });
-  }
+
 
   window.addEventListener("scroll", () => {
     toTopBtn.classList.toggle("visible", window.scrollY > 300);
@@ -2404,14 +2238,11 @@ document.addEventListener("DOMContentLoaded", () => {
       item.classList.add("active");
 
       // 패널 숨김 초기화
-      if (homeDashboard) homeDashboard.classList.add("hidden");
       document.getElementById("content").classList.add("hidden");
       document.getElementById("quiz-content").classList.add("hidden");
       document.getElementById("progressContainer").classList.add("hidden");
       
-      if (navTarget === "home") {
-         if (homeDashboard) homeDashboard.classList.remove("hidden");
-      } else if (navTarget === "notes") {
+      if (navTarget === "notes") {
          document.getElementById("content").classList.remove("hidden");
          document.getElementById("progressContainer").classList.remove("hidden");
       } else if (navTarget === "practice") {
@@ -2421,8 +2252,9 @@ document.addEventListener("DOMContentLoaded", () => {
          document.getElementById("quiz-content").classList.remove("hidden");
          setMode("mock");
       } else if (navTarget === "stats") {
-         // 다시 홈으로 돌려두고 모달 전시 (stats는 모달 형태)
-         if (homeDashboard) homeDashboard.classList.remove("hidden");
+         // 다시 notes로 돌려두고 모달 전시
+         document.getElementById("content").classList.remove("hidden");
+         document.getElementById("progressContainer").classList.remove("hidden");
          openStatsModal();
       }
     });
@@ -2493,9 +2325,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   window.addEventListener("online", updateOnlineStatus);
   window.addEventListener("offline", updateOnlineStatus);
-});
 
-// Helper for inline quiz check
+  // Helper for inline quiz check
 window.checkInlineQuiz = function(btnEl, cardId, selectedIdx, correctIdx) {
   const isCorrect = (selectedIdx === correctIdx);
   const expDiv = document.getElementById(`inline-exp-${cardId}`);
@@ -2530,56 +2361,4 @@ window.checkInlineQuiz = function(btnEl, cardId, selectedIdx, correctIdx) {
   expDiv.classList.remove('hidden');
 };
 
-// === 합격 예측 및 맞춤 전략 시스템 ===
-function updatePassPrediction() {
-  const badgeEl = document.getElementById("predictStatusBadge");
-  const avgScoreEl = document.getElementById("predictAvgScore");
-  const failSubEl = document.getElementById("predictFailSubject");
-  const commentEl = document.getElementById("predictExaminerComment");
-  if(!badgeEl) return;
-
-  if (!cumulativeStats.totalSolved || cumulativeStats.totalSolved < 10) {
-    badgeEl.textContent = "데이터 부족";
-    badgeEl.className = "predict-badge loading";
-    avgScoreEl.textContent = "-점";
-    failSubEl.textContent = "-";
-    commentEl.textContent = "아직 푼 문제가 부족합니다. 최소 10문제 이상 푼 뒤에 합격 예측이 활성화됩니다.";
-    return;
-  }
-
-  let subjectScores = {};
-  let totalScore = 0;
-  let failingSubjects = [];
-  
-  [1, 2, 3, 4].forEach(sub => {
-    const sData = cumulativeStats.subjects[sub] || { solved: 0, correct: 0 };
-    const acc = sData.solved > 0 ? Math.round((sData.correct / sData.solved) * 100) : 0;
-    subjectScores[sub] = acc;
-    totalScore += acc;
-    if (acc < 40 && sData.solved > 0) failingSubjects.push(sub);
-  });
-
-  const avgScore = Math.round(totalScore / 4);
-  avgScoreEl.textContent = `${avgScore}점`;
-  failSubEl.textContent = failingSubjects.length > 0 ? `${failingSubjects.join(', ')}과목` : "없음";
-  
-  if (failingSubjects.length === 0) {
-    failSubEl.className = "score-value text-safe";
-  } else {
-    failSubEl.className = "score-value text-danger";
-  }
-
-  if (failingSubjects.length > 0) {
-    badgeEl.textContent = "과락위험";
-    badgeEl.className = "predict-badge danger";
-    commentEl.textContent = `🚨 ${failingSubjects.join(', ')}과목 점수가 40점 미만으로 과락 위험이 높습니다! 홈 화면의 '과락 방지 긴급 구조' 버튼을 눌러 해당 과목을 즉시 보완하세요.`;
-  } else if (avgScore < 60) {
-    badgeEl.textContent = "주의요망";
-    badgeEl.className = "predict-badge warning";
-    commentEl.textContent = `⚠️ 과락은 면했지만 평균 60점에 미달합니다. (현재 ${avgScore}점) 취약점 보충 훈련이나 모의고사를 통해 평균 점수를 끌어올리세요.`;
-  } else {
-    badgeEl.textContent = "안정권";
-    badgeEl.className = "predict-badge safe";
-    commentEl.textContent = `🟢 훌륭합니다! 전 과목 과락 없이 평균 60점을 넘겼습니다. 현재 페이스를 유지하며 실전 모의고사로 시간 배분 훈련을 진행하세요.`;
-  }
-}
+});
