@@ -393,6 +393,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const heads = block.headers.map(h => `<th>${applyHighlight(h)}</th>`).join("");
         const rows = block.rows.map(r => `<tr>${r.map(c => `<td>${applyHighlight(c)}</td>`).join("")}</tr>`).join("");
         return `<table><thead><tr>${heads}</tr></thead><tbody>${rows}</tbody></table>`;
+      case "keywords":
+        return `<div class="keywords-block">${block.items.map(k => `<span class="keyword-chip">#${k}</span>`).join("")}</div>`;
+      case "quiz":
+        return `<div class="quiz-block">
+          <div class="quiz-q">${applyHighlight(block.question)}</div>
+          <button class="quiz-show-btn" onclick="this.nextElementSibling.classList.toggle('hidden'); this.textContent = this.textContent.includes('확인') ? '해설 숨기기' : '정답 확인하기'">정답 확인하기</button>
+          <div class="quiz-a hidden">
+            <div class="quiz-a-text"><strong>🎯 출제 포인트:</strong> ${applyHighlight(block.explanation)}</div>
+          </div>
+        </div>`;
       default: return "";
     }
   }
@@ -1304,14 +1314,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let whyWrongHtml = "";
       if (quiz.whyWrong && Array.isArray(quiz.whyWrong)) {
-        whyWrongHtml = `<ul class="why-wrong-list">`;
+        whyWrongHtml = `<div class="why-wrong-container">`;
         quiz.whyWrong.forEach((reason, i2) => {
           if (reason !== "정답") {
             const letter = String.fromCharCode(65 + i2);
-            whyWrongHtml += `<li><strong>${letter}:</strong> ${reason}</li>`;
+            whyWrongHtml += `<div class="why-wrong-item">
+              <div class="why-wrong-tag">❌ 오답 분석: 보기 ${letter}</div>
+              <div class="why-wrong-text">${reason}</div>
+            </div>`;
           }
         });
-        whyWrongHtml += `</ul>`;
+        whyWrongHtml += `</div>`;
       }
 
       const isBookmarked = bookmarks.has(quiz.id);
@@ -1348,10 +1361,12 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="memo-icon">🧠 핵심 암기 포인트</div>
               <div class="memo-text">${quiz.memorizationPoint}</div>
             </div>` : ''}
-            <div class="quiz-explanation-title" style="margin-top: 10px;">상세 해설</div>
-            <p>${quiz.explanation}</p>
+            <div class="explanation-box">
+              <div class="quiz-explanation-title">💡 상세 해설</div>
+              <p class="quiz-explanation-text">${quiz.explanation}</p>
+            </div>
             ${whyWrongHtml}
-            ${conceptCard ? `<button class="concept-link-btn" data-card-id="${conceptCard.id}">✨ 관련 개념 인포그래픽 뷰어</button>` : ''}
+            ${conceptCard ? `<button class="concept-link-btn premium-btn" data-card-id="${conceptCard.id}">✨ 관련 개념 인포그래픽 뷰어</button>` : ''}
             ${getRelatedConceptsHtml(quiz)}
             <button class="next-quiz-btn hidden">다음 문제로 이동 ↓</button>
           </div>
@@ -1587,6 +1602,34 @@ document.addEventListener("DOMContentLoaded", () => {
       conceptModalBodyNote.innerHTML = cardData.blocks.map(renderBlock).join("");
     } else {
       conceptModalBodyNote.innerHTML = `<div class="note">해당 개념의 핵심 요약 내용입니다.</div>`;
+    }
+
+    // 1-1. 연관 개념 끝말잇기 렌더링
+    const chapterPrefix = cardId.split('-')[0];
+    let siblingCards = [];
+    if (chapterPrefix) {
+      for (const c of cardMap.values()) {
+        if (c.id !== cardId && c.id.startsWith(chapterPrefix)) {
+          siblingCards.push(c);
+        }
+      }
+    }
+    if (siblingCards.length > 0) {
+      // 섞어서 최대 3개 추출
+      siblingCards = siblingCards.sort(() => 0.5 - Math.random()).slice(0, 3);
+      const siblingHtml = `
+        <div class="concept-siblings-container">
+          <h3 class="concept-siblings-title">🔄 이어서 학습하기 좋은 연관 개념</h3>
+          <div class="concept-siblings-list">
+            ${siblingCards.map(c => `<button class="concept-sibling-btn" onclick="document.querySelector('#conceptModal').classList.add('hidden'); setTimeout(() => document.querySelector('.concept-badge[data-card-id=\\'${c.id}\\']') ? document.querySelector('.concept-badge[data-card-id=\\'${c.id}\\']').click() : window.appContext.openConceptModal('${c.id}'), 100)">🏷️ ${c.title}</button>`).join('')}
+          </div>
+        </div>
+      `;
+      conceptModalBodyNote.innerHTML += siblingHtml;
+      
+      // Make openConceptModal accessible globally if not already
+      if (!window.appContext) window.appContext = {};
+      window.appContext.openConceptModal = openConceptModal;
     }
 
     // 2. 관련 기출문제 렌더링
