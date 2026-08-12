@@ -2438,3 +2438,39 @@ body.focus-mode .card.open {
   line-height: 1.5;
   color: var(--text-color);
 }
+
+/* Memorization Box */
+.memorization-box {
+  margin-top: 20px;
+  background: linear-gradient(135deg, rgba(255, 204, 0, 0.15), rgba(255, 149, 0, 0.1));
+  border-left: 4px solid #FF9500;
+  border-radius: var(--radius-md);
+  padding: 16px;
+  animation: fadeIn 0.4s ease;
+}
+
+[data-theme="dark"] .memorization-box {
+  background: linear-gradient(135deg, rgba(255, 204, 0, 0.1), rgba(255, 149, 0, 0.05));
+  border-left: 4px solid #FFA733;
+}
+
+.memo-icon {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #D97700;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+[data-theme="dark"] .memo-icon {
+  color: #FFA733;
+}
+
+.memo-text {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-color);
+  font-weight: 600;
+}

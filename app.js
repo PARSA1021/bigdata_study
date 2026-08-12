@@ -686,6 +686,11 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="quiz-status ${userChosen === quiz.answer ? 'correct' : 'incorrect'}">
               ${userChosen === quiz.answer ? '정답입니다! 🎉' : '오답입니다. 🥲'}
             </div>
+            ${quiz.memorizationPoint ? `
+            <div class="memorization-box">
+              <div class="memo-icon">🧠 핵심 암기 포인트</div>
+              <div class="memo-text">${quiz.memorizationPoint}</div>
+            </div>` : ''}
             <p>${quiz.explanation}</p>
             ${whyWrongHtml}
             ${quiz.cardId ? `<button class="concept-link-btn" data-card-id="${quiz.cardId}">✨ 관련 개념 인포그래픽 뷰어</button>` : ''}
@@ -1160,22 +1165,71 @@ document.addEventListener("DOMContentLoaded", () => {
     const relatedCards = [];
     const qText = (quiz.question + " " + (quiz.explanation || "") + " " + (quiz.whyWrong ? quiz.whyWrong.join(" ") : "")).toLowerCase();
     
+    // 불용어 (단독으로 매칭되었을 때 연관 개념으로 띄우지 않을 흔한 단어들)
+    const stopWords = ["데이터", "분석", "특징", "정의", "개념", "종류", "이해", "방법", "기법", "모델", "모형", "평가", "활용", "과정", "절차", "기본", "이론", "유형", "문제", "개요", "결과", "기반", "단위", "목적", "구조", "형태", "기능", "역할", "구분", "특성", "적용", "단계", "비교", "요소"];
+
+    const escapeRegExp = (string) => string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
     cardMap.forEach((card, cardId) => {
       // 본래 매핑된 카드는 제외
       if (cardId === quiz.cardId) return;
       
-      const cTitle = card.title.toLowerCase();
-      // 개념명이 2글자 이상인 경우에만 (너무 짧은 단어 제외)
-      if (cTitle.length >= 2 && qText.includes(cTitle)) {
-        relatedCards.push(card);
+      const originalTitle = card.title;
+      const cTitle = originalTitle.toLowerCase();
+      
+      let score = 0;
+      
+      // 1. 전체 제목 일치 검사
+      const exactRegex = new RegExp(`(^|\\s|[.,!?'"\\[\\]{}()])${escapeRegExp(cTitle)}([은는이가을를의와과에로으로만도]*)(?=\\s|[.,!?'"\\[\\]{}()]|$)`, 'i');
+      
+      if (cTitle.length >= 4 && qText.includes(cTitle)) {
+        // 길이가 긴 개념은 부분 일치만 해도 확실한 연관성 (예: "의사결정나무")
+        score += 10;
+      } else if (cTitle.length >= 2 && exactRegex.test(qText)) {
+        // 단독 단어로 쓰인 경우 확실한 연관성 (예: "분류"가 "분류기"가 아닌 "분류를" 등으로 쓰임)
+        score += 10;
+      } else if (cTitle.length >= 2 && qText.includes(cTitle)) {
+        // 단순 부분 일치 (예: "분석"이 "회귀분석"에 포함됨)
+        score += 2;
+      }
+      
+      // 2. 제목을 단어별로 쪼개서 (불용어 제외) 부분 일치 확인
+      const words = originalTitle
+        .split(/[\s,()]+/)
+        .map(w => w.replace(/(의|와|과|은|는|을|를|적)$/g, ''))
+        .filter(w => w.length >= 2 && !stopWords.includes(w.toLowerCase()));
+      
+      let matchCount = 0;
+      words.forEach(w => {
+        if (qText.includes(w.toLowerCase())) matchCount++;
+      });
+      
+      if (words.length > 0 && matchCount > 0) {
+        score += (matchCount / words.length) * 5; 
+      }
+      
+      // 제목이 불용어로만 이루어진 단일 단어인 경우 무시 (예: "데이터")
+      if (words.length === 0 && stopWords.includes(cTitle)) return;
+      
+      // 일정 점수 이상인 경우에만 연관 개념으로 인정 (4.0 이상이면 핵심단어 80% 이상 일치 또는 의미 있는 제목 일치)
+      if (score >= 4.0) {
+         relatedCards.push({ card, score });
       }
     });
 
-    if (relatedCards.length > 0) {
+    relatedCards.sort((a, b) => {
+      if (b.score === a.score) return a.card.title.length - b.card.title.length;
+      return b.score - a.score;
+    });
+    
+    // 최대 3개까지만 노출
+    const topCards = relatedCards.slice(0, 3).map(item => item.card);
+
+    if (topCards.length > 0) {
       relatedHtml += `<div style="margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">`;
-      relatedHtml += `<span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">연관 개념:</span>`;
-      relatedCards.forEach(card => {
-        relatedHtml += `<button class="concept-link-btn" data-card-id="${card.id}" style="padding: 4px 8px; font-size: 0.8rem; background: rgba(59,130,246,0.1); color: var(--primary-color); border: 1px solid rgba(59,130,246,0.2);">🏷️ ${card.title}</button>`;
+      relatedHtml += `<span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">💡 연관 개념:</span>`;
+      topCards.forEach(card => {
+        relatedHtml += `<button class="concept-link-btn" data-card-id="${card.id}" style="padding: 4px 8px; font-size: 0.8rem; background: rgba(59,130,246,0.1); color: var(--primary-color); border: 1px solid rgba(59,130,246,0.2); border-radius: 4px; transition: background 0.2s; cursor: pointer;">🏷️ ${card.title}</button>`;
       });
       relatedHtml += `</div>`;
     }
@@ -1289,6 +1343,11 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <div class="quiz-explanation ${solved ? '' : 'hidden'}">
             <div class="quiz-status"></div>
+            ${quiz.memorizationPoint ? `
+            <div class="memorization-box">
+              <div class="memo-icon">🧠 핵심 암기 포인트</div>
+              <div class="memo-text">${quiz.memorizationPoint}</div>
+            </div>` : ''}
             <div class="quiz-explanation-title" style="margin-top: 10px;">상세 해설</div>
             <p>${quiz.explanation}</p>
             ${whyWrongHtml}
@@ -1663,73 +1722,84 @@ document.addEventListener("DOMContentLoaded", () => {
   // === 5-2. 오늘의 취약점 집중 공략 (Smart Weakness Quiz) ===
   if (smartWeaknessBtn) {
     smartWeaknessBtn.addEventListener("click", () => {
-      // 1. 오답인 문제 ID들 (wrongIds)
-      const wrongList = Array.from(wrongIds);
-      
-      // 2. 취약 개념 Top 파악 (Spaced Repetition)
-      let weakList = [];
-      const conceptsData = cumulativeStats.concepts || {};
-      Object.keys(conceptsData).forEach(cId => {
-        const stat = conceptsData[cId];
-        if (stat.solved >= 1) {
-          const acc = stat.correct / stat.solved;
-          weakList.push({ cardId: cId, acc: acc });
-        }
-      });
-      weakList.sort((a, b) => a.acc - b.acc);
-      const topWeakCardIds = weakList.slice(0, 5).map(w => w.cardId);
-      
-      // 3. 복습 풀 (오답 + 취약 개념 + 북마크)
-      let selectedQuizzes = new Set();
-      const bQuizzes = allQuizzes.filter(q => bookmarks.has(q.id));
-      const wQuizzes = allQuizzes.filter(q => wrongList.includes(q.id));
-      const conceptQuizzes = allQuizzes.filter(q => topWeakCardIds.includes(q.cardId));
+      const originalText = smartWeaknessBtn.innerHTML;
+      smartWeaknessBtn.innerHTML = `<span style="display:inline-block; width:16px; height:16px; border:2px solid currentColor; border-top-color:transparent; border-radius:50%; animation:rotate 1s linear infinite; vertical-align:middle; margin-right:8px;"></span> AI 분석 중...`;
+      smartWeaknessBtn.style.pointerEvents = "none";
+      smartWeaknessBtn.style.opacity = "0.8";
 
-      let pool = [...wQuizzes, ...conceptQuizzes, ...bQuizzes];
-      shuffleArray(pool);
-      // 가장 취약한 부분을 먼저 최대 15개 채움
-      pool.slice(0, 15).forEach(q => selectedQuizzes.add(q));
+      setTimeout(() => {
+        smartWeaknessBtn.innerHTML = originalText;
+        smartWeaknessBtn.style.pointerEvents = "auto";
+        smartWeaknessBtn.style.opacity = "1";
 
-      // 4. 공간을 채우기 위해 가장 정답률 낮은 과목 기출 추가
-      if (selectedQuizzes.size < 20) {
-        let lowestSub = 1;
-        let lowestAcc = 101;
-        [1, 2, 3, 4].forEach(sub => {
-          const sData = cumulativeStats.subjects[sub] || { solved: 0, correct: 0 };
-          const acc = sData.solved > 0 ? (sData.correct / sData.solved) * 100 : 0;
-          if (acc < lowestAcc) {
-            lowestAcc = acc;
-            lowestSub = sub;
+        // 1. 오답인 문제 ID들 (wrongIds)
+        const wrongList = Array.from(wrongIds);
+        
+        // 2. 취약 개념 Top 파악 (Spaced Repetition)
+        let weakList = [];
+        const conceptsData = cumulativeStats.concepts || {};
+        Object.keys(conceptsData).forEach(cId => {
+          const stat = conceptsData[cId];
+          if (stat.solved >= 1) {
+            const acc = stat.correct / stat.solved;
+            weakList.push({ cardId: cId, acc: acc });
           }
         });
-        const weakSubjectQuizzes = allQuizzes.filter(q => q.subject === lowestSub);
-        shuffleArray(weakSubjectQuizzes);
-        for (let q of weakSubjectQuizzes) {
-          if (selectedQuizzes.size >= 20) break;
-          selectedQuizzes.add(q);
-        }
-      }
+        weakList.sort((a, b) => a.acc - b.acc);
+        const topWeakCardIds = weakList.slice(0, 5).map(w => w.cardId);
+        
+        // 3. 복습 풀 (오답 + 취약 개념 + 북마크)
+        let selectedQuizzes = new Set();
+        const bQuizzes = allQuizzes.filter(q => bookmarks.has(q.id));
+        const wQuizzes = allQuizzes.filter(q => wrongList.includes(q.id));
+        const conceptQuizzes = allQuizzes.filter(q => topWeakCardIds.includes(q.cardId));
 
-      // 여전히 20이 안되면 전체 기출에서 랜덤 추가
-      if (selectedQuizzes.size < 20) {
-        let allShuffled = [...allQuizzes];
-        shuffleArray(allShuffled);
-        for (let q of allShuffled) {
-          if (selectedQuizzes.size >= 20) break;
-          selectedQuizzes.add(q);
+        let pool = [...wQuizzes, ...conceptQuizzes, ...bQuizzes];
+        shuffleArray(pool);
+        // 가장 취약한 부분을 먼저 최대 15개 채움
+        pool.slice(0, 15).forEach(q => selectedQuizzes.add(q));
+
+        // 4. 공간을 채우기 위해 가장 정답률 낮은 과목 기출 추가
+        if (selectedQuizzes.size < 20) {
+          let lowestSub = 1;
+          let lowestAcc = 101;
+          [1, 2, 3, 4].forEach(sub => {
+            const sData = cumulativeStats.subjects[sub] || { solved: 0, correct: 0 };
+            const acc = sData.solved > 0 ? (sData.correct / sData.solved) * 100 : 0;
+            if (acc < lowestAcc) {
+              lowestAcc = acc;
+              lowestSub = sub;
+            }
+          });
+          const weakSubjectQuizzes = allQuizzes.filter(q => q.subject === lowestSub);
+          shuffleArray(weakSubjectQuizzes);
+          for (let q of weakSubjectQuizzes) {
+            if (selectedQuizzes.size >= 20) break;
+            selectedQuizzes.add(q);
+          }
         }
-      }
-      
-      let selectedQuizzesArray = Array.from(selectedQuizzes);
-      
-      // 퀴즈 렌더링 시작
-      workingQuizzes = selectedQuizzesArray;
-      currentPage = 1;
-      setMode("practice");
-      renderQuizzes(workingQuizzes);
-      
-      // UI 알림
-      showCustomAlert(`⚡ [스마트 학습] 에빙하우스 복습!\n자주 틀린 약점과 북마크 위주로 최적화된 20문제가 출제되었습니다. 꼭 다 맞혀보세요!`);
+
+        // 여전히 20이 안되면 전체 기출에서 랜덤 추가
+        if (selectedQuizzes.size < 20) {
+          let allShuffled = [...allQuizzes];
+          shuffleArray(allShuffled);
+          for (let q of allShuffled) {
+            if (selectedQuizzes.size >= 20) break;
+            selectedQuizzes.add(q);
+          }
+        }
+        
+        let selectedQuizzesArray = Array.from(selectedQuizzes);
+        
+        // 퀴즈 렌더링 시작
+        workingQuizzes = selectedQuizzesArray;
+        currentPage = 1;
+        setMode("practice");
+        renderQuizzes(workingQuizzes);
+        
+        // UI 알림
+        showCustomAlert(`⚡ [스마트 학습] AI 취약점 진단 완료!\n자주 틀린 약점과 북마크 위주로 최적화된 20문제가 출제되었습니다. 꼭 다 맞혀보세요!`);
+      }, 800);
     });
   }
 
@@ -2120,6 +2190,16 @@ document.addEventListener("DOMContentLoaded", () => {
     return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
 
+  function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, tag => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+      }[tag] || tag));
+  }
+
   function clearHighlights() {
     document.querySelectorAll(".card-title-text mark").forEach(mark => {
       const parent = mark.parentNode;
@@ -2167,7 +2247,8 @@ document.addEventListener("DOMContentLoaded", () => {
           visibleCount++;
           const titleEl = card.querySelector(".card-title-text");
           if (titleEl && searchRegex) {
-            titleEl.innerHTML = titleEl.textContent.replace(searchRegex, "<mark>$1</mark>");
+            const safeText = escapeHTML(titleEl.textContent);
+            titleEl.innerHTML = safeText.replace(searchRegex, "<mark>$1</mark>");
           }
         }
       } else {
@@ -2260,13 +2341,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // === 8. PC 키보드 단축키 (1, 2, 3, 4 선택, F 검토, Ctrl+K 검색) ===
+  // === 8. PC 키보드 단축키 (상하 이동, 1~4 선택, F 검토, Ctrl+K 검색) ===
   document.addEventListener("keydown", (e) => {
     if (["INPUT", "TEXTAREA"].includes(document.activeElement.tagName)) return;
 
     const isModalOpen = (statsModal && !statsModal.classList.contains("hidden")) ||
                         (conceptModal && !conceptModal.classList.contains("hidden")) ||
-                        (omrDrawer && !omrDrawer.classList.contains("hidden"));
+                        (omrDrawer && !omrDrawer.classList.contains("hidden")) ||
+                        (document.getElementById("customAlertOverlay") && !document.getElementById("customAlertOverlay").classList.contains("hidden"));
     if (isModalOpen) return;
 
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
@@ -2288,26 +2370,83 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // 포커스 로직 (상하 화살표 또는 W/S, J/K 로 문제 이동)
+    const isNavigationKey = ["ArrowUp", "ArrowDown", "w", "s", "j", "k"].includes(e.key) || (e.key.toLowerCase() === "w" || e.key.toLowerCase() === "s" || e.key.toLowerCase() === "j" || e.key.toLowerCase() === "k");
+    if (isNavigationKey) {
+      // 퀴즈 탭이 열려있는지 확인
+      if (document.getElementById("quiz-content").classList.contains("hidden")) return;
+      
+      e.preventDefault();
+      const allCards = Array.from(document.querySelectorAll(".quiz-card"));
+      if (allCards.length === 0) return;
+      
+      let focusedIdx = allCards.findIndex(c => c.classList.contains("quiz-focus"));
+      
+      if (focusedIdx === -1) {
+        // 현재 포커스가 없으면 화면에 보이는 첫 번째 카드를 찾음
+        focusedIdx = allCards.findIndex(card => {
+          const rect = card.getBoundingClientRect();
+          return rect.top >= 0 && rect.top <= window.innerHeight * 0.7;
+        });
+        if (focusedIdx === -1) focusedIdx = 0;
+      } else {
+        allCards[focusedIdx].classList.remove("quiz-focus");
+        if (["ArrowUp", "w", "W", "k", "K"].includes(e.key)) {
+          focusedIdx = Math.max(0, focusedIdx - 1);
+        } else {
+          focusedIdx = Math.min(allCards.length - 1, focusedIdx + 1);
+        }
+      }
+      
+      const newFocusedCard = allCards[focusedIdx];
+      newFocusedCard.classList.add("quiz-focus");
+      
+      // 화면 밖으로 나가면 스크롤
+      const rect = newFocusedCard.getBoundingClientRect();
+      const headerOffset = 140; // topbar height + margin
+      if (rect.top < headerOffset || rect.bottom > window.innerHeight) {
+        newFocusedCard.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      return;
+    }
+
     if (["1", "2", "3", "4"].includes(e.key)) {
       const idx = parseInt(e.key, 10) - 1;
-      const firstVisibleCard = Array.from(document.querySelectorAll(".quiz-card")).find(card => {
-        const rect = card.getBoundingClientRect();
-        return rect.top >= 0 && rect.top <= window.innerHeight * 0.7;
-      });
-
-      if (firstVisibleCard) {
-        const opts = firstVisibleCard.querySelectorAll(".quiz-option");
+      let targetCard = document.querySelector(".quiz-card.quiz-focus");
+      if (!targetCard) {
+        targetCard = Array.from(document.querySelectorAll(".quiz-card")).find(card => {
+          const rect = card.getBoundingClientRect();
+          return rect.top >= 0 && rect.top <= window.innerHeight * 0.7;
+        });
+      }
+      
+      if (targetCard) {
+        if (!targetCard.classList.contains("quiz-focus")) {
+          document.querySelectorAll(".quiz-card.quiz-focus").forEach(c => c.classList.remove("quiz-focus"));
+          targetCard.classList.add("quiz-focus");
+        }
+        
+        const opts = targetCard.querySelectorAll(".quiz-option");
         if (opts[idx] && !opts[idx].disabled) {
           opts[idx].click();
         }
       }
     } else if (e.key.toLowerCase() === "f") {
-      const firstVisibleCard = Array.from(document.querySelectorAll(".quiz-card")).find(card => {
-        const rect = card.getBoundingClientRect();
-        return rect.top >= 0 && rect.top <= window.innerHeight * 0.7;
-      });
-      if (firstVisibleCard) {
-        const flagBtn = firstVisibleCard.querySelector(".flag-btn");
+      let targetCard = document.querySelector(".quiz-card.quiz-focus");
+      if (!targetCard) {
+        targetCard = Array.from(document.querySelectorAll(".quiz-card")).find(card => {
+          const rect = card.getBoundingClientRect();
+          return rect.top >= 0 && rect.top <= window.innerHeight * 0.7;
+        });
+      }
+      
+      if (targetCard) {
+        if (!targetCard.classList.contains("quiz-focus")) {
+          document.querySelectorAll(".quiz-card.quiz-focus").forEach(c => c.classList.remove("quiz-focus"));
+          targetCard.classList.add("quiz-focus");
+        }
+        
+        const flagBtn = targetCard.querySelector(".flag-btn");
         if (flagBtn) flagBtn.click();
       }
     }
