@@ -202,7 +202,8 @@ document.addEventListener("DOMContentLoaded", () => {
         3: { solved: 0, correct: 0 },
         4: { solved: 0, correct: 0 }
       },
-      concepts: {}
+      concepts: {},
+      quizzes: {} // New: per-quiz stats
     };
   }
 
@@ -210,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem(STATS_KEY, JSON.stringify(cumulativeStats));
   }
 
-  function recordStat(subjectId, isCorrect, cardId) {
+  function recordStat(subjectId, isCorrect, cardId, quizId) {
     cumulativeStats.totalSolved++;
     if (isCorrect) cumulativeStats.totalCorrect++;
 
@@ -225,10 +226,23 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cardId) {
       if (!cumulativeStats.concepts) cumulativeStats.concepts = {};
       if (!cumulativeStats.concepts[cardId]) {
-        cumulativeStats.concepts[cardId] = { solved: 0, correct: 0 };
+        cumulativeStats.concepts[cardId] = { solved: 0, correct: 0, recent: [] };
       }
-      cumulativeStats.concepts[cardId].solved++;
-      if (isCorrect) cumulativeStats.concepts[cardId].correct++;
+      const cStat = cumulativeStats.concepts[cardId];
+      if (!cStat.recent) cStat.recent = [];
+      cStat.solved++;
+      if (isCorrect) cStat.correct++;
+      cStat.recent.push(isCorrect);
+      if (cStat.recent.length > 5) cStat.recent.shift(); // keep last 5
+    }
+
+    if (quizId) {
+      if (!cumulativeStats.quizzes) cumulativeStats.quizzes = {};
+      if (!cumulativeStats.quizzes[quizId]) {
+        cumulativeStats.quizzes[quizId] = { solved: 0, correct: 0 };
+      }
+      cumulativeStats.quizzes[quizId].solved++;
+      if (isCorrect) cumulativeStats.quizzes[quizId].correct++;
     }
 
     saveStats();
@@ -895,7 +909,7 @@ document.addEventListener("DOMContentLoaded", () => {
           subjectScores[quiz.subject] += 5;
         }
       }
-      recordStat(quiz.subject, isCorrect, quiz.cardId);
+      recordStat(quiz.subject, isCorrect, quiz.cardId, quiz.id);
     });
 
     const overallScore = Math.round((totalCorrect / 80) * 100);
@@ -1499,7 +1513,7 @@ document.addEventListener("DOMContentLoaded", () => {
         chosenAnswerMap.set(quizId, clickedIdx);
 
         const currentQuiz = allQuizzes.find(q => q.id === quizId);
-        if (currentQuiz) recordStat(currentQuiz.subject, isCorrect, currentQuiz.cardId);
+        if (currentQuiz) recordStat(currentQuiz.subject, isCorrect, currentQuiz.cardId, currentQuiz.id);
 
         updateScoreBar();
       });
@@ -1974,14 +1988,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     subjectStatsContainer.innerHTML = html;
 
-    if (lowestSub && lowestAcc < 60) {
-      weaknessAlert.classList.remove("hidden");
-      weaknessAlert.innerHTML = `
-        <strong>⚠️ 취약 과목 진단:</strong><br>
-        [${SUBJECT_NAMES[lowestSub]}]의 정답률이 <strong>${lowestAcc}%</strong>로 가장 낮습니다. 관련 요약노트 복습을 추천합니다!
-      `;
+    weaknessAlert.classList.remove("hidden");
+    if (lowestSub) {
+      if (lowestAcc >= 80) {
+         weaknessAlert.innerHTML = `
+          <strong>🎉 아주 좋습니다!</strong><br>
+          전반적으로 훌륭한 성적입니다. 다만 그 중에서도 [${SUBJECT_NAMES[lowestSub]}](${lowestAcc}%)를 한 번 더 체크해보세요.
+        `;
+      } else {
+        weaknessAlert.innerHTML = `
+          <strong>⚠️ 취약 과목 진단:</strong><br>
+          [${SUBJECT_NAMES[lowestSub]}]의 정답률이 <strong>${lowestAcc}%</strong>로 가장 낮습니다. 관련 요약노트 복습을 추천합니다!
+        `;
+      }
     } else {
-      weaknessAlert.classList.add("hidden");
+      weaknessAlert.innerHTML = `
+        <strong>💡 분석 대기 중:</strong><br>
+        특정 과목 문제를 최소 3개 이상 풀어야 취약 과목 분석이 활성화됩니다.
+      `;
     }
 
     // === 취약 개념 Top 3 진단 ===
@@ -1990,30 +2014,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     Object.keys(conceptsData).forEach(cId => {
       const stat = conceptsData[cId];
-      if (stat.solved >= 2) {
+      if (stat.solved >= 1) {
         const acc = Math.round((stat.correct / stat.solved) * 100);
-        if (acc < 70) {
+        let weightScore = 0;
+        
+        // 최근 5회 풀이 기록 기반 가중치 점수 계산 (최근에 틀릴수록 높은 벌점)
+        if (stat.recent && stat.recent.length > 0) {
+           stat.recent.forEach((isCorr, idx) => {
+              const weight = idx + 1; // 1~5 가중치
+              if (!isCorr) weightScore += weight; // 틀리면 가중치만큼 벌점 증가
+              else weightScore -= weight; // 맞추면 감점
+           });
+        } else {
+           // 옛날 데이터(recent가 없는 경우)는 호환성을 위해 기존 방식으로 단순 계산
+           weightScore = (stat.solved - stat.correct) * 3;
+        }
+
+        // 벌점이 0보다 크거나 정답률이 100 미만인 경우 약점 후보 등록
+        if (weightScore > 0 || acc < 100) {
           const card = cardMap.get(cId);
           const title = card ? card.title : `개념 (${cId})`;
-          weakList.push({ cardId: cId, title, solved: stat.solved, correct: stat.correct, acc });
+          const displayWrongInfo = (stat.recent && stat.recent.length > 0) 
+            ? `최근 ${stat.recent.length}회 중 ${stat.recent.filter(r=>!r).length}번 오답` 
+            : `총 ${stat.solved - stat.correct}회 오답`;
+          weakList.push({ cardId: cId, title, solved: stat.solved, correct: stat.correct, acc, weightScore, displayWrongInfo });
         }
       }
     });
 
-    weakList.sort((a, b) => a.acc - b.acc);
+    // 스마트 정렬 알고리즘: 1순위 가중치 점수(내림차순), 2순위 정답률(오름차순)
+    weakList.sort((a, b) => {
+      if (b.weightScore !== a.weightScore) return b.weightScore - a.weightScore;
+      return a.acc - b.acc;
+    });
+
     const topWeak = weakList.slice(0, 3);
 
+    weakConceptContainer.classList.remove("hidden");
     if (topWeak.length > 0) {
-      weakConceptContainer.classList.remove("hidden");
       let listHtml = topWeak.map(item => `
         <div class="weak-concept-item">
           <div class="weak-concept-info">
             <span class="weak-concept-name">${item.title}</span>
-            <span class="weak-concept-stats">정답률 ${item.acc}% (${item.correct}/${item.solved}문항)</span>
+            <span class="weak-concept-stats">정답률 ${item.acc}% (${item.displayWrongInfo})</span>
           </div>
           <div class="weak-concept-actions">
             <button class="btn-small weak-note-btn" data-card-id="${item.cardId}">📖 복습</button>
-            <button class="btn-small weak-quiz-btn" data-card-id="${item.cardId}">🎯 문제 풀기</button>
+            <button class="btn-small weak-quiz-btn" data-card-id="${item.cardId}">🎯 풀기</button>
           </div>
         </div>
       `).join("");
@@ -2022,6 +2069,21 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="weak-concept-title">🔥 취약 개념 집중 보충 추천 Top ${topWeak.length}</div>
         <div class="weak-concept-list">${listHtml}</div>
       `;
+    } else {
+      if (cumulativeStats.totalSolved > 0) {
+        weakConceptContainer.innerHTML = `
+          <div class="note" style="text-align:center; padding: 20px;">
+            🎉 <strong>완벽합니다!</strong><br>현재까지 푼 문제 중 발견된 취약 개념이 없습니다.
+          </div>
+        `;
+      } else {
+        weakConceptContainer.innerHTML = `
+          <div class="note" style="text-align:center; padding: 20px;">
+            💡 <strong>데이터 부족</strong><br>문제를 풀면 AI가 가장 많이 틀린 개념을 3가지 찾아냅니다.
+          </div>
+        `;
+      }
+    }
 
       weakConceptContainer.querySelectorAll(".weak-note-btn").forEach(btn => {
         btn.addEventListener("click", () => {
@@ -2046,8 +2108,64 @@ document.addEventListener("DOMContentLoaded", () => {
           setMode("practice");
         });
       });
-    } else {
-      weakConceptContainer.classList.add("hidden");
+      
+    // === 징글징글한 고질적 오답 (N전 0승) 진단 ===
+    const chronicContainer = document.getElementById("chronicMistakesContainer");
+    if (chronicContainer) {
+      const quizStats = cumulativeStats.quizzes || {};
+      const chronicList = [];
+      Object.keys(quizStats).forEach(qId => {
+         const qStat = quizStats[qId];
+         // 3번 이상 풀었는데 정답이 한 번도 없는 경우
+         if (qStat.solved >= 3 && qStat.correct === 0) {
+            const quiz = allQuizzes.find(q => q.id === qId);
+            if (quiz) {
+               chronicList.push({ quiz, solved: qStat.solved });
+            }
+         }
+      });
+      chronicList.sort((a, b) => b.solved - a.solved);
+      const topChronic = chronicList.slice(0, 3);
+
+      if (topChronic.length > 0) {
+         chronicContainer.classList.remove("hidden");
+         let chronicHtml = topChronic.map(item => `
+            <div class="weak-concept-item">
+              <div class="weak-concept-info">
+                <span class="weak-concept-name">Q. ${item.quiz.question.substring(0, 30)}...</span>
+                <span class="weak-concept-stats" style="color:var(--danger-color); font-weight:bold;">🚨 ${item.solved}전 0승 (전패)</span>
+              </div>
+              <div class="weak-concept-actions">
+                <button class="btn-small weak-quiz-btn" data-quiz-id="${item.quiz.id}">🔥 복수전</button>
+              </div>
+            </div>
+         `).join("");
+         chronicContainer.innerHTML = `
+            <div class="weak-concept-title" style="color:var(--danger-color); margin-top: 20px;">☠️ 고질적 오답 문항 Top ${topChronic.length}</div>
+            <div class="weak-concept-list">${chronicHtml}</div>
+         `;
+
+         chronicContainer.querySelectorAll(".weak-quiz-btn").forEach(btn => {
+           btn.addEventListener("click", () => {
+             statsModal.classList.add("hidden");
+             workingQuizzes = [allQuizzes.find(q => q.id === btn.dataset.quizId)];
+             currentPage = 1;
+             
+             if (quizContentEl.classList.contains("hidden")) {
+               quizContentEl.classList.remove("hidden");
+               contentEl.classList.add("hidden");
+               sidebar.style.display = "none";
+               quizToggleBtn.textContent = "요약노트 보기";
+               quizToggleBtn.style.backgroundColor = "var(--success-color)";
+             }
+             setMode("practice");
+             renderQuizzes(workingQuizzes);
+             showCustomAlert("🔥 [복수전] 해당 기출문제가 출제되었습니다. 이번엔 꼭 맞춰보세요!");
+           });
+         });
+      } else {
+         chronicContainer.classList.add("hidden");
+      }
     }
   }
 
@@ -2057,7 +2175,8 @@ document.addEventListener("DOMContentLoaded", () => {
       totalSolved: 0,
       totalCorrect: 0,
       subjects: { 1: { solved: 0, correct: 0 }, 2: { solved: 0, correct: 0 }, 3: { solved: 0, correct: 0 }, 4: { solved: 0, correct: 0 } },
-      concepts: {}
+      concepts: {},
+      quizzes: {}
     };
     saveStats();
     openStatsModal();
