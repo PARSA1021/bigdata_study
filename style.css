@@ -15,7 +15,7 @@
   --success-color: #34C759;
   --danger-color: #FF3B30;
   --border-color: #E5E5EA;
-  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-bg: rgba(255, 255, 255, 0.95);
   
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
   --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
@@ -45,7 +45,7 @@
   --success-color: #30D158;
   --danger-color: #FF453A;
   --border-color: #34343A;
-  --glass-bg: rgba(28, 28, 30, 0.75);
+  --glass-bg: rgba(28, 28, 30, 0.95);
 
   --shadow-md: 0 4px 14px rgba(0,0,0,0.45);
   --shadow-lg: 0 12px 28px rgba(0,0,0,0.55);
@@ -93,12 +93,12 @@ body {
   overflow-x: hidden;
 }
 
-/* 테마 전환 시 색상 관련 요소들이 함께 부드럽게 전환되도록 공통 트랜지션 적용 */
+/* 성능 최적화를 위해 무거운 트랜지션(box-shadow) 제거 */
 .card, .card-header, .card-body, .quiz-card, .quiz-option, .filter-chip,
 .btn-small, .nav-link, .memo, .note, .formula, table, th, td,
 .search-box input, .sidebar, .topbar, .quiz-score, .to-top-btn {
   transition: background-color var(--transition), color var(--transition),
-              border-color var(--transition), box-shadow var(--transition);
+              border-color var(--transition);
 }
 
 /* Utilities */
@@ -110,8 +110,6 @@ body {
 }
 .blur-glass {
   background-color: var(--glass-bg);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
 }
 
 /* Typography */
@@ -929,10 +927,10 @@ mark {
   /* 모바일 바텀 네비게이션 개선 */
   .bottom-nav.blur-glass {
     backdrop-filter: blur(10px);
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(255, 255, 255, 0.95);
   }
   [data-theme="dark"] .bottom-nav.blur-glass {
-    background-color: rgba(28, 28, 30, 0.85);
+    background-color: rgba(28, 28, 30, 0.95);
   }
   
   /* 브라우저 상단 공백 이슈 해결 */
@@ -1059,9 +1057,7 @@ mark {
 }
 .timer-value.warning {
   color: var(--danger-color);
-  animation: blink 1s infinite;
 }
-@keyframes blink { 50% { opacity: 0.5; } }
 
 .mock-actions {
   display: flex;
@@ -1091,8 +1087,6 @@ mark {
   opacity: 1;
   visibility: visible;
   transition: opacity 0.3s ease, visibility 0.3s ease;
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
 }
 .omr-overlay.hidden {
   opacity: 0;
@@ -1213,7 +1207,6 @@ mark {
   border-color: #FF9500;
   color: #FF9500;
   font-weight: 600;
-  animation: flagPulse 1.5s infinite;
 }
 
 @keyframes flagPulse {
@@ -1509,9 +1502,7 @@ mark {
   }
   [data-theme="dark"] .bottom-nav {
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
-    background-color: rgba(30, 30, 30, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba(30, 30, 30, 0.95);
   }
   .bottom-nav-item {
     flex: 0 1 auto;

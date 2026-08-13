@@ -141,6 +141,68 @@ document.addEventListener("DOMContentLoaded", () => {
   let learnedConcepts = new Set(loadLearnedConcepts());
   let conceptMemos = loadConceptMemos();
 
+
+  // ==========================================
+  // [ARCHITECTURE REFACTORING]
+  // Phase 2: Namespace & Class Structure Initialization
+  // ==========================================
+  
+  // 1. Data Store (State Management)
+  const Store = {
+    get allQuizzes() { return allQuizzes; },
+    get allNoteSections() { return allNoteSections; },
+    get cumulativeStats() { return cumulativeStats; },
+    get learnedConcepts() { return learnedConcepts; },
+    get conceptMemos() { return conceptMemos; },
+    get bookmarks() { return bookmarks; },
+    get wrongIds() { return wrongIds; },
+    get solvedMap() { return solvedMap; }
+  };
+
+  // 2. Data Manager (API & Local Storage)
+  const DataManager = {
+    init,
+    loadStats,
+    saveStats,
+    recordStat,
+    loadLearnedConcepts,
+    saveLearnedConcepts,
+    loadConceptMemos,
+    saveConceptMemos,
+    loadBookmarks,
+    saveBookmarks
+  };
+
+  // 3. Quiz Engine (Business Logic)
+  const QuizEngine = {
+    buildQuizConceptMaps,
+    getQuizzesForCard,
+    getConceptCardForQuiz,
+    applyQuizFilter,
+    startMockExam,
+    submitMockExam,
+    calculateScore,
+    toggleOmrDrawer,
+    updateOmrGrid
+  };
+
+  // 4. UI Manager (Rendering & DOM)
+  const UIManager = {
+    renderNav,
+    renderContent,
+    renderQuizzes,
+    renderQuizToolbar,
+    updateProgressBar,
+    updateScoreBar,
+    openConceptModal,
+    openStatsModal,
+    showCustomAlert
+  };
+
+  // Expose to window for debugging and external access
+  window.BigDataApp = { Store, DataManager, QuizEngine, UIManager };
+  // ==========================================
+
   function loadLearnedConcepts() {
     try { const raw = localStorage.getItem(LEARNED_KEY); return raw ? JSON.parse(raw) : []; } catch(e) { return []; }
   }
@@ -328,12 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cardMap.set(card.id, card);
         
         // 기출문제 연계 처리 (사전 빌드된 맵 활용으로 O(1) 최적화)
-        let relatedQuizzes = [];
-        if (cardToQuizMap.has(card.id)) {
-          relatedQuizzes = cardToQuizMap.get(card.id);
-        } else {
-          relatedQuizzes = allQuizzes.filter(q => q.cardId === card.id || (q.question && q.question.toLowerCase().includes(card.title.toLowerCase())));
-        }
+        let relatedQuizzes = cardToQuizMap.get(card.id) || [];
         const quizCount = relatedQuizzes.length;
         
         let badgeHtml = "";
@@ -466,21 +523,21 @@ document.addEventListener("DOMContentLoaded", () => {
         sectionToQuizMap.get(quiz.sectionId).push(quiz);
       }
     });
+
+    // Fallback: 매핑되지 않은 카드에 대해 제목 기반 검색 캐싱
+    allNoteSections.forEach(sec => {
+      sec.cards.forEach(card => {
+        if (!cardToQuizMap.has(card.id)) {
+           const titleLower = card.title.toLowerCase();
+           const matches = allQuizzes.filter(q => q.question && q.question.toLowerCase().includes(titleLower));
+           cardToQuizMap.set(card.id, matches);
+        }
+      });
+    });
   }
 
   function getQuizzesForCard(cardId) {
-    if (cardToQuizMap.has(cardId)) {
-      return cardToQuizMap.get(cardId);
-    }
-    const cardData = cardMap.get(cardId);
-    if (cardData && cardData.title) {
-      const title = cardData.title.toLowerCase();
-      return allQuizzes.filter(q =>
-        (q.question && q.question.toLowerCase().includes(title)) ||
-        (q.chapter && q.chapter.toLowerCase().includes(title))
-      );
-    }
-    return [];
+    return cardToQuizMap.get(cardId) || [];
   }
 
   function getConceptCardForQuiz(quiz) {
@@ -793,39 +850,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function bindMockEvents() {
-    quizContainer.querySelectorAll(".quiz-option").forEach(btn => {
-      btn.addEventListener("click", () => {
-        if (isMockSubmitted) return;
-        const quizId = btn.dataset.quizId;
-        const optIdx = parseInt(btn.dataset.optIdx, 10);
-        mockSolvedMap.set(quizId, optIdx);
-        updateMockQuizCard(quizId);
-        updateOmrItem(quizId);
-        updateOmrCounts();
-      });
-    });
-
-    quizContainer.querySelectorAll(".flag-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const quizId = btn.dataset.quizId;
-        if (mockFlaggedSet.has(quizId)) mockFlaggedSet.delete(quizId);
-        else mockFlaggedSet.add(quizId);
-        updateMockQuizCard(quizId);
-        updateOmrItem(quizId);
-        updateOmrCounts();
-      });
-    });
-
-    quizContainer.querySelectorAll(".bookmark-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const quizId = btn.dataset.quizId;
-        if (bookmarks.has(quizId)) bookmarks.delete(quizId);
-        else bookmarks.add(quizId);
-        saveBookmarks();
-        updateMockQuizCard(quizId);
-      });
-    });
-
     bindConceptLinkButtons();
   }
 
@@ -1624,6 +1648,134 @@ document.addEventListener("DOMContentLoaded", () => {
     updateScoreBar();
   }
 
+
+  // === Quiz Container Event Delegation ===
+  quizContainer.addEventListener("click", (e) => {
+    // 1. Hint Button
+    const hintBtn = e.target.closest(".hint-btn");
+    if (hintBtn) {
+      const quizId = hintBtn.dataset.quizId;
+      const quizCard = document.getElementById(quizId);
+      if (quizCard.classList.contains("solved")) return;
+      
+      const answerIdx = parseInt(quizCard.dataset.answer);
+      const optionsNodes = Array.from(quizCard.querySelectorAll(".quiz-option:not(:disabled)"));
+      const wrongOptions = optionsNodes.filter(opt => parseInt(opt.dataset.optIdx) !== answerIdx);
+      
+      if (wrongOptions.length >= 2) {
+        wrongOptions.sort(() => 0.5 - Math.random());
+        wrongOptions[0].classList.add("dimmed");
+        wrongOptions[0].disabled = true;
+        wrongOptions[1].classList.add("dimmed");
+        wrongOptions[1].disabled = true;
+      }
+      
+      hintBtn.disabled = true;
+      hintBtn.textContent = "사용 완료";
+      return;
+    }
+
+    // 2. Next Quiz Button
+    const nextBtn = e.target.closest(".next-quiz-btn");
+    if (nextBtn) {
+      const currentCard = nextBtn.closest(".quiz-card");
+      const nextCard = currentCard.nextElementSibling;
+      
+      let target = nextCard;
+      while (target && (!target.classList.contains("quiz-card") || target.classList.contains("solved"))) {
+        target = target.nextElementSibling;
+      }
+      
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else {
+        document.querySelector(".quiz-toolbar").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      return;
+    }
+
+    // 3. Bookmark Button
+    const bookmarkBtn = e.target.closest(".bookmark-btn");
+    if (bookmarkBtn) {
+      const quizId = bookmarkBtn.dataset.quizId;
+      if (bookmarks.has(quizId)) {
+        bookmarks.delete(quizId);
+        bookmarkBtn.textContent = "☆";
+        bookmarkBtn.classList.remove("active");
+      } else {
+        bookmarks.add(quizId);
+        bookmarkBtn.textContent = "⭐";
+        bookmarkBtn.classList.add("active");
+      }
+      saveBookmarks();
+      renderQuizToolbar();
+      return;
+    }
+    
+    // 4. Quiz Option Button
+    const optBtn = e.target.closest(".quiz-option");
+    if (optBtn) {
+      const quizCard = optBtn.closest(".quiz-card");
+      if (quizCard.classList.contains("solved")) return;
+      
+      const quizId = quizCard.id;
+      const answerIdx = parseInt(quizCard.dataset.answer);
+      const clickedIdx = parseInt(optBtn.dataset.optIdx);
+      const status = quizCard.querySelector(".quiz-status");
+      const explanation = quizCard.querySelector(".quiz-explanation");
+
+      explanation.classList.remove("hidden");
+
+      const currentQuizObj = allQuizzes.find(q => q.id === quizId);
+      const fbDiv = quizCard.querySelector(`#feedback-${quizId}-${clickedIdx}`);
+      const isCorrect = clickedIdx === answerIdx;
+      
+      if (!isCorrect) {
+        optBtn.classList.add("shake-animation");
+        setTimeout(() => optBtn.classList.remove("shake-animation"), 400);
+
+        if (fbDiv) {
+          let reasonText = "";
+          if (currentQuizObj && currentQuizObj.whyWrong && currentQuizObj.whyWrong[clickedIdx]) {
+            const reason = currentQuizObj.whyWrong[clickedIdx];
+            if (reason !== "정답") reasonText = reason;
+          }
+          
+          if (reasonText) {
+            fbDiv.innerHTML = `<span class="feedback-icon">💡</span> <div><strong style="color:var(--danger-color); display:block; margin-bottom:4px;">왜 틀렸을까요?</strong> <span style="color:var(--text-color);">${reasonText}</span></div>`;
+          } else {
+            fbDiv.innerHTML = `<span class="feedback-icon">💡</span> <div><strong style="color:var(--danger-color); display:block; margin-bottom:4px;">오답입니다!</strong> <span style="color:var(--text-color);">아쉽게도 정답이 아닙니다. 아래 해설을 통해 이유를 확인해 보세요!</span></div>`;
+          }
+          fbDiv.classList.remove("hidden");
+        }
+      }
+      
+      const nBtn = quizCard.querySelector(".next-quiz-btn");
+      if (nBtn) nBtn.classList.remove("hidden");
+
+      status.textContent = isCorrect ? "정답입니다! 🎉" : "오답입니다. 🥲";
+      status.classList.add(isCorrect ? "correct" : "incorrect");
+      finalizeCard(quizCard, answerIdx, clickedIdx, isCorrect);
+      
+      setTimeout(() => {
+        explanation.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }, 100);
+
+      if (isCorrect) {
+        wrongIds.delete(quizId);
+      } else {
+        wrongIds.add(quizId);
+      }
+      solvedMap.set(quizId, isCorrect);
+      chosenAnswerMap.set(quizId, clickedIdx);
+
+      const currentQuiz = allQuizzes.find(q => q.id === quizId);
+      if (currentQuiz) recordStat(currentQuiz.subject, isCorrect, currentQuiz.cardId, currentQuiz.id);
+
+      updateScoreBar();
+    }
+  });
+
   // === 4. 개념 미리보기 모달 2.0 및 양방향 연계 처리 ===
   function bindConceptLinkButtons() {
     document.querySelectorAll(".concept-link-btn, .concept-badge").forEach(btn => {
@@ -1982,13 +2134,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // === 5-6. 맞춤 문제 검색 및 필터링 ===
+  const keywordSearchInput = document.getElementById("keywordSearch");
+  if (keywordSearchInput) {
+    keywordSearchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (searchQuizBtn) searchQuizBtn.click();
+      }
+    });
+  }
+
   const searchQuizBtn = document.getElementById("searchQuizBtn");
   if (searchQuizBtn) {
     searchQuizBtn.addEventListener("click", () => {
       const subject = document.getElementById("subjectFilter").value;
       const difficulty = document.getElementById("difficultyFilter").value;
       const tag = document.getElementById("tagFilter") ? document.getElementById("tagFilter").value : "all";
-      const keyword = document.getElementById("keywordSearch").value.trim().toLowerCase();
+      const rawKeyword = document.getElementById("keywordSearch").value.trim().toLowerCase();
+      const keywords = rawKeyword ? rawKeyword.split(/\s+/) : [];
 
       let matchedQuizzes = allQuizzes.filter(q => {
         // 1. 과목 필터
@@ -2000,13 +2163,15 @@ document.addEventListener("DOMContentLoaded", () => {
         // 3. 유형(태그) 필터
         if (tag !== "all" && !(q.question || "").includes(`[${tag}]`)) return false;
         
-        // 4. 키워드 검색 (문제, 해설, 메모라이제이션 포인트에 포함된 경우)
-        if (keyword) {
+        // 4. 키워드 다중 검색 (AND 조건)
+        if (keywords.length > 0) {
           const qText = (q.question || "").toLowerCase();
           const expText = (q.explanation || "").toLowerCase();
           const memoText = (q.memorizationPoint || "").toLowerCase();
+          const choiceText = (q.choices || []).join(" ").toLowerCase();
+          const fullText = `${qText} ${expText} ${memoText} ${choiceText}`;
           
-          if (!qText.includes(keyword) && !expText.includes(keyword) && !memoText.includes(keyword)) {
+          if (!keywords.every(kw => fullText.includes(kw))) {
             return false;
           }
         }
@@ -2297,147 +2462,145 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // === 7. UI 기본 인터랙션 ===
   function bindCardEvents() {
-    const headers = document.querySelectorAll(".card-header");
-    headers.forEach(header => {
-      header.addEventListener("click", (e) => {
-        if(e.target.closest('.card-header-actions')) return;
-        const card = header.parentElement;
-        card.classList.toggle("open");
-      });
-    });
-
-    document.querySelectorAll(".btn-learned").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const cardId = btn.dataset.cardId;
-        const cardEl = document.getElementById(cardId);
-        
-        if (learnedConcepts.has(cardId)) {
-          learnedConcepts.delete(cardId);
-          btn.classList.remove("active");
-          btn.textContent = "학습 완료";
-          cardEl.classList.remove("learned");
-        } else {
-          learnedConcepts.add(cardId);
-          btn.classList.add("active");
-          btn.textContent = "✓ 학습 완료";
-          cardEl.classList.add("learned");
-        }
-        saveLearnedConcepts();
-      });
-    });
-
-    document.querySelectorAll(".btn-direct-quiz").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const cardId = btn.dataset.cardId;
-        
-        activeConceptCardId = cardId;
-        quizFilter.conceptCardId = cardId;
-        quizFilter.onlyWrong = false;
-        quizFilter.onlyBookmarked = false;
-        
-        if (quizContentEl.classList.contains("hidden")) {
-          quizContentEl.classList.remove("hidden");
-          contentEl.classList.add("hidden");
-          sidebar.style.display = "none";
-          quizToggleBtn.textContent = "요약노트 보기";
-          quizToggleBtn.style.backgroundColor = "var(--success-color)";
-          
-          document.querySelectorAll('.bottom-nav-item').forEach(n => n.classList.remove('active'));
-          const practiceNav = document.querySelector('.bottom-nav-item[data-nav="practice"]');
-          if(practiceNav) practiceNav.classList.add('active');
-        }
-        
-        setMode("practice");
-        applyQuizFilter();
-        renderQuizToolbar();
-      });
-    });
-
-    document.querySelectorAll(".inline-quiz-btn").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const cardId = btn.dataset.cardId;
-        const renderArea = document.getElementById(`inline-quiz-render-${cardId}`);
-        
-        if (!renderArea.classList.contains("hidden")) {
-          // Toggle off
-          renderArea.classList.add("hidden");
-          btn.textContent = "✨ 방금 읽은 개념, 딱 1문제로 확인하기";
-          return;
-        }
-
-        // Generate 1 quiz
-        const cQuizzes = getQuizzesForCard(cardId);
-        if (cQuizzes.length === 0) {
-          renderArea.innerHTML = `<div style="padding:10px; color:var(--text-muted); font-size:0.9rem;">이 개념과 관련된 기출문제가 아직 없습니다.</div>`;
-          renderArea.classList.remove("hidden");
-          return;
-        }
-
-        shuffleArray(cQuizzes);
-        const q = cQuizzes[0];
-        
-        renderArea.innerHTML = `
-          <div class="inline-quiz-box">
-            <div style="font-weight:700; margin-bottom:12px; font-size:1.05rem;">Q. ${formatQuestionText(q.question)}</div>
-            <div class="inline-options" style="display:flex; flex-direction:column; gap:8px;">
-              ${(q.choices || q.options).map((opt, i) => `
-                <button class="inline-opt-btn" onclick="checkInlineQuiz(this, '${cardId}', ${i}, ${q.answer})" style="text-align:left; padding:10px 14px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-color); cursor:pointer; font-size:0.95rem; display:flex; gap:10px;">
-                  <span style="font-weight:bold; color:var(--text-muted);">${String.fromCharCode(65+i)}</span> <span>${opt}</span>
-                </button>
-              `).join("")}
-            </div>
-            <div id="inline-exp-${cardId}" class="inline-quiz-explanation hidden" style="margin-top:12px; padding:14px; background:var(--surface-hover); border-radius:8px; font-size:0.95rem; border-left:3px solid var(--primary-color);">
-              <div id="inline-res-${cardId}" style="font-weight:700; margin-bottom:6px; font-size:1.1rem;"></div>
-              <p>${q.explanation}</p>
-            </div>
-          </div>
-        `;
-        renderArea.classList.remove("hidden");
-        btn.textContent = "접기 ✕";
-      });
-    });
-
-    document.querySelectorAll(".memo-toggle-btn").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const cardId = btn.dataset.cardId;
-        const memoContent = document.getElementById(`memo-content-${cardId}`);
-        if (memoContent.style.display === "none") {
-          memoContent.style.display = "flex";
-        } else {
-          memoContent.style.display = "none";
-        }
-      });
-    });
-
-    document.querySelectorAll(".memo-save-btn").forEach(btn => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const cardId = btn.dataset.cardId;
-        const textarea = document.getElementById(`memo-input-${cardId}`);
-        const text = textarea.value.trim();
-        
-        conceptMemos[cardId] = text;
-        saveConceptMemos();
-        
-        const toggleBtn = document.querySelector(`.memo-toggle-btn[data-card-id="${cardId}"]`);
-        if (text) {
-          toggleBtn.innerHTML = "✏️ 나만의 메모장 (작성됨)";
-        } else {
-          toggleBtn.innerHTML = "✏️ 나만의 메모장";
-        }
-        
-        const originalText = btn.textContent;
-        btn.textContent = "저장됨!";
-        setTimeout(() => { btn.textContent = originalText; }, 1500);
-      });
-    });
-    
     updateProgressBar();
   }
+
+  // Global Event Delegation for Cards (Runs once)
+  contentEl.addEventListener("click", (e) => {
+    const header = e.target.closest(".card-header");
+    if (header) {
+      if(e.target.closest('.card-header-actions')) return;
+      const card = header.parentElement;
+      card.classList.toggle("open");
+      return;
+    }
+
+    const btnLearned = e.target.closest(".btn-learned");
+    if (btnLearned) {
+      e.stopPropagation();
+      const cardId = btnLearned.dataset.cardId;
+      const cardEl = document.getElementById(cardId);
+      
+      if (learnedConcepts.has(cardId)) {
+        learnedConcepts.delete(cardId);
+        btnLearned.classList.remove("active");
+        btnLearned.textContent = "학습 완료";
+        if(cardEl) cardEl.classList.remove("learned");
+      } else {
+        learnedConcepts.add(cardId);
+        btnLearned.classList.add("active");
+        btnLearned.textContent = "✓ 학습 완료";
+        if(cardEl) cardEl.classList.add("learned");
+      }
+      saveLearnedConcepts();
+      return;
+    }
+
+    const btnDirectQuiz = e.target.closest(".btn-direct-quiz");
+    if (btnDirectQuiz) {
+      e.stopPropagation();
+      const cardId = btnDirectQuiz.dataset.cardId;
+      
+      activeConceptCardId = cardId;
+      quizFilter.conceptCardId = cardId;
+      quizFilter.onlyWrong = false;
+      quizFilter.onlyBookmarked = false;
+      
+      if (quizContentEl.classList.contains("hidden")) {
+        quizContentEl.classList.remove("hidden");
+        contentEl.classList.add("hidden");
+        sidebar.style.display = "none";
+        quizToggleBtn.textContent = "요약노트 보기";
+        quizToggleBtn.style.backgroundColor = "var(--success-color)";
+        
+        document.querySelectorAll('.bottom-nav-item').forEach(n => n.classList.remove('active'));
+        const practiceNav = document.querySelector('.bottom-nav-item[data-nav="practice"]');
+        if(practiceNav) practiceNav.classList.add('active');
+      }
+      
+      setMode("practice");
+      applyQuizFilter();
+      renderQuizToolbar();
+      return;
+    }
+
+    const btnInlineQuiz = e.target.closest(".inline-quiz-btn");
+    if (btnInlineQuiz) {
+      e.stopPropagation();
+      const cardId = btnInlineQuiz.dataset.cardId;
+      const renderArea = document.getElementById(`inline-quiz-render-${cardId}`);
+      
+      if (!renderArea.classList.contains("hidden")) {
+        renderArea.classList.add("hidden");
+        btnInlineQuiz.textContent = "✨ 방금 읽은 개념, 딱 1문제로 확인하기";
+        return;
+      }
+
+      const cQuizzes = getQuizzesForCard(cardId);
+      if (cQuizzes.length === 0) {
+        renderArea.innerHTML = `<div style="padding:10px; color:var(--text-muted); font-size:0.9rem;">이 개념과 관련된 기출문제가 아직 없습니다.</div>`;
+        renderArea.classList.remove("hidden");
+        return;
+      }
+
+      shuffleArray(cQuizzes);
+      const q = cQuizzes[0];
+      
+      renderArea.innerHTML = `
+        <div class="inline-quiz-box">
+          <div style="font-weight:700; margin-bottom:12px; font-size:1.05rem;">Q. ${formatQuestionText(q.question)}</div>
+          <div class="inline-options" style="display:flex; flex-direction:column; gap:8px;">
+            ${(q.choices || q.options).map((opt, i) => `
+              <button class="inline-opt-btn" onclick="checkInlineQuiz(this, '${cardId}', ${i}, ${q.answer})" style="text-align:left; padding:10px 14px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-color); cursor:pointer; font-size:0.95rem; display:flex; gap:10px;">
+                <span style="font-weight:bold; color:var(--text-muted);">${String.fromCharCode(65+i)}</span> <span>${opt}</span>
+              </button>
+            `).join("")}
+          </div>
+          <div id="inline-exp-${cardId}" class="inline-quiz-explanation hidden" style="margin-top:12px; padding:14px; background:var(--surface-hover); border-radius:8px; font-size:0.95rem; border-left:3px solid var(--primary-color);">
+            <div id="inline-res-${cardId}" style="font-weight:700; margin-bottom:6px; font-size:1.1rem;"></div>
+            <p>${q.explanation}</p>
+          </div>
+        </div>
+      `;
+      renderArea.classList.remove("hidden");
+      btnInlineQuiz.textContent = "접기 ✕";
+      return;
+    }
+
+    const memoToggleBtn = e.target.closest(".memo-toggle-btn");
+    if (memoToggleBtn) {
+      e.stopPropagation();
+      const cardId = memoToggleBtn.dataset.cardId;
+      const memoContent = document.getElementById(`memo-content-${cardId}`);
+      if (memoContent.style.display === "none" || !memoContent.style.display) {
+        memoContent.style.display = "flex";
+      } else {
+        memoContent.style.display = "none";
+      }
+      return;
+    }
+
+    const memoSaveBtn = e.target.closest(".memo-save-btn");
+    if (memoSaveBtn) {
+      e.stopPropagation();
+      const cardId = memoSaveBtn.dataset.cardId;
+      const textarea = document.getElementById(`memo-input-${cardId}`);
+      const text = textarea.value.trim();
+      
+      conceptMemos[cardId] = text;
+      saveConceptMemos();
+      
+      const toggleBtn = document.querySelector(`.memo-toggle-btn[data-card-id="${cardId}"]`);
+      if (toggleBtn) {
+        toggleBtn.innerHTML = text ? "✏️ 나만의 메모장 (작성됨)" : "✏️ 나만의 메모장";
+      }
+      
+      const originalText = memoSaveBtn.textContent;
+      memoSaveBtn.textContent = "저장됨!";
+      setTimeout(() => { memoSaveBtn.textContent = originalText; }, 1500);
+      return;
+    }
+  });
 
   function escapeRegex(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -2454,10 +2617,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function clearHighlights() {
-    document.querySelectorAll(".card-title-text mark").forEach(mark => {
+    document.querySelectorAll("mark").forEach(mark => {
       const parent = mark.parentNode;
       parent.replaceChild(document.createTextNode(mark.textContent), mark);
       parent.normalize();
+    });
+  }
+
+  function highlightTextNodes(el, regex) {
+    if (!el || !regex) return;
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+    const textNodes = [];
+    while (walker.nextNode()) {
+      if (walker.currentNode.parentNode.tagName !== 'MARK') {
+        textNodes.push(walker.currentNode);
+      }
+    }
+    textNodes.forEach(node => {
+      if (node.nodeValue.trim() !== "" && regex.test(node.nodeValue)) {
+        const frag = document.createDocumentFragment();
+        let lastIdx = 0;
+        node.nodeValue.replace(regex, (match, p1, offset) => {
+          if (offset > lastIdx) {
+            frag.appendChild(document.createTextNode(node.nodeValue.substring(lastIdx, offset)));
+          }
+          const mark = document.createElement('mark');
+          mark.textContent = match;
+          frag.appendChild(mark);
+          lastIdx = offset + match.length;
+          return match;
+        });
+        if (lastIdx < node.nodeValue.length) {
+          frag.appendChild(document.createTextNode(node.nodeValue.substring(lastIdx)));
+        }
+        node.parentNode.replaceChild(frag, node);
+      }
     });
   }
 
@@ -2476,6 +2670,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     clearTimeout(searchDebounceTimer);
     searchDebounceTimer = setTimeout(() => runSearch(e.target.value), 300);
+  });
+  
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      e.preventDefault();
+      if (clearSearchBtn) clearSearchBtn.click();
+      searchInput.blur();
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      searchInput.blur();
+    }
   });
 
   function runSearch(rawQuery) {
@@ -2499,9 +2704,10 @@ document.addEventListener("DOMContentLoaded", () => {
           card.classList.add("open");
           visibleCount++;
           const titleEl = card.querySelector(".card-title-text");
-          if (titleEl && searchRegex) {
-            const safeText = escapeHTML(titleEl.textContent);
-            titleEl.innerHTML = safeText.replace(searchRegex, "<mark>$1</mark>");
+          const bodyEl = card.querySelector(".card-body");
+          if (searchRegex) {
+            highlightTextNodes(titleEl, searchRegex);
+            highlightTextNodes(bodyEl, searchRegex);
           }
         }
       } else {
@@ -2606,6 +2812,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
       e.preventDefault();
+      openSidebar();
       searchInput.focus();
       searchInput.select();
       return;
