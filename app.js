@@ -258,6 +258,28 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("cbt_bank.json").then(res => res.json())
   ]).then(([noteData, cbtData]) => {
     allQuizzes = cbtData.questions || [];
+    
+    const tagFilter = document.getElementById("tagFilter");
+    if (tagFilter) {
+      const tags = new Set();
+      allQuizzes.forEach(q => {
+        if (q.question && q.question.startsWith("[")) {
+          const match = q.question.match(/^\[(.*?)\]/);
+          if (match && match[1]) {
+            tags.add(match[1]);
+          }
+        }
+      });
+      Array.from(tags).sort().forEach(tag => {
+        if (!tagFilter.querySelector(`option[value="${tag}"]`)) {
+          const option = document.createElement("option");
+          option.value = tag;
+          option.textContent = tag;
+          tagFilter.appendChild(option);
+        }
+      });
+    }
+
     allNoteSections = noteData.sections || [];
     renderNav(noteData.nav);
     
@@ -1965,6 +1987,7 @@ document.addEventListener("DOMContentLoaded", () => {
     searchQuizBtn.addEventListener("click", () => {
       const subject = document.getElementById("subjectFilter").value;
       const difficulty = document.getElementById("difficultyFilter").value;
+      const tag = document.getElementById("tagFilter") ? document.getElementById("tagFilter").value : "all";
       const keyword = document.getElementById("keywordSearch").value.trim().toLowerCase();
 
       let matchedQuizzes = allQuizzes.filter(q => {
@@ -1974,7 +1997,10 @@ document.addEventListener("DOMContentLoaded", () => {
         // 2. 난이도 필터
         if (difficulty !== "all" && q.difficulty !== difficulty) return false;
         
-        // 3. 키워드 검색 (문제, 해설, 메모라이제이션 포인트에 포함된 경우)
+        // 3. 유형(태그) 필터
+        if (tag !== "all" && !(q.question || "").includes(`[${tag}]`)) return false;
+        
+        // 4. 키워드 검색 (문제, 해설, 메모라이제이션 포인트에 포함된 경우)
         if (keyword) {
           const qText = (q.question || "").toLowerCase();
           const expText = (q.explanation || "").toLowerCase();
