@@ -200,6 +200,26 @@ h1, h2, h3, h4 {
 }
 .quiz-btn:active { transform: scale(0.96); }
 
+.quiz-select, .quiz-input {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--surface-color);
+  color: var(--text-color);
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.quiz-select:focus, .quiz-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
+}
+.quiz-input::placeholder {
+  color: var(--secondary-text-color);
+}
+
+
 /* Layout & Sidebar */
 .layout {
   display: flex;

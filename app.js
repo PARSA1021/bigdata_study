@@ -1959,6 +1959,54 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // === 5-6. 맞춤 문제 검색 및 필터링 ===
+  const searchQuizBtn = document.getElementById("searchQuizBtn");
+  if (searchQuizBtn) {
+    searchQuizBtn.addEventListener("click", () => {
+      const subject = document.getElementById("subjectFilter").value;
+      const difficulty = document.getElementById("difficultyFilter").value;
+      const keyword = document.getElementById("keywordSearch").value.trim().toLowerCase();
+
+      let matchedQuizzes = allQuizzes.filter(q => {
+        // 1. 과목 필터
+        if (subject !== "all" && q.subject !== parseInt(subject)) return false;
+        
+        // 2. 난이도 필터
+        if (difficulty !== "all" && q.difficulty !== difficulty) return false;
+        
+        // 3. 키워드 검색 (문제, 해설, 메모라이제이션 포인트에 포함된 경우)
+        if (keyword) {
+          const qText = (q.question || "").toLowerCase();
+          const expText = (q.explanation || "").toLowerCase();
+          const memoText = (q.memorizationPoint || "").toLowerCase();
+          
+          if (!qText.includes(keyword) && !expText.includes(keyword) && !memoText.includes(keyword)) {
+            return false;
+          }
+        }
+        
+        return true;
+      });
+
+      if (matchedQuizzes.length === 0) {
+        showCustomAlert("선택하신 조건에 일치하는 문제가 없습니다. 검색 조건을 변경해 보세요.");
+        return;
+      }
+
+      // 최대 40개까지 렌더링하도록 제한 (UI 성능 및 피로도 고려)
+      let pool = [...matchedQuizzes];
+      shuffleArray(pool);
+      let selectedQuizzesArray = pool.slice(0, 40);
+
+      workingQuizzes = selectedQuizzesArray;
+      currentPage = 1;
+      setMode("practice");
+      renderQuizzes(workingQuizzes);
+      
+      showCustomAlert(`🔍 맞춤 검색 완료! 총 ${matchedQuizzes.length}문제 중 ${selectedQuizzesArray.length}문제가 랜덤으로 출제되었습니다.`);
+    });
+  }
+
   // === 6. 학습 통계 및 약점 분석 모달 (취약 개념 Top 3 진단) ===
   closeStatsBtn.addEventListener("click", () => statsModal.classList.add("hidden"));
   closeStatsModalBtn.addEventListener("click", () => statsModal.classList.add("hidden"));
