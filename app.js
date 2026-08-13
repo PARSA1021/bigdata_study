@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const openOmrBtn = document.getElementById("openOmrBtn");
   const submitExamBtn = document.getElementById("submitExamBtn");
   const omrSolvedCountEl = document.getElementById("omrSolvedCount");
+  const mockPreset11th = document.getElementById("mockPreset11th");
   const mockPreset10th = document.getElementById("mockPreset10th");
   const mockPreset4th = document.getElementById("mockPreset4th");
   const mockPresetRandom = document.getElementById("mockPresetRandom");
@@ -88,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     5: "5과목 · 자주 출제되는 개념",
     6: "🏆 10회 기출문제",
     7: "🎯 4회 기출문제",
+    "exam11th": "🔥 11회 기출문제 (최신 80제)",
     "exam10th": "🏆 10회 기출문제 (80제)",
     "exam4th": "🎯 4회 기출문제 (80제)"
   };
@@ -258,10 +260,12 @@ document.addEventListener("DOMContentLoaded", () => {
     allQuizzes = cbtData.questions || [];
     allNoteSections = noteData.sections || [];
     renderNav(noteData.nav);
+    
+    // 순서 변경: 맵을 먼저 빌드하여 렌더링 시 O(1) 조회 가능하게 함
+    buildQuizConceptMaps();
+    
     renderContent(allNoteSections);
     bindCardEvents();
-
-    buildQuizConceptMaps();
     updateNoteRelatedBadges();
 
     applyQuizFilter();
@@ -301,8 +305,13 @@ document.addEventListener("DOMContentLoaded", () => {
       displayCards.forEach(card => {
         cardMap.set(card.id, card);
         
-        // 기출문제 연계 처리
-        const relatedQuizzes = allQuizzes.filter(q => q.cardId === card.id || (q.question && q.question.toLowerCase().includes(card.title.toLowerCase())));
+        // 기출문제 연계 처리 (사전 빌드된 맵 활용으로 O(1) 최적화)
+        let relatedQuizzes = [];
+        if (cardToQuizMap.has(card.id)) {
+          relatedQuizzes = cardToQuizMap.get(card.id);
+        } else {
+          relatedQuizzes = allQuizzes.filter(q => q.cardId === card.id || (q.question && q.question.toLowerCase().includes(card.title.toLowerCase())));
+        }
         const quizCount = relatedQuizzes.length;
         
         let badgeHtml = "";
@@ -529,13 +538,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 2-1. 실전 모의고사 생성
-  let currentMockPreset = "10th";
+  // === 3. 모의고사 로직 ===
+  let currentMockPreset = "11th";
 
   function initMockExam(presetMode) {
     if (presetMode) currentMockPreset = presetMode;
 
-    if (currentMockPreset === "10th") {
+    if (currentMockPreset === "11th") {
+      mockQuizzes = allQuizzes.filter(q => q.sectionId === "exam11th");
+    } else if (currentMockPreset === "10th") {
       mockQuizzes = allQuizzes.filter(q => q.sectionId === "exam10th");
       if (mockQuizzes.length === 0) {
         mockQuizzes = allQuizzes.slice(0, 80);
@@ -546,17 +557,17 @@ document.addEventListener("DOMContentLoaded", () => {
         mockQuizzes = allQuizzes.slice(0, 80);
       }
     } else {
-      const s1 = shuffleArray([...allQuizzes.filter(q => q.subject === 1 && q.sectionId !== "exam10th")]).slice(0, 20);
-      const s2 = shuffleArray([...allQuizzes.filter(q => q.subject === 2 && q.sectionId !== "exam10th")]).slice(0, 20);
-      const s3 = shuffleArray([...allQuizzes.filter(q => q.subject === 3 && q.sectionId !== "exam10th")]).slice(0, 20);
-      const s4 = shuffleArray([...allQuizzes.filter(q => q.subject === 4 && q.sectionId !== "exam10th")]).slice(0, 20);
+      const s1 = shuffleArray([...allQuizzes.filter(q => q.subject === 1 && q.sectionId !== "exam10th" && q.sectionId !== "exam11th")]).slice(0, 20);
+      const s2 = shuffleArray([...allQuizzes.filter(q => q.subject === 2 && q.sectionId !== "exam10th" && q.sectionId !== "exam11th")]).slice(0, 20);
+      const s3 = shuffleArray([...allQuizzes.filter(q => q.subject === 3 && q.sectionId !== "exam10th" && q.sectionId !== "exam11th")]).slice(0, 20);
+      const s4 = shuffleArray([...allQuizzes.filter(q => q.subject === 4 && q.sectionId !== "exam10th" && q.sectionId !== "exam11th")]).slice(0, 20);
       mockQuizzes = [...s1, ...s2, ...s3, ...s4];
       if (mockQuizzes.length < 80) {
         mockQuizzes = shuffleArray([...allQuizzes]).slice(0, 80);
       }
     }
 
-    [mockPreset10th, mockPreset4th, mockPresetRandom].forEach(btn => {
+    [mockPreset11th, mockPreset10th, mockPreset4th, mockPresetRandom].forEach(btn => {
       if (!btn) return;
       btn.classList.remove("active");
       btn.style.backgroundColor = "";
@@ -564,7 +575,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     
     let activeBtn = mockPresetRandom;
-    if (currentMockPreset === "10th") activeBtn = mockPreset10th;
+    if (currentMockPreset === "11th") activeBtn = mockPreset11th;
+    else if (currentMockPreset === "10th") activeBtn = mockPreset10th;
     else if (currentMockPreset === "4th") activeBtn = mockPreset4th;
     
     if (activeBtn) {
@@ -619,6 +631,9 @@ document.addEventListener("DOMContentLoaded", () => {
     alertOverlay.classList.remove("hidden");
   }
 
+  if (mockPreset11th) {
+    mockPreset11th.addEventListener("click", () => initMockExam("11th"));
+  }
   if (mockPreset10th) {
     mockPreset10th.addEventListener("click", () => initMockExam("10th"));
   }
@@ -1131,8 +1146,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         return false;
       }
-      // 10회/4회 기출문제 필터
-      if (quizFilter.subject === "exam10th") {
+      // 기출문제 필터
+      if (quizFilter.subject === "exam11th") {
+        if (q.sectionId !== "exam11th") return false;
+      } else if (quizFilter.subject === "exam10th") {
         if (q.sectionId !== "exam10th") return false;
       } else if (quizFilter.subject === "exam4th") {
         if (!q.id.startsWith("Q4_")) return false;
@@ -2384,7 +2401,7 @@ document.addEventListener("DOMContentLoaded", () => {
       clearSearchBtn.classList.toggle("hidden", e.target.value.trim() === "");
     }
     clearTimeout(searchDebounceTimer);
-    searchDebounceTimer = setTimeout(() => runSearch(e.target.value), 150);
+    searchDebounceTimer = setTimeout(() => runSearch(e.target.value), 300);
   });
 
   function runSearch(rawQuery) {
@@ -2662,4 +2679,4 @@ window.checkInlineQuiz = function(btnEl, cardId, selectedIdx, correctIdx) {
   expDiv.classList.remove('hidden');
 };
 
-});
+});
