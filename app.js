@@ -2640,33 +2640,54 @@ document.addEventListener("DOMContentLoaded", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
-  document.querySelectorAll(".bottom-nav-item").forEach(item => {
-    item.addEventListener("click", () => {
-      const navTarget = item.dataset.nav;
-      
-      document.querySelectorAll(".bottom-nav-item").forEach(i => i.classList.remove("active"));
-      item.classList.add("active");
+  // === 통합 네비게이션 엔진 (데스크탑 탑바 / 사이드바 퀵메뉴 / 모바일 바텀독 동기화) ===
+  function switchNav(navTarget, preset) {
+    // 1. 모든 네비게이션 아이템 활성화 상태 동기화
+    document.querySelectorAll(".main-nav-btn, .sidebar-nav-item, .bottom-nav-item").forEach(el => {
+      const match = el.dataset.nav === navTarget && (!preset || el.dataset.preset === preset);
+      el.classList.toggle("active", match);
+    });
 
-      // 패널 숨김 초기화
-      document.getElementById("content").classList.add("hidden");
-      document.getElementById("quiz-content").classList.add("hidden");
-      document.getElementById("progressContainer").classList.add("hidden");
-      
-      if (navTarget === "notes") {
-         document.getElementById("content").classList.remove("hidden");
-         document.getElementById("progressContainer").classList.remove("hidden");
-      } else if (navTarget === "practice") {
-         document.getElementById("quiz-content").classList.remove("hidden");
-         setMode("practice");
-      } else if (navTarget === "mock") {
-         document.getElementById("quiz-content").classList.remove("hidden");
-         setMode("mock");
-      } else if (navTarget === "stats") {
-         // 다시 notes로 돌려두고 모달 전시
-         document.getElementById("content").classList.remove("hidden");
-         document.getElementById("progressContainer").classList.remove("hidden");
-         openStatsModal();
+    // 2. 패널 가시성 제어
+    const contentEl = document.getElementById("content");
+    const quizContentEl = document.getElementById("quiz-content");
+    const progressContainer = document.getElementById("progressContainer");
+
+    contentEl.classList.add("hidden");
+    quizContentEl.classList.add("hidden");
+    if (progressContainer) progressContainer.classList.add("hidden");
+
+    if (navTarget === "notes") {
+      contentEl.classList.remove("hidden");
+      if (progressContainer) progressContainer.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (navTarget === "practice") {
+      quizContentEl.classList.remove("hidden");
+      setMode("practice");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (navTarget === "mock") {
+      quizContentEl.classList.remove("hidden");
+      setMode("mock");
+      if (preset) {
+        initMockExam(preset);
       }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (navTarget === "stats") {
+      contentEl.classList.remove("hidden");
+      if (progressContainer) progressContainer.classList.remove("hidden");
+      openStatsModal();
+    }
+
+    // 모바일 환경에서 사이드바가 열려있다면 닫기
+    if (window.innerWidth < 1024) {
+      closeSidebar();
+    }
+  }
+
+  // 데스크탑 탭, 사이드바 메뉴, 모바일 하단바 클릭 이벤트 일괄 바인딩
+  document.querySelectorAll("[data-nav]").forEach(item => {
+    item.addEventListener("click", () => {
+      switchNav(item.dataset.nav, item.dataset.preset);
     });
   });
 

@@ -38,22 +38,41 @@
 
     <!-- 상단 네비게이션 바 -->
     <header class="topbar blur-glass">
-      <button id="menuBtn" class="icon-btn" aria-label="메뉴 열기">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-        >
-          <line x1="3" y1="12" x2="21" y2="12"></line>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <line x1="3" y1="18" x2="21" y2="18"></line>
-        </svg>
-      </button>
-      <h1 class="topbar-title">빅데이터분석기사 <span class="badge-tag">필기 마스터</span></h1>
+      <div class="topbar-left">
+        <button id="menuBtn" class="icon-btn" aria-label="메뉴 열기">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          >
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <h1 class="topbar-title">빅데이터분석기사 <span class="badge-tag">필기 마스터</span></h1>
+      </div>
+
+      <!-- 데스크탑 메인 탭바 (PC/태블릿에서 상시 노출) -->
+      <nav class="desktop-nav-tabs">
+        <button class="main-nav-btn active" data-nav="notes">
+          <span class="nav-tab-icon">📚</span> 요약노트
+        </button>
+        <button class="main-nav-btn" data-nav="practice">
+          <span class="nav-tab-icon">📝</span> 연습문제
+        </button>
+        <button class="main-nav-btn" data-nav="mock">
+          <span class="nav-tab-icon">⏱️</span> 실전 기출·CBT
+        </button>
+        <button class="main-nav-btn" data-nav="stats">
+          <span class="nav-tab-icon">📊</span> 성적분석
+        </button>
+      </nav>
+
       <div class="topbar-actions">
         <button id="focusToggleBtn" class="icon-btn focus-btn" title="몰입 모드 전환" aria-label="몰입 모드 전환">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
@@ -102,10 +121,10 @@
     </header>
 
     <div class="layout" id="mainLayout">
-      <!-- 사이드바 (과목 목차) -->
+      <!-- 사이드바 (과목 목차 & 퀵 바로가기) -->
       <aside id="sidebar" class="sidebar blur-glass">
         <div class="sidebar-header">
-          <h2>과목 목차</h2>
+          <h2>학습 메뉴 & 목차</h2>
           <button
             id="closeSidebarBtn"
             class="icon-btn close-btn"
@@ -123,6 +142,34 @@
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
+          </button>
+        </div>
+
+        <!-- 사이드바 퀵 네비게이션 메뉴 -->
+        <div class="sidebar-quick-nav">
+          <button class="sidebar-nav-item active" data-nav="notes">
+            <span class="sq-icon">📚</span>
+            <span class="sq-text">핵심 요약노트</span>
+          </button>
+          <button class="sidebar-nav-item" data-nav="practice">
+            <span class="sq-icon">📝</span>
+            <span class="sq-text">연습문제 (585제)</span>
+          </button>
+          <button class="sidebar-nav-item" data-nav="mock" data-preset="11th">
+            <span class="sq-icon">🔥</span>
+            <span class="sq-text">11회 기출 모의고사</span>
+          </button>
+          <button class="sidebar-nav-item" data-nav="mock" data-preset="10th">
+            <span class="sq-icon">🏆</span>
+            <span class="sq-text">10회 기출 모의고사</span>
+          </button>
+          <button class="sidebar-nav-item" data-nav="mock" data-preset="4th">
+            <span class="sq-icon">🎯</span>
+            <span class="sq-text">4회 기출 모의고사</span>
+          </button>
+          <button class="sidebar-nav-item" data-nav="stats">
+            <span class="sq-icon">📊</span>
+            <span class="sq-text">성적 & 약점 분석</span>
           </button>
         </div>
         <div class="search-box">

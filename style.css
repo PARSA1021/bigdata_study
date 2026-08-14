@@ -143,18 +143,122 @@ h1, h2, h3, h4 {
   border-bottom: 0.5px solid var(--border-color);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 16px;
   z-index: 1000;
   transition: background-color var(--transition), border-color var(--transition);
 }
 
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .topbar-title {
-  font-size: 1.1rem;
-  margin-left: 12px;
-  flex: 1;
+  font-size: 1.08rem;
+  font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Desktop Navigation Tabs (Header Center) */
+.desktop-nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface-sunken);
+  padding: 4px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+}
+
+.main-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  padding: 7px 16px;
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.main-nav-btn:hover {
+  color: var(--text-color);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] .main-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.main-nav-btn.active {
+  background: var(--surface-color);
+  color: var(--primary-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 1023px) {
+  .desktop-nav-tabs {
+    display: none;
+  }
+}
+
+/* Sidebar Quick Navigation */
+.sidebar-quick-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 14px;
+  border-bottom: 0.5px solid var(--border-color);
+  margin-bottom: 8px;
+}
+
+.sidebar-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sidebar-nav-item:hover {
+  background: var(--surface-hover);
+  color: var(--primary-color);
+}
+
+.sidebar-nav-item.active {
+  background: rgba(0, 122, 255, 0.1);
+  color: var(--primary-color);
+  border-color: rgba(0, 122, 255, 0.2);
+}
+
+.sidebar-nav-item .sq-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.sidebar-nav-item .sq-text {
+  flex: 1;
 }
 
 .icon-btn {
