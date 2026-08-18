@@ -443,10 +443,90 @@ input, select, textarea {
   font-weight: 800;
 }
 
-.theme-btn .sun-icon { display: block; }
-.theme-btn .moon-icon { display: none; }
-[data-theme="dark"] .theme-btn .sun-icon { display: none; }
-[data-theme="dark"] .theme-btn .moon-icon { display: block; }
+/* Theme Toggle Button (Desktop & Mobile) */
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 13px;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  border: 1.5px solid var(--line-bold);
+  color: var(--text-color);
+  font-size: 13px;
+  font-weight: 850;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+  user-select: none;
+}
+.theme-toggle-btn:hover {
+  background: var(--paper-subtle);
+  border-color: var(--primary-accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+.theme-toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme-toggle-btn .sun-icon { display: block; color: #F59E0B; }
+.theme-toggle-btn .moon-icon { display: none; color: #818CF8; }
+[data-theme="dark"] .theme-toggle-btn .sun-icon { display: none; }
+[data-theme="dark"] .theme-toggle-btn .moon-icon { display: block; }
+[data-theme="dark"] .theme-toggle-btn {
+  background: var(--surface);
+  border-color: var(--line-bold);
+}
+
+/* Sidebar Theme Switcher (Mobile/Tablet Friendly) */
+.sidebar-theme-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  margin: 8px 12px 14px;
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.sidebar-theme-text {
+  font-size: 13px;
+  font-weight: 850;
+}
+.sidebar-theme-toggle {
+  display: flex;
+  background: var(--surface);
+  border: 1.5px solid var(--line-bold);
+  border-radius: var(--radius-pill);
+  padding: 2px;
+  cursor: pointer;
+  gap: 2px;
+}
+.theme-mode-badge {
+  font-size: 11px;
+  font-weight: 900;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  transition: all var(--transition);
+}
+.theme-mode-badge.light-badge {
+  background: var(--brand);
+  color: #090909;
+}
+.theme-mode-badge.dark-badge {
+  background: transparent;
+  color: var(--text-muted);
+}
+[data-theme="dark"] .theme-mode-badge.light-badge {
+  background: transparent;
+  color: var(--text-muted);
+}
+[data-theme="dark"] .theme-mode-badge.dark-badge {
+  background: #6366F1;
+  color: #FFFFFF;
+}
 
 /* =========================================================
    Layout & Sidebar
@@ -1355,7 +1435,49 @@ input, select, textarea {
   font-weight: 800;
   line-height: 1.6;
   margin-bottom: 20px;
+  word-break: break-word;
 }
+
+.quiz-main-prompt {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.65;
+  margin-bottom: 8px;
+  white-space: pre-line;
+}
+
+.quiz-box-prompt {
+  margin: 14px 0 18px;
+  padding: 14px 18px;
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--line-bold);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.quiz-box-prompt-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--primary-accent);
+  margin-bottom: 8px;
+  padding: 2px 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.quiz-box-prompt-body {
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.7;
+  color: var(--text-color);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 
 .quiz-options-list {
   display: flex;
@@ -1966,6 +2088,122 @@ tr:nth-child(even) {
   background: var(--surface-hover);
 }
 
+/* =========================================================
+   Concept Notes Blocks (요약노트 블록 디자인)
+   ========================================================= */
+
+.concept-block-h4 {
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--text-color);
+  margin: 20px 0 10px;
+  padding-left: 10px;
+  border-left: 4px solid var(--primary-accent);
+  letter-spacing: -0.03em;
+}
+.concept-block-h4:first-child {
+  margin-top: 0;
+}
+
+.concept-block-p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-color);
+  margin-bottom: 14px;
+}
+
+.concept-keywords-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 16px;
+  padding: 8px 12px;
+  background: var(--paper-subtle);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+}
+
+.concept-keyword-label {
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--primary-accent);
+}
+
+.concept-keyword-tag {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 10px;
+  background: var(--surface);
+  border: 1.5px solid var(--line-bold);
+  border-radius: var(--radius-pill);
+  color: var(--text-color);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+}
+
+[data-theme="dark"] .concept-keyword-tag {
+  background: var(--surface-hover);
+  border-color: var(--line-strong);
+}
+
+.concept-block-ul, .concept-block-ol {
+  padding-left: 20px;
+  margin: 12px 0 16px;
+}
+
+.concept-block-ul li, .concept-block-ol li {
+  font-size: 14.5px;
+  line-height: 1.68;
+  margin-bottom: 8px;
+  color: var(--text-color);
+}
+
+.concept-block-note {
+  margin: 16px 0 20px;
+  padding: 14px 18px;
+  background: var(--paper-subtle);
+  border-left: 4px solid #F59E0B;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-color);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+[data-theme="dark"] .concept-block-note {
+  background: rgba(245, 158, 11, 0.08);
+  border-left-color: #FBBF24;
+}
+
+.concept-block-quiz {
+  margin: 18px 0;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 2px solid var(--brand);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme="dark"] .concept-block-quiz {
+  background: var(--paper-subtle);
+  border-color: var(--brand);
+}
+
+.concept-quiz-q {
+  font-size: 14px;
+  font-weight: 850;
+  margin-bottom: 8px;
+  color: var(--text-color);
+}
+
+.concept-quiz-a {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  padding-top: 6px;
+  border-top: 1px dashed var(--line);
+}
+
 /* Callouts / Memos */
 .memo, .note, .formula {
   padding: 14px 18px;
@@ -2433,5 +2671,29 @@ tr:nth-child(even) {
 
   .ox-buttons-row {
     flex-direction: row;
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar {
+    padding: 0 10px;
+  }
+  .topbar-actions {
+    gap: 5px;
+  }
+  .topbar-actions .streak-pill,
+  .topbar-actions .focus-btn {
+    display: none;
+  }
+  .dday-pill-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  .theme-toggle-btn {
+    padding: 5px 8px;
+    font-size: 12px;
+  }
+  .theme-toggle-btn .theme-label {
+    display: none;
   }
 }

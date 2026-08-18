@@ -111,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const openCheatSheetTopBtn = document.getElementById("openCheatSheetTopBtn");
   const focusToggleBtn = document.getElementById("focusToggleBtn");
   const themeToggleBtn = document.getElementById("themeToggleBtn");
+  const sidebarThemeToggleBtn = document.getElementById("sidebarThemeToggleBtn");
   const menuBtn = document.getElementById("menuBtn");
   const closeSidebarBtn = document.getElementById("closeSidebarBtn");
   const sidebar = document.getElementById("sidebar");
@@ -358,7 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function isCalcQuestion(quiz) {
-    const text = (quiz.question + " " + (quiz.explanation || "") + " " + (quiz.choices || []).join(" ")).toLowerCase();
+    const text = (quiz.question + " " + (quiz.explanation || "") + " " + (quiz.choices || quiz.options || []).join(" ")).toLowerCase();
     return CALC_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
   }
 
@@ -735,7 +736,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (quizFilter.tag !== "all" && !q.question.includes(`[${quizFilter.tag}]`)) return false;
       if (quizFilter.keyword) {
         const kw = quizFilter.keyword.toLowerCase();
-        const text = (q.question + " " + (q.explanation || "") + " " + (q.choices || []).join(" ")).toLowerCase();
+        const text = (q.question + " " + (q.explanation || "") + " " + (q.choices || q.options || []).join(" ")).toLowerCase();
         if (!text.includes(kw)) return false;
       }
       return true;
@@ -839,12 +840,11 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="quiz-question-text">
-          <strong style="color: var(--primary-accent); margin-right: 6px;">Q${displayNum}.</strong>
-          ${escapeHTML(quiz.question)}
+          ${formatQuestionText(quiz.question, displayNum)}
         </div>
 
         <div class="quiz-options-list">
-          ${(quiz.choices || []).map((choice, cIdx) => {
+          ${(quiz.choices || quiz.options || []).map((choice, cIdx) => {
             let optClass = "quiz-option";
             if (isAnswered) {
               if (currentMode === "mock" && !isMockSubmitted) {
@@ -1303,19 +1303,20 @@ document.addEventListener("DOMContentLoaded", () => {
   function startOxTrainer() {
     oxItems = [];
     allQuizzes.forEach(quiz => {
-      if (!quiz.choices) return;
+      const choices = quiz.choices || quiz.options || [];
+      if (choices.length === 0) return;
       // Extract answer choice (True)
-      if (quiz.choices[quiz.answer]) {
+      if (choices[quiz.answer]) {
         oxItems.push({
           quizId: quiz.id,
           subject: quiz.subject,
-          statement: `${quiz.question.replace(/\[.*?\]/g, '').trim()} ➔ [보기] "${quiz.choices[quiz.answer]}"`,
+          statement: `${quiz.question.replace(/\[.*?\]/g, '').trim()} ➔ [보기] "${choices[quiz.answer]}"`,
           isTrue: true,
-          desc: `✓ 옳은 설명입니다. (${quiz.explanation.substring(0, 90)}...)`
+          desc: `✓ 옳은 설명입니다. (${(quiz.explanation || "").substring(0, 90)}...)`
         });
       }
       // Extract a wrong choice (False)
-      quiz.choices.forEach((choice, idx) => {
+      choices.forEach((choice, idx) => {
         if (idx !== quiz.answer) {
           const reason = quiz.whyWrong && quiz.whyWrong[idx] ? quiz.whyWrong[idx] : "오답 선지입니다.";
           oxItems.push({
@@ -1397,13 +1398,16 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="cheat-sheet-sec-title">⚠️ 내가 자주 낚이는 단골 오답 함정 Top (${repeatWrong.length}문항)</div>
         ${repeatWrong.length === 0 ? '<p style="color:var(--text-muted); font-size:13px;">아직 2회 이상 틀린 오답 문항이 없습니다. 기출을 풀며 약점을 기록하세요!</p>' : `
           <div>
-            ${repeatWrong.slice(0, 15).map(q => `
-              <div class="trap-highlight-item">
-                <strong>[${SUBJECT_NAMES[q.subject]}] ${escapeHTML(q.question)}</strong><br />
-                <span style="color:var(--success); font-weight:800;">✓ 정답: ${q.choices[q.answer]}</span> | 
-                <span style="color:var(--text-muted);">${q.memorizationPoint || q.explanation.substring(0, 60)}</span>
-              </div>
-            `).join("")}
+            ${repeatWrong.slice(0, 15).map(q => {
+              const qChoices = q.choices || q.options || [];
+              return `
+                <div class="trap-highlight-item">
+                  <strong>[${SUBJECT_NAMES[q.subject]}] ${escapeHTML(q.question)}</strong><br />
+                  <span style="color:var(--success); font-weight:800;">✓ 정답: ${escapeHTML(qChoices[q.answer] || "")}</span> | 
+                  <span style="color:var(--text-muted);">${escapeHTML(q.memorizationPoint || (q.explanation || "").substring(0, 60))}</span>
+                </div>
+              `;
+            }).join("")}
           </div>
         `}
       </div>
@@ -1433,12 +1437,15 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="cheat-sheet-sec-title">⭐ 내가 북마크한 핵심 문제 (${bookmarkedQuizzes.length}문항)</div>
         ${bookmarkedQuizzes.length === 0 ? '<p style="color:var(--text-muted); font-size:13px;">북마크한 문항이 없습니다. 중요 문제에 별표(★)를 눌러 추가하세요!</p>' : `
           <div>
-            ${bookmarkedQuizzes.slice(0, 10).map(q => `
-              <div style="background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:10px; margin-bottom:8px; font-size:13px;">
-                <strong>${escapeHTML(q.question)}</strong><br />
-                <span style="color:var(--primary-accent); font-weight:800;">정답: ${q.answer + 1}번 (${q.choices[q.answer]})</span> - ${q.memorizationPoint || ""}
-              </div>
-            `).join("")}
+            ${bookmarkedQuizzes.slice(0, 10).map(q => {
+              const qChoices = q.choices || q.options || [];
+              return `
+                <div style="background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:10px; margin-bottom:8px; font-size:13px;">
+                  <strong>${escapeHTML(q.question)}</strong><br />
+                  <span style="color:var(--primary-accent); font-weight:800;">정답: ${q.answer + 1}번 (${escapeHTML(qChoices[q.answer] || "")})</span> - ${escapeHTML(q.memorizationPoint || "")}
+                </div>
+              `;
+            }).join("")}
           </div>
         `}
       </div>
@@ -1523,12 +1530,11 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
 
           <div class="quiz-question-text">
-            <strong style="color: var(--danger); margin-right: 6px;">[오답]</strong>
-            ${escapeHTML(quiz.question)}
+            ${formatQuestionText(quiz.question)}
           </div>
 
           <div class="quiz-options-list">
-            ${(quiz.choices || []).map((choice, cIdx) => `
+            ${(quiz.choices || quiz.options || []).map((choice, cIdx) => `
               <button class="quiz-option wrong-retry-option" data-choice="${cIdx}">
                 <span class="option-num">${cIdx + 1}</span>
                 <span>${escapeHTML(choice)}</span>
@@ -1744,6 +1750,9 @@ document.addEventListener("DOMContentLoaded", () => {
       noteData.sections.forEach(sec => {
         if (sec.cards) {
           sec.cards.forEach(card => {
+            if (!card.content && card.blocks) {
+              card.content = renderCardBlocks(card.blocks, card.title);
+            }
             cardMap.set(card.id, card);
           });
         }
@@ -1826,6 +1835,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderNoteCardHTML(card) {
     const isLearned = learnedConcepts.has(card.id);
     const relatedQuizzes = cardToQuizMap.get(card.id) || [];
+    const cardContent = card.content || renderCardBlocks(card.blocks, card.title);
 
     return `
       <div class="card" id="card-${card.id}" data-id="${card.id}">
@@ -1845,7 +1855,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
         <div class="card-body">
-          ${card.content || ""}
+          ${cardContent}
         </div>
       </div>
     `;
@@ -1899,8 +1909,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = cardMap.get(cardId);
     if (!card || !conceptModal) return;
 
+    const cardContent = card.content || renderCardBlocks(card.blocks, card.title);
+
     if (conceptModalTitle) conceptModalTitle.textContent = card.title;
-    if (conceptModalBodyNote) conceptModalBodyNote.innerHTML = card.content || "";
+    if (conceptModalBodyNote) conceptModalBodyNote.innerHTML = cardContent || "";
 
     const related = cardToQuizMap.get(cardId) || [];
     if (conceptRelatedCount) conceptRelatedCount.textContent = related.length;
@@ -1909,12 +1921,15 @@ document.addEventListener("DOMContentLoaded", () => {
       if (related.length === 0) {
         conceptModalBodyQuiz.innerHTML = "<p style='padding: 20px; color: var(--text-muted);'>관련 기출문제가 없습니다.</p>";
       } else {
-        conceptModalBodyQuiz.innerHTML = related.map((q, idx) => `
-          <div style="background: var(--paper-subtle); border-radius: var(--radius-md); padding: 14px; margin-bottom: 12px;">
-            <div style="font-weight: 850; margin-bottom: 6px;">Q${idx + 1}. ${escapeHTML(q.question)}</div>
-            <div style="font-size: 13px; color: var(--text-muted);">정답: ${q.answer + 1}번 (${q.choices[q.answer]})</div>
-          </div>
-        `).join("");
+        conceptModalBodyQuiz.innerHTML = related.map((q, idx) => {
+          const qChoices = q.choices || q.options || [];
+          return `
+            <div style="background: var(--paper-subtle); border-radius: var(--radius-md); padding: 14px; margin-bottom: 12px;">
+              <div style="font-weight: 850; margin-bottom: 6px;">${formatQuestionText(q.question, idx + 1)}</div>
+              <div style="font-size: 13px; color: var(--text-muted);">정답: ${q.answer + 1}번 (${escapeHTML(qChoices[q.answer] || "")})</div>
+            </div>
+          `;
+        }).join("");
       }
     }
 
@@ -2028,14 +2043,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener("click", () => {
-        const curTheme = document.documentElement.getAttribute("data-theme") || "light";
-        const newTheme = curTheme === "light" ? "dark" : "light";
-        document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("theme", newTheme);
-      });
-    }
+    // Theme switcher listeners (Desktop, Mobile, Tablet)
+    const themeTriggers = document.querySelectorAll("#themeToggleBtn, #sidebarThemeToggleBtn, .sidebar-theme-toggle");
+    themeTriggers.forEach(btn => {
+      btn.addEventListener("click", toggleTheme);
+    });
+
+    const initTheme = document.documentElement.getAttribute("data-theme") || localStorage.getItem("theme") || "light";
+    updateThemeUI(initTheme);
 
     if (focusToggleBtn) {
       focusToggleBtn.addEventListener("click", () => {
@@ -2388,6 +2403,71 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function toggleTheme() {
+    const curTheme = document.documentElement.getAttribute("data-theme") || "light";
+    const newTheme = curTheme === "light" ? "dark" : "light";
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+    updateThemeUI(newTheme);
+  }
+
+  function updateThemeUI(theme) {
+    const isDark = theme === "dark";
+    document.querySelectorAll(".theme-toggle-btn, .theme-btn").forEach(btn => {
+      btn.setAttribute("title", isDark ? "라이트모드로 전환" : "다크모드로 전환");
+      btn.setAttribute("aria-label", isDark ? "라이트모드로 전환" : "다크모드로 전환");
+      const label = btn.querySelector(".theme-label");
+      if (label) label.textContent = isDark ? "라이트모드" : "다크모드";
+    });
+  }
+
+  function renderCardBlocks(blocks, cardTitle) {
+    if (!blocks || !Array.isArray(blocks) || blocks.length === 0) {
+      return `
+        <h4 class='concept-block-h4'>${escapeHTML(cardTitle || "")} 핵심 정리</h4>
+        <p class='concept-block-p'>이 개념은 빅데이터분석기사 필기 시험에서 자주 출제되는 핵심 이론입니다. 관련 기출문제 풀이를 통해 출제 유형과 오답 함정을 완벽히 숙지하세요.</p>
+        <div class='concept-block-note'>💡 <strong>출제위원의 핵심 팁:</strong> 개념의 명확한 정의, 유사 개념과의 차이점, 관련 공식 및 파라미터의 역할을 정확히 암기해 두어야 합니다.</div>
+      `;
+    }
+
+    return blocks.map(b => {
+      const btype = b.type;
+      if (btype === "h4") {
+        return `<h4 class="concept-block-h4">${b.text || ""}</h4>`;
+      } else if (btype === "p") {
+        return `<p class="concept-block-p">${b.text || ""}</p>`;
+      } else if (btype === "keywords") {
+        const items = b.items || [];
+        if (items.length === 0) return "";
+        const tags = items.map(kw => `<span class="concept-keyword-tag">${escapeHTML(kw)}</span>`).join("");
+        return `<div class="concept-keywords-row"><span class="concept-keyword-label">🔑 핵심 키워드:</span> ${tags}</div>`;
+      } else if (btype === "ul") {
+        const items = b.items || [];
+        if (items.length === 0) return "";
+        const lis = items.map(item => `<li>${item}</li>`).join("");
+        return `<ul class="concept-block-ul">${lis}</ul>`;
+      } else if (btype === "ol") {
+        const items = b.items || [];
+        if (items.length === 0) return "";
+        const lis = items.map(item => `<li>${item}</li>`).join("");
+        return `<ol class="concept-block-ol">${lis}</ol>`;
+      } else if (btype === "note" || btype === "callout") {
+        return `<div class="concept-block-note">${b.text || ""}</div>`;
+      } else if (btype === "quiz") {
+        const q = b.question || "";
+        const a = b.answer || "O";
+        const exp = b.explanation || "";
+        return `
+          <div class="concept-block-quiz">
+            <div class="concept-quiz-q">⚡ <strong>자가진단 OX:</strong> ${q}</div>
+            <div class="concept-quiz-a">정답: <strong style="color:var(--primary-accent);">${a}</strong> - ${exp}</div>
+          </div>
+        `;
+      }
+      return b.text ? `<p class="concept-block-p">${b.text}</p>` : "";
+    }).join("");
+  }
+
   function escapeHTML(str) {
     if (!str || typeof str !== "string") return "";
     return str
@@ -2396,6 +2476,37 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
+  }
+
+  function formatQuestionText(text, displayNum) {
+    if (!text || typeof text !== "string") return "";
+
+    const boxRegex = /(<보기>|\[보기\]|【보기】|<혼동행렬>|\[혼동행렬\]|<표>|\[표\]|<사례>|\[사례\])([\s\S]*)/i;
+    const boxMatch = text.match(boxRegex);
+
+    const numPrefix = displayNum ? `<strong style="color: var(--primary-accent); margin-right: 6px;">Q${displayNum}.</strong>` : "";
+
+    if (boxMatch) {
+      const mainQuestion = text.substring(0, boxMatch.index).trim();
+      const boxTag = boxMatch[1].replace(/[<\[【>\]】]/g, '');
+      const boxContent = boxMatch[2].trim();
+
+      return `
+        <div class="quiz-main-prompt">
+          ${numPrefix}<span>${escapeHTML(mainQuestion)}</span>
+        </div>
+        <div class="quiz-box-prompt">
+          <div class="quiz-box-prompt-title">📌 [${escapeHTML(boxTag)}]</div>
+          <div class="quiz-box-prompt-body">${escapeHTML(boxContent)}</div>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="quiz-main-prompt">
+        ${numPrefix}<span>${escapeHTML(text)}</span>
+      </div>
+    `;
   }
 
   // ==========================================
