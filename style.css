@@ -1377,9 +1377,43 @@ input, select, textarea {
   margin-bottom: 20px;
   box-shadow: var(--shadow-sm);
   transition: border-color var(--transition);
+  content-visibility: auto;
+  contain-intrinsic-size: 0 260px;
 }
 .quiz-card:hover {
   border-color: var(--line-bold);
+}
+
+/* Lazy Load Batch Trigger */
+.quiz-load-more-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 40px;
+  gap: 8px;
+}
+.quiz-load-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 28px;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  border: 2px solid var(--line-bold);
+  font-size: 14px;
+  font-weight: 850;
+  color: var(--text-color);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition);
+}
+.quiz-load-more-btn:hover {
+  background: var(--brand);
+  color: #090909;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .quiz-card-header {
@@ -2021,6 +2055,8 @@ input, select, textarea {
   margin-bottom: 24px;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
+  content-visibility: auto;
+  contain-intrinsic-size: 0 300px;
 }
 
 .card-header {

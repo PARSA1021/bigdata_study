@@ -1,5 +1,5 @@
 /**
- * KNOWWAY (노웨이) Style BigData Master App (v5.0 Extended)
+ * KNOWWAY (노웨이) Style BigData Master App (v5.5 Clean & High-Performance Turbo Edition)
  * 1. 합격 루틴 엔진 (D-Day, 연속 스트릭 🔥, 30일 잔디 히트맵, 일일 목표 달성)
  * 2. 최신 역순 기출 로드맵 & 회차별 정복 트래커 (11회 -> 10회 -> 4회 -> 랜덤)
  * 3. 선지 변형 대비: 선지별 오답 Trap 분석 & 선지 OX 벼락치기 훈련 모드
@@ -7,7 +7,8 @@
  * 5. 60점 합격선 타겟: A급 필수 빈출 300제 스피드 패스 & 중요도 등급
  * 6. 시험장 30분 전 단권화 파이널 치트시트 & 원클릭 인쇄/PDF
  * 7. 실전 CBT 모의고사 & 실시간 OMR 마킹 & 과락/합격 판정
- * 8. 스마트 오답 탈출 (Retry & Master) 시스템 & AI 개념 튜터
+ * 8. 스마트 오답 탈출 (Retry & Master) 시스템
+ * ⚡ Performance Engine: Event Delegation, Virtualized Batch Rendering, In-Place DOM Updates, Debounced Persistence
  */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -50,55 +51,60 @@ document.addEventListener("DOMContentLoaded", () => {
     "절편", "상관계수", "주성분", "기여율", "분산비율"
   ];
 
+  const BATCH_SIZE = 30;
+
   // ==========================================
   // 2. STATE MANAGEMENT
   // ==========================================
   let noteData = null;
   let allQuizzes = [];
   let workingQuizzes = [];
-  let currentNav = "home"; // 'home' | 'notes' | 'practice' | 'mock' | 'wrong' | 'stats'
+  let currentRenderedCount = 0;
+  let quizBatchObserver = null;
+
+  let currentNav = "home"; // 'home' | 'notes' | 'practice' | 'mock' | 'wrong'
   let currentMode = "practice"; // 'practice' | 'mock'
 
   let cardMap = new Map();
   let cardToQuizMap = new Map();
   let sectionToQuizMap = new Map();
+  let notesSearchIndex = [];
 
   let bookmarks = new Set(loadJSON(BOOKMARK_KEY, []));
   let learnedConcepts = new Set(loadJSON(LEARNED_KEY, []));
-  let conceptMemos = loadJSON(MEMO_KEY, {});
   let quizMemos = loadJSON(QUIZ_MEMO_KEY, {});
   let cumulativeStats = loadStats();
   let habitData = loadHabitData();
-  let mockRecords = loadJSON(MOCK_RECORDS_KEY, {}); // preset -> { bestScore: N, lastScore: N, lastDate: str, passed: bool, solvedCount: N }
+  let mockRecords = loadJSON(MOCK_RECORDS_KEY, {});
 
   // Practice state
   let quizFilter = {
     subject: "all",
     difficulty: "all",
-    importance: "all", // 'all' | 'A' | 'B' | 'C'
+    importance: "all",
     tag: "all",
     keyword: "",
     conceptCardId: null,
     calcOnly: false
   };
-  let practiceSolvedMap = new Map(); // quizId -> selected choice index
+  let practiceSolvedMap = new Map();
 
   // CBT Mock Exam State
   let currentPreset = "11th";
   let mockQuizzes = [];
-  let mockSolvedMap = new Map(); // quizId -> selected choice index
-  let mockFlaggedSet = new Set(); // quizId
+  let mockSolvedMap = new Map();
+  let mockFlaggedSet = new Set();
   let timerInterval = null;
   let timerSeconds = 120 * 60;
   let isMockSubmitted = false;
-
-  // Active AI Tutor context
-  let activeAiQuiz = null;
 
   // OX Trainer State
   let oxItems = [];
   let oxCurrentIdx = 0;
   let oxStreak = 0;
+
+  // Debounced save timer
+  let saveTimer = null;
 
   // ==========================================
   // 3. DOM ELEMENTS
@@ -109,9 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const topbarDdayText = document.getElementById("topbarDdayText");
   const topbarStreakCount = document.getElementById("topbarStreakCount");
   const openCheatSheetTopBtn = document.getElementById("openCheatSheetTopBtn");
-  const focusToggleBtn = document.getElementById("focusToggleBtn");
-  const themeToggleBtn = document.getElementById("themeToggleBtn");
-  const sidebarThemeToggleBtn = document.getElementById("sidebarThemeToggleBtn");
   const menuBtn = document.getElementById("menuBtn");
   const closeSidebarBtn = document.getElementById("closeSidebarBtn");
   const sidebar = document.getElementById("sidebar");
@@ -158,8 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("searchInput");
   const clearSearchBtn = document.getElementById("clearSearchBtn");
   const searchStatusEl = document.getElementById("searchStatus");
-  const expandAllBtn = document.getElementById("expandAllBtn");
-  const collapseAllBtn = document.getElementById("collapseAllBtn");
   const progressBar = document.getElementById("progressBar");
   const progressPercent = document.getElementById("progressPercent");
 
@@ -174,10 +175,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const btnAgradePass = document.getElementById("btnAgradePass");
   const btnCalcPack = document.getElementById("btnCalcPack");
-  const btnOxTrainer = document.getElementById("btnOxTrainer");
-  const btnCheatSheet = document.getElementById("btnCheatSheet");
-  const smartWeaknessBtn = document.getElementById("smartWeaknessBtn");
-  const wrongOnlyQuizBtn = document.getElementById("wrongOnlyQuizBtn");
   const target13thQuizBtn = document.getElementById("target13thQuizBtn");
   const termStatQuizBtn = document.getElementById("termStatQuizBtn");
 
@@ -216,7 +213,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const wfBookCount = document.getElementById("wfBookCount");
   const wrongListContainer = document.getElementById("wrongListContainer");
   const retryAllWrongBtn = document.getElementById("retryAllWrongBtn");
-  const clearMasteredBtn = document.getElementById("clearMasteredBtn");
 
   // Modals
   const oxTrainerModal = document.getElementById("oxTrainerModal");
@@ -237,21 +233,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeCheatSheetModalBtn = document.getElementById("closeCheatSheetModalBtn");
   const printCheatSheetBtn = document.getElementById("printCheatSheetBtn");
   const cheatSheetContent = document.getElementById("cheatSheetContent");
-
-  const aiTutorModal = document.getElementById("aiTutorModal");
-  const closeAiTutorBtn = document.getElementById("closeAiTutorBtn");
-  const closeAiTutorModalBtn = document.getElementById("closeAiTutorModalBtn");
-  const aiTutorQuestionSummary = document.getElementById("aiTutorQuestionSummary");
-  const aiTutorBubbleContent = document.getElementById("aiTutorBubbleContent");
-
-  const statsModal = document.getElementById("statsModal");
-  const closeStatsBtn = document.getElementById("closeStatsBtn");
-  const closeStatsModalBtn = document.getElementById("closeStatsModalBtn");
-  const resetStatsBtn = document.getElementById("resetStatsBtn");
-  const statTotalSolved = document.getElementById("statTotalSolved");
-  const statOverallAccuracy = document.getElementById("statOverallAccuracy");
-  const statBookmarks = document.getElementById("statBookmarks");
-  const subjectStatsContainer = document.getElementById("subjectStatsContainer");
 
   const conceptModal = document.getElementById("conceptModal");
   const closeConceptBtn = document.getElementById("closeConceptBtn");
@@ -274,7 +255,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ==========================================
-  // 4. STORAGE HELPERS
+  // 4. STORAGE HELPERS & DEBOUNCED PERSISTENCE
   // ==========================================
   function loadJSON(key, defaultVal) {
     try {
@@ -290,6 +271,19 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem(key, JSON.stringify(val));
     } catch (e) {}
   }
+
+  function scheduleSave() {
+    if (saveTimer) clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      saveJSON(STATS_KEY, cumulativeStats);
+      saveJSON(HABIT_KEY, habitData);
+    }, 400);
+  }
+
+  window.addEventListener("beforeunload", () => {
+    saveJSON(STATS_KEY, cumulativeStats);
+    saveJSON(HABIT_KEY, habitData);
+  });
 
   function loadStats() {
     return loadJSON(STATS_KEY, {
@@ -333,13 +327,20 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${y}-${m}-${d}`;
   }
 
+  function debounce(fn, delay = 150) {
+    let t = null;
+    return function (...args) {
+      if (t) clearTimeout(t);
+      t = setTimeout(() => fn.apply(this, args), delay);
+    };
+  }
+
 
   // ==========================================
   // 5. IMPORTANCE & CALCULATION CLASSIFIER
   // ==========================================
   function getImportanceGrade(quiz) {
     const qText = (quiz.question || "").toLowerCase();
-    const tag = quiz.questionType || "";
     
     // A급: 빈출 기출, 기본 필수, 혼동행렬, DIKW, 가설검정, 3V, 데이터 거버넌스, 평가 지표
     if (qText.includes("[빈출 기출]") || qText.includes("[기본 필수]") || 
@@ -359,7 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function isCalcQuestion(quiz) {
-    const text = (quiz.question + " " + (quiz.explanation || "") + " " + (quiz.choices || quiz.options || []).join(" ")).toLowerCase();
+    const text = (quiz.question + " " + (quiz.explanation || "") + " " + (quiz.choices || []).join(" ")).toLowerCase();
     return CALC_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
   }
 
@@ -449,7 +450,6 @@ document.addEventListener("DOMContentLoaded", () => {
       qStat.wrongCount++;
       qStat.mastered = false;
     }
-    saveJSON(STATS_KEY, cumulativeStats);
 
     if (!habitData.activity[todayStr]) habitData.activity[todayStr] = 0;
     habitData.activity[todayStr]++;
@@ -462,13 +462,7 @@ document.addEventListener("DOMContentLoaded", () => {
       else if (diffDays > 1) habitData.streak = 1;
       habitData.lastActiveDate = todayStr;
     }
-    saveJSON(HABIT_KEY, habitData);
 
-    saveResumeSession(quiz);
-    updateHabitUI();
-  }
-
-  function saveResumeSession(quiz) {
     habitData.lastSession = {
       mode: currentMode,
       quizId: quiz.id,
@@ -476,7 +470,20 @@ document.addEventListener("DOMContentLoaded", () => {
       detail: `최근 푼 문제: ${quiz.question.substring(0, 32)}...`,
       timestamp: Date.now()
     };
-    saveJSON(HABIT_KEY, habitData);
+
+    scheduleSave();
+
+    // Fast topbar updates (0ms)
+    const targetDate = new Date(habitData.ddayDate || "2026-09-05");
+    const today = new Date(todayStr);
+    const diffDays = Math.ceil((targetDate - today) / (1000 * 60 * 60 * 24));
+    const ddayStr = diffDays > 0 ? `D-${diffDays}` : diffDays === 0 ? "D-Day" : `D+${Math.abs(diffDays)}`;
+    if (topbarDdayText) topbarDdayText.textContent = ddayStr;
+    if (topbarStreakCount) topbarStreakCount.textContent = `${habitData.streak || 1}일`;
+
+    if (currentNav === "home") {
+      updateHabitUI();
+    }
   }
 
   function updateHabitUI() {
@@ -486,8 +493,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const targetDate = new Date(habitData.ddayDate || "2026-09-05");
     const today = new Date(todayStr);
-    const diffTime = targetDate - today;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffDays = Math.ceil((targetDate - today) / (1000 * 60 * 60 * 24));
     const ddayStr = diffDays > 0 ? `D-${diffDays}` : diffDays === 0 ? "D-Day" : `D+${Math.abs(diffDays)}`;
 
     if (topbarDdayText) topbarDdayText.textContent = ddayStr;
@@ -606,13 +612,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const masteryPct = Math.round((passedCount / timelinePresets.length) * 100);
     if (roadmapMasteryRate) roadmapMasteryRate.textContent = `${masteryPct}% (${passedCount}/${timelinePresets.length}회차 정복)`;
-
-    examTimelineGrid.querySelectorAll(".timeline-exam-card").forEach(card => {
-      card.addEventListener("click", () => {
-        const presetId = card.dataset.preset;
-        switchNav("mock", { preset: presetId });
-      });
-    });
   }
 
   function renderHeatmap() {
@@ -692,9 +691,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (options.cardId) {
         quizFilter.conceptCardId = options.cardId;
         quizFilter.subject = "all";
+        quizFilter.calcOnly = false;
+        quizFilter.importance = "all";
+        quizFilter.difficulty = "all";
+        quizFilter.tag = "all";
+        quizFilter.keyword = "";
       }
       applyQuizFilter();
-      renderQuizzes();
+      renderQuizzes(true);
     } else if (targetNav === "mock") {
       if (quizContentView) quizContentView.classList.remove("hidden");
       setMode("mock");
@@ -702,8 +706,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (targetNav === "wrong") {
       if (wrongView) wrongView.classList.remove("hidden");
       renderWrongNotesView("all");
-    } else if (targetNav === "stats") {
-      openStatsModal();
     }
   }
 
@@ -724,7 +726,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ==========================================
-  // 9. PRACTICE QUIZ ENGINE
+  // 9. PRACTICE QUIZ ENGINE (Batch & Virtualized)
   // ==========================================
   function applyQuizFilter() {
     workingQuizzes = allQuizzes.filter(q => {
@@ -736,15 +738,16 @@ document.addEventListener("DOMContentLoaded", () => {
       if (quizFilter.tag !== "all" && !q.question.includes(`[${quizFilter.tag}]`)) return false;
       if (quizFilter.keyword) {
         const kw = quizFilter.keyword.toLowerCase();
-        const text = (q.question + " " + (q.explanation || "") + " " + (q.choices || q.options || []).join(" ")).toLowerCase();
+        const text = (q.question + " " + (q.explanation || "") + " " + (q.choices || []).join(" ")).toLowerCase();
         if (!text.includes(kw)) return false;
       }
       return true;
     });
   }
 
-  function renderQuizzes() {
+  function renderQuizzes(reset = true) {
     if (!quizContainer) return;
+
     if (workingQuizzes.length === 0) {
       quizContainer.innerHTML = `
         <div style="text-align: center; padding: 60px 20px; background: var(--surface); border-radius: var(--radius-lg); border: 1.5px solid var(--line);">
@@ -754,19 +757,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <button id="resetFilterBtn" class="button button-brand">필터 초기화</button>
         </div>
       `;
-      const rfBtn = document.getElementById("resetFilterBtn");
-      if (rfBtn) {
-        rfBtn.addEventListener("click", () => {
-          quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: false };
-          if (subjectFilter) subjectFilter.value = "all";
-          if (difficultyFilter) difficultyFilter.value = "all";
-          if (importanceFilter) importanceFilter.value = "all";
-          if (tagFilter) tagFilter.value = "all";
-          if (keywordSearch) keywordSearch.value = "";
-          applyQuizFilter();
-          renderQuizzes();
-        });
-      }
+      if (quizToolbar) quizToolbar.innerHTML = `<div>총 <strong style="color: var(--primary-accent);">0</strong>문항</div>`;
       return;
     }
 
@@ -777,22 +768,93 @@ document.addEventListener("DOMContentLoaded", () => {
           <button id="shuffleQuizBtn" class="btn-small">🔀 문제 섞기</button>
         </div>
       `;
-      const sfBtn = document.getElementById("shuffleQuizBtn");
-      if (sfBtn) {
-        sfBtn.addEventListener("click", () => {
-          workingQuizzes.sort(() => Math.random() - 0.5);
-          renderQuizzes();
-        });
-      }
     }
 
-    let html = "";
-    workingQuizzes.forEach((quiz, index) => {
-      html += renderQuizCardHTML(quiz, index + 1);
-    });
+    if (currentMode === "mock") {
+      currentRenderedCount = workingQuizzes.length;
+      let html = "";
+      workingQuizzes.forEach((quiz, index) => {
+        html += renderQuizCardHTML(quiz, index + 1);
+      });
+      quizContainer.innerHTML = html;
+      return;
+    }
 
-    quizContainer.innerHTML = html;
-    attachQuizCardEvents(quizContainer);
+    // Practice mode: Batch rendering for instant responsiveness
+    if (reset) {
+      currentRenderedCount = Math.min(BATCH_SIZE, workingQuizzes.length);
+      let html = "";
+      for (let i = 0; i < currentRenderedCount; i++) {
+        html += renderQuizCardHTML(workingQuizzes[i], i + 1);
+      }
+
+      if (workingQuizzes.length > currentRenderedCount) {
+        const remaining = workingQuizzes.length - currentRenderedCount;
+        html += `
+          <div id="quizLoadMoreWrapper" class="quiz-load-more-wrapper">
+            <button id="loadMoreQuizzesBtn" class="quiz-load-more-btn">
+              <span>➕ 더 많은 문제 불러오기 (+${Math.min(BATCH_SIZE, remaining)}제 / 잔여 ${remaining}제)</span>
+            </button>
+          </div>
+        `;
+      }
+
+      quizContainer.innerHTML = html;
+      setupInfiniteScrollObserver();
+    }
+  }
+
+  function renderNextQuizBatch() {
+    if (!quizContainer || currentRenderedCount >= workingQuizzes.length) return;
+
+    const startIdx = currentRenderedCount;
+    const endIdx = Math.min(startIdx + BATCH_SIZE, workingQuizzes.length);
+    currentRenderedCount = endIdx;
+
+    const loadMoreWrap = document.getElementById("quizLoadMoreWrapper");
+    if (loadMoreWrap) loadMoreWrap.remove();
+
+    const tempDiv = document.createElement("div");
+    let html = "";
+    for (let i = startIdx; i < endIdx; i++) {
+      html += renderQuizCardHTML(workingQuizzes[i], i + 1);
+    }
+
+    if (endIdx < workingQuizzes.length) {
+      const remaining = workingQuizzes.length - endIdx;
+      html += `
+        <div id="quizLoadMoreWrapper" class="quiz-load-more-wrapper">
+          <button id="loadMoreQuizzesBtn" class="quiz-load-more-btn">
+            <span>➕ 더 많은 문제 불러오기 (+${Math.min(BATCH_SIZE, remaining)}제 / 잔여 ${remaining}제)</span>
+          </button>
+        </div>
+      `;
+    }
+
+    tempDiv.innerHTML = html;
+    while (tempDiv.firstChild) {
+      quizContainer.appendChild(tempDiv.firstChild);
+    }
+
+    setupInfiniteScrollObserver();
+  }
+
+  function setupInfiniteScrollObserver() {
+    if (quizBatchObserver) {
+      quizBatchObserver.disconnect();
+      quizBatchObserver = null;
+    }
+    const wrapper = document.getElementById("quizLoadMoreWrapper");
+    if (!wrapper || !("IntersectionObserver" in window)) return;
+
+    quizBatchObserver = new IntersectionObserver((entries) => {
+      if (entries[0] && entries[0].isIntersecting) {
+        quizBatchObserver.disconnect();
+        renderNextQuizBatch();
+      }
+    }, { rootMargin: "300px" });
+
+    quizBatchObserver.observe(wrapper);
   }
 
   function renderQuizCardHTML(quiz, displayNum) {
@@ -825,7 +887,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ${impBadge}
             ${diffBadge}
             ${isCalc ? '<span class="quiz-tag-badge" style="background:rgba(37,99,235,0.12); color:#2563EB;">🧮 계산</span>' : ''}
-            ${quiz.chapter ? `<span class="quiz-subject-badge">${quiz.chapter}</span>` : ""}
+            ${quiz.chapter ? `<span class="quiz-subject-badge">${escapeHTML(quiz.chapter)}</span>` : ""}
           </div>
           <div class="quiz-actions-top">
             ${currentMode === "mock" ? `
@@ -844,7 +906,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
 
         <div class="quiz-options-list">
-          ${(quiz.choices || quiz.options || []).map((choice, cIdx) => {
+          ${(quiz.choices || []).map((choice, cIdx) => {
             let optClass = "quiz-option";
             if (isAnswered) {
               if (currentMode === "mock" && !isMockSubmitted) {
@@ -876,7 +938,7 @@ document.addEventListener("DOMContentLoaded", () => {
               ${escapeHTML(quiz.explanation || "")}
             </div>
 
-            <!-- 3-Step Calculation Template (If calculation question) -->
+            <!-- 3-Step Calculation Template -->
             ${isCalc ? `
               <div class="calc-formula-template">
                 <div class="calc-template-header">
@@ -904,7 +966,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <span>AI 핵심 개념 요약</span>
               </div>
               <div style="font-size: 13px; font-weight: 650; line-height: 1.55;">
-                ${quiz.memorizationPoint || "이 문제는 기출 핵심 개념을 정확히 이해하고 있어야 정답을 고를 수 있는 필수 문항입니다."}
+                ${escapeHTML(quiz.memorizationPoint || "이 문제는 기출 핵심 개념을 정확히 이해하고 있어야 정답을 고를 수 있는 필수 문항입니다.")}
               </div>
             </div>
 
@@ -923,19 +985,13 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             ` : ""}
 
-            <div class="quiz-bottom-actions">
-              <button class="button button-brand ask-ai-btn" data-id="${quiz.id}">
-                🤖 AI 튜터에게 물어보기
-              </button>
-              ${quiz.cardId ? `
+            ${quiz.cardId ? `
+              <div class="quiz-bottom-actions">
                 <button class="btn-small view-concept-btn" data-card="${quiz.cardId}">
                   📖 관련 요약노트 보기 ↗
                 </button>
-              ` : ""}
-              <button class="btn-small add-memo-btn" data-id="${quiz.id}">
-                ✍️ 나만의 메모 (${memo ? '작성됨' : '추가'})
-              </button>
-            </div>
+              </div>
+            ` : ""}
 
             ${memo ? `
               <div style="background: var(--paper); border: 1px dashed var(--line-bold); border-radius: var(--radius-sm); padding: 10px; margin-top: 10px; font-size: 12px; font-weight: 700;">
@@ -948,110 +1004,9 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function attachQuizCardEvents(container) {
-    if (!container) return;
-
-    container.querySelectorAll(".quiz-option").forEach(optBtn => {
-      optBtn.addEventListener("click", () => {
-        const card = optBtn.closest(".quiz-card");
-        if (!card) return;
-        const quizId = card.dataset.id;
-        const choiceIdx = parseInt(optBtn.dataset.choice, 10);
-        const quiz = allQuizzes.find(q => q.id === quizId);
-        if (!quiz) return;
-
-        if (currentMode === "practice") {
-          practiceSolvedMap.set(quizId, choiceIdx);
-          const isCorrect = choiceIdx === quiz.answer;
-          recordQuizAttempt(quiz, isCorrect, choiceIdx);
-          const cardIndex = workingQuizzes.findIndex(q => q.id === quizId);
-          card.outerHTML = renderQuizCardHTML(quiz, cardIndex + 1);
-          attachQuizCardEvents(container);
-        } else if (currentMode === "mock" && !isMockSubmitted) {
-          mockSolvedMap.set(quizId, choiceIdx);
-          updateOmrStatus();
-          card.querySelectorAll(".quiz-option").forEach((b, idx) => {
-            if (idx === choiceIdx) b.classList.add("correct");
-            else b.classList.remove("correct");
-          });
-        }
-      });
-    });
-
-    container.querySelectorAll(".bookmark-star-btn").forEach(star => {
-      star.addEventListener("click", e => {
-        e.stopPropagation();
-        const quizId = star.dataset.id;
-        if (bookmarks.has(quizId)) {
-          bookmarks.delete(quizId);
-          star.classList.remove("bookmarked");
-          star.textContent = "☆";
-        } else {
-          bookmarks.add(quizId);
-          star.classList.add("bookmarked");
-          star.textContent = "★";
-        }
-        saveJSON(BOOKMARK_KEY, [...bookmarks]);
-      });
-    });
-
-    container.querySelectorAll(".flag-btn").forEach(btn => {
-      btn.addEventListener("click", e => {
-        e.stopPropagation();
-        const quizId = btn.dataset.id;
-        if (mockFlaggedSet.has(quizId)) {
-          mockFlaggedSet.delete(quizId);
-          btn.classList.remove("active");
-          btn.textContent = "☆ 검토";
-          btn.style = "";
-        } else {
-          mockFlaggedSet.add(quizId);
-          btn.classList.add("active");
-          btn.textContent = "★ 검토중";
-          btn.style = "background:#FEF3C7; color:#B45309; border-color:#F59E0B;";
-        }
-        updateOmrStatus();
-      });
-    });
-
-    container.querySelectorAll(".ask-ai-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const quizId = btn.dataset.id;
-        const quiz = allQuizzes.find(q => q.id === quizId);
-        if (quiz) openAiTutorModal(quiz);
-      });
-    });
-
-    container.querySelectorAll(".view-concept-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const cardId = btn.dataset.card;
-        openConceptModal(cardId);
-      });
-    });
-
-    container.querySelectorAll(".add-memo-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const quizId = btn.dataset.id;
-        const currentMemo = quizMemos[quizId] || "";
-        const newMemo = prompt("이 문제에 대한 나만의 암기 메모를 입력하세요:", currentMemo);
-        if (newMemo !== null) {
-          quizMemos[quizId] = newMemo.trim();
-          saveJSON(QUIZ_MEMO_KEY, quizMemos);
-          const quiz = allQuizzes.find(q => q.id === quizId);
-          const card = document.getElementById(`quiz-${quizId}`);
-          if (card && quiz) {
-            const cardIndex = workingQuizzes.findIndex(q => q.id === quizId);
-            card.outerHTML = renderQuizCardHTML(quiz, cardIndex + 1);
-            attachQuizCardEvents(container);
-          }
-        }
-      });
-    });
-  }
-
 
   // ==========================================
-  // 10. CBT MOCK EXAM ENGINE
+  // 10. CBT MOCK EXAM ENGINE & OMR IN-PLACE UPDATES
   // ==========================================
   function loadMockPreset(preset) {
     currentPreset = preset;
@@ -1088,9 +1043,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (preset === "random" && mockPresetRandom) mockPresetRandom.classList.add("active");
 
     startExamTimer();
-    renderQuizzes();
+    renderQuizzes(true);
     renderOmrGrid();
-    updateOmrStatus();
+    updateOmrHeaderCounts();
   }
 
   function startExamTimer() {
@@ -1136,39 +1091,29 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     });
     omrGrid.innerHTML = html;
+  }
 
-    omrGrid.querySelectorAll(".omr-circle").forEach(circle => {
-      circle.addEventListener("click", e => {
-        e.stopPropagation();
-        const quizId = circle.dataset.id;
-        const choice = parseInt(circle.dataset.choice, 10);
-        mockSolvedMap.set(quizId, choice);
-        updateOmrStatus();
+  function updateSingleOmrRow(quizId, choiceIdx, isFlagged) {
+    if (!omrGrid) return;
+    const row = omrGrid.querySelector(`.omr-row[data-id="${quizId}"]`);
+    if (!row) return;
+    const hasChoice = typeof choiceIdx === "number";
+    row.classList.toggle("solved", hasChoice);
+    row.classList.toggle("flagged", !!isFlagged);
 
-        const card = document.getElementById(`quiz-${quizId}`);
-        if (card) {
-          card.querySelectorAll(".quiz-option").forEach((b, idx) => {
-            if (idx === choice) b.classList.add("correct");
-            else b.classList.remove("correct");
-          });
-        }
-      });
-    });
+    const label = row.querySelector(".omr-row-label");
+    const idx = row.dataset.idx;
+    if (label && idx) {
+      label.textContent = `${idx}. ${isFlagged ? '★' : ''}`;
+    }
 
-    omrGrid.querySelectorAll(".omr-row").forEach(row => {
-      row.addEventListener("click", e => {
-        if (e.target.classList.contains("omr-circle")) return;
-        const quizId = row.dataset.id;
-        const targetEl = document.getElementById(`quiz-${quizId}`);
-        if (targetEl) {
-          toggleOmr(false);
-          targetEl.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-      });
+    const circles = row.querySelectorAll(".omr-circle");
+    circles.forEach((circle, cIdx) => {
+      circle.classList.toggle("marked", cIdx === choiceIdx);
     });
   }
 
-  function updateOmrStatus() {
+  function updateOmrHeaderCounts() {
     const solvedCount = mockSolvedMap.size;
     const totalCount = mockQuizzes.length;
     const flagCount = mockFlaggedSet.size;
@@ -1176,8 +1121,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (omrSolvedCount) omrSolvedCount.textContent = solvedCount;
     if (omrProgress) omrProgress.textContent = `${solvedCount} / ${totalCount}`;
     if (omrFlagCount) omrFlagCount.textContent = flagCount;
-
-    renderOmrGrid();
   }
 
   function toggleOmr(forceOpen) {
@@ -1188,7 +1131,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (shouldOpen) {
       omrDrawer.classList.remove("hidden");
       omrOverlay.classList.remove("hidden");
-      renderOmrGrid();
     } else {
       omrDrawer.classList.add("hidden");
       omrOverlay.classList.add("hidden");
@@ -1253,7 +1195,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const isPassed = totalScore >= 60 && !hasDisqualification;
 
-    // Record mock record
     if (!mockRecords[currentPreset]) mockRecords[currentPreset] = { bestScore: 0, lastScore: 0, passed: false, solvedCount: 0 };
     mockRecords[currentPreset].lastScore = totalScore;
     mockRecords[currentPreset].bestScore = Math.max(mockRecords[currentPreset].bestScore, totalScore);
@@ -1287,25 +1228,24 @@ document.addEventListener("DOMContentLoaded", () => {
       if (rwBtn) {
         rwBtn.addEventListener("click", () => {
           workingQuizzes = mockQuizzes.filter(q => mockSolvedMap.get(q.id) !== q.answer);
-          renderQuizzes();
+          renderQuizzes(true);
         });
       }
     }
 
-    renderQuizzes();
+    renderQuizzes(true);
     renderReverseRoadmap();
   }
 
 
   // ==========================================
-  // 11. OX SPEED TRAINER ENGINE (선지 OX 벼락치기)
+  // 11. OX SPEED TRAINER ENGINE
   // ==========================================
   function startOxTrainer() {
     oxItems = [];
     allQuizzes.forEach(quiz => {
-      const choices = quiz.choices || quiz.options || [];
+      const choices = quiz.choices || [];
       if (choices.length === 0) return;
-      // Extract answer choice (True)
       if (choices[quiz.answer]) {
         oxItems.push({
           quizId: quiz.id,
@@ -1315,7 +1255,6 @@ document.addEventListener("DOMContentLoaded", () => {
           desc: `✓ 옳은 설명입니다. (${(quiz.explanation || "").substring(0, 90)}...)`
         });
       }
-      // Extract a wrong choice (False)
       choices.forEach((choice, idx) => {
         if (idx !== quiz.answer) {
           const reason = quiz.whyWrong && quiz.whyWrong[idx] ? quiz.whyWrong[idx] : "오답 선지입니다.";
@@ -1379,18 +1318,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ==========================================
-  // 12. FINAL CHEAT SHEET ENGINE (단권화 치트시트)
+  // 12. FINAL CHEAT SHEET ENGINE
   // ==========================================
   function openCheatSheetModal() {
     if (!cheatSheetContent || !cheatSheetModal) return;
 
-    // Gather repeat wrong traps
     const repeatWrong = allQuizzes.filter(q => {
       const stat = cumulativeStats.quizzes[q.id];
       return stat && stat.wrongCount >= 2;
     });
 
-    // Gather bookmarks
     const bookmarkedQuizzes = allQuizzes.filter(q => bookmarks.has(q.id));
 
     let html = `
@@ -1399,7 +1336,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ${repeatWrong.length === 0 ? '<p style="color:var(--text-muted); font-size:13px;">아직 2회 이상 틀린 오답 문항이 없습니다. 기출을 풀며 약점을 기록하세요!</p>' : `
           <div>
             ${repeatWrong.slice(0, 15).map(q => {
-              const qChoices = q.choices || q.options || [];
+              const qChoices = q.choices || [];
               return `
                 <div class="trap-highlight-item">
                   <strong>[${SUBJECT_NAMES[q.subject]}] ${escapeHTML(q.question)}</strong><br />
@@ -1438,7 +1375,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ${bookmarkedQuizzes.length === 0 ? '<p style="color:var(--text-muted); font-size:13px;">북마크한 문항이 없습니다. 중요 문제에 별표(★)를 눌러 추가하세요!</p>' : `
           <div>
             ${bookmarkedQuizzes.slice(0, 10).map(q => {
-              const qChoices = q.choices || q.options || [];
+              const qChoices = q.choices || [];
               return `
                 <div style="background:var(--surface); border:1px solid var(--line); border-radius:6px; padding:10px; margin-bottom:8px; font-size:13px;">
                   <strong>${escapeHTML(q.question)}</strong><br />
@@ -1502,8 +1439,6 @@ document.addEventListener("DOMContentLoaded", () => {
           </button>
         </div>
       `;
-      const btn = wrongListContainer.querySelector("button");
-      if (btn) btn.addEventListener("click", () => switchNav("practice"));
       return;
     }
 
@@ -1534,7 +1469,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
 
           <div class="quiz-options-list">
-            ${(quiz.choices || quiz.options || []).map((choice, cIdx) => `
+            ${(quiz.choices || []).map((choice, cIdx) => `
               <button class="quiz-option wrong-retry-option" data-choice="${cIdx}">
                 <span class="option-num">${cIdx + 1}</span>
                 <span>${escapeHTML(choice)}</span>
@@ -1550,23 +1485,17 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="ai-concept-card">
               <div class="ai-card-title"><span>⚡</span> <span>핵심 탈출 암기 포인트</span></div>
               <div style="font-size: 13px; font-weight: 700;">
-                ${quiz.memorizationPoint || "이 문제는 기출 변형 핵심 유형입니다."}
+                ${escapeHTML(quiz.memorizationPoint || "이 문제는 기출 변형 핵심 유형입니다.")}
               </div>
             </div>
 
-            <div class="quiz-bottom-actions">
-              <button class="button button-brand ask-ai-btn" data-id="${quiz.id}">
-                🤖 AI 튜터에게 질문
-              </button>
-              ${quiz.cardId ? `
+            ${quiz.cardId ? `
+              <div class="quiz-bottom-actions">
                 <button class="btn-small view-concept-btn" data-card="${quiz.cardId}">
                   📖 요약노트 보기 ↗
                 </button>
-              ` : ""}
-              <button class="btn-small add-memo-btn" data-id="${quiz.id}">
-                ✍️ 메모 (${memo ? '수정' : '작성'})
-              </button>
-            </div>
+              </div>
+            ` : ""}
 
             ${memo ? `
               <div style="background: var(--paper); border: 1px dashed var(--line-bold); border-radius: var(--radius-sm); padding: 10px; margin-top: 10px; font-size: 12px; font-weight: 700;">
@@ -1579,144 +1508,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     wrongListContainer.innerHTML = html;
-    attachWrongCardEvents();
-  }
-
-  function attachWrongCardEvents() {
-    if (!wrongListContainer) return;
-
-    wrongListContainer.querySelectorAll(".wrong-retry-option").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const card = btn.closest(".quiz-card");
-        if (!card) return;
-        const quizId = card.dataset.id;
-        const choiceIdx = parseInt(btn.dataset.choice, 10);
-        const quiz = allQuizzes.find(q => q.id === quizId);
-        if (!quiz) return;
-
-        const isCorrect = choiceIdx === quiz.answer;
-        recordQuizAttempt(quiz, isCorrect, choiceIdx);
-
-        if (isCorrect) {
-          btn.classList.add("correct");
-          card.querySelectorAll(".quiz-option").forEach(b => b.disabled = true);
-          alert("🎉 정답입니다! '오답 탈출(마스터 완료)' 성공!");
-          renderWrongNotesView("all");
-        } else {
-          btn.classList.add("incorrect");
-        }
-      });
-    });
-
-    wrongListContainer.querySelectorAll(".bookmark-star-btn").forEach(star => {
-      star.addEventListener("click", () => {
-        const quizId = star.dataset.id;
-        if (bookmarks.has(quizId)) bookmarks.delete(quizId);
-        else bookmarks.add(quizId);
-        saveJSON(BOOKMARK_KEY, [...bookmarks]);
-        renderWrongNotesView("all");
-      });
-    });
-
-    wrongListContainer.querySelectorAll(".ask-ai-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const quizId = btn.dataset.id;
-        const quiz = allQuizzes.find(q => q.id === quizId);
-        if (quiz) openAiTutorModal(quiz);
-      });
-    });
-
-    wrongListContainer.querySelectorAll(".view-concept-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const cardId = btn.dataset.card;
-        openConceptModal(cardId);
-      });
-    });
-
-    wrongListContainer.querySelectorAll(".add-memo-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const quizId = btn.dataset.id;
-        const currentMemo = quizMemos[quizId] || "";
-        const newMemo = prompt("이 문제에 대한 나만의 암기 메모를 입력하세요:", currentMemo);
-        if (newMemo !== null) {
-          quizMemos[quizId] = newMemo.trim();
-          saveJSON(QUIZ_MEMO_KEY, quizMemos);
-          renderWrongNotesView("all");
-        }
-      });
-    });
   }
 
 
   // ==========================================
-  // 14. AI TUTOR ENGINE
-  // ==========================================
-  function openAiTutorModal(quiz) {
-    activeAiQuiz = quiz;
-    if (!aiTutorModal) return;
-
-    if (aiTutorQuestionSummary) {
-      aiTutorQuestionSummary.innerHTML = `
-        <div style="font-weight: 850; margin-bottom: 4px; color: var(--primary-accent);">
-          [${SUBJECT_NAMES[quiz.subject] || "과목"}] ${quiz.chapter || ""}
-        </div>
-        <div>${escapeHTML(quiz.question)}</div>
-      `;
-    }
-
-    if (aiTutorBubbleContent) {
-      aiTutorBubbleContent.innerHTML = `
-        안녕하세요! <strong>'${quiz.chapter || "이 문제"}'</strong>의 핵심 개념이나 헷갈리는 점에 대해 알려드릴게요.<br />
-        위 원클릭 질문 버튼을 누르시면 즉시 가장 명쾌하게 설명해 드립니다!
-      `;
-    }
-
-    aiTutorModal.classList.remove("hidden");
-  }
-
-  function handleAiTutorPrompt(promptType) {
-    if (!activeAiQuiz || !aiTutorBubbleContent) return;
-    const q = activeAiQuiz;
-
-    let response = "";
-    if (promptType === "analogy") {
-      response = `
-        🐣 <strong>초보자 맞춤 직관적 비유 설명:</strong><br /><br />
-        • <strong>핵심 원리</strong>: ${q.chapter || "이 개념"}은 실생활에서 <em>'요리 전 재료 손질'</em>이나 <em>'정리 정돈'</em>과 같습니다.<br />
-        • <strong>쉽게 이해하기</strong>: ${q.memorizationPoint || q.explanation}<br />
-        • <strong>결론</strong>: 데이터 분석에서도 원본 그대로 사용하기보다 기준에 맞춰 변환하는 것이 필수적입니다!
-      `;
-    } else if (promptType === "trap") {
-      response = `
-        ⚠️ <strong>수험생들이 가장 많이 낚이는 오답 함정(Trap):</strong><br /><br />
-        • <strong>출제자의 의도</strong>: 용어가 비슷하거나 앞뒤 순서가 바뀐 보기를 배치하여 헷갈리게 유도합니다.<br />
-        • <strong>오답 포인트</strong>:<br />
-        ${(q.whyWrong || []).map((why, idx) => {
-          if (idx === q.answer) return "";
-          return `&nbsp;&nbsp;❌ <strong>${idx + 1}번 보기</strong>: ${why}<br />`;
-        }).join("")}
-        • <strong>정답</strong>: 정확히 <strong>${q.answer + 1}번 보기</strong>가 개념의 정의와 일치합니다!
-      `;
-    } else if (promptType === "mnemonic") {
-      response = `
-        🧠 <strong>1초 합격 암기 비법 & 공식:</strong><br /><br />
-        • <strong>핵심 키워드 묶음</strong>: ${q.memorizationPoint || q.explanation.substring(0, 80)}<br />
-        • <strong>암기 팁</strong>: 앞 글자만 따서 기억하거나, 반대되는 개념과 1:1 대조하여 외우면 시험장에서 1초 만에 풀 수 있습니다!
-      `;
-    } else if (promptType === "exam") {
-      response = `
-        🎯 <strong>실제 시험 변형 출제 포인트:</strong><br /><br />
-        • 이 문제는 <strong>'${SUBJECT_NAMES[q.subject]}'</strong>에서 매 회차 1~2문제씩 단골 출제되는 A급 핵심 유형입니다.<br />
-        • 다음 시험에서는 보기를 '옳은 것' ↔ '옳지 않은 것'으로 바꾸거나 수치/특징 비교 문제로 변형되어 나올 가능성이 매우 높습니다!
-      `;
-    }
-
-    aiTutorBubbleContent.innerHTML = response;
-  }
-
-
-  // ==========================================
-  // 15. CONCEPT NOTES & SEARCH ENGINE
+  // 14. CONCEPT NOTES & SEARCH ENGINE
   // ==========================================
   async function loadDataAndInit() {
     try {
@@ -1731,6 +1527,7 @@ document.addEventListener("DOMContentLoaded", () => {
       buildMaps();
       renderNav();
       renderContent();
+      buildNotesSearchIndex();
       updateHabitUI();
 
     } catch (err) {
@@ -1750,9 +1547,6 @@ document.addEventListener("DOMContentLoaded", () => {
       noteData.sections.forEach(sec => {
         if (sec.cards) {
           sec.cards.forEach(card => {
-            if (!card.content && card.blocks) {
-              card.content = renderCardBlocks(card.blocks, card.title);
-            }
             cardMap.set(card.id, card);
           });
         }
@@ -1783,7 +1577,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <div style="display: flex; flex-direction: column; gap: 2px;">
             ${(group.items || []).map(item => `
-              <a href="#${item.id}" class="nav-link" style="display: block; padding: 7px 10px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 750; color: var(--text-color); transition: all var(--transition);">
+              <a href="#${item.id}" class="nav-link" style="display: block; padding: 7px 10px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 750; color: var(--text-color);">
                 ${escapeHTML(item.label)}
               </a>
             `).join("")}
@@ -1793,20 +1587,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     navContainer.innerHTML = html;
-
-    navContainer.querySelectorAll(".nav-link").forEach(link => {
-      link.addEventListener("click", e => {
-        e.preventDefault();
-        const targetId = link.getAttribute("href").substring(1);
-        switchNav("notes");
-        const targetEl = document.getElementById(targetId);
-        if (targetEl) targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
-        if (window.innerWidth <= 900) {
-          if (sidebar) sidebar.classList.remove("active");
-          if (overlay) overlay.classList.remove("active");
-        }
-      });
-    });
   }
 
   function renderContent() {
@@ -1828,14 +1608,55 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     contentEl.innerHTML = html;
-    attachNoteCardEvents();
     updateNoteProgress();
+  }
+
+  function buildNotesSearchIndex() {
+    notesSearchIndex = [];
+    if (!contentEl) return;
+    const cards = contentEl.querySelectorAll(".card");
+    cards.forEach(card => {
+      const title = (card.querySelector(".card-title")?.textContent || "").toLowerCase();
+      const body = (card.querySelector(".card-body")?.textContent || "").toLowerCase();
+      notesSearchIndex.push({
+        cardEl: card,
+        text: `${title} ${body}`
+      });
+    });
+  }
+
+  function handleNotesSearch(query) {
+    const kw = (query || "").trim().toLowerCase();
+    if (clearSearchBtn) {
+      if (kw) clearSearchBtn.classList.remove("hidden");
+      else clearSearchBtn.classList.add("hidden");
+    }
+
+    if (notesSearchIndex.length === 0) {
+      buildNotesSearchIndex();
+    }
+
+    let matchCount = 0;
+    notesSearchIndex.forEach(item => {
+      const isMatch = !kw || item.text.includes(kw);
+      item.cardEl.style.display = isMatch ? "" : "none";
+      if (isMatch) matchCount++;
+    });
+
+    if (searchStatusEl) {
+      if (kw) {
+        searchStatusEl.textContent = `검색 결과: ${matchCount}개 개념 발견`;
+        searchStatusEl.classList.remove("hidden");
+      } else {
+        searchStatusEl.classList.add("hidden");
+      }
+    }
   }
 
   function renderNoteCardHTML(card) {
     const isLearned = learnedConcepts.has(card.id);
     const relatedQuizzes = cardToQuizMap.get(card.id) || [];
-    const cardContent = card.content || renderCardBlocks(card.blocks, card.title);
+    const cardContent = card.content || "";
 
     return `
       <div class="card" id="card-${card.id}" data-id="${card.id}">
@@ -1861,36 +1682,6 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  function attachNoteCardEvents() {
-    if (!contentEl) return;
-
-    contentEl.querySelectorAll(".learn-check-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const cardId = btn.dataset.id;
-        if (learnedConcepts.has(cardId)) {
-          learnedConcepts.delete(cardId);
-          btn.classList.remove("learned");
-          btn.textContent = "";
-          btn.style.background = "var(--surface)";
-        } else {
-          learnedConcepts.add(cardId);
-          btn.classList.add("learned");
-          btn.textContent = "✓";
-          btn.style.background = "var(--brand)";
-        }
-        saveJSON(LEARNED_KEY, [...learnedConcepts]);
-        updateNoteProgress();
-      });
-    });
-
-    contentEl.querySelectorAll(".practice-card-quizzes-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        const cardId = btn.dataset.id;
-        switchNav("practice", { cardId });
-      });
-    });
-  }
-
   function updateNoteProgress() {
     if (!noteData || !noteData.sections) return;
     let totalCards = 0;
@@ -1909,10 +1700,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const card = cardMap.get(cardId);
     if (!card || !conceptModal) return;
 
-    const cardContent = card.content || renderCardBlocks(card.blocks, card.title);
-
     if (conceptModalTitle) conceptModalTitle.textContent = card.title;
-    if (conceptModalBodyNote) conceptModalBodyNote.innerHTML = cardContent || "";
+    if (conceptModalBodyNote) conceptModalBodyNote.innerHTML = card.content || "";
 
     const related = cardToQuizMap.get(cardId) || [];
     if (conceptRelatedCount) conceptRelatedCount.textContent = related.length;
@@ -1922,7 +1711,7 @@ document.addEventListener("DOMContentLoaded", () => {
         conceptModalBodyQuiz.innerHTML = "<p style='padding: 20px; color: var(--text-muted);'>관련 기출문제가 없습니다.</p>";
       } else {
         conceptModalBodyQuiz.innerHTML = related.map((q, idx) => {
-          const qChoices = q.choices || q.options || [];
+          const qChoices = q.choices || [];
           return `
             <div style="background: var(--paper-subtle); border-radius: var(--radius-md); padding: 14px; margin-bottom: 12px;">
               <div style="font-weight: 850; margin-bottom: 6px;">${formatQuestionText(q.question, idx + 1)}</div>
@@ -1969,46 +1758,12 @@ document.addEventListener("DOMContentLoaded", () => {
     conceptModal.classList.remove("hidden");
   }
 
-  function openStatsModal() {
-    if (!statsModal) return;
-
-    if (statTotalSolved) statTotalSolved.textContent = cumulativeStats.totalSolved;
-    const acc = cumulativeStats.totalSolved > 0 ? Math.round((cumulativeStats.totalCorrect / cumulativeStats.totalSolved) * 100) : 0;
-    if (statOverallAccuracy) statOverallAccuracy.textContent = `${acc}%`;
-    if (statBookmarks) statBookmarks.textContent = bookmarks.size;
-
-    if (subjectStatsContainer) {
-      let html = "";
-      for (let s = 1; s <= 4; s++) {
-        const stat = cumulativeStats.subjects[s] || { solved: 0, correct: 0 };
-        const rate = stat.solved > 0 ? Math.round((stat.correct / stat.solved) * 100) : 0;
-        const isDanger = stat.solved >= 5 && rate < 40;
-
-        html += `
-          <div style="background: var(--paper-subtle); border-radius: var(--radius-md); padding: 14px; margin-bottom: 10px;">
-            <div style="display: flex; justify-content: space-between; font-weight: 850; margin-bottom: 6px;">
-              <span>${SUBJECT_NAMES[s]}</span>
-              <span style="color: ${isDanger ? 'var(--danger)' : 'var(--text-color)'};">
-                ${rate}% (${stat.correct}/${stat.solved} 문항) ${isDanger ? '⚠️ 과락 위험' : ''}
-              </span>
-            </div>
-            <div style="height: 8px; background: var(--surface); border-radius: var(--radius-pill); overflow: hidden;">
-              <div style="width: ${rate}%; height: 100%; background: ${isDanger ? 'var(--danger)' : 'var(--success)'}; border-radius: var(--radius-pill);"></div>
-            </div>
-          </div>
-        `;
-      }
-      subjectStatsContainer.innerHTML = html;
-    }
-
-    statsModal.classList.remove("hidden");
-  }
-
 
   // ==========================================
-  // 16. EVENT LISTENERS SETUP
+  // 15. EVENT DELEGATION & GLOBAL LISTENERS
   // ==========================================
   function setupEventListeners() {
+    // Navigation Tabs
     mainNavButtons.forEach(btn => {
       btn.addEventListener("click", () => {
         const nav = btn.dataset.nav;
@@ -2024,6 +1779,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
+    // Mobile Sidebar
     if (menuBtn) {
       menuBtn.addEventListener("click", () => {
         if (sidebar) sidebar.classList.add("active");
@@ -2043,7 +1799,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Theme switcher listeners (Desktop, Mobile, Tablet)
+    // Theme Switcher
     const themeTriggers = document.querySelectorAll("#themeToggleBtn, #sidebarThemeToggleBtn, .sidebar-theme-toggle");
     themeTriggers.forEach(btn => {
       btn.addEventListener("click", toggleTheme);
@@ -2052,25 +1808,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const initTheme = document.documentElement.getAttribute("data-theme") || localStorage.getItem("theme") || "light";
     updateThemeUI(initTheme);
 
-    if (focusToggleBtn) {
-      focusToggleBtn.addEventListener("click", () => {
-        document.body.classList.toggle("focus-mode");
-      });
-    }
-
+    // Scroll to top
     window.addEventListener("scroll", () => {
       if (toTopBtn) {
         if (window.scrollY > 300) toTopBtn.classList.add("visible");
         else toTopBtn.classList.remove("visible");
       }
-    });
+    }, { passive: true });
+
     if (toTopBtn) {
       toTopBtn.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
     }
 
-    // 5 Major Feature Triggers
+    // Quick Triggers
     if (quickAgradePassBtn) {
       quickAgradePassBtn.addEventListener("click", () => {
         switchNav("practice");
@@ -2098,7 +1850,7 @@ document.addEventListener("DOMContentLoaded", () => {
         quizFilter.calcOnly = false;
         if (importanceFilter) importanceFilter.value = "A";
         applyQuizFilter();
-        renderQuizzes();
+        renderQuizzes(true);
       });
     }
 
@@ -2107,16 +1859,8 @@ document.addEventListener("DOMContentLoaded", () => {
         quizFilter.calcOnly = true;
         quizFilter.importance = "all";
         applyQuizFilter();
-        renderQuizzes();
+        renderQuizzes(true);
       });
-    }
-
-    if (btnOxTrainer) {
-      btnOxTrainer.addEventListener("click", startOxTrainer);
-    }
-
-    if (btnCheatSheet) {
-      btnCheatSheet.addEventListener("click", openCheatSheetModal);
     }
 
     if (resumeActionBtn) {
@@ -2133,12 +1877,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (closeOxModalBtn && oxTrainerModal) {
       closeOxModalBtn.addEventListener("click", () => oxTrainerModal.classList.add("hidden"));
     }
-    if (oxBtnTrue) {
-      oxBtnTrue.addEventListener("click", () => handleOxAnswer(true));
-    }
-    if (oxBtnFalse) {
-      oxBtnFalse.addEventListener("click", () => handleOxAnswer(false));
-    }
+    if (oxBtnTrue) oxBtnTrue.addEventListener("click", () => handleOxAnswer(true));
+    if (oxBtnFalse) oxBtnFalse.addEventListener("click", () => handleOxAnswer(false));
     if (oxNextBtn) {
       oxNextBtn.addEventListener("click", () => {
         oxCurrentIdx++;
@@ -2146,7 +1886,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Final Cheat Sheet Modal Events
+    // Cheat Sheet Modal Events
     if (closeCheatSheetBtn && cheatSheetModal) {
       closeCheatSheetBtn.addEventListener("click", () => cheatSheetModal.classList.add("hidden"));
     }
@@ -2182,41 +1922,41 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Filters
+    // Quiz Filters
     if (subjectFilter) {
       subjectFilter.addEventListener("change", e => {
         quizFilter.subject = e.target.value;
         quizFilter.conceptCardId = null;
         applyQuizFilter();
-        renderQuizzes();
+        renderQuizzes(true);
       });
     }
     if (difficultyFilter) {
       difficultyFilter.addEventListener("change", e => {
         quizFilter.difficulty = e.target.value;
         applyQuizFilter();
-        renderQuizzes();
+        renderQuizzes(true);
       });
     }
     if (importanceFilter) {
       importanceFilter.addEventListener("change", e => {
         quizFilter.importance = e.target.value;
         applyQuizFilter();
-        renderQuizzes();
+        renderQuizzes(true);
       });
     }
     if (tagFilter) {
       tagFilter.addEventListener("change", e => {
         quizFilter.tag = e.target.value;
         applyQuizFilter();
-        renderQuizzes();
+        renderQuizzes(true);
       });
     }
     if (searchQuizBtn) {
       searchQuizBtn.addEventListener("click", () => {
         if (keywordSearch) quizFilter.keyword = keywordSearch.value.trim();
         applyQuizFilter();
-        renderQuizzes();
+        renderQuizzes(true);
       });
     }
     if (keywordSearch) {
@@ -2224,45 +1964,19 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.key === "Enter") {
           quizFilter.keyword = keywordSearch.value.trim();
           applyQuizFilter();
-          renderQuizzes();
+          renderQuizzes(true);
         }
       });
     }
 
-    if (smartWeaknessBtn) {
-      smartWeaknessBtn.addEventListener("click", () => {
-        const wrongIds = Object.keys(cumulativeStats.quizzes || {}).filter(id => {
-          const q = cumulativeStats.quizzes[id];
-          return q.wrongCount > 0 && !q.mastered;
-        });
-        let target = allQuizzes.filter(q => wrongIds.includes(q.id));
-        if (target.length < 20) {
-          const remain = allQuizzes.filter(q => !wrongIds.includes(q.id)).sort(() => Math.random() - 0.5);
-          target = target.concat(remain.slice(0, 20 - target.length));
-        }
-        workingQuizzes = target.slice(0, 20);
-        renderQuizzes();
-      });
-    }
-
-    if (wrongOnlyQuizBtn) {
-      wrongOnlyQuizBtn.addEventListener("click", () => {
-        const wrongIds = Object.keys(cumulativeStats.quizzes || {}).filter(id => {
-          const q = cumulativeStats.quizzes[id];
-          return q.wrongCount > 0 && !q.mastered;
-        });
-        workingQuizzes = allQuizzes.filter(q => wrongIds.includes(q.id));
-        renderQuizzes();
-      });
-    }
-
+    // Practice Quick Filters
     if (target13thQuizBtn) {
       target13thQuizBtn.addEventListener("click", () => {
         workingQuizzes = allQuizzes.filter(q => {
           const text = (q.question + " " + q.chapter).toLowerCase();
           return TARGET_13TH_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
         }).sort(() => Math.random() - 0.5).slice(0, 20);
-        renderQuizzes();
+        renderQuizzes(true);
       });
     }
 
@@ -2272,10 +1986,11 @@ document.addEventListener("DOMContentLoaded", () => {
           const text = (q.question + " " + q.chapter).toLowerCase();
           return TERM_STAT_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
         }).sort(() => Math.random() - 0.5).slice(0, 20);
-        renderQuizzes();
+        renderQuizzes(true);
       });
     }
 
+    // Tabs
     if (tabPractice) tabPractice.addEventListener("click", () => switchNav("practice"));
     if (tabMockExam) tabMockExam.addEventListener("click", () => switchNav("mock"));
 
@@ -2289,37 +2004,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (omrOverlay) omrOverlay.addEventListener("click", () => toggleOmr(false));
     if (submitExamBtn) submitExamBtn.addEventListener("click", submitMockExam);
     if (omrSubmitBtn) omrSubmitBtn.addEventListener("click", submitMockExam);
-
-    document.querySelectorAll(".ai-prompt-chip").forEach(chip => {
-      chip.addEventListener("click", () => {
-        const pType = chip.dataset.prompt;
-        handleAiTutorPrompt(pType);
-      });
-    });
-
-    if (closeAiTutorBtn && aiTutorModal) {
-      closeAiTutorBtn.addEventListener("click", () => aiTutorModal.classList.add("hidden"));
-    }
-    if (closeAiTutorModalBtn && aiTutorModal) {
-      closeAiTutorModalBtn.addEventListener("click", () => aiTutorModal.classList.add("hidden"));
-    }
-
-    if (closeStatsBtn && statsModal) {
-      closeStatsBtn.addEventListener("click", () => statsModal.classList.add("hidden"));
-    }
-    if (closeStatsModalBtn && statsModal) {
-      closeStatsModalBtn.addEventListener("click", () => statsModal.classList.add("hidden"));
-    }
-    if (resetStatsBtn) {
-      resetStatsBtn.addEventListener("click", () => {
-        if (confirm("정말 모든 학습 기록과 성적 통계를 초기화하시겠습니까?")) {
-          localStorage.removeItem(STATS_KEY);
-          cumulativeStats = loadStats();
-          openStatsModal();
-          updateHabitUI();
-        }
-      });
-    }
 
     if (closeConceptBtn && conceptModal) {
       closeConceptBtn.addEventListener("click", () => conceptModal.classList.add("hidden"));
@@ -2344,24 +2028,35 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         workingQuizzes = allQuizzes.filter(q => wrongIds.includes(q.id));
         switchNav("practice");
-        renderQuizzes();
+        renderQuizzes(true);
       });
     }
 
-    if (clearMasteredBtn) {
-      clearMasteredBtn.addEventListener("click", () => {
-        alert("마스터 완료된 오답 문항이 깔끔하게 정리되었습니다!");
-        renderWrongNotesView("all");
+    // Unified Modal Overlay Backdrop Click-to-Close
+    document.querySelectorAll(".modal-overlay").forEach(overlayEl => {
+      overlayEl.addEventListener("click", e => {
+        if (e.target === overlayEl) {
+          overlayEl.classList.add("hidden");
+        }
       });
-    }
+    });
 
+    // Keyboard Shortcuts (Ctrl+K, Esc, OX shortcuts)
     window.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        document.querySelectorAll(".modal-overlay").forEach(m => m.classList.add("hidden"));
+        if (omrDrawer) omrDrawer.classList.add("hidden");
+        if (omrOverlay) omrOverlay.classList.add("hidden");
+        if (sidebar && window.innerWidth <= 900) {
+          sidebar.classList.remove("active");
+          if (overlay) overlay.classList.remove("active");
+        }
+      }
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         switchNav("notes");
         if (searchInput) searchInput.focus();
       }
-      // OX Keyboard shortcuts
       if (oxTrainerModal && !oxTrainerModal.classList.contains("hidden")) {
         if (e.key.toLowerCase() === "o" || e.key === "ArrowLeft") {
           if (!oxBtnTrue.disabled) handleOxAnswer(true);
@@ -2376,31 +2071,299 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    // Notes Search with Debounce
+    const debouncedNotesSearch = debounce((val) => handleNotesSearch(val), 120);
     if (searchInput) {
       searchInput.addEventListener("input", e => {
-        const kw = e.target.value.trim().toLowerCase();
-        if (clearSearchBtn) {
-          if (kw) clearSearchBtn.classList.remove("hidden");
-          else clearSearchBtn.classList.add("hidden");
-        }
-        if (!contentEl) return;
-
-        contentEl.querySelectorAll(".card").forEach(card => {
-          const text = card.textContent.toLowerCase();
-          if (!kw || text.includes(kw)) card.style.display = "block";
-          else card.style.display = "none";
-        });
+        debouncedNotesSearch(e.target.value);
       });
     }
     if (clearSearchBtn && searchInput) {
       clearSearchBtn.addEventListener("click", () => {
         searchInput.value = "";
-        clearSearchBtn.classList.add("hidden");
-        if (contentEl) {
-          contentEl.querySelectorAll(".card").forEach(c => c.style.display = "block");
-        }
+        handleNotesSearch("");
       });
     }
+
+    // Set up Global Delegations
+    setupQuizContainerDelegation();
+    setupWrongContainerDelegation();
+    setupOmrGridDelegation();
+    setupContentDelegation();
+    setupNavDelegation();
+    setupTimelineDelegation();
+  }
+
+  // --- DELEGATION 1: Quiz Container ---
+  function setupQuizContainerDelegation() {
+    if (!quizContainer) return;
+    quizContainer.addEventListener("click", e => {
+      // 1. Reset filter button
+      const resetBtn = e.target.closest("#resetFilterBtn");
+      if (resetBtn) {
+        quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: false };
+        if (subjectFilter) subjectFilter.value = "all";
+        if (difficultyFilter) difficultyFilter.value = "all";
+        if (importanceFilter) importanceFilter.value = "all";
+        if (tagFilter) tagFilter.value = "all";
+        if (keywordSearch) keywordSearch.value = "";
+        applyQuizFilter();
+        renderQuizzes(true);
+        return;
+      }
+
+      // 2. Shuffle button
+      const shuffleBtn = e.target.closest("#shuffleQuizBtn");
+      if (shuffleBtn) {
+        workingQuizzes.sort(() => Math.random() - 0.5);
+        renderQuizzes(true);
+        return;
+      }
+
+      // 3. Load More button
+      const loadMoreBtn = e.target.closest("#loadMoreQuizzesBtn");
+      if (loadMoreBtn) {
+        renderNextQuizBatch();
+        return;
+      }
+
+      // 4. Bookmark star button
+      const bookmarkBtn = e.target.closest(".bookmark-star-btn");
+      if (bookmarkBtn) {
+        e.stopPropagation();
+        const quizId = bookmarkBtn.dataset.id;
+        if (!quizId) return;
+        if (bookmarks.has(quizId)) {
+          bookmarks.delete(quizId);
+          bookmarkBtn.classList.remove("bookmarked");
+          bookmarkBtn.textContent = "☆";
+        } else {
+          bookmarks.add(quizId);
+          bookmarkBtn.classList.add("bookmarked");
+          bookmarkBtn.textContent = "★";
+        }
+        saveJSON(BOOKMARK_KEY, [...bookmarks]);
+        return;
+      }
+
+      // 5. Flag button (CBT Mock)
+      const flagBtn = e.target.closest(".flag-btn");
+      if (flagBtn) {
+        e.stopPropagation();
+        const quizId = flagBtn.dataset.id;
+        if (!quizId) return;
+        if (mockFlaggedSet.has(quizId)) {
+          mockFlaggedSet.delete(quizId);
+          flagBtn.classList.remove("active");
+          flagBtn.textContent = "☆ 검토";
+          flagBtn.style.cssText = "";
+        } else {
+          mockFlaggedSet.add(quizId);
+          flagBtn.classList.add("active");
+          flagBtn.textContent = "★ 검토중";
+          flagBtn.style.cssText = "background:#FEF3C7; color:#B45309; border-color:#F59E0B;";
+        }
+        updateSingleOmrRow(quizId, mockSolvedMap.get(quizId), mockFlaggedSet.has(quizId));
+        updateOmrHeaderCounts();
+        return;
+      }
+
+      // 6. Option button click
+      const optBtn = e.target.closest(".quiz-option");
+      if (optBtn && !optBtn.disabled) {
+        const card = optBtn.closest(".quiz-card");
+        if (!card) return;
+        const quizId = card.dataset.id;
+        const choiceIdx = parseInt(optBtn.dataset.choice, 10);
+        const quiz = allQuizzes.find(q => q.id === quizId);
+        if (!quiz) return;
+
+        if (currentMode === "practice") {
+          practiceSolvedMap.set(quizId, choiceIdx);
+          const isCorrect = choiceIdx === quiz.answer;
+          recordQuizAttempt(quiz, isCorrect, choiceIdx);
+          const cardIndex = workingQuizzes.findIndex(q => q.id === quizId);
+          card.outerHTML = renderQuizCardHTML(quiz, cardIndex + 1);
+        } else if (currentMode === "mock" && !isMockSubmitted) {
+          mockSolvedMap.set(quizId, choiceIdx);
+          card.querySelectorAll(".quiz-option").forEach((b, idx) => {
+            if (idx === choiceIdx) b.classList.add("correct");
+            else b.classList.remove("correct");
+          });
+          updateSingleOmrRow(quizId, choiceIdx, mockFlaggedSet.has(quizId));
+          updateOmrHeaderCounts();
+        }
+        return;
+      }
+
+      // 7. View Concept button
+      const conceptBtn = e.target.closest(".view-concept-btn");
+      if (conceptBtn) {
+        const cardId = conceptBtn.dataset.card;
+        if (cardId) openConceptModal(cardId);
+        return;
+      }
+    });
+  }
+
+  // --- DELEGATION 2: Wrong Notes Container ---
+  function setupWrongContainerDelegation() {
+    if (!wrongListContainer) return;
+    wrongListContainer.addEventListener("click", e => {
+      // 1. Retry option click
+      const optBtn = e.target.closest(".wrong-retry-option");
+      if (optBtn) {
+        const card = optBtn.closest(".quiz-card");
+        if (!card) return;
+        const quizId = card.dataset.id;
+        const choiceIdx = parseInt(optBtn.dataset.choice, 10);
+        const quiz = allQuizzes.find(q => q.id === quizId);
+        if (!quiz) return;
+
+        const isCorrect = choiceIdx === quiz.answer;
+        recordQuizAttempt(quiz, isCorrect, choiceIdx);
+
+        if (isCorrect) {
+          optBtn.classList.add("correct");
+          card.querySelectorAll(".quiz-option").forEach(b => b.disabled = true);
+          alert("🎉 정답입니다! '오답 탈출(마스터 완료)' 성공!");
+          renderWrongNotesView("all");
+        } else {
+          optBtn.classList.add("incorrect");
+        }
+        return;
+      }
+
+      // 2. Bookmark star
+      const star = e.target.closest(".bookmark-star-btn");
+      if (star) {
+        const quizId = star.dataset.id;
+        if (!quizId) return;
+        if (bookmarks.has(quizId)) bookmarks.delete(quizId);
+        else bookmarks.add(quizId);
+        saveJSON(BOOKMARK_KEY, [...bookmarks]);
+        renderWrongNotesView("all");
+        return;
+      }
+
+      // 3. View Concept
+      const conceptBtn = e.target.closest(".view-concept-btn");
+      if (conceptBtn) {
+        const cardId = conceptBtn.dataset.card;
+        if (cardId) openConceptModal(cardId);
+        return;
+      }
+
+      // 4. Navigation button
+      const navBtn = e.target.closest("[data-nav]");
+      if (navBtn) {
+        const targetNav = navBtn.dataset.nav;
+        if (targetNav) switchNav(targetNav);
+        return;
+      }
+    });
+  }
+
+  // --- DELEGATION 3: OMR Grid ---
+  function setupOmrGridDelegation() {
+    if (!omrGrid) return;
+    omrGrid.addEventListener("click", e => {
+      const circle = e.target.closest(".omr-circle");
+      if (circle && !isMockSubmitted) {
+        e.stopPropagation();
+        const quizId = circle.dataset.id;
+        const choice = parseInt(circle.dataset.choice, 10);
+        mockSolvedMap.set(quizId, choice);
+
+        updateSingleOmrRow(quizId, choice, mockFlaggedSet.has(quizId));
+        updateOmrHeaderCounts();
+
+        const card = document.getElementById(`quiz-${quizId}`);
+        if (card) {
+          card.querySelectorAll(".quiz-option").forEach((b, idx) => {
+            if (idx === choice) b.classList.add("correct");
+            else b.classList.remove("correct");
+          });
+        }
+        return;
+      }
+
+      const row = e.target.closest(".omr-row");
+      if (row) {
+        const quizId = row.dataset.id;
+        const targetEl = document.getElementById(`quiz-${quizId}`);
+        if (targetEl) {
+          toggleOmr(false);
+          targetEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }
+    });
+  }
+
+  // --- DELEGATION 4: Content (Notes) Container ---
+  function setupContentDelegation() {
+    if (!contentEl) return;
+    contentEl.addEventListener("click", e => {
+      const learnBtn = e.target.closest(".learn-check-btn");
+      if (learnBtn) {
+        const cardId = learnBtn.dataset.id;
+        if (!cardId) return;
+        if (learnedConcepts.has(cardId)) {
+          learnedConcepts.delete(cardId);
+          learnBtn.classList.remove("learned");
+          learnBtn.textContent = "";
+          learnBtn.style.background = "var(--surface)";
+        } else {
+          learnedConcepts.add(cardId);
+          learnBtn.classList.add("learned");
+          learnBtn.textContent = "✓";
+          learnBtn.style.background = "var(--brand)";
+        }
+        saveJSON(LEARNED_KEY, [...learnedConcepts]);
+        updateNoteProgress();
+        return;
+      }
+
+      const practiceBtn = e.target.closest(".practice-card-quizzes-btn");
+      if (practiceBtn) {
+        const cardId = practiceBtn.dataset.id;
+        if (cardId) switchNav("practice", { cardId });
+        return;
+      }
+    });
+  }
+
+  // --- DELEGATION 5: Sidebar Nav Container ---
+  function setupNavDelegation() {
+    if (!navContainer) return;
+    navContainer.addEventListener("click", e => {
+      const link = e.target.closest(".nav-link");
+      if (link) {
+        e.preventDefault();
+        const targetId = link.getAttribute("href")?.substring(1);
+        if (targetId) {
+          switchNav("notes");
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+          if (window.innerWidth <= 900) {
+            if (sidebar) sidebar.classList.remove("active");
+            if (overlay) overlay.classList.remove("active");
+          }
+        }
+      }
+    });
+  }
+
+  // --- DELEGATION 6: Exam Timeline Grid ---
+  function setupTimelineDelegation() {
+    if (!examTimelineGrid) return;
+    examTimelineGrid.addEventListener("click", e => {
+      const card = e.target.closest(".timeline-exam-card");
+      if (card) {
+        const presetId = card.dataset.preset;
+        if (presetId) switchNav("mock", { preset: presetId });
+      }
+    });
   }
 
   function toggleTheme() {
@@ -2419,53 +2382,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const label = btn.querySelector(".theme-label");
       if (label) label.textContent = isDark ? "라이트모드" : "다크모드";
     });
-  }
-
-  function renderCardBlocks(blocks, cardTitle) {
-    if (!blocks || !Array.isArray(blocks) || blocks.length === 0) {
-      return `
-        <h4 class='concept-block-h4'>${escapeHTML(cardTitle || "")} 핵심 정리</h4>
-        <p class='concept-block-p'>이 개념은 빅데이터분석기사 필기 시험에서 자주 출제되는 핵심 이론입니다. 관련 기출문제 풀이를 통해 출제 유형과 오답 함정을 완벽히 숙지하세요.</p>
-        <div class='concept-block-note'>💡 <strong>출제위원의 핵심 팁:</strong> 개념의 명확한 정의, 유사 개념과의 차이점, 관련 공식 및 파라미터의 역할을 정확히 암기해 두어야 합니다.</div>
-      `;
-    }
-
-    return blocks.map(b => {
-      const btype = b.type;
-      if (btype === "h4") {
-        return `<h4 class="concept-block-h4">${b.text || ""}</h4>`;
-      } else if (btype === "p") {
-        return `<p class="concept-block-p">${b.text || ""}</p>`;
-      } else if (btype === "keywords") {
-        const items = b.items || [];
-        if (items.length === 0) return "";
-        const tags = items.map(kw => `<span class="concept-keyword-tag">${escapeHTML(kw)}</span>`).join("");
-        return `<div class="concept-keywords-row"><span class="concept-keyword-label">🔑 핵심 키워드:</span> ${tags}</div>`;
-      } else if (btype === "ul") {
-        const items = b.items || [];
-        if (items.length === 0) return "";
-        const lis = items.map(item => `<li>${item}</li>`).join("");
-        return `<ul class="concept-block-ul">${lis}</ul>`;
-      } else if (btype === "ol") {
-        const items = b.items || [];
-        if (items.length === 0) return "";
-        const lis = items.map(item => `<li>${item}</li>`).join("");
-        return `<ol class="concept-block-ol">${lis}</ol>`;
-      } else if (btype === "note" || btype === "callout") {
-        return `<div class="concept-block-note">${b.text || ""}</div>`;
-      } else if (btype === "quiz") {
-        const q = b.question || "";
-        const a = b.answer || "O";
-        const exp = b.explanation || "";
-        return `
-          <div class="concept-block-quiz">
-            <div class="concept-quiz-q">⚡ <strong>자가진단 OX:</strong> ${q}</div>
-            <div class="concept-quiz-a">정답: <strong style="color:var(--primary-accent);">${a}</strong> - ${exp}</div>
-          </div>
-        `;
-      }
-      return b.text ? `<p class="concept-block-p">${b.text}</p>` : "";
-    }).join("");
   }
 
   function escapeHTML(str) {
@@ -2510,7 +2426,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // 17. BOOTSTRAP APPLICATION
+  // 16. BOOTSTRAP APPLICATION
   // ==========================================
   setupEventListeners();
   loadDataAndInit();
