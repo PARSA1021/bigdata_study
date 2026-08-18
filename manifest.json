@@ -1,12 +1,12 @@
 {
-  "name": "빅데이터분석기사 필기 마스터",
-  "short_name": "빅분기 필기",
-  "description": "빅데이터분석기사 필기 요약노트 및 160제 CBT 실전 모의고사 (완벽 오프라인 지원)",
+  "name": "노웨이(Knowway) | 빅데이터분석기사 필기",
+  "short_name": "노웨이 빅분기",
+  "description": "기출 풀이부터 AI 개념 학습, 오답 복습, 합격 루틴까지. 빅데이터분석기사 필기 전문 스마트 학습 앱",
   "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#F2F2F7",
-  "theme_color": "#007AFF",
+  "background_color": "#F5F5F0",
+  "theme_color": "#F3FA05",
   "icons": [
     {
       "src": "icons/icon-192.png",

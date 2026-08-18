@@ -3,7 +3,7 @@
  * 완벽한 오프라인 환경(노데이터/노와이파이) 지원 Caching Engine
  */
 
-const CACHE_NAME = 'bigdata-master-v3';
+const CACHE_NAME = 'knowway-bigdata-v4';
 const PRECACHE_ASSETS = [
   './',
   './index.html',
