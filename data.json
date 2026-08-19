@@ -291,6 +291,38 @@
           "title": "빅데이터 분석방법론 및 프로젝트·거버넌스 관리",
           "open": false,
           "content": "<h4 class='concept-block-h4'>분석모형 및 방법론</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>나선형모델</span><span class='concept-keyword-tag'>SOW</span><span class='concept-keyword-tag'>WBS</span><span class='concept-keyword-tag'>회전완수</span></div><ul class='concept-block-ul'><li><strong>분석모형 유형:</strong> 계층적 프로세스모델(단계→태스크→스텝, 방법론의 기반), 폭포수모델(Top-Down), 프로토타입모델, 나선형모델(위험요소 제거 초점), 애자일(반복적 개발)</li><li><strong>빅데이터 분석방법론 5단계:</strong> 분석기획(SOW/WBS/위험계획-회피·전이·완화·수용=\"회전완수\") → 데이터준비(스토어설계) → 데이터분석(EDA/모델링) → 시스템구현 → 평가및전개</li></ul><h4 class='concept-block-h4'>프로젝트 및 거버넌스 관리</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>이범통이</span><span class='concept-keyword-tag'>시조프로마인드데</span><span class='concept-keyword-tag'>도준정확</span></div><ul class='concept-block-ul'><li><strong>분석 준비도 매트릭스(IT문데기인파):</strong> 분석적업무파악, 인력및조직, 분석기법, 분석데이터, IT인프라, 분석문화 6개 영역으로 진단</li><li><strong>분석 수준 결과 진단(도준정확):</strong> 준비형(사전준비 필요), 정착형(제한적 사용), 도입형(준비도만 높음), 확산형(6요소 모두 갖춤·4사분면부터 시계방향 역순 암기)</li><li><strong>프로젝트관리 10대 지식체계(이범통이 의자에서 시원한 조리품을 먹었다):</strong> 통합, 범위, 시간, 원가, 품질, 인적자원, 의사소통, 리스크, 조달, 이해관계자</li><li><strong>분석 거버넌스 체계(시조프로마인드데):</strong> 조직, 프로세스, 시스템, 데이터, 분석관련 교육 및 마인드 육성체계</li></ul><div class='concept-block-note'>💡 '이범통이 의자에서 시원한 조리품을 먹었다'로 프로젝트관리 10대 지식체계(의사소통/리스크/조달/이해관계자 등)를 암기하세요.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 이 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - 프로젝트 위험계획 4가지(회피/전이/완화/수용)와 분석수준진단 4분면(준비형/정착형/도입형/확산형)의 위치를 뒤바꿔 묻는 문제가 빈출입니다.</div></div>"
+        },
+        {
+          "id": "c1-3-new1",
+          "title": "분석 성숙도 (CMMI 모델 기반)",
+          "body": "빅데이터 분석 조직의 성숙도를 평가하는 4단계 모델입니다.<br><br><strong>1) 준비형</strong>: 데이터, 인력, 조직, 기법 등이 적용 안되어 사전 준비 필요<br><strong>2) 정착형</strong>: 인력, 조직, 분석업무 등을 제한적으로 사용<br><strong>3) 도입형</strong>: 조직 및 인력 준비도는 높으나 분석업무 및 기법 부족<br><strong>4) 확산형</strong>: 6가지 구성요소가 모두 갖춰져 지속적 확산 가능<br><br>👉 <strong>암기팁</strong>: 4사분면 시계방향 역순으로 <strong>[도,준,정,확]</strong>으로 암기!",
+          "tags": [
+            "분석기획",
+            "분석수준진단",
+            "성숙도",
+            "CMMI"
+          ]
+        },
+        {
+          "id": "c1-3-new2",
+          "title": "데이터 거버넌스 체계",
+          "body": "전사 차원에서 데이터에 대해 표준화된 관리 체계를 수립하는 프레임워크입니다.<br><br><strong>📌 구성요소 3요소</strong><br>1) <strong>원칙</strong> (보안/품질/유지보수 기준)<br>2) <strong>조직</strong> (데이터 관리자, DB 관리자 등)<br>3) <strong>프로세스</strong> (데이터 메타데이터 및 사전 관리 작업)<br><br><strong>📌 거버넌스 체계 요소</strong><br>데이터 표준화, 메타데이터/사전 관리, 저장소 관리, 모니터링/표준화 활동<br><br>👉 <strong>암기팁</strong>: 거버넌스 체계 구성요소는 <strong>[시조프로마인드데]</strong> (시스템, 조직, 프로세스, 마인드, 데이터)",
+          "tags": [
+            "분석기획",
+            "거버넌스",
+            "표준화"
+          ]
+        },
+        {
+          "id": "c1-3-new3",
+          "title": "상향식 접근법과 프로토타이핑",
+          "body": "문제가 명확히 주어지지 않았을 때 데이터를 기반으로 문제를 도출하는 방식입니다.<br><br><strong>📌 상향식 접근법 (Bottom-up)</strong><br>- 비지도학습 기법 적용 (군집화 등)<br>- 디자인 싱킹(Design Thinking)의 발산(Diverge) 단계에 해당<br><br><strong>📌 프로토타이핑 (Prototyping)</strong><br>- 요구사항을 완벽히 모를 때, 일부를 먼저 신속하게 개발(프로토타입)하고 피드백을 통해 보완하는 애자일한 접근법<br>- 과정: 가설 생성 ➔ 디자인 ➔ 테스트 ➔ 통찰 획득",
+          "tags": [
+            "분석기획",
+            "상향식접근",
+            "디자인싱킹",
+            "프로토타이핑"
+          ]
         }
       ]
     },
@@ -478,6 +510,17 @@
           "title": "추정과 가설검정 (1종 오류와 2종 오류)",
           "open": false,
           "content": "<h4 class='concept-block-h4'>가설검정 기본 개념</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>귀무가설</span><span class='concept-keyword-tag'>대립가설</span><span class='concept-keyword-tag'>유의확률</span><span class='concept-keyword-tag'>제1종 오류</span><span class='concept-keyword-tag'>제2종 오류</span></div><ul class='concept-block-ul'><li><strong>귀무가설(H0):</strong> '차이가 없다, 효과가 없다'고 가정하는 기존의 통념 (버릴 목적으로 세우는 가설)</li><li><strong>대립가설(H1):</strong> '차이가 있다, 효과가 있다'고 주장하고 싶은 새로운 가설</li><li><strong>유의확률(p-value):</strong> 귀무가설이 맞다고 가정할 때, 지금 관측된 결과가 나올 확률. (일반적으로 0.05 미만이면 귀무가설 기각)</li></ul><h4 class='concept-block-h4'>오류의 종류</h4><ul class='concept-block-ul'><li><strong>제1종 오류(α):</strong> 귀무가설이 참인데, 기각해 버리는 오류 (없는 효과를 있다고 착각함)</li><li><strong>제2종 오류(β):</strong> 귀무가설이 거짓인데, 기각하지 않는 오류 (있는 효과를 놓침)</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> <strong>1종 오류</strong>는 의사가 건강한 사람에게 '암입니다(효과가 있다)'라고 오진하는 최악의 상황입니다. <strong>2종 오류</strong>는 암 환자에게 '건강합니다(효과 없음)'라고 돌려보내는 것입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 추정과 가설검정 (1종 오류와 2종 오류) 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - </strong> 1종 오류와 2종 오류의 뜻을 섞어놓은 문제가 단골입니다. '귀무가설이 참인데 기각하는 것 = 1종 오류'로 완벽히 암기하세요. 유의수준(α)은 1종 오류를 범할 최대 허용 확률입니다.</div></div><div class='concept-block-note'>⚠️ <strong>[헷갈림 주의 포인트]</strong> 1종 오류는 '죄 없는 사람을 감옥에 보내는 것(참을 거짓이라 함)', 2종 오류는 '범인을 풀어주는 것(거짓을 참이라 함)'. 의료계(암 진단)나 보안에서는 2종 오류(범인을 놓침)가 훨씬 치명적입니다!</div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> 정밀도(Precision)는 '정정(정상이라 예측한 것 중 진짜 정상)', 재현율(Recall)은 '실재(실제 정상 중 맞춘 비율)'로 외우세요!</div>"
+        },
+        {
+          "id": "c2-6-new1",
+          "title": "이산확률분포 심화 (기하/음이항/포아송)",
+          "body": "기본적인 베르누이와 이항분포 외에 반드시 알아야 할 고난도 이산확률분포입니다.<br><br><strong>1) 기하분포</strong>: 처음으로 성공할 때까지의 시행 횟수의 분포 (예: 동전 던져 처음 앞면 나올 때까지 던진 횟수)<br><strong>2) 음이항분포</strong>: r번 성공할 때까지 반복한 시행 횟수의 분포<br><strong>3) 초기하분포</strong>: 비복원 추출에서 N개 중 n번 추출했을 때 원하는 결과가 k번 나올 확률<br><strong>4) 다항분포</strong>: 여러 개의 결과를 가질 수 있는 시행(예: 주사위)을 N번 반복 시 각 면이 나오는 횟수 분포<br><strong>5) 포아송분포</strong>: 단위 시간/공간 내에 드물게 발생하는 사건의 발생 횟수 (예: 하루 동안 걸려온 전화 수, 불량품 수)<br><br>👉 <strong>암기팁</strong>: <strong>[누포항하]</strong> - 포아송은 단위 시간당 발생 횟수!",
+          "tags": [
+            "통계기법",
+            "이산확률분포",
+            "포아송분포",
+            "기하분포"
+          ]
         }
       ]
     },

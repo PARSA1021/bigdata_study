@@ -431,13 +431,12 @@
                 개념별 기출 유형 풀기 · 즉시 정답 확인 & AI 개념 요약 · 1줄 핵심 암기 비법
               </p>
 
-              <!-- 스마트기출 핵심 퀵 필터 칩 -->
               <div class="practice-quick-btns">
-                <button id="btnAgradePass" class="button button-brand">
+                <button id="btnAgradePass" class="button button-light">
                   ⭐ A급 필수 300제
                 </button>
-                <button id="btnCalcPack" class="button button-light">
-                  🧮 빈출 계산 공식
+                <button id="btnCalcPack" class="button button-brand" style="border: 2px solid var(--primary-accent); box-shadow: 0 0 10px rgba(37, 99, 235, 0.2);">
+                  🧮 계산 문제 집중 공략 (64문항)
                 </button>
                 <button id="target13thQuizBtn" class="button button-light">
                   🎯 13회 출제예상 (20제)
@@ -487,10 +486,16 @@
             <!-- 실전 모의고사 타이머 & OMR 토글 헤더 -->
             <div id="mock-header" class="hero-section hidden mock-banner">
               <div class="mock-info-bar">
-                <div class="timer-box">
-                  <span class="timer-icon">⏱️</span>
-                  <span class="timer-label">남은 시간:</span>
-                  <span id="examTimer" class="timer-value">120:00</span>
+                <div class="timer-container" style="flex: 1; margin-right: 16px; display: flex; flex-direction: column; gap: 6px;">
+                  <div class="timer-box" style="width: fit-content; margin-bottom: 2px;">
+                    <span class="timer-icon">⏱️</span>
+                    <span class="timer-label">남은 시간:</span>
+                    <span id="examTimer" class="timer-value">80:00</span>
+                  </div>
+                  <div class="cbt-timer-progress-bg" style="width: 100%; height: 6px; background: var(--line-strong); border-radius: 999px; overflow: hidden;">
+                    <div id="cbtTimerProgress" class="cbt-timer-progress-fill" style="width: 100%; height: 100%; background: var(--success); transition: width 1s linear, background-color 0.3s ease;"></div>
+                  </div>
+                  <div id="cbtTimerMsg" class="cbt-timer-msg" style="font-size: 12px; font-weight: 600; color: var(--success);">🟢 1-Pass 구간: 아는 문제부터 빠르게 마킹하세요.</div>
                 </div>
                 <div class="mock-actions">
                   <button id="openOmrBtn" class="button button-light omr-toggle-btn">

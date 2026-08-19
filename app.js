@@ -1091,7 +1091,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startExamTimer() {
     clearInterval(timerInterval);
-    timerSeconds = 120 * 60;
+    timerSeconds = 80 * 60; // 80분 하드코어 타이머 훈련
     updateTimerDisplay();
 
     timerInterval = setInterval(() => {
@@ -1110,8 +1110,40 @@ document.addEventListener("DOMContentLoaded", () => {
     const m = Math.floor(timerSeconds / 60);
     const s = timerSeconds % 60;
     examTimer.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-    if (timerSeconds <= 600) examTimer.style.color = "#FF3B30";
-    else examTimer.style.color = "var(--brand)";
+    
+    const totalSeconds = 80 * 60;
+    const progressPercent = (timerSeconds / totalSeconds) * 100;
+    const cbtTimerProgress = document.getElementById("cbtTimerProgress");
+    const cbtTimerMsg = document.getElementById("cbtTimerMsg");
+    
+    if (cbtTimerProgress) cbtTimerProgress.style.width = `${progressPercent}%`;
+    
+    if (cbtTimerMsg) {
+        const elapsedMinutes = 80 - (timerSeconds / 60);
+        if (elapsedMinutes < 30) {
+            cbtTimerMsg.textContent = "🟢 1-Pass 구간: 아는 문제부터 빠르게 마킹하세요.";
+            cbtTimerMsg.style.color = "var(--success)";
+            if (cbtTimerProgress) cbtTimerProgress.style.background = "var(--success)";
+            examTimer.style.color = "var(--success)";
+            cbtTimerMsg.style.opacity = "1";
+        } else if (elapsedMinutes >= 30 && elapsedMinutes < 65) {
+            cbtTimerMsg.textContent = "⚠️ 2-Pass 구간: 1-Pass 종료! 아직 안 푼 문제 및 별표 문항 집중.";
+            cbtTimerMsg.style.color = "var(--warn)";
+            if (cbtTimerProgress) cbtTimerProgress.style.background = "var(--warn)";
+            examTimer.style.color = "var(--warn)";
+            cbtTimerMsg.style.opacity = "1";
+        } else {
+            cbtTimerMsg.textContent = "🚨 최종 마킹 점검: 누락 확인. 헷갈리는 건 첫 직감을 믿으세요!";
+            cbtTimerMsg.style.color = "var(--danger)";
+            if (cbtTimerProgress) cbtTimerProgress.style.background = "var(--danger)";
+            examTimer.style.color = "var(--danger)";
+            if (timerSeconds <= 300) {
+                cbtTimerMsg.style.opacity = (timerSeconds % 2 === 0) ? "0.5" : "1";
+            } else {
+                cbtTimerMsg.style.opacity = "1";
+            }
+        }
+    }
   }
 
   function renderOmrGrid() {
@@ -1391,22 +1423,25 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
 
       <div class="cheat-sheet-section">
-        <div class="cheat-sheet-sec-title">🧮 빅분기 필기 10대 핵심 계산 공식 요약표</div>
+        <div class="cheat-sheet-sec-title">🧮 빅분기 필기 13대 핵심 계산 공식 & 단골 함정 요약표</div>
         <table class="cheat-formula-table">
           <thead>
-            <tr><th>지표명</th><th>계산 공식</th><th>핵심 암기 팁</th></tr>
+            <tr><th>지표/개념명</th><th>계산 공식 / 핵심 차이</th><th>핵심 암기 팁</th></tr>
           </thead>
           <tbody>
             <tr><td><strong>정밀도 (Precision)</strong></td><td>TP / (TP + FP)</td><td>예측 Positive 기준 맞춘 비율</td></tr>
             <tr><td><strong>재현율 (Recall)</strong></td><td>TP / (TP + FN)</td><td>실제 Positive 기준 맞춘 비율</td></tr>
             <tr><td><strong>F1-Score</strong></td><td>2PR / (P + R)</td><td>정밀도와 재현율의 조화평균</td></tr>
             <tr><td><strong>특이도 (Specificity)</strong></td><td>TN / (TN + FP)</td><td>실제 Negative 기준 맞춘 비율</td></tr>
-            <tr><td><strong>위양성률 (FPR)</strong></td><td>FP / (TN + FP) = 1 - 특이도</td><td>ROC 곡선의 X축 지표</td></tr>
+            <tr><td><strong>향상도 (Lift)</strong></td><td>P(A∩B) / (P(A)×P(B))</td><td>1보다 커야 양의 상관관계 (1이면 독립)</td></tr>
             <tr><td><strong>IQR (사분위범위)</strong></td><td>Q3 - Q1</td><td>이상치 경계: [Q1-1.5IQR, Q3+1.5IQR]</td></tr>
             <tr><td><strong>결정계수 (R²)</strong></td><td>SSR / SST = 1 - (SSE / SST)</td><td>0~1 사이, 1에 가까울수록 설명력 높음</td></tr>
             <tr><td><strong>가설검정 p-value</strong></td><td>p-value &lt; 유의수준(α)</td><td>귀무가설 기각(H₀ 기각 ➔ H₁ 채택)</td></tr>
-            <tr><td><strong>1종 오류 / 2종 오류</strong></td><td>α(1종): H₀참인데 기각 / β(2종): H₁참인데 H₀채택</td><td>1종 오류가 더 치명적</td></tr>
+            <tr><td><strong>1종 오류 / 2종 오류</strong></td><td>α(1종): H₀참인데 기각 / β(2종): H₁참인데 H₀채택</td><td>1종 오류가 더 치명적 (귀무가설 기각 오류)</td></tr>
             <tr><td><strong>지니계수 (Gini)</strong></td><td>1 - ∑(p_i)²</td><td>0일 때 가장 순수(분류 성능 우수)</td></tr>
+            <tr><td><strong>규제 회귀 (Ridge vs Lasso)</strong></td><td>Ridge(L2 패널티) / Lasso(L1 패널티)</td><td>Lasso는 불필요한 계수를 0으로 만들어 변수선택</td></tr>
+            <tr><td><strong>가명정보 vs 익명정보</strong></td><td>가명(추가정보 결합시 식별O) / 익명(식별 절대불가)</td><td>익명정보는 개인정보보호법 적용 면제</td></tr>
+            <tr><td><strong>결측치 (MCAR/MAR/NMAR)</strong></td><td>MCAR(무관), MAR(다른 변수 연관), NMAR(값 자체 연관)</td><td>NMAR은 고소득자가 소득칸을 빈칸으로 두는 경우</td></tr>
           </tbody>
         </table>
       </div>
