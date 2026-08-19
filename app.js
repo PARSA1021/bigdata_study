@@ -728,6 +728,33 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // 9. PRACTICE QUIZ ENGINE (Batch & Virtualized)
   // ==========================================
+  function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function handleShuffleQuizzes() {
+    if (!workingQuizzes || workingQuizzes.length <= 1) {
+      showToast("⚠️ 섞을 문제가 부족합니다.");
+      return;
+    }
+    workingQuizzes = shuffleArray(workingQuizzes);
+    if (currentMode === "mock") {
+      mockQuizzes = workingQuizzes;
+      renderOmrGrid();
+      updateOmrHeaderCounts();
+    }
+    renderQuizzes(true);
+    showToast(`🔀 총 ${workingQuizzes.length}개 문제가 무작위로 섞였습니다!`);
+    if (quizContainer) {
+      quizContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+
   function applyQuizFilter() {
     workingQuizzes = allQuizzes.filter(q => {
       if (quizFilter.conceptCardId && q.cardId !== quizFilter.conceptCardId) return false;
@@ -1038,7 +1065,7 @@ document.addEventListener("DOMContentLoaded", () => {
       selected = [];
       for (let s = 1; s <= 4; s++) {
         const sQuizzes = allQuizzes.filter(q => q.subject === s);
-        selected.push(...sQuizzes.sort(() => Math.random() - 0.5).slice(0, 20));
+        selected.push(...shuffleArray(sQuizzes).slice(0, 20));
       }
     }
 
@@ -1283,7 +1310,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    oxItems.sort(() => Math.random() - 0.5);
+    oxItems = shuffleArray(oxItems);
     oxCurrentIdx = 0;
     oxStreak = 0;
 
@@ -2015,20 +2042,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // Practice Quick Filters
     if (target13thQuizBtn) {
       target13thQuizBtn.addEventListener("click", () => {
-        workingQuizzes = allQuizzes.filter(q => {
+        const matched = allQuizzes.filter(q => {
           const text = (q.question + " " + q.chapter).toLowerCase();
           return TARGET_13TH_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
-        }).sort(() => Math.random() - 0.5).slice(0, 20);
+        });
+        workingQuizzes = shuffleArray(matched).slice(0, 20);
         renderQuizzes(true);
       });
     }
 
     if (termStatQuizBtn) {
       termStatQuizBtn.addEventListener("click", () => {
-        workingQuizzes = allQuizzes.filter(q => {
+        const matched = allQuizzes.filter(q => {
           const text = (q.question + " " + q.chapter).toLowerCase();
           return TERM_STAT_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
-        }).sort(() => Math.random() - 0.5).slice(0, 20);
+        });
+        workingQuizzes = shuffleArray(matched).slice(0, 20);
         renderQuizzes(true);
       });
     }
@@ -2129,12 +2158,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Set up Global Delegations
+    setupQuizToolbarDelegation();
     setupQuizContainerDelegation();
     setupWrongContainerDelegation();
     setupOmrGridDelegation();
     setupContentDelegation();
     setupNavDelegation();
     setupTimelineDelegation();
+  }
+
+  // --- DELEGATION 0: Quiz Toolbar ---
+  function setupQuizToolbarDelegation() {
+    if (!quizToolbar) return;
+    quizToolbar.addEventListener("click", e => {
+      const shuffleBtn = e.target.closest("#shuffleQuizBtn");
+      if (shuffleBtn) {
+        handleShuffleQuizzes();
+      }
+    });
   }
 
   // --- DELEGATION 1: Quiz Container ---
@@ -2155,19 +2196,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // 2. Shuffle button
+      // 2. Shuffle button (fallback)
       const shuffleBtn = e.target.closest("#shuffleQuizBtn");
       if (shuffleBtn) {
-        // Robust Fisher-Yates shuffle
-        for (let i = workingQuizzes.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [workingQuizzes[i], workingQuizzes[j]] = [workingQuizzes[j], workingQuizzes[i]];
-        }
-        renderQuizzes(true);
-        showToast(`🔀 총 ${workingQuizzes.length}개 문제가 무작위로 섞였습니다!`);
-        if (quizContainer) {
-          quizContainer.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+        handleShuffleQuizzes();
         return;
       }
 
