@@ -1582,57 +1582,211 @@ input, select, textarea {
   opacity: 0.5;
 }
 
-/* Explanation & AI Cards */
+/* =========================================================
+   Quiz Card Readability & Premium Explanation Boxes
+   ========================================================= */
+
 .quiz-explanation-box {
   background: var(--paper-subtle);
-  border: 1.5px solid var(--line);
+  border: 1.5px solid var(--line-bold);
   border-radius: var(--radius-md);
-  padding: 18px;
-  margin-top: 16px;
+  padding: 20px;
+  margin-top: 18px;
+  animation: fadeIn 0.25s ease-out;
 }
 
-.ai-concept-card {
-  background: var(--brand-soft);
-  border: 1.5px solid #090909;
-  border-radius: var(--radius-md);
-  padding: 16px;
-  margin-top: 12px;
-  color: #090909;
+.quiz-result-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 14px;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
 }
-[data-theme="dark"] .ai-concept-card {
-  background: rgba(243, 250, 5, 0.12);
+
+.quiz-result-banner.correct {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border: 1.5px solid rgba(16, 185, 129, 0.35);
+}
+[data-theme="dark"] .quiz-result-banner.correct {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34D399;
+}
+
+.quiz-result-banner.incorrect {
+  background: rgba(239, 68, 68, 0.12);
+  color: #DC2626;
+  border: 1.5px solid rgba(239, 68, 68, 0.35);
+}
+[data-theme="dark"] .quiz-result-banner.incorrect {
+  background: rgba(239, 68, 68, 0.2);
+  color: #F87171;
+}
+
+.quiz-explanation-text {
+  font-size: 14.5px;
+  line-height: 1.68;
   color: var(--text-color);
-  border-color: var(--brand);
+  margin-bottom: 14px;
+  font-weight: 550;
+  word-break: keep-all;
 }
 
-.ai-card-title {
+/* 🎯 실제 기출 핵심 포인트 카드 */
+.keypoint-card {
+  background: rgba(37, 99, 235, 0.06);
+  border: 1.5px solid rgba(37, 99, 235, 0.35);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-top: 12px;
+}
+[data-theme="dark"] .keypoint-card {
+  background: rgba(37, 99, 235, 0.15);
+  border-color: rgba(96, 165, 250, 0.4);
+}
+
+.keypoint-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 900;
+  color: #2563EB;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+[data-theme="dark"] .keypoint-card-header {
+  color: #93C5FD;
+}
+
+.keypoint-card-body {
+  font-size: 13.5px;
+  font-weight: 750;
+  line-height: 1.6;
+  color: var(--text-color);
+  word-break: keep-all;
+}
+
+/* 💡 출제위원의 비밀 꿀팁 카드 */
+.examiner-tip-card {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1.5px solid rgba(245, 158, 11, 0.4);
+  border-left: 5px solid #F59E0B;
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-top: 12px;
+}
+[data-theme="dark"] .examiner-tip-card {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(251, 191, 36, 0.45);
+  border-left-color: #FBBF24;
+}
+
+.examiner-tip-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 900;
+  color: #D97706;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+[data-theme="dark"] .examiner-tip-header {
+  color: #FCD34D;
+}
+
+.examiner-tip-body {
+  font-size: 13.5px;
+  font-weight: 750;
+  line-height: 1.6;
+  color: var(--text-color);
+  word-break: keep-all;
+}
+
+/* 📐 3단계 계산 공식 템플릿 */
+.calc-formula-template {
+  background: var(--surface);
+  border: 1.5px solid var(--line-bold);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-top: 12px;
+}
+
+.calc-template-header {
   display: flex;
   align-items: center;
   gap: 6px;
   font-size: 13px;
   font-weight: 900;
-  margin-bottom: 6px;
+  color: var(--primary-accent);
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 6px;
 }
 
+.calc-step-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.calc-step-row:last-child {
+  margin-bottom: 0;
+}
+
+.calc-step-num {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--brand);
+  color: #090909;
+  font-size: 11px;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+.calc-step-content {
+  line-height: 1.5;
+  color: var(--text-color);
+}
+
+/* ⚠️ 보기별 오답 함정 분석 */
 .trap-breakdown-box {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
-  padding: 12px;
-  margin-top: 10px;
+  padding: 12px 14px;
+  margin-top: 12px;
 }
 
-.memo-point-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: var(--radius-sm);
-  background: rgba(37, 99, 235, 0.1);
-  color: var(--primary-accent);
-  font-size: 13px;
-  font-weight: 800;
-  margin-top: 10px;
+.trap-breakdown-title {
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.trap-item-list {
+  padding-left: 18px;
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+.trap-item-list li {
+  margin-bottom: 4px;
+}
+.trap-item-list strong {
+  color: var(--text-color);
 }
 
 .quiz-bottom-actions {
@@ -1641,6 +1795,30 @@ input, select, textarea {
   gap: 10px;
   margin-top: 14px;
   flex-wrap: wrap;
+}
+
+/* 🔀 Toast Notification */
+.knowway-toast {
+  position: fixed;
+  bottom: 84px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #090909;
+  color: #FFFFFF;
+  border: 1.5px solid var(--brand);
+  border-radius: 50px;
+  padding: 10px 22px;
+  font-size: 13.5px;
+  font-weight: 850;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  z-index: 1500;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.knowway-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
 /* =========================================================

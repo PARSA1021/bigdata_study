@@ -928,17 +928,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
         ${(isAnswered && (currentMode !== "mock" || isMockSubmitted)) ? `
           <div class="quiz-explanation-box">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
-              <strong style="font-size: 15px; color: ${isCorrect ? 'var(--success)' : 'var(--danger)'};">
-                ${isCorrect ? '✓ 정답입니다!' : `✗ 오답 (정답: ${quiz.answer + 1}번)`}
-              </strong>
+            <!-- 1. Result Banner -->
+            <div class="quiz-result-banner ${isCorrect ? 'correct' : 'incorrect'}">
+              <span>${isCorrect ? '✓ 정답입니다!' : '✗ 오답입니다'}</span>
+              <span style="font-size: 13.5px; font-weight: 800;">정답: ${quiz.answer + 1}번</span>
             </div>
 
-            <div style="font-size: 14px; line-height: 1.6; margin-bottom: 10px;">
+            <!-- 2. Main Explanation -->
+            <div class="quiz-explanation-text">
               ${escapeHTML(quiz.explanation || "")}
             </div>
 
-            <!-- 3-Step Calculation Template -->
+            <!-- 3. Key Point Card (🎯 실제 기출 핵심 포인트) -->
+            ${quiz.memorizationPoint ? `
+              <div class="keypoint-card">
+                <div class="keypoint-card-header">
+                  <span>🎯</span> <span>실제 기출 핵심 포인트 & 필수 암기</span>
+                </div>
+                <div class="keypoint-card-body">
+                  ${escapeHTML(quiz.memorizationPoint)}
+                </div>
+              </div>
+            ` : ""}
+
+            <!-- 4. Examiner Secret Tip Card (💡 출제위원의 비밀 꿀팁) -->
+            ${quiz.examinerTip ? `
+              <div class="examiner-tip-card">
+                <div class="examiner-tip-header">
+                  <span>💡</span> <span>출제위원의 비밀 꿀팁 & 함정 탈출법</span>
+                </div>
+                <div class="examiner-tip-body">
+                  ${escapeHTML(quiz.examinerTip)}
+                </div>
+              </div>
+            ` : ""}
+
+            <!-- 5. 3-Step Calculation Template -->
             ${isCalc ? `
               <div class="calc-formula-template">
                 <div class="calc-template-header">
@@ -959,24 +984,13 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             ` : ""}
 
-            <!-- AI Concept Digest Card -->
-            <div class="ai-concept-card">
-              <div class="ai-card-title">
-                <span>⚡</span>
-                <span>AI 핵심 개념 요약</span>
-              </div>
-              <div style="font-size: 13px; font-weight: 650; line-height: 1.55;">
-                ${escapeHTML(quiz.memorizationPoint || "이 문제는 기출 핵심 개념을 정확히 이해하고 있어야 정답을 고를 수 있는 필수 문항입니다.")}
-              </div>
-            </div>
-
-            <!-- Trap Analysis -->
+            <!-- 6. Trap Analysis -->
             ${quiz.whyWrong && quiz.whyWrong.length > 0 ? `
               <div class="trap-breakdown-box">
-                <div style="font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 6px;">
-                  ⚠️ 보기별 오답 함정(Trap) 분석:
+                <div class="trap-breakdown-title">
+                  ⚠️ 보기별 오답 함정(Trap) 분석
                 </div>
-                <ul style="padding-left: 16px; font-size: 12px; line-height: 1.5; color: var(--text-muted);">
+                <ul class="trap-item-list">
                   ${quiz.whyWrong.map((why, wIdx) => {
                     if (wIdx === quiz.answer) return "";
                     return `<li><strong>${wIdx + 1}번 보기</strong>: ${escapeHTML(why)}</li>`;
@@ -1478,16 +1492,45 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
 
           <div class="quiz-explanation-box">
-            <div style="font-size: 14px; line-height: 1.6; margin-bottom: 8px;">
+            <div class="quiz-explanation-text">
               ${escapeHTML(quiz.explanation || "")}
             </div>
 
-            <div class="ai-concept-card">
-              <div class="ai-card-title"><span>⚡</span> <span>핵심 탈출 암기 포인트</span></div>
-              <div style="font-size: 13px; font-weight: 700;">
-                ${escapeHTML(quiz.memorizationPoint || "이 문제는 기출 변형 핵심 유형입니다.")}
+            ${quiz.memorizationPoint ? `
+              <div class="keypoint-card">
+                <div class="keypoint-card-header">
+                  <span>🎯</span> <span>실제 기출 핵심 포인트 & 필수 암기</span>
+                </div>
+                <div class="keypoint-card-body">
+                  ${escapeHTML(quiz.memorizationPoint)}
+                </div>
               </div>
-            </div>
+            ` : ""}
+
+            ${quiz.examinerTip ? `
+              <div class="examiner-tip-card">
+                <div class="examiner-tip-header">
+                  <span>💡</span> <span>출제위원의 비밀 꿀팁 & 함정 탈출법</span>
+                </div>
+                <div class="examiner-tip-body">
+                  ${escapeHTML(quiz.examinerTip)}
+                </div>
+              </div>
+            ` : ""}
+
+            ${quiz.whyWrong && quiz.whyWrong.length > 0 ? `
+              <div class="trap-breakdown-box">
+                <div class="trap-breakdown-title">
+                  ⚠️ 보기별 오답 함정(Trap) 분석
+                </div>
+                <ul class="trap-item-list">
+                  ${quiz.whyWrong.map((why, wIdx) => {
+                    if (wIdx === quiz.answer) return "";
+                    return `<li><strong>${wIdx + 1}번 보기</strong>: ${escapeHTML(why)}</li>`;
+                  }).join("")}
+                </ul>
+              </div>
+            ` : ""}
 
             ${quiz.cardId ? `
               <div class="quiz-bottom-actions">
@@ -2115,8 +2158,16 @@ document.addEventListener("DOMContentLoaded", () => {
       // 2. Shuffle button
       const shuffleBtn = e.target.closest("#shuffleQuizBtn");
       if (shuffleBtn) {
-        workingQuizzes.sort(() => Math.random() - 0.5);
+        // Robust Fisher-Yates shuffle
+        for (let i = workingQuizzes.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [workingQuizzes[i], workingQuizzes[j]] = [workingQuizzes[j], workingQuizzes[i]];
+        }
         renderQuizzes(true);
+        showToast(`🔀 총 ${workingQuizzes.length}개 문제가 무작위로 섞였습니다!`);
+        if (quizContainer) {
+          quizContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
         return;
       }
 
@@ -2382,6 +2433,21 @@ document.addEventListener("DOMContentLoaded", () => {
       const label = btn.querySelector(".theme-label");
       if (label) label.textContent = isDark ? "라이트모드" : "다크모드";
     });
+  }
+
+  function showToast(msg) {
+    let toast = document.getElementById("knowwayToast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "knowwayToast";
+      toast.className = "knowway-toast";
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2200);
   }
 
   function escapeHTML(str) {
