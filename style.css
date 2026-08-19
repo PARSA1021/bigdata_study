@@ -2940,52 +2940,268 @@ tr:nth-child(even) {
   margin-top: 2px;
 }
 
-/* 💡 출제위원 꿀팁 집중 부각 UI */
-.examiner-tip-card {
+/* 💡 프리미엄 학습 설명 UI: 핵심 포인트, 꿀팁, 함정 분석 */
+
+/* 1. 실제 기출 핵심 포인트 (Key Point) */
+.keypoint-card {
   margin-top: 16px;
   padding: 16px;
-  border-radius: var(--radius-sm);
-  background: var(--glass-bg);
-  border: 2px solid var(--brand);
-  box-shadow: 0 4px 14px var(--brand-glow);
-  position: relative;
-  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 197, 253, 0.05));
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-left: 5px solid #3b82f6;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
-.examiner-tip-card::before {
-  content: "💡 출제위원 함정 노트";
-  display: inline-block;
+.keypoint-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.1);
+}
+.keypoint-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 900;
-  color: var(--ink);
-  background: var(--brand);
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 12px;
+  color: #1d4ed8;
+  font-size: 15px;
   margin-bottom: 8px;
 }
-
-.examiner-tip-body {
-  font-size: 14px;
+.keypoint-card-body {
+  font-size: 14.5px;
   line-height: 1.6;
   color: var(--text-color);
   font-weight: 600;
 }
 
-/* 보기별 오답 분석 리스트 대비 효과 */
+/* 2. 출제위원의 비밀 꿀팁 (Examiner Tip) */
+.examiner-tip-card {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(253, 230, 138, 0.05));
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-left: 5px solid #f59e0b;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.examiner-tip-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.1);
+}
+.examiner-tip-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+  color: #b45309;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+.examiner-tip-body {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+/* 3. 보기별 오답 함정 분석 (Trap Breakdown) */
 .trap-breakdown-box {
   margin-top: 16px;
-  padding: 12px;
-  background: var(--surface-hover);
-  border-left: 4px solid var(--danger);
-  border-radius: 4px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(254, 226, 226, 0.03));
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-left: 5px solid #ef4444;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.trap-breakdown-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.1);
+}
+.trap-breakdown-title {
+  display: flex;
+  align-items: center;
+  font-weight: 900;
+  color: #b91c1c;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+.trap-item-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.trap-item-list li {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-color);
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  border-left: 3px solid #fca5a5;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+.trap-item-list li strong {
+  color: #b91c1c;
+  font-weight: 800;
+}
+[data-theme="dark"] .trap-item-list li {
+  background: rgba(0, 0, 0, 0.2);
 }
 
-.trap-breakdown-box li {
-  margin-bottom: 6px;
-  font-size: 13.5px;
+/* 4. 계산 공식 템플릿 (Calc Formula Template) */
+.calc-formula-template {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(209, 250, 229, 0.05));
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-left: 5px solid #10b981;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.calc-formula-template:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.1);
+}
+.calc-template-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 900;
+  color: #047857;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+.calc-step-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 10px 14px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+[data-theme="dark"] .calc-step-row {
+  background: rgba(0, 0, 0, 0.2);
+}
+.calc-step-row:last-child {
+  margin-bottom: 0;
+}
+.calc-step-num {
+  flex-shrink: 0;
+  background: #10b981;
+  color: white;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-top: 2px;
+}
+.calc-step-content {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text-color);
+  font-weight: 500;
+}
+.calc-step-content strong {
+  color: #047857;
+}
+
+/* 5. 요약노트 보기 CTA (Concept Note CTA) */
+.premium-concept-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18px;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(196, 181, 253, 0.05));
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.08);
+  transition: all 0.3s ease;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.premium-concept-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(139, 92, 246, 0.15);
+  border-color: rgba(139, 92, 246, 0.5);
+}
+.premium-concept-cta .cta-text {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.premium-concept-cta .cta-icon {
+  font-size: 28px;
+  animation: pulse-glow 2s infinite ease-in-out;
+}
+.premium-concept-cta .cta-desc {
+  display: flex;
+  flex-direction: column;
+}
+.premium-concept-cta .cta-desc strong {
+  color: #6d28d9;
+  font-size: 15.5px;
+  font-weight: 900;
+  margin-bottom: 4px;
+}
+.premium-concept-cta .cta-desc span {
   color: var(--text-muted);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+.premium-concept-cta .view-concept-btn {
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 99px;
+  font-weight: 800;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.premium-concept-cta .view-concept-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(109, 40, 217, 0.4);
 }
 
-.trap-breakdown-box li strong {
-  color: var(--danger);
+@keyframes pulse-glow {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* 개념 요약 모달 (Concept Modal) 고급화 */
+.concept-preview-modal {
+  backdrop-filter: blur(24px) saturate(150%);
+  background: rgba(255, 255, 255, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.2) inset !important;
+}
+[data-theme="dark"] .concept-preview-modal {
+  background: rgba(30, 30, 35, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
+}
+.concept-modal-tabs {
+  border-bottom: 2px solid var(--line);
+}
+.concept-modal-tabs .concept-tab {
+  color: var(--text-muted);
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+.concept-modal-tabs .concept-tab.active {
+  color: var(--brand);
+  border-bottom: 3px solid var(--brand);
+  background: linear-gradient(0deg, rgba(37, 99, 235, 0.05), transparent);
 }

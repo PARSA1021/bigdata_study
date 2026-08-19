@@ -1027,9 +1027,16 @@ document.addEventListener("DOMContentLoaded", () => {
             ` : ""}
 
             ${quiz.cardId ? `
-              <div class="quiz-bottom-actions">
-                <button class="btn-small view-concept-btn" data-card="${quiz.cardId}">
-                  📖 관련 요약노트 보기 ↗
+              <div class="premium-concept-cta">
+                <div class="cta-text">
+                  <span class="cta-icon">💡</span>
+                  <div class="cta-desc">
+                    <strong>관련 핵심 개념 요약노트</strong>
+                    <span>이 문제와 관련된 상세 이론을 확인하고 완벽히 마스터하세요!</span>
+                  </div>
+                </div>
+                <button class="button button-brand view-concept-btn" data-card="${quiz.cardId}">
+                  📖 요약노트 보기 ↗
                 </button>
               </div>
             ` : ""}
@@ -1595,8 +1602,15 @@ document.addEventListener("DOMContentLoaded", () => {
             ` : ""}
 
             ${quiz.cardId ? `
-              <div class="quiz-bottom-actions">
-                <button class="btn-small view-concept-btn" data-card="${quiz.cardId}">
+              <div class="premium-concept-cta">
+                <div class="cta-text">
+                  <span class="cta-icon">💡</span>
+                  <div class="cta-desc">
+                    <strong>관련 핵심 개념 요약노트</strong>
+                    <span>이 문제와 관련된 상세 이론을 확인하고 완벽히 마스터하세요!</span>
+                  </div>
+                </div>
+                <button class="button button-brand view-concept-btn" data-card="${quiz.cardId}">
                   📖 요약노트 보기 ↗
                 </button>
               </div>
@@ -1694,16 +1708,21 @@ document.addEventListener("DOMContentLoaded", () => {
     navContainer.innerHTML = html;
   }
 
-  function renderContent() {
+  function renderContent(filterSubject = "all") {
     if (!contentEl || !noteData || !noteData.sections) return;
     let html = "";
 
     noteData.sections.forEach(sec => {
+      const calcSubject = sec.id.match(/^s(\d+)-/)?.[1];
+      const subject = sec.subject || calcSubject;
+      
+      if (filterSubject !== "all" && subject !== filterSubject) return;
+
       html += `
         <section id="${sec.id}" class="section-container" style="margin-bottom: 40px;">
           <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; border-bottom: 2px solid var(--line-bold); padding-bottom: 10px;">
             <h2 style="font-size: 22px; font-weight: 950; letter-spacing: -0.04em;">${escapeHTML(sec.title)}</h2>
-            ${sec.subject ? `<span class="badge-tag">${SUBJECT_NAMES[sec.subject] || ""}</span>` : ""}
+            ${subject ? `<span class="badge-tag">${SUBJECT_NAMES[subject] || subject + "과목"}</span>` : ""}
           </div>
           <div class="cards-list">
             ${(sec.cards || []).map(card => renderNoteCardHTML(card)).join("")}
@@ -1714,6 +1733,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     contentEl.innerHTML = html;
     updateNoteProgress();
+  }
+
+  const noteSubjectFilter = document.getElementById("note-subject-filter");
+  if (noteSubjectFilter) {
+    noteSubjectFilter.addEventListener("change", (e) => {
+      renderContent(e.target.value);
+    });
   }
 
   function buildNotesSearchIndex() {
