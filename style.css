@@ -3205,3 +3205,1289 @@ tr:nth-child(even) {
   border-bottom: 3px solid var(--brand);
   background: linear-gradient(0deg, rgba(37, 99, 235, 0.05), transparent);
 }
+
+/* =========================================================
+   [VIEW 2: 📚 전과목 요약노트 고도화 & 반응형 프리미엄 UI]
+   ========================================================= */
+
+/* 1. 요약노트 상단 대시보드 헤더 카드 */
+.notes-header-card {
+  background: var(--surface);
+  border: 1.5px solid var(--line-bold);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.notes-header-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #F3FA05, #10B981, #3B82F6, #8B5CF6);
+}
+
+.notes-header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.notes-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 850;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--brand);
+  color: #090909;
+  border: 1.5px solid #090909;
+  margin-bottom: 8px;
+}
+[data-theme="dark"] .notes-hero-badge {
+  border-color: var(--brand);
+}
+
+.notes-main-title {
+  font-size: clamp(22px, 3.5vw, 30px);
+  font-weight: 950;
+  letter-spacing: -0.04em;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.notes-main-subtitle {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.notes-progress-stat-box {
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+  text-align: right;
+  min-width: 140px;
+}
+
+.stat-progress-val {
+  font-size: 26px;
+  font-weight: 950;
+  color: var(--primary-accent);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-progress-lbl {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+/* 진도율 프로그레스 바 */
+.notes-progress-track {
+  height: 8px;
+  background: var(--paper-subtle);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  margin-bottom: 20px;
+}
+
+.notes-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #F3FA05, #10B981);
+  border-radius: var(--radius-pill);
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 2. 과목 퀵 네비게이션 탭바 (Mobile Scroll Snap + Desktop Chips) */
+.notes-subject-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.notes-subject-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.notes-sub-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--line);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-muted);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.notes-sub-tab:hover {
+  color: var(--text-color);
+  border-color: var(--line-bold);
+  background: var(--surface-hover);
+  transform: translateY(-1px);
+}
+
+.notes-sub-tab.active {
+  background: var(--brand);
+  color: #090909;
+  border-color: #090909;
+  font-weight: 900;
+  box-shadow: var(--shadow-sm);
+}
+[data-theme="dark"] .notes-sub-tab.active {
+  border-color: var(--brand);
+}
+
+.notes-sub-tab.highlight-tab {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #DC2626;
+}
+[data-theme="dark"] .notes-sub-tab.highlight-tab {
+  background: rgba(239, 68, 68, 0.18);
+  color: #F87171;
+}
+.notes-sub-tab.highlight-tab.active {
+  background: #DC2626;
+  color: #FFFFFF;
+  border-color: #DC2626;
+}
+
+/* 3. 컨트롤 툴바 (접기/펼치기, 필터, 인라인 검색) */
+.notes-control-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.notes-tool-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.notes-tool-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--line);
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.notes-tool-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--line-bold);
+}
+
+.notes-tool-btn.active {
+  background: var(--brand-soft);
+  border-color: var(--brand);
+  color: #090909;
+  font-weight: 900;
+}
+[data-theme="dark"] .notes-tool-btn.active {
+  color: var(--brand);
+}
+
+.notes-inline-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 220px;
+  flex: 1;
+  max-width: 320px;
+}
+
+.notes-inline-search svg {
+  position: absolute;
+  left: 12px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.notes-inline-search input {
+  width: 100%;
+  height: 36px;
+  padding: 0 30px 0 34px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--paper);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-color);
+  transition: border-color 0.2s ease;
+}
+.notes-inline-search input:focus {
+  outline: none;
+  border-color: var(--line-bold);
+  background: var(--surface);
+}
+
+.notes-search-clear {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* 4. 섹션 컨테이너 및 배너 헤더 */
+.notes-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.section-container {
+  margin-bottom: 24px;
+}
+
+.section-banner-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--line-bold);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sec-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sec-num-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--brand);
+  color: #090909;
+  border: 1.5px solid #090909;
+  font-size: 12px;
+  font-weight: 950;
+  font-family: monospace;
+}
+[data-theme="dark"] .sec-num-badge {
+  border-color: var(--brand);
+}
+
+.sec-title-text {
+  font-size: 20px;
+  font-weight: 950;
+  letter-spacing: -0.04em;
+}
+
+.sec-badges-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-count {
+  font-size: 11.5px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--paper-subtle);
+  border: 1px solid var(--line);
+  color: var(--text-muted);
+}
+
+/* 5. 개념 카드 (Card Accordion & Premium Design) */
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  border-color: var(--line-bold);
+  box-shadow: var(--shadow-md);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+  user-select: none;
+  background: var(--surface);
+  border-bottom: 1.5px solid transparent;
+  gap: 12px;
+  transition: background 0.2s ease;
+}
+
+.card.expanded .card-header {
+  border-bottom-color: var(--line);
+  background: var(--paper-subtle);
+}
+
+.card-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.learn-check-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--line-bold);
+  background: var(--surface);
+  color: #090909;
+  font-size: 14px;
+  font-weight: 950;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.learn-check-btn:hover {
+  transform: scale(1.1);
+  border-color: var(--brand-dark);
+}
+.learn-check-btn.learned {
+  background: var(--brand);
+  border-color: #090909;
+}
+[data-theme="dark"] .learn-check-btn.learned {
+  border-color: var(--brand);
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--text-color);
+  line-height: 1.35;
+  margin: 0;
+  word-break: keep-all;
+}
+
+.card-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.card-action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--text-muted);
+}
+.card-action-btn:hover {
+  background: var(--paper-subtle);
+  border-color: var(--line-bold);
+  color: var(--text-color);
+  transform: scale(1.05);
+}
+
+.card-bookmark-btn.bookmarked {
+  color: #F59E0B;
+  border-color: #F59E0B;
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.card-accordion-toggle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+.chevron-icon {
+  font-size: 10px;
+  transition: transform 0.25s ease;
+}
+
+.card.collapsed .chevron-icon {
+  transform: rotate(-90deg);
+}
+.card.expanded .chevron-icon {
+  transform: rotate(0deg);
+}
+
+/* 6. 카드 본문 타이포그래피 및 박스 스타일링 */
+.card-body {
+  padding: 24px 22px;
+  font-size: 15px;
+  line-height: 1.72;
+  color: var(--text-color);
+  word-break: keep-all;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.card-body.hidden {
+  display: none;
+}
+
+.concept-block-h4 {
+  font-size: 15.5px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 18px 0 10px;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.concept-block-h4:first-child {
+  margin-top: 0;
+}
+.concept-block-h4::before {
+  content: "■";
+  color: var(--brand-dark);
+  font-size: 11px;
+}
+
+.concept-keywords-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding: 8px 12px;
+  background: var(--paper-subtle);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+}
+
+.concept-keyword-label {
+  font-size: 12px;
+  font-weight: 850;
+  color: var(--text-muted);
+}
+
+.concept-keyword-tag {
+  font-size: 12px;
+  font-weight: 750;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--primary-accent);
+}
+
+.concept-block-ul {
+  padding-left: 20px;
+  margin: 10px 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.concept-block-ul li {
+  line-height: 1.68;
+}
+
+.concept-block-note {
+  background: rgba(245, 158, 11, 0.08);
+  border-left: 4px solid #F59E0B;
+  padding: 14px 16px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 1.65;
+}
+[data-theme="dark"] .concept-block-note {
+  background: rgba(245, 158, 11, 0.15);
+}
+
+/* 자가진단 OX 인터랙티브 토글 퀴즈 박스 */
+.concept-block-quiz {
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--line-bold);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-top: 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+.concept-block-quiz:hover {
+  border-color: var(--primary-accent);
+  background: var(--surface-hover);
+}
+.concept-quiz-q {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.concept-quiz-q::after {
+  content: "👉 정답 확인";
+  font-size: 11.5px;
+  font-weight: 850;
+  color: var(--primary-accent);
+  padding: 2px 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+}
+.concept-quiz-a {
+  display: none;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line-bold);
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-color);
+  animation: fadeIn 0.2s ease-out;
+}
+.concept-block-quiz.revealed .concept-quiz-a {
+  display: block;
+}
+.concept-block-quiz.revealed .concept-quiz-q::after {
+  content: "닫기 ▲";
+  color: var(--text-muted);
+}
+
+/* 요약노트 내 반응형 표 */
+.card-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 13.5px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.card-body table th,
+.card-body table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+.card-body table th {
+  background: var(--paper-subtle);
+  font-weight: 850;
+  text-align: left;
+}
+
+/* 7. Empty State */
+.notes-empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--surface);
+  border: 1.5px solid var(--line-bold);
+  border-radius: var(--radius-lg);
+}
+.notes-empty-state .empty-icon {
+  font-size: 44px;
+  margin-bottom: 12px;
+}
+.notes-empty-state h3 {
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 6px;
+}
+.notes-empty-state p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* =========================================================
+   반응형 최적화 (Mobile / Tablet / PC)
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .notes-header-card {
+    padding: 18px 16px;
+  }
+  .notes-header-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .notes-progress-stat-box {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+  }
+  .stat-progress-val {
+    font-size: 20px;
+    margin-bottom: 0;
+  }
+  .notes-control-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .notes-inline-search {
+    max-width: 100%;
+  }
+  .card-header {
+    padding: 14px 14px;
+  }
+  .card-body {
+    padding: 18px 14px;
+    font-size: 14.5px;
+  }
+}
+
+@media (max-width: 600px) {
+  .notes-sub-tab {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .card-title {
+    font-size: 14.5px;
+  }
+  .practice-card-quizzes-btn {
+    display: none;
+  }
+  .card-body table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* =========================================================
+   [VIEW 3: 📝 스마트 기출문제 & CBT 실전 풀이 프리미엄 UI]
+   ========================================================= */
+
+/* 1. 스마트기출 상단 대시보드 헤더 카드 */
+.practice-hero-card {
+  background: var(--surface);
+  border: 1.5px solid var(--line-bold);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.practice-hero-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #3B82F6, #10B981, #F59E0B, #EF4444);
+}
+
+.practice-hero-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.practice-stat-badge {
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  text-align: right;
+  min-width: 120px;
+}
+.practice-stat-badge .ps-num {
+  font-size: 24px;
+  font-weight: 950;
+  color: var(--primary-accent);
+  display: block;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.practice-stat-badge .ps-lbl {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+/* 2. 5대 스마트 기출 테마 팩 칩 버튼 */
+.practice-quick-btns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.practice-quick-btns::-webkit-scrollbar {
+  display: none;
+}
+
+.pack-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--line);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-color);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+.pack-chip-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--line-bold);
+  transform: translateY(-1px);
+}
+.pack-chip-btn.active {
+  background: var(--brand);
+  color: #090909;
+  border-color: #090909;
+  font-weight: 950;
+  box-shadow: var(--shadow-sm);
+}
+[data-theme="dark"] .pack-chip-btn.active {
+  border-color: var(--brand);
+}
+
+.pack-chip-btn.highlight-pack {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #DC2626;
+}
+[data-theme="dark"] .pack-chip-btn.highlight-pack {
+  background: rgba(239, 68, 68, 0.18);
+  color: #F87171;
+}
+.pack-chip-btn.highlight-pack.active {
+  background: #DC2626;
+  color: #FFFFFF;
+  border-color: #DC2626;
+}
+
+.pack-chip-btn.calc-pack {
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.35);
+  color: #2563EB;
+}
+[data-theme="dark"] .pack-chip-btn.calc-pack {
+  background: rgba(37, 99, 235, 0.18);
+  color: #60A5FA;
+}
+.pack-chip-btn.calc-pack.active {
+  background: #2563EB;
+  color: #FFFFFF;
+  border-color: #2563EB;
+}
+
+.pack-chip-btn.bookmark-pack {
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.35);
+  color: #D97706;
+}
+.pack-chip-btn.bookmark-pack.active {
+  background: #F59E0B;
+  color: #090909;
+  border-color: #D97706;
+}
+
+/* 3. 과목 퀵 필터 칩 바 (전체 / 1과목 / 2과목 / 3과목 / 4과목) */
+.practice-subject-filter-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.practice-subject-filter-chips::-webkit-scrollbar {
+  display: none;
+}
+
+.ps-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--paper-subtle);
+  border: 1px solid var(--line);
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--text-muted);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.ps-chip:hover {
+  color: var(--text-color);
+  background: var(--surface-hover);
+  border-color: var(--line-bold);
+}
+.ps-chip.active {
+  background: var(--brand-soft);
+  color: #090909;
+  border-color: var(--brand);
+  font-weight: 900;
+}
+[data-theme="dark"] .ps-chip.active {
+  color: var(--brand);
+}
+
+/* 4. 상세 필터 바 & 실시간 검색창 툴바 */
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+}
+
+.filter-selects-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+}
+
+.quiz-select {
+  height: 38px;
+  padding: 0 12px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-color);
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+.quiz-select:focus {
+  outline: none;
+  border-color: var(--line-bold);
+}
+
+.filter-search-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.quiz-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 200px;
+}
+.quiz-search-box svg {
+  position: absolute;
+  left: 12px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.quiz-search-box .quiz-input {
+  width: 100%;
+  height: 38px;
+  padding: 0 12px 0 34px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-color);
+  font-size: 13px;
+  font-weight: 600;
+}
+.quiz-search-box .quiz-input:focus {
+  outline: none;
+  border-color: var(--line-bold);
+}
+
+.filter-search-btn {
+  min-height: 38px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 850;
+}
+.filter-reset-btn,
+.filter-shuffle-btn {
+  min-height: 38px;
+  padding: 0 14px;
+  font-size: 12.5px;
+  font-weight: 800;
+}
+
+/* 5. 문제 카드 (Quiz Card) 프리미엄 스타일 */
+.quiz-card {
+  background: var(--surface);
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  padding: 24px 24px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.quiz-card:hover {
+  border-color: var(--line-bold);
+  box-shadow: var(--shadow-md);
+}
+
+.quiz-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.quiz-badges-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.quiz-subject-badge {
+  font-size: 11.5px;
+  font-weight: 850;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--paper-subtle);
+  border: 1px solid var(--line);
+  color: var(--text-color);
+}
+
+.quiz-actions-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bookmark-star-btn {
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: transform 0.2s ease, color 0.2s ease;
+  user-select: none;
+}
+.bookmark-star-btn:hover {
+  transform: scale(1.2);
+  color: #F59E0B;
+}
+.bookmark-star-btn.bookmarked {
+  color: #F59E0B;
+}
+
+.quiz-question-text {
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.68;
+  color: var(--text-color);
+  margin-bottom: 20px;
+  word-break: keep-all;
+}
+
+/* 6. 보기 선지 (Quiz Options) 인터랙션 */
+.quiz-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.quiz-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  color: var(--text-color);
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.55;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  word-break: keep-all;
+}
+
+.quiz-option:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--line-bold);
+  transform: translateX(3px);
+}
+
+.quiz-option .option-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--paper-subtle);
+  border: 1px solid var(--line-bold);
+  font-size: 12px;
+  font-weight: 950;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.quiz-option.correct {
+  background: rgba(16, 185, 129, 0.12) !important;
+  border-color: #10B981 !important;
+  color: #047857 !important;
+  font-weight: 900;
+}
+[data-theme="dark"] .quiz-option.correct {
+  color: #34D399 !important;
+}
+.quiz-option.correct .option-num {
+  background: #10B981;
+  color: #FFFFFF;
+  border-color: #10B981;
+}
+
+.quiz-option.incorrect {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border-color: #EF4444 !important;
+  color: #DC2626 !important;
+  font-weight: 900;
+}
+[data-theme="dark"] .quiz-option.incorrect {
+  color: #F87171 !important;
+}
+.quiz-option.incorrect .option-num {
+  background: #EF4444;
+  color: #FFFFFF;
+  border-color: #EF4444;
+}
+
+.quiz-option.dimmed {
+  opacity: 0.6;
+}
+
+/* 7. 해설 및 피드백 박스 */
+.quiz-explanation-box {
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--line-bold);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin-top: 16px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.quiz-result-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 14.5px;
+  font-weight: 900;
+  margin-bottom: 14px;
+}
+.quiz-result-banner.correct {
+  background: rgba(16, 185, 129, 0.15);
+  color: #047857;
+  border: 1px solid #10B981;
+}
+[data-theme="dark"] .quiz-result-banner.correct {
+  color: #34D399;
+}
+.quiz-result-banner.incorrect {
+  background: rgba(239, 68, 68, 0.15);
+  color: #DC2626;
+  border: 1px solid #EF4444;
+}
+[data-theme="dark"] .quiz-result-banner.incorrect {
+  color: #F87171;
+}
+
+.quiz-explanation-text {
+  font-size: 14.5px;
+  line-height: 1.72;
+  color: var(--text-color);
+  margin-bottom: 14px;
+  word-break: keep-all;
+}
+
+.keypoint-card,
+.examiner-tip-card {
+  border-radius: var(--radius-sm);
+  margin: 12px 0;
+  overflow: hidden;
+  border: 1.5px solid var(--line);
+}
+
+.keypoint-card {
+  background: rgba(59, 130, 246, 0.06);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+.keypoint-card-header {
+  background: rgba(59, 130, 246, 0.12);
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 900;
+  color: #2563EB;
+}
+.keypoint-card-body {
+  padding: 10px 14px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.examiner-tip-card {
+  background: rgba(245, 158, 11, 0.06);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+.examiner-tip-header {
+  background: rgba(245, 158, 11, 0.12);
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 900;
+  color: #D97706;
+}
+.examiner-tip-body {
+  padding: 10px 14px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+/* 8. 반응형 미디어 쿼리 (스마트기출 모바일/태블릿) */
+@media (max-width: 900px) {
+  .practice-hero-card {
+    padding: 18px 16px;
+  }
+  .practice-hero-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .practice-stat-badge {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+  }
+  .practice-stat-badge .ps-num {
+    font-size: 20px;
+    margin-bottom: 0;
+  }
+  .quiz-card {
+    padding: 18px 16px;
+  }
+  .filter-selects-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .pack-chip-btn {
+    padding: 6px 11px;
+    font-size: 12px;
+  }
+  .ps-chip {
+    padding: 5px 10px;
+    font-size: 11.5px;
+  }
+  .filter-selects-row {
+    grid-template-columns: 1fr;
+  }
+  .quiz-question-text {
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+  .quiz-option {
+    padding: 11px 13px;
+    font-size: 13.5px;
+  }
+}
+
+

@@ -762,10 +762,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (quizFilter.difficulty !== "all" && q.difficulty !== quizFilter.difficulty) return false;
       if (quizFilter.importance !== "all" && getImportanceGrade(q) !== quizFilter.importance) return false;
       if (quizFilter.calcOnly && !isCalcQuestion(q)) return false;
+      if (quizFilter.bookmarkedOnly && !bookmarks.has(q.id)) return false;
+      if (quizFilter.is12thOnly && !q.question.includes("[12회")) return false;
       if (quizFilter.tag !== "all" && !q.question.includes(`[${quizFilter.tag}]`)) return false;
       if (quizFilter.keyword) {
         const kw = quizFilter.keyword.toLowerCase();
-        const text = (q.question + " " + (q.explanation || "") + " " + (q.choices || []).join(" ")).toLowerCase();
+        const text = (q.question + " " + (q.explanation || "") + " " + (q.chapter || "") + " " + (q.choices || []).join(" ")).toLowerCase();
         if (!text.includes(kw)) return false;
       }
       return true;
@@ -1649,6 +1651,9 @@ document.addEventListener("DOMContentLoaded", () => {
       buildNotesSearchIndex();
       updateHabitUI();
 
+      const psTotalEl = document.getElementById("practiceTotalCount");
+      if (psTotalEl) psTotalEl.textContent = allQuizzes.length;
+
     } catch (err) {
       console.error("Data load error:", err);
       if (contentEl) {
@@ -1708,105 +1713,136 @@ document.addEventListener("DOMContentLoaded", () => {
     navContainer.innerHTML = html;
   }
 
-  function renderContent(filterSubject = "all") {
+  // ==========================================
+  // 14. ENHANCED CONCEPT NOTES ENGINE (요약노트 고도화)
+  // ==========================================
+  let notesFilter = {
+    subject: "all",
+    unlearnedOnly: false,
+    bookmarkedOnly: false,
+    keyword: ""
+  };
+  let areAllCardsExpanded = true;
+
+  function renderContent() {
     if (!contentEl || !noteData || !noteData.sections) return;
     let html = "";
+    let totalRenderedSections = 0;
+    let totalRenderedCards = 0;
+
+    const kw = (notesFilter.keyword || "").trim().toLowerCase();
 
     noteData.sections.forEach(sec => {
       const calcSubject = sec.id.match(/^s(\d+)-/)?.[1];
-      const subject = sec.subject || calcSubject;
-      
-      if (filterSubject !== "all" && subject !== filterSubject) return;
+      const subject = String(sec.subject || calcSubject || "1");
+
+      // 1) 과목 필터링
+      if (notesFilter.subject !== "all") {
+        if (notesFilter.subject === "5") {
+          // 5과목 (자주 출제되는 핵심 개념 / 최신 출제 트렌드)
+          if (!sec.id.startsWith("s5-") && sec.id !== "s5-1" && sec.id !== "s5-2") return;
+        } else {
+          if (subject !== notesFilter.subject) return;
+        }
+      }
+
+      // 2) 카드 필터링 (미학습, 북마크, 키워드 검색)
+      const matchingCards = (sec.cards || []).filter(card => {
+        const isLearned = learnedConcepts.has(card.id);
+        const isBookmarked = bookmarks.has(card.id);
+
+        if (notesFilter.unlearnedOnly && isLearned) return false;
+        if (notesFilter.bookmarkedOnly && !isBookmarked) return false;
+
+        if (kw) {
+          const title = (card.title || "").toLowerCase();
+          const body = (card.content || "").toLowerCase();
+          if (!title.includes(kw) && !body.includes(kw)) return false;
+        }
+
+        return true;
+      });
+
+      if (matchingCards.length === 0) return;
+
+      totalRenderedSections++;
+      totalRenderedCards += matchingCards.length;
 
       html += `
-        <section id="${sec.id}" class="section-container" style="margin-bottom: 40px;">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; border-bottom: 2px solid var(--line-bold); padding-bottom: 10px;">
-            <h2 style="font-size: 22px; font-weight: 950; letter-spacing: -0.04em;">${escapeHTML(sec.title)}</h2>
-            ${subject ? `<span class="badge-tag">${SUBJECT_NAMES[subject] || subject + "과목"}</span>` : ""}
+        <section id="${sec.id}" class="section-container">
+          <div class="section-banner-header">
+            <div class="sec-title-group">
+              <span class="sec-num-badge">${escapeHTML(sec.num || sec.id)}</span>
+              <h2 class="sec-title-text">${escapeHTML(sec.title)}</h2>
+            </div>
+            <div class="sec-badges-group">
+              <span class="badge-tag">${SUBJECT_NAMES[subject] || (subject + "과목")}</span>
+              <span class="badge-count">${matchingCards.length}개 개념</span>
+            </div>
           </div>
           <div class="cards-list">
-            ${(sec.cards || []).map(card => renderNoteCardHTML(card)).join("")}
+            ${matchingCards.map(card => renderNoteCardHTML(card)).join("")}
           </div>
         </section>
       `;
     });
 
+    if (totalRenderedCards === 0) {
+      html = `
+        <div class="notes-empty-state">
+          <div class="empty-icon">🔍</div>
+          <h3>조건에 일치하는 요약노트 개념이 없습니다.</h3>
+          <p>과목 탭을 '전체 보기'로 전환하거나, 검색어/필터 조건을 해제해 보세요.</p>
+          <button id="btnResetNotesFilter" class="button button-brand" style="margin-top: 14px;">
+            필터 및 검색 초기화
+          </button>
+        </div>
+      `;
+    }
+
     contentEl.innerHTML = html;
     updateNoteProgress();
   }
 
-  const noteSubjectFilter = document.getElementById("note-subject-filter");
-  if (noteSubjectFilter) {
-    noteSubjectFilter.addEventListener("change", (e) => {
-      renderContent(e.target.value);
-    });
-  }
-
-  function buildNotesSearchIndex() {
-    notesSearchIndex = [];
-    if (!contentEl) return;
-    const cards = contentEl.querySelectorAll(".card");
-    cards.forEach(card => {
-      const title = (card.querySelector(".card-title")?.textContent || "").toLowerCase();
-      const body = (card.querySelector(".card-body")?.textContent || "").toLowerCase();
-      notesSearchIndex.push({
-        cardEl: card,
-        text: `${title} ${body}`
-      });
-    });
-  }
-
-  function handleNotesSearch(query) {
-    const kw = (query || "").trim().toLowerCase();
-    if (clearSearchBtn) {
-      if (kw) clearSearchBtn.classList.remove("hidden");
-      else clearSearchBtn.classList.add("hidden");
-    }
-
-    if (notesSearchIndex.length === 0) {
-      buildNotesSearchIndex();
-    }
-
-    let matchCount = 0;
-    notesSearchIndex.forEach(item => {
-      const isMatch = !kw || item.text.includes(kw);
-      item.cardEl.style.display = isMatch ? "" : "none";
-      if (isMatch) matchCount++;
-    });
-
-    if (searchStatusEl) {
-      if (kw) {
-        searchStatusEl.textContent = `검색 결과: ${matchCount}개 개념 발견`;
-        searchStatusEl.classList.remove("hidden");
-      } else {
-        searchStatusEl.classList.add("hidden");
-      }
-    }
-  }
-
   function renderNoteCardHTML(card) {
     const isLearned = learnedConcepts.has(card.id);
+    const isBookmarked = bookmarks.has(card.id);
     const relatedQuizzes = cardToQuizMap.get(card.id) || [];
     const cardContent = card.content || "";
+    const isExpanded = areAllCardsExpanded;
 
     return `
-      <div class="card" id="card-${card.id}" data-id="${card.id}">
-        <div class="card-header">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <button class="learn-check-btn ${isLearned ? 'learned' : ''}" data-id="${card.id}" style="width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--line-bold); background: ${isLearned ? 'var(--brand)' : 'var(--surface)'}; font-size: 12px; font-weight: 900;">
+      <div class="card ${isExpanded ? 'expanded' : 'collapsed'}" id="card-${card.id}" data-id="${card.id}">
+        <div class="card-header" data-action="toggle-accordion" title="클릭하여 내용 펼치기/접기">
+          <div class="card-header-left">
+            <button class="learn-check-btn ${isLearned ? 'learned' : ''}" data-id="${card.id}" data-action="toggle-learned" title="${isLearned ? '학습 완료됨 (클릭하여 취소)' : '학습 완료 체크'}">
               ${isLearned ? '✓' : ''}
             </button>
             <h3 class="card-title">${escapeHTML(card.title)}</h3>
           </div>
-          <div style="display: flex; gap: 8px;">
+          
+          <div class="card-header-actions" onclick="event.stopPropagation()">
+            <button class="card-action-btn card-bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" data-id="${card.id}" data-action="toggle-bookmark" title="${isBookmarked ? '북마크 해제' : '중요 개념 북마크(찜)'}">
+              ${isBookmarked ? '⭐' : '☆'}
+            </button>
+
+            <button class="card-action-btn card-copy-btn" data-id="${card.id}" data-action="copy-concept" title="개념 텍스트 클립보드 복사">
+              📋
+            </button>
+
             ${relatedQuizzes.length > 0 ? `
-              <button class="btn-small practice-card-quizzes-btn" data-id="${card.id}" style="background: var(--brand); color: #090909; border-color: #090909;">
+              <button class="btn-small practice-card-quizzes-btn" data-id="${card.id}" data-action="practice-quiz" title="이 개념의 기출/변형 문제 풀기">
                 📝 관련 기출 (${relatedQuizzes.length}제)
               </button>
             ` : ""}
+
+            <button class="card-accordion-toggle" data-action="toggle-accordion" title="접기/펼치기">
+              <span class="chevron-icon">▼</span>
+            </button>
           </div>
         </div>
-        <div class="card-body">
+
+        <div class="card-body ${isExpanded ? '' : 'hidden'}">
           ${cardContent}
         </div>
       </div>
@@ -1827,6 +1863,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if (progressPercent) progressPercent.textContent = `${pct}% (${learnedCount}/${totalCards})`;
   }
 
+  function handleNotesSearch(query) {
+    notesFilter.keyword = query;
+    const clearBtn = document.getElementById("clearNotesInlineSearch");
+    if (clearBtn) {
+      if (query) clearBtn.classList.remove("hidden");
+      else clearBtn.classList.add("hidden");
+    }
+    renderContent();
+  }
+
   function openConceptModal(cardId) {
     const card = cardMap.get(cardId);
     if (!card || !conceptModal) return;
@@ -1839,14 +1885,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (conceptModalBodyQuiz) {
       if (related.length === 0) {
-        conceptModalBodyQuiz.innerHTML = "<p style='padding: 20px; color: var(--text-muted);'>관련 기출문제가 없습니다.</p>";
+        conceptModalBodyQuiz.innerHTML = "<p style='padding: 20px; color: var(--text-muted); text-align: center;'>관련 기출문제가 없습니다.</p>";
       } else {
         conceptModalBodyQuiz.innerHTML = related.map((q, idx) => {
           const qChoices = q.choices || [];
           return `
-            <div style="background: var(--paper-subtle); border-radius: var(--radius-md); padding: 14px; margin-bottom: 12px;">
-              <div style="font-weight: 850; margin-bottom: 6px;">${formatQuestionText(q.question, idx + 1)}</div>
-              <div style="font-size: 13px; color: var(--text-muted);">정답: ${q.answer + 1}번 (${escapeHTML(qChoices[q.answer] || "")})</div>
+            <div style="background: var(--paper-subtle); border-radius: var(--radius-md); padding: 14px; margin-bottom: 12px; border: 1px solid var(--line);">
+              <div style="font-weight: 850; margin-bottom: 8px;">${formatQuestionText(q.question, idx + 1)}</div>
+              <div style="font-size: 13px; color: var(--primary-accent); font-weight: 750;">💡 정답: ${q.answer + 1}번 - ${escapeHTML(qChoices[q.answer] || "")}</div>
             </div>
           `;
         }).join("");
@@ -1882,7 +1928,13 @@ document.addEventListener("DOMContentLoaded", () => {
         conceptModal.classList.add("hidden");
         switchNav("notes");
         const targetEl = document.getElementById(`card-${cardId}`);
-        if (targetEl) targetEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        if (targetEl) {
+          targetEl.classList.remove("collapsed");
+          targetEl.classList.add("expanded");
+          const b = targetEl.querySelector(".card-body");
+          if (b) b.classList.remove("hidden");
+          targetEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
       };
     }
 
@@ -2053,11 +2105,150 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Quiz Filters
+    // Practice Mode Pack Buttons & Subject Filter Chips
+    setupPracticeHeaderEvents();
+
+    // Notes Search with Debounce
+    const debouncedNotesSearch = debounce((val) => handleNotesSearch(val), 120);
+    if (searchInput) {
+      searchInput.addEventListener("input", e => {
+        debouncedNotesSearch(e.target.value);
+      });
+    }
+    if (clearSearchBtn && searchInput) {
+      clearSearchBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        handleNotesSearch("");
+      });
+    }
+
+    // Enhanced Notes View Controls
+    setupNotesToolbarEvents();
+
+    // Set up Global Delegations
+    setupQuizToolbarDelegation();
+    setupQuizContainerDelegation();
+    setupWrongContainerDelegation();
+    setupOmrGridDelegation();
+    setupContentDelegation();
+    setupNavDelegation();
+    setupTimelineDelegation();
+  }
+
+  // --- ENHANCED: Practice Header & Filter Events ---
+  function setupPracticeHeaderEvents() {
+    const resetAllPills = () => {
+      document.querySelectorAll(".pack-chip-btn").forEach(b => b.classList.remove("active"));
+    };
+
+    // 1. A급 필수 300제 팩
+    const btnAgrade = document.getElementById("btnAgradePass");
+    if (btnAgrade) {
+      btnAgrade.addEventListener("click", () => {
+        resetAllPills();
+        btnAgrade.classList.add("active");
+        quizFilter = { subject: "all", difficulty: "all", importance: "A", tag: "all", keyword: "", conceptCardId: null, calcOnly: false, bookmarkedOnly: false, is12thOnly: false };
+        if (importanceFilter) importanceFilter.value = "A";
+        applyQuizFilter();
+        renderQuizzes(true);
+        showToast("⭐ A급 필수 300제 모드로 전환되었습니다!");
+      });
+    }
+
+    // 2. 12회 기출복원 킬러 30제 팩
+    const btn12th = document.getElementById("btn12thExamPack");
+    if (btn12th) {
+      btn12th.addEventListener("click", () => {
+        resetAllPills();
+        btn12th.classList.add("active");
+        quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: false, bookmarkedOnly: false, is12thOnly: true };
+        applyQuizFilter();
+        renderQuizzes(true);
+        showToast("🔥 12회 기출복원 킬러 문항 모드로 전환되었습니다!");
+      });
+    }
+
+    // 3. 계산 문제 집중 공략 팩
+    const btnCalc = document.getElementById("btnCalcPack");
+    if (btnCalc) {
+      btnCalc.addEventListener("click", () => {
+        resetAllPills();
+        btnCalc.classList.add("active");
+        quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: true, bookmarkedOnly: false, is12thOnly: false };
+        applyQuizFilter();
+        renderQuizzes(true);
+        showToast("🧮 2·3과목 빈출 계산 공식 팩으로 전환되었습니다!");
+      });
+    }
+
+    // 4. 13회 출제예상 20제
+    const target13thBtn = document.getElementById("target13thQuizBtn");
+    if (target13thBtn) {
+      target13thBtn.addEventListener("click", () => {
+        resetAllPills();
+        target13thBtn.classList.add("active");
+        const matched = allQuizzes.filter(q => {
+          const text = (q.question + " " + q.chapter).toLowerCase();
+          return TARGET_13TH_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
+        });
+        workingQuizzes = shuffleArray(matched).slice(0, 20);
+        renderQuizzes(true);
+        showToast("🎯 13회 적중 출제예상 20문항이 추출되었습니다!");
+      });
+    }
+
+    // 5. 빈출 용어·통계 20제
+    const termStatBtn = document.getElementById("termStatQuizBtn");
+    if (termStatBtn) {
+      termStatBtn.addEventListener("click", () => {
+        resetAllPills();
+        termStatBtn.classList.add("active");
+        const matched = allQuizzes.filter(q => {
+          const text = (q.question + " " + q.chapter).toLowerCase();
+          return TERM_STAT_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
+        });
+        workingQuizzes = shuffleArray(matched).slice(0, 20);
+        renderQuizzes(true);
+        showToast("🔄 빈출 용어·통계 20문항이 추출되었습니다!");
+      });
+    }
+
+    // 6. 북마크만 모아 풀기
+    const btnBookmarked = document.getElementById("btnBookmarkedOnly");
+    if (btnBookmarked) {
+      btnBookmarked.addEventListener("click", () => {
+        if (bookmarks.size === 0) {
+          showToast("⚠️ 북마크(⭐)한 문제가 없습니다. 문제의 별표를 눌러 추가해보세요!");
+          return;
+        }
+        resetAllPills();
+        btnBookmarked.classList.add("active");
+        quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: false, bookmarkedOnly: true, is12thOnly: false };
+        applyQuizFilter();
+        renderQuizzes(true);
+        showToast(`⭐ 북마크한 ${workingQuizzes.length}문항을 불러왔습니다!`);
+      });
+    }
+
+    // 7. 과목 퀵 칩 (전과목 / 1과목 / 2과목 / 3과목 / 4과목)
+    const psChips = document.querySelectorAll(".ps-chip");
+    psChips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        psChips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        const sub = chip.dataset.sub;
+        quizFilter.subject = sub;
+        if (subjectFilter) subjectFilter.value = sub;
+        applyQuizFilter();
+        renderQuizzes(true);
+      });
+    });
+
+    // 8. Select Filters
     if (subjectFilter) {
       subjectFilter.addEventListener("change", e => {
         quizFilter.subject = e.target.value;
-        quizFilter.conceptCardId = null;
+        psChips.forEach(c => c.classList.toggle("active", c.dataset.sub === e.target.value));
         applyQuizFilter();
         renderQuizzes(true);
       });
@@ -2083,149 +2274,122 @@ document.addEventListener("DOMContentLoaded", () => {
         renderQuizzes(true);
       });
     }
-    if (searchQuizBtn) {
-      searchQuizBtn.addEventListener("click", () => {
-        if (keywordSearch) quizFilter.keyword = keywordSearch.value.trim();
+
+    // 9. Search & Reset
+    const searchBtn = document.getElementById("searchQuizBtn");
+    const kwInput = document.getElementById("keywordSearch");
+    if (searchBtn) {
+      searchBtn.addEventListener("click", () => {
+        if (kwInput) quizFilter.keyword = kwInput.value.trim();
         applyQuizFilter();
         renderQuizzes(true);
       });
     }
-    if (keywordSearch) {
-      keywordSearch.addEventListener("keydown", e => {
+    if (kwInput) {
+      kwInput.addEventListener("keydown", e => {
         if (e.key === "Enter") {
-          quizFilter.keyword = keywordSearch.value.trim();
+          quizFilter.keyword = kwInput.value.trim();
           applyQuizFilter();
           renderQuizzes(true);
         }
       });
     }
-
-    // Practice Quick Filters
-    if (target13thQuizBtn) {
-      target13thQuizBtn.addEventListener("click", () => {
-        const matched = allQuizzes.filter(q => {
-          const text = (q.question + " " + q.chapter).toLowerCase();
-          return TARGET_13TH_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
-        });
-        workingQuizzes = shuffleArray(matched).slice(0, 20);
+    const resetBtn = document.getElementById("resetFilterBtn");
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () => {
+        resetAllPills();
+        quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: false, bookmarkedOnly: false, is12thOnly: false };
+        if (subjectFilter) subjectFilter.value = "all";
+        if (difficultyFilter) difficultyFilter.value = "all";
+        if (importanceFilter) importanceFilter.value = "all";
+        if (tagFilter) tagFilter.value = "all";
+        if (kwInput) kwInput.value = "";
+        psChips.forEach(c => c.classList.toggle("active", c.dataset.sub === "all"));
+        applyQuizFilter();
         renderQuizzes(true);
+        showToast("🔄 모든 필터와 검색이 초기화되었습니다.");
       });
     }
-
-    if (termStatQuizBtn) {
-      termStatQuizBtn.addEventListener("click", () => {
-        const matched = allQuizzes.filter(q => {
-          const text = (q.question + " " + q.chapter).toLowerCase();
-          return TERM_STAT_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
-        });
-        workingQuizzes = shuffleArray(matched).slice(0, 20);
-        renderQuizzes(true);
-      });
+    const shuffleBtn = document.getElementById("shuffleQuizBtn");
+    if (shuffleBtn) {
+      shuffleBtn.addEventListener("click", () => handleShuffleQuizzes());
     }
+  }
 
-    // Tabs
-    if (tabPractice) tabPractice.addEventListener("click", () => switchNav("practice"));
-    if (tabMockExam) tabMockExam.addEventListener("click", () => switchNav("mock"));
-
-    if (mockPreset11th) mockPreset11th.addEventListener("click", () => loadMockPreset("11th"));
-    if (mockPreset10th) mockPreset10th.addEventListener("click", () => loadMockPreset("10th"));
-    if (mockPreset4th) mockPreset4th.addEventListener("click", () => loadMockPreset("4th"));
-    if (mockPresetRandom) mockPresetRandom.addEventListener("click", () => loadMockPreset("random"));
-
-    if (openOmrBtn) openOmrBtn.addEventListener("click", () => toggleOmr(true));
-    if (closeOmrBtn) closeOmrBtn.addEventListener("click", () => toggleOmr(false));
-    if (omrOverlay) omrOverlay.addEventListener("click", () => toggleOmr(false));
-    if (submitExamBtn) submitExamBtn.addEventListener("click", submitMockExam);
-    if (omrSubmitBtn) omrSubmitBtn.addEventListener("click", submitMockExam);
-
-    if (closeConceptBtn && conceptModal) {
-      closeConceptBtn.addEventListener("click", () => conceptModal.classList.add("hidden"));
-    }
-    if (closeConceptModalBtn && conceptModal) {
-      closeConceptModalBtn.addEventListener("click", () => conceptModal.classList.add("hidden"));
-    }
-
-    document.querySelectorAll(".wrong-filter-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".wrong-filter-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        renderWrongNotesView(btn.dataset.filter);
+  // --- ENHANCED: Notes Toolbar & Tabs Events ---
+  function setupNotesToolbarEvents() {
+    // 1. Subject Tabs Filter
+    const subjectTabs = document.querySelectorAll(".notes-sub-tab");
+    subjectTabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        subjectTabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        notesFilter.subject = tab.dataset.subject || "all";
+        renderContent();
       });
     });
 
-    if (retryAllWrongBtn) {
-      retryAllWrongBtn.addEventListener("click", () => {
-        const wrongIds = Object.keys(cumulativeStats.quizzes || {}).filter(id => {
-          const q = cumulativeStats.quizzes[id];
-          return q.wrongCount > 0 && !q.mastered;
-        });
-        workingQuizzes = allQuizzes.filter(q => wrongIds.includes(q.id));
-        switchNav("practice");
-        renderQuizzes(true);
-      });
-    }
-
-    // Unified Modal Overlay Backdrop Click-to-Close
-    document.querySelectorAll(".modal-overlay").forEach(overlayEl => {
-      overlayEl.addEventListener("click", e => {
-        if (e.target === overlayEl) {
-          overlayEl.classList.add("hidden");
+    // 2. Expand / Collapse All Cards
+    const toggleAllBtn = document.getElementById("btnToggleAllCards");
+    const toggleAllText = document.getElementById("toggleAllText");
+    if (toggleAllBtn) {
+      toggleAllBtn.addEventListener("click", () => {
+        areAllCardsExpanded = !areAllCardsExpanded;
+        if (toggleAllText) {
+          toggleAllText.textContent = areAllCardsExpanded ? "전체 접기" : "전체 펼치기";
         }
-      });
-    });
-
-    // Keyboard Shortcuts (Ctrl+K, Esc, OX shortcuts)
-    window.addEventListener("keydown", e => {
-      if (e.key === "Escape") {
-        document.querySelectorAll(".modal-overlay").forEach(m => m.classList.add("hidden"));
-        if (omrDrawer) omrDrawer.classList.add("hidden");
-        if (omrOverlay) omrOverlay.classList.add("hidden");
-        if (sidebar && window.innerWidth <= 900) {
-          sidebar.classList.remove("active");
-          if (overlay) overlay.classList.remove("active");
-        }
-      }
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        switchNav("notes");
-        if (searchInput) searchInput.focus();
-      }
-      if (oxTrainerModal && !oxTrainerModal.classList.contains("hidden")) {
-        if (e.key.toLowerCase() === "o" || e.key === "ArrowLeft") {
-          if (!oxBtnTrue.disabled) handleOxAnswer(true);
-        } else if (e.key.toLowerCase() === "x" || e.key === "ArrowRight") {
-          if (!oxBtnFalse.disabled) handleOxAnswer(false);
-        } else if (e.key === " " || e.key === "Enter") {
-          if (!oxFeedbackBox.classList.contains("hidden")) {
-            oxCurrentIdx++;
-            renderOxQuestion();
+        toggleAllBtn.classList.toggle("active", areAllCardsExpanded);
+        
+        const allCards = document.querySelectorAll(".notes-cards-container .card");
+        allCards.forEach(card => {
+          if (areAllCardsExpanded) {
+            card.classList.remove("collapsed");
+            card.classList.add("expanded");
+            const b = card.querySelector(".card-body");
+            if (b) b.classList.remove("hidden");
+          } else {
+            card.classList.remove("expanded");
+            card.classList.add("collapsed");
+            const b = card.querySelector(".card-body");
+            if (b) b.classList.add("hidden");
           }
-        }
-      }
-    });
-
-    // Notes Search with Debounce
-    const debouncedNotesSearch = debounce((val) => handleNotesSearch(val), 120);
-    if (searchInput) {
-      searchInput.addEventListener("input", e => {
-        debouncedNotesSearch(e.target.value);
+        });
       });
     }
-    if (clearSearchBtn && searchInput) {
-      clearSearchBtn.addEventListener("click", () => {
-        searchInput.value = "";
+
+    // 3. Filter Unlearned Concepts Only
+    const filterUnlearnedBtn = document.getElementById("btnFilterUnlearned");
+    if (filterUnlearnedBtn) {
+      filterUnlearnedBtn.addEventListener("click", () => {
+        notesFilter.unlearnedOnly = !notesFilter.unlearnedOnly;
+        filterUnlearnedBtn.classList.toggle("active", notesFilter.unlearnedOnly);
+        renderContent();
+      });
+    }
+
+    // 4. Filter Bookmarked Concepts Only
+    const filterBookmarkedBtn = document.getElementById("btnFilterBookmarked");
+    if (filterBookmarkedBtn) {
+      filterBookmarkedBtn.addEventListener("click", () => {
+        notesFilter.bookmarkedOnly = !notesFilter.bookmarkedOnly;
+        filterBookmarkedBtn.classList.toggle("active", notesFilter.bookmarkedOnly);
+        renderContent();
+      });
+    }
+
+    // 5. Inline Search Input in Notes Header
+    const inlineSearch = document.getElementById("notesInlineSearchInput");
+    const clearInlineSearch = document.getElementById("clearNotesInlineSearch");
+    if (inlineSearch) {
+      const debouncedInline = debounce(val => handleNotesSearch(val), 100);
+      inlineSearch.addEventListener("input", e => debouncedInline(e.target.value));
+    }
+    if (clearInlineSearch && inlineSearch) {
+      clearInlineSearch.addEventListener("click", () => {
+        inlineSearch.value = "";
         handleNotesSearch("");
       });
     }
-
-    // Set up Global Delegations
-    setupQuizToolbarDelegation();
-    setupQuizContainerDelegation();
-    setupWrongContainerDelegation();
-    setupOmrGridDelegation();
-    setupContentDelegation();
-    setupNavDelegation();
-    setupTimelineDelegation();
   }
 
   // --- DELEGATION 0: Quiz Toolbar ---
@@ -2304,8 +2468,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           mockFlaggedSet.add(quizId);
           flagBtn.classList.add("active");
-          flagBtn.textContent = "★ 검토중";
-          flagBtn.style.cssText = "background:#FEF3C7; color:#B45309; border-color:#F59E0B;";
+          flagBtn.textContent = "🚩 검토중";
+          flagBtn.style.cssText = "background: rgba(239, 68, 68, 0.15); color: #EF4444; border-color: #EF4444; font-weight: 850;";
         }
         updateSingleOmrRow(quizId, mockSolvedMap.get(quizId), mockFlaggedSet.has(quizId));
         updateOmrHeaderCounts();
@@ -2318,7 +2482,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const card = optBtn.closest(".quiz-card");
         if (!card) return;
         const quizId = card.dataset.id;
-        const choiceIdx = parseInt(optBtn.dataset.choice, 10);
+        const choiceIdx = parseInt(optBtn.dataset.choice || optBtn.dataset.index, 10);
+        if (isNaN(choiceIdx)) return;
         const quiz = allQuizzes.find(q => q.id === quizId);
         if (!quiz) return;
 
