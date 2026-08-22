@@ -25,6 +25,9 @@
 
     <link rel="stylesheet" href="style.css" />
 
+    <!-- Game/Animation Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <script>
       // 빠른 테마 적용 (깜빡임 방지)
       const savedTheme = localStorage.getItem("theme") || "light";
@@ -335,6 +338,14 @@
                   <h4 class="quick-card-title">선지 OX 벼락치기 훈련</h4>
                   <p class="quick-card-desc">4지선다 보기를 단일 명제로 쪼개어 O/X 판별하는 스피드 특효약</p>
                   <div class="quick-card-cta">OX 훈련 시작 ➔</div>
+                </div>
+
+                <div class="quick-action-card" id="quickSprintModeBtn">
+                  <div class="quick-card-badge brand-bg" style="background: rgba(255, 59, 48, 0.15); color: #FF3B30; border-color: #FF3B30;">초집중 타임어택</div>
+                  <div class="quick-card-icon">⏱️</div>
+                  <h4 class="quick-card-title">5분 벼락치기 스플린트</h4>
+                  <p class="quick-card-desc">짧은 시간 안에 머리를 깨우는 극한의 랜덤 50제 스피드 패스</p>
+                  <div class="quick-card-cta">스프린트 시작 ➔</div>
                 </div>
 
                 <div class="quick-action-card" id="quickCalcPackBtn">
@@ -682,6 +693,68 @@
             <div id="wrongListContainer" class="wrong-list-container"></div>
           </div>
 
+          <!-- ============================================== -->
+          <!-- VIEW 5: 📊 전체 분석 대시보드 (Stats View) -->
+          <!-- ============================================== -->
+          <div id="stats-view" class="view-section hidden">
+            <div class="knowway-hero" style="min-height: auto; padding: 32px 0 24px;">
+              <div class="hero-tag" style="background: rgba(48,209,88,0.15); color: var(--success);">
+                📊 실력 심층 분석
+              </div>
+              <h2 class="hero-main-title" style="font-size: clamp(28px, 4vw, 42px);">
+                전체 분석 대시보드
+              </h2>
+              <p class="hero-desc">
+                과목별 정답률 통계를 한눈에 확인하고 취약한 부분을 전략적으로 집중 공략하세요.
+              </p>
+            </div>
+
+            <!-- 과목별 정답률 바 차트 -->
+            <div class="section-card">
+              <div class="section-card-header">
+                <h3 class="section-card-title">과목별 상세 정답률 분석</h3>
+              </div>
+              <div id="statsSubjectGrid" class="stats-bars-wrapper" style="margin-top: 16px;">
+                 <!-- JS로 차트 주입 -->
+              </div>
+            </div>
+
+            <!-- 빅분기 CBT 실전 모의고사 뷰어용 종합 통계 텍스트 -->
+            <div class="section-card">
+              <div class="section-card-header">
+                <h3 class="section-card-title">누적 학습 마일스톤</h3>
+              </div>
+              <div class="stats-milestone-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 16px;">
+                <div class="stat-mile-card" style="padding: 16px; background: var(--bg-secondary); border-radius: 12px; text-align: center;">
+                  <div id="statTotSolved" style="font-size: 28px; font-weight: 800; color: var(--text-color);">0</div>
+                  <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">총 풀이 문항 수</div>
+                </div>
+                <div class="stat-mile-card" style="padding: 16px; background: var(--bg-secondary); border-radius: 12px; text-align: center;">
+                  <div id="statTotAcc" style="font-size: 28px; font-weight: 800; color: var(--text-color);">0%</div>
+                  <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">평균 정답률</div>
+                </div>
+                <div class="stat-mile-card" style="padding: 16px; background: var(--bg-secondary); border-radius: 12px; text-align: center;">
+                  <div id="statTotMaster" style="font-size: 28px; font-weight: 800; color: var(--text-color);">0</div>
+                  <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">오답 탈출 성공</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 데이터 관리 (백업/복원/초기화) -->
+            <div class="section-card">
+              <div class="section-card-header">
+                <h3 class="section-card-title">데이터 보안 및 설정 관리</h3>
+                <p class="section-card-sub">소중한 학습 데이터를 잃지 않게 안전하게 로컬 기기(PC/스마트폰)에 백업하고 복원하세요.</p>
+              </div>
+              <div class="data-actions-row" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px;">
+                <button id="btnExportData" class="button button-light">⬇️ 데이터 백업 다운로드 (.json)</button>
+                <input type="file" id="fileImportData" accept=".json" style="display:none;" />
+                <label for="fileImportData" class="button button-light" style="display:inline-block; margin:0; cursor:pointer;">⬆️ 백업된 데이터 불러오기</label>
+                <button id="btnResetData" class="button" style="background: rgba(255, 59, 48, 0.1); color: var(--danger); border-color: transparent;">🗑️ 모든 기록 리셋</button>
+              </div>
+            </div>
+          </div>
+
         </div>
       </main>
     </div>
@@ -711,6 +784,11 @@
     <!-- ============================================== -->
     <!-- MODAL 2: ⚡ 선지 OX 벼락치기 훈련 모달 (New) -->
     <!-- ============================================== -->
+    <!-- Floating Sprint Timer -->
+    <div id="sprintTimerOverlay" class="hidden" style="position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: rgba(9, 9, 9, 0.9); color: #F3FA05; padding: 12px 24px; border-radius: 99px; font-size: 24px; font-weight: 900; z-index: 1050; border: 2px solid #F3FA05; box-shadow: 0 8px 32px rgba(243, 250, 5, 0.3); backdrop-filter: blur(10px); transition: all 0.2s;">
+      ⏱️ 05:00
+    </div>
+
     <div id="oxTrainerModal" class="modal-overlay hidden">
       <div class="modal-card blur-glass ox-trainer-modal-card">
         <div class="modal-header">

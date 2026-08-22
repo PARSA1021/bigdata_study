@@ -126,6 +126,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const notesView = document.getElementById("notes-view");
   const quizContentView = document.getElementById("quiz-content");
   const wrongView = document.getElementById("wrong-view");
+  const statsView = document.getElementById("stats-view");
+
+  // Stats View & Settings elements
+  const statsSubjectGrid = document.getElementById("statsSubjectGrid");
+  const statTotSolved = document.getElementById("statTotSolved");
+  const statTotAcc = document.getElementById("statTotAcc");
+  const statTotMaster = document.getElementById("statTotMaster");
+  const btnExportData = document.getElementById("btnExportData");
+  const fileImportData = document.getElementById("fileImportData");
+  const btnResetData = document.getElementById("btnResetData");
 
   // Home view elements
   const homeDdayCount = document.getElementById("homeDdayCount");
@@ -215,8 +225,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const retryAllWrongBtn = document.getElementById("retryAllWrongBtn");
 
   // Modals
+  const sprintTimerOverlay = document.getElementById("sprintTimerOverlay");
+  const quickSprintModeBtn = document.getElementById("quickSprintModeBtn");
+  let sprintInterval = null;
+  let sprintSeconds = 300;
+  let isSprintMode = false;
+
   const oxTrainerModal = document.getElementById("oxTrainerModal");
   const closeOxModalBtn = document.getElementById("closeOxModalBtn");
+  const oxQuestionCard = document.getElementById("oxQuestionCard");
   const oxProgressText = document.getElementById("oxProgressText");
   const oxStreakText = document.getElementById("oxStreakText");
   const oxSubjectTag = document.getElementById("oxSubjectTag");
@@ -666,12 +683,16 @@ document.addEventListener("DOMContentLoaded", () => {
   function switchNav(targetNav, options = {}) {
     currentNav = targetNav;
 
+    if (targetNav !== "practice" && isSprintMode) {
+      endSprintMode(true);
+    }
+
     mainNavButtons.forEach(btn => {
       if (btn.dataset.nav === targetNav) btn.classList.add("active");
       else btn.classList.remove("active");
     });
 
-    [homeView, notesView, quizContentView, wrongView].forEach(v => {
+    [homeView, notesView, quizContentView, wrongView, statsView].forEach(v => {
       if (v) v.classList.add("hidden");
     });
 
@@ -706,6 +727,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (targetNav === "wrong") {
       if (wrongView) wrongView.classList.remove("hidden");
       renderWrongNotesView("all");
+    } else if (targetNav === "stats") {
+      if (statsView) statsView.classList.remove("hidden");
+      renderStatsDashboard();
     }
   }
 
@@ -1219,6 +1243,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function triggerConfetti() {
+    if (window.confetti) {
+      confetti({
+        particleCount: 150,
+        spread: 90,
+        origin: { y: 0.6 },
+        colors: ['#F3FA05', '#3B82F6', '#10B981', '#FF3B30'],
+        zIndex: 9999
+      });
+    }
+  }
+
   function submitMockExam() {
     if (isMockSubmitted) {
       alert("이미 제출된 시험입니다.");
@@ -1276,6 +1312,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const isPassed = totalScore >= 60 && !hasDisqualification;
+    
+    if (isPassed) {
+      setTimeout(triggerConfetti, 400);
+    }
 
     if (!mockRecords[currentPreset]) mockRecords[currentPreset] = { bestScore: 0, lastScore: 0, passed: false, solvedCount: 0 };
     mockRecords[currentPreset].lastScore = totalScore;
@@ -1361,6 +1401,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function renderOxQuestion() {
     if (oxCurrentIdx >= oxItems.length) {
+      triggerConfetti();
       alert(`🎉 선지 OX 훈련 완료! 총 ${oxCurrentIdx}개 선지를 학습하셨습니다.`);
       if (oxTrainerModal) oxTrainerModal.classList.add("hidden");
       return;
@@ -1781,7 +1822,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
           </div>
           <div class="cards-list">
-            ${matchingCards.map(card => renderNoteCardHTML(card)).join("")}
+            ${matchingCards.map(card => renderNoteCardHTML(card, kw)).join("")}
           </div>
         </section>
       `;
@@ -1804,12 +1845,19 @@ document.addEventListener("DOMContentLoaded", () => {
     updateNoteProgress();
   }
 
-  function renderNoteCardHTML(card) {
+  function highlightSearchKeywordStr(text, kw) {
+    if (!kw || !text) return escapeHTML(text);
+    const regex = new RegExp(`(${escapeHTML(kw)})`, "gi");
+    return escapeHTML(text).replace(regex, `<span style="background-color: var(--brand); color: #090909; font-weight: 950; padding: 0 4px; border-radius: 4px;">$1</span>`);
+  }
+
+  function renderNoteCardHTML(card, kw = "") {
     const isLearned = learnedConcepts.has(card.id);
     const isBookmarked = bookmarks.has(card.id);
     const relatedQuizzes = cardToQuizMap.get(card.id) || [];
     const cardContent = card.content || "";
     const isExpanded = areAllCardsExpanded;
+    const displayTitle = kw ? highlightSearchKeywordStr(card.title, kw) : escapeHTML(card.title);
 
     return `
       <div class="card ${isExpanded ? 'expanded' : 'collapsed'}" id="card-${card.id}" data-id="${card.id}">
@@ -1818,7 +1866,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <button class="learn-check-btn ${isLearned ? 'learned' : ''}" data-id="${card.id}" data-action="toggle-learned" title="${isLearned ? '학습 완료됨 (클릭하여 취소)' : '학습 완료 체크'}">
               ${isLearned ? '✓' : ''}
             </button>
-            <h3 class="card-title">${escapeHTML(card.title)}</h3>
+            <h3 class="card-title">${displayTitle}</h3>
           </div>
           
           <div class="card-header-actions" onclick="event.stopPropagation()">
@@ -1943,9 +1991,73 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ==========================================
+  // 14.5 SPRINT MODE ENGINE
+  // ==========================================
+  function startSprintMode() {
+    isSprintMode = true;
+    switchNav("practice");
+    workingQuizzes = shuffleArray([...allQuizzes]).slice(0, 50);
+    currentPage = 1;
+
+    if (practiceHeader) practiceHeader.classList.add("hidden");
+    if (sprintTimerOverlay) sprintTimerOverlay.classList.remove("hidden");
+    
+    sprintSeconds = 300;
+    updateSprintTimerUI();
+    renderQuizzes(true);
+
+    clearInterval(sprintInterval);
+    sprintInterval = setInterval(() => {
+      sprintSeconds--;
+      updateSprintTimerUI();
+      if (sprintSeconds <= 0) endSprintMode(false);
+    }, 1000);
+  }
+
+  function updateSprintTimerUI() {
+    if (!sprintTimerOverlay) return;
+    const m = Math.floor(sprintSeconds / 60).toString().padStart(2, "0");
+    const s = (sprintSeconds % 60).toString().padStart(2, "0");
+    sprintTimerOverlay.textContent = `⏱️ ${m}:${s}`;
+    
+    if (sprintSeconds <= 15) {
+      sprintTimerOverlay.style.color = "#FF3B30";
+      sprintTimerOverlay.style.borderColor = "#FF3B30";
+      sprintTimerOverlay.style.transform = `translateX(-50%) scale(${1 + (sprintSeconds % 2 === 0 ? 0.05 : 0)})`;
+    } else {
+      sprintTimerOverlay.style.color = "#F3FA05";
+      sprintTimerOverlay.style.borderColor = "#F3FA05";
+      sprintTimerOverlay.style.transform = "translateX(-50%) scale(1)";
+    }
+  }
+
+  function endSprintMode(silent = false) {
+    clearInterval(sprintInterval);
+    isSprintMode = false;
+    if (sprintTimerOverlay) sprintTimerOverlay.classList.add("hidden");
+    if (practiceHeader) practiceHeader.classList.remove("hidden");
+    
+    if (!silent) {
+      alert("시간 종료! 5분 벼락치기 타임어택이 마무리 되었습니다.");
+      triggerConfetti();
+    }
+  }
+
+  // ==========================================
   // 15. EVENT DELEGATION & GLOBAL LISTENERS
   // ==========================================
   function setupEventListeners() {
+    // Settings & Data Management
+    if (btnExportData) {
+      btnExportData.addEventListener("click", handleExportData);
+    }
+    if (fileImportData) {
+      fileImportData.addEventListener("change", handleImportData);
+    }
+    if (btnResetData) {
+      btnResetData.addEventListener("click", handleResetData);
+    }
+
     // Navigation Tabs
     mainNavButtons.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -2006,6 +2118,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Quick Triggers
+    if (quickSprintModeBtn) {
+      quickSprintModeBtn.addEventListener("click", startSprintMode);
+    }
     if (quickAgradePassBtn) {
       quickAgradePassBtn.addEventListener("click", () => {
         switchNav("practice");
@@ -2124,6 +2239,62 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Enhanced Notes View Controls
     setupNotesToolbarEvents();
+
+    if (oxQuestionCard) {
+      let startX = 0; let currentX = 0; let isDragging = false;
+      const threshold = window.innerWidth > 600 ? 120 : 80;
+
+      oxQuestionCard.addEventListener("touchstart", (e) => {
+        if (oxBtnTrue.disabled || oxBtnFalse.disabled) return;
+        startX = e.touches[0].clientX;
+        isDragging = true;
+        oxQuestionCard.style.transition = "none";
+      }, {passive:true});
+
+      oxQuestionCard.addEventListener("touchmove", (e) => {
+        if (!isDragging) return;
+        currentX = e.touches[0].clientX;
+        const diffX = currentX - startX;
+        const rotate = diffX * 0.05;
+        oxQuestionCard.style.transform = `translateX(${diffX}px) rotate(${rotate}deg)`;
+        
+        if (diffX > threshold / 2) {
+          oxQuestionCard.style.boxShadow = "4px 4px 20px rgba(16, 185, 129, 0.4)";
+        } else if (diffX < -threshold / 2) {
+          oxQuestionCard.style.boxShadow = "-4px 4px 20px rgba(255, 59, 48, 0.4)";
+        } else {
+          oxQuestionCard.style.boxShadow = "none";
+        }
+      }, {passive:true});
+
+      oxQuestionCard.addEventListener("touchend", () => {
+        if (!isDragging) return;
+        isDragging = false;
+        oxQuestionCard.style.transition = "transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease";
+        oxQuestionCard.style.boxShadow = "none";
+        
+        const diffX = currentX - startX;
+        if (diffX > threshold) { 
+          oxQuestionCard.style.transform = `translateX(120%) rotate(15deg)`;
+          oxQuestionCard.style.opacity = "0";
+          setTimeout(() => {
+             handleOxAnswer(true);
+             oxQuestionCard.style.transform = "none";
+             oxQuestionCard.style.opacity = "1";
+          }, 300);
+        } else if (diffX < -threshold) { 
+          oxQuestionCard.style.transform = `translateX(-120%) rotate(-15deg)`;
+          oxQuestionCard.style.opacity = "0";
+          setTimeout(() => {
+             handleOxAnswer(false);
+             oxQuestionCard.style.transform = "none";
+             oxQuestionCard.style.opacity = "1";
+          }, 300);
+        } else {
+          oxQuestionCard.style.transform = "none";
+        }
+      });
+    }
 
     // Set up Global Delegations
     setupQuizToolbarDelegation();
@@ -2718,6 +2889,33 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/'/g, "&#039;");
   }
 
+  function highlightTrapKeywords(str) {
+    if (!str || typeof str !== "string") return str;
+    const resArr = [];
+    const keywords = [
+      { text: "적절하지 않은", cls: "keyword-danger" },
+      { text: "아닌 것은",     cls: "keyword-danger" },
+      { text: "틀린 것은",     cls: "keyword-danger" },
+      { text: "거리가 먼",     cls: "keyword-danger" },
+      { text: "옳지 않은",     cls: "keyword-danger" },
+      { text: "가장 먼",       cls: "keyword-danger" },
+      { text: "틀리게",        cls: "keyword-danger" },
+      
+      { text: "적절한 것은",   cls: "keyword-safe" },
+      { text: "옳은 것은",     cls: "keyword-safe" },
+      { text: "맞는 것은",     cls: "keyword-safe" },
+      { text: "가장 올바른",   cls: "keyword-safe" }
+    ];
+
+    let processed = str;
+    // VERY simplistic string search/highlight, assuming keywords are not part of HTML tags
+    keywords.forEach(kw => {
+      const re = new RegExp(kw.text, 'g');
+      processed = processed.replace(re, `<strong class="${kw.cls}">${kw.text}</strong>`);
+    });
+    return processed;
+  }
+
   function formatQuestionText(text, displayNum) {
     if (!text || typeof text !== "string") return "";
 
@@ -2733,7 +2931,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       return `
         <div class="quiz-main-prompt">
-          ${numPrefix}<span>${escapeHTML(mainQuestion)}</span>
+          ${numPrefix}<span>${highlightTrapKeywords(escapeHTML(mainQuestion))}</span>
         </div>
         <div class="quiz-box-prompt">
           <div class="quiz-box-prompt-title">📌 [${escapeHTML(boxTag)}]</div>
@@ -2744,13 +2942,135 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return `
       <div class="quiz-main-prompt">
-        ${numPrefix}<span>${escapeHTML(text)}</span>
+        ${numPrefix}<span>${highlightTrapKeywords(escapeHTML(text))}</span>
       </div>
     `;
   }
 
   // ==========================================
-  // 16. BOOTSTRAP APPLICATION
+  // 16. SETTINGS & ADVANCED STATS VIEWER
+  // ==========================================
+  function renderStatsDashboard() {
+    if (!statsSubjectGrid) return;
+    
+    // Overview Update
+    const acc = cumulativeStats.totalSolved > 0 
+      ? Math.round((cumulativeStats.totalCorrect / cumulativeStats.totalSolved) * 100) 
+      : 0;
+    
+    let masteredCount = 0;
+    Object.values(cumulativeStats.quizzes || {}).forEach(q => {
+      if (q.mastered) masteredCount++;
+    });
+
+    if (statTotSolved) statTotSolved.textContent = cumulativeStats.totalSolved + "제";
+    if (statTotAcc) statTotAcc.textContent = acc + "%";
+    if (statTotMaster) statTotMaster.textContent = masteredCount + "문항";
+
+    // Subject Breakdown Update
+    let html = "";
+    for (let s = 1; s <= 4; s++) {
+      const stat = cumulativeStats.subjects[s] || { solved: 0, correct: 0 };
+      const rate = stat.solved > 0 ? Math.round((stat.correct / stat.solved) * 100) : 0;
+      const isDanger = stat.solved >= 10 && rate < 40;
+
+      html += `
+        <div class="subject-bar-card stat-detail-card" style="margin-bottom: 12px; background: var(--bg-hover);">
+          <div class="sb-header" style="margin-bottom: 8px;">
+            <span style="font-size: 15px; font-weight: 800;">${SUBJECT_NAMES[s]}</span>
+            <span style="font-weight: 900; font-size: 15px;" class="${isDanger ? 'danger-text' : ''}">
+              ${rate}% (총 ${stat.solved}제 풀이) ${isDanger ? ' <span class="sb-danger-tag">⚠️ 과락위험</span>' : ''}
+            </span>
+          </div>
+          <div class="sb-track" style="height: 10px; background: var(--line-bold); border-radius: 999px;">
+            <div class="sb-fill ${isDanger ? 'danger' : 'safe'}" style="width: ${rate}%; height: 100%; border-radius: 999px;"></div>
+          </div>
+        </div>
+      `;
+    }
+    statsSubjectGrid.innerHTML = html;
+  }
+
+  function handleExportData() {
+    const dataObj = {
+      knowway_stats_v2: cumulativeStats,
+      knowway_bookmarks: [...bookmarks],
+      knowway_memos: quizMemos,
+      knowway_habit: habitData,
+      mockRecords: mockRecords
+    };
+    
+    const dataStr = JSON.stringify(dataObj, null, 2);
+    const blob = new Blob([dataStr], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `knowway_backup_${getTodayString()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 0);
+    
+    showToast("✅ 학습 백업 데이터가 다운로드되었습니다.");
+  }
+
+  function handleImportData(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(evt) {
+      try {
+        const importObj = JSON.parse(evt.target.result);
+        if (importObj.knowway_stats_v2) {
+          saveJSON(STATS_KEY, importObj.knowway_stats_v2);
+          cumulativeStats = importObj.knowway_stats_v2;
+        }
+        if (importObj.knowway_bookmarks) {
+          saveJSON(BOOKMARK_KEY, importObj.knowway_bookmarks);
+          bookmarks = new Set(importObj.knowway_bookmarks);
+        }
+        if (importObj.knowway_memos) {
+          saveJSON(MEMO_KEY, importObj.knowway_memos);
+          quizMemos = importObj.knowway_memos;
+        }
+        if (importObj.knowway_habit) {
+          saveJSON(HABIT_KEY, importObj.knowway_habit);
+          habitData = importObj.knowway_habit;
+        }
+        if (importObj.mockRecords) {
+          saveJSON(MOCK_KEY, importObj.mockRecords);
+          mockRecords = importObj.mockRecords;
+        }
+        showToast("🚀 학습 데이터가 성공적으로 복원되었습니다!");
+        setTimeout(() => location.reload(), 1500);
+      } catch (err) {
+        showToast("⚠️ 올바르지 않은 백업 파일입니다.");
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  }
+
+  function handleResetData() {
+    if (confirm("정말로 모든 기록(풀이 내역, 통계, 오답노트 등)을 완전 삭제하시겠습니까?\\n(이 작업은 절대 되돌릴 수 없습니다!)")) {
+      localStorage.removeItem(STATS_KEY);
+      localStorage.removeItem(BOOKMARK_KEY);
+      localStorage.removeItem(MEMO_KEY);
+      localStorage.removeItem(HABIT_KEY);
+      localStorage.removeItem(MOCK_KEY);
+      showToast("🗑️ 초기화 되었습니다. 리프레시합니다.");
+      setTimeout(() => location.reload(), 1500);
+    }
+  }
+
+
+  // ==========================================
+  // 17. BOOTSTRAP APPLICATION
   // ==========================================
   setupEventListeners();
   loadDataAndInit();
