@@ -1,0 +1,1063 @@
+window.noteData = {
+  "meta": {
+    "version": "개정 버전 2026.08.21 (11·12회 기출 복원 및 합격률 30% 미만 돌파 보강판)",
+    "title": "빅데이터 분석기사 필기 요약노트 (완벽 확장 마스터)",
+    "publisher": "아답터",
+    "description": "최근 11회 및 12회 필기 합격률 30% 미만 급락 트렌드를 완벽 반영. AX 시대 딥러닝/Transformer 비중 급증, 가설검정 심화(대응표본t, 맨-휘트니, 카이제곱), 데이터 누수(Data Leakage) 및 편향-분산 트레이드오프 등 최신 킬러 주제를 전면 보강했습니다."
+  },
+  "nav": [
+    {
+      "group": "1과목 빅데이터 분석 기획 및 기술",
+      "items": [
+        {
+          "id": "s1-1",
+          "label": "01. 빅데이터의 이해",
+          "level": 1
+        },
+        {
+          "id": "s1-2",
+          "label": "02. 빅데이터 기술 및 제도",
+          "level": 1
+        },
+        {
+          "id": "s1-3",
+          "label": "03. 데이터분석 계획",
+          "level": 1
+        },
+        {
+          "id": "s1-4",
+          "label": "04. 데이터 수집 및 저장 계획",
+          "level": 1
+        }
+      ]
+    },
+    {
+      "group": "2과목 빅데이터 탐색",
+      "items": [
+        {
+          "id": "s2-1",
+          "label": "01. 데이터 정제",
+          "level": 1
+        },
+        {
+          "id": "s2-2",
+          "label": "02. 결측값·이상값 처리",
+          "level": 1
+        },
+        {
+          "id": "s2-3",
+          "label": "03. 분석 변수 처리",
+          "level": 1
+        },
+        {
+          "id": "s2-4",
+          "label": "04. 데이터 탐색 개요",
+          "level": 1
+        },
+        {
+          "id": "s2-5",
+          "label": "05. 고급 데이터 탐색",
+          "level": 1
+        },
+        {
+          "id": "s2-6",
+          "label": "06. 통계기법 이해",
+          "level": 1
+        }
+      ]
+    },
+    {
+      "group": "3과목 빅데이터 모델링",
+      "items": [
+        {
+          "id": "s3-0",
+          "label": "00. 분석모형 설계 (절차 수립·환경 구축)",
+          "level": 1
+        },
+        {
+          "id": "s3-1",
+          "label": "01. 회귀분석 종류 및 가정",
+          "level": 1
+        },
+        {
+          "id": "s3-2",
+          "label": "02. 회귀 모형 구축·다중공선성",
+          "level": 1
+        },
+        {
+          "id": "s3-3",
+          "label": "03. 로지스틱 회귀분석",
+          "level": 1
+        },
+        {
+          "id": "s3-4",
+          "label": "04. 의사결정나무·분류 모델",
+          "level": 1
+        },
+        {
+          "id": "s3-5",
+          "label": "05. 인공신경망·다층 퍼셉트론",
+          "level": 1
+        },
+        {
+          "id": "s3-6",
+          "label": "06. 서포트 벡터 머신(SVM)",
+          "level": 1
+        },
+        {
+          "id": "s3-7",
+          "label": "07. 연관성 분석·빈발항목",
+          "level": 1
+        },
+        {
+          "id": "s3-8",
+          "label": "08. 회귀모형 평가지표",
+          "level": 1
+        },
+        {
+          "id": "s3-9",
+          "label": "09. 분류·군집 분석 심화",
+          "level": 1
+        },
+        {
+          "id": "s3-10",
+          "label": "10. 고급 분석기법",
+          "level": 1
+        },
+        {
+          "id": "s3-11",
+          "label": "11. 딥러닝 분석",
+          "level": 1
+        },
+        {
+          "id": "s3-12",
+          "label": "12. 비정형·앙상블·비모수",
+          "level": 1
+        },
+        {
+          "id": "s3-13",
+          "label": "13. 최신 딥러닝 및 최적화",
+          "level": 1
+        }
+      ]
+    },
+    {
+      "group": "4과목 빅데이터 결과해석",
+      "items": [
+        {
+          "id": "s4-1",
+          "label": "01. 분석모형 평가 및 진단",
+          "level": 1
+        },
+        {
+          "id": "s4-2",
+          "label": "02. 분석모형 개선",
+          "level": 1
+        },
+        {
+          "id": "s4-3",
+          "label": "03. 분석결과 시각화",
+          "level": 1
+        },
+        {
+          "id": "s4-4",
+          "label": "04. 분석결과 활용",
+          "level": 1
+        }
+      ]
+    },
+    {
+      "group": "5과목 자주 출제되는 핵심 개념",
+      "items": [
+        {
+          "id": "s5-1",
+          "label": "01. 자주 출제되는 핵심 개념 픽",
+          "level": 1
+        },
+        {
+          "id": "s5-2",
+          "label": "02. 최신 출제 트렌드 심화 개념",
+          "level": 1
+        }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "id": "s1-1",
+      "num": "01",
+      "title": "빅데이터의 이해",
+      "cards": [
+        {
+          "id": "c1-1",
+          "title": "데이터의 정의 및 특징",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>데이터와 정보</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>데이터</span><span class='concept-keyword-tag'>정보</span><span class='concept-keyword-tag'>특성</span></div><ul class='concept-block-ul'><li><strong>데이터:</strong> 있는 그대로의 객관적 사실, 가공되지 않은 상태 (예: 주문수량)</li><li><strong>정보:</strong> 데이터로부터 가공된 자료 (예: 베스트셀러)</li><li><strong>특성:</strong> 현실을 그대로 반영하는 '존재적 특성'과 맥락 속 의미부여가 가능한 '당위적 특성'을 가짐</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> 데이터(Data)는 가공되지 않은 <strong>'마트의 바코드 원본(영수증)'</strong>과 같고, 정보(Information)는 이를 가공한 <strong>'어떤 물건이 제일 잘 팔리는지 정리한 월간 보고서'</strong>와 같습니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 데이터의 정의 및 특징 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  데이터의 두 가지 특성인 <strong>'존재적 특성(객관적 사실)'</strong>과 <strong>'당위적 특성(추론/예측의 근거)'</strong>을 구분하는 문제가 단골로 출제됩니다.</div></div>"
+        },
+        {
+          "id": "c1-2",
+          "title": "DIKW 피라미드",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>데이터 계층 구조</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>데이터</span><span class='concept-keyword-tag'>정보</span><span class='concept-keyword-tag'>지식</span><span class='concept-keyword-tag'>지혜</span></div><ul class='concept-block-ul'><li><strong>데이터(Data):</strong> 가공 전의 객관적인 사실 (A대리점 핸드폰 100만원, B대리점 핸드폰 200만원)</li><li><strong>정보(Information):</strong> 데이터를 통해 패턴 인식 (A대리점이 핸드폰이 싸다)</li><li><strong>지식(Knowledge):</strong> 패턴을 통해 의사결정 활용 (A에서 핸드폰을 사면 이득을 보겠다)</li><li><strong>지혜(Wisdom):</strong> 창의적인 전략 (A대리점의 다른 기기들도 B대리점보다 저렴 할 것이다)</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> DIKW 피라미드는 데이터(D)가 모여 정보(I)가 되고, 정보가 쌓여 지식(K)이 되며, 궁극적으로 통찰력이 더해져 지혜(W)가 되는 과정을 의미합니다. (예: A마트 계란 100원(D) -> A마트가 가장 싸다(I) -> A마트에서 계란을 사야겠다(K) -> 다른 식료품도 A마트가 쌀 것이다(W))</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. DIKW 피라미드 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  주어진 예시(예: A마트에서 핸드폰을 사면 이득이다)가 DIKW 중 어디에 해당하는지 묻는 문제 또는 순서(Data -> Information -> Knowledge -> Wisdom)를 묻는 문제가 주로 나옵니다.</div></div>"
+        },
+        {
+          "id": "c1-3",
+          "title": "암묵지와 형식지",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>지식의 상호작용 (공표연내)</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>암묵지</span><span class='concept-keyword-tag'>형식지</span><span class='concept-keyword-tag'>공통화</span><span class='concept-keyword-tag'>표출화</span><span class='concept-keyword-tag'>연결화</span></div><ul class='concept-block-ul'><li><strong>암묵지:</strong> 개인에게 습득되고 겉으로 드러나지 않는 지식</li><li><strong>형식지:</strong> 문서, 매뉴얼 등의 형상화된 지식</li><li><strong>공통화:</strong> 암묵지 지식을 다른 사람에게 알려줌</li><li><strong>표출화:</strong> 암묵지 지식을 매뉴얼이나 문서로 전환</li><li><strong>연결화:</strong> 교재, 매뉴얼에 새로운 지식 추가</li><li><strong>내면화:</strong> 만들어진 교재, 매뉴얼에서 다른 사람의 암묵지를 터득</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> <strong>암묵지</strong>는 김밥 할머니의 '손맛'처럼 머릿속에만 있는 지식이고, <strong>형식지</strong>는 그 손맛을 정확히 계량한 '레시피 문서'입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 암묵지와 형식지 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  암묵지와 형식지의 상호작용 4단계(공통화 -> 표출화 -> 연결화 -> 내면화, 앞글자 따서 '공표연내')의 올바른 연결을 묻는 객관식 문제가 매회 출제됩니다. 특히 '표출화(암묵지->형식지)'를 잘 기억하세요!</div></div>"
+        },
+        {
+          "id": "c1-4",
+          "title": "데이터베이스의 특징",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>DB의 4대 특징 및 관점 (공통저변)</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>공용 데이터</span><span class='concept-keyword-tag'>통합된 데이터</span><span class='concept-keyword-tag'>저장된 데이터</span><span class='concept-keyword-tag'>변화되는 데이터</span><span class='concept-keyword-tag'>설계 절차</span></div><ul class='concept-block-ul'><li><strong>공용 데이터:</strong> 여러 사용자가 다른 목적으로 데이터 공동 이용</li><li><strong>통합된 데이터:</strong> 동일한 데이터가 중복되어 있지 않음</li><li><strong>저장된 데이터:</strong> 저장매체에 저장</li><li><strong>변화되는 데이터:</strong> 새로운 데이터 추가, 수정, 삭제에도 현재의 정확한 데이터 유지 (무결성)</li><li><strong>설계 절차:</strong> 개념적 설계 → 논리적 설계 → 물리적 설계 (개논물)</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> <strong>데이터베이스(DB)</strong>는 단순히 엑셀 파일을 모아둔 것을 넘어서, 여러 사람이 동시에 접속해도 꼬이지 않고(공용 데이터), 데이터가 중복되지 않으며(통합 데이터), 항상 최신 상태를 유지(상태 변화)하는 똑똑한 데이터 창고입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 데이터베이스의 특징 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  데이터베이스의 4대 특징(통합, 저장, 공용, 변화)의 뜻을 바꿔치기하는 오답 문제가 자주 나옵니다. '공용 데이터 = 다수가 공동 소유/유지'임을 꼭 기억하세요.</div></div>"
+        },
+        {
+          "id": "c1-5",
+          "title": "빅데이터 출현 배경과 3V",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>출현 배경 및 핵심 요소</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>출현 배경</span><span class='concept-keyword-tag'>빅데이터 3V</span><span class='concept-keyword-tag'>확장 V</span><span class='concept-keyword-tag'>3대 요소</span></div><ul class='concept-block-ul'><li><strong>출현 배경:</strong> 클라우드 컴퓨팅(온디맨드), 분산 처리 기술(하둡 기반), 비정형 데이터 확산, 디지털화, 인터넷 및 모바일 기기 보급, IoT 발달</li><li><strong>빅데이터 3V:</strong> Volume(규모), Variety(다양성), Velocity(속도) [가트너 정의]</li><li><strong>확장 V:</strong> Value(가치), Veracity(신뢰성), Validity(정확성), Volatility(휘발성)</li><li><strong>3대 요소:</strong> 인력, 자원(데이터), 기술 (인자기)</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> 빅데이터는 단순히 <strong>'크기(Volume)'</strong>만 큰 것이 아닙니다. 사진, 영상, 텍스트처럼 <strong>'형태(Variety)'</strong>가 다양하고, 실시간으로 <strong>'빠르게 생성(Velocity)'</strong>되는 데이터를 말합니다. 이 3가지가 모여 빅데이터의 '3V'가 됩니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 빅데이터 출현 배경과 3V 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  3V(Volume, Variety, Velocity) 외에 가치(Value)나 진실성(Veracity)을 더한 4V, 5V를 묻는 문제가 빈출입니다. 특히 Value(가치)는 비즈니스적 통찰을 의미하는 ROI(투자 대비 효과) 요소로 가장 중요하게 다뤄집니다.</div></div>"
+        },
+        {
+          "id": "c1-6",
+          "title": "빅데이터의 변화와 데이터 사이언스",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>패러다임 변화 및 사이언티스트</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>빅데이터 변화</span><span class='concept-keyword-tag'>가치 패러다임</span><span class='concept-keyword-tag'>핵심 구성요소</span><span class='concept-keyword-tag'>역량</span></div><ul class='concept-block-ul'><li><strong>빅데이터 변화 (전후양상):</strong> 표본조사→전수조사, 사전처리→사후처리, 질→양, 인과관계→상관관계</li><li><strong>가치 패러다임 (DigitalCA메라):</strong> Digitalization → Connection → Agency</li><li><strong>핵심 구성요소:</strong> 분석(Analytics), IT, 비즈니스 분석</li><li><strong>역량:</strong> Hard Skill(이론적 지식, 분석 기술), Soft Skill(통찰력, 설득력, 협력)</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 비유:</strong> 빅데이터가 되면서 굳이 일부만 테스트(표본조사) 할 필요 없이 전부 다(전수조사) 봅니다. 또한 '왜 그럴까(인과)'보다는 '이거 살때 저것도 사네(상관)'에 집중합니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 빅데이터의 변화와 데이터 사이언스 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  빅데이터 패러다임 변화(표본->전수조사, 사전->사후처리, 인과->상관관계) 방향을 거꾸로 묻는 오답 선지가 무조건 1문제 나옵니다.</div></div>"
+        }
+      ]
+    },
+    {
+      "id": "s1-2",
+      "num": "02",
+      "title": "빅데이터 기술 및 제도",
+      "cards": [
+        {
+          "id": "c1-7",
+          "title": "빅데이터 플랫폼 및 인공지능",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>플랫폼 계층 및 AI 기술</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>플랫폼 계층구조</span><span class='concept-keyword-tag'>인공지능 관계</span><span class='concept-keyword-tag'>머신러닝 종류</span><span class='concept-keyword-tag'>최신 AI 기술</span></div><ul class='concept-block-ul'><li><strong>플랫폼 계층구조:</strong> 소프트웨어 계층(상위) → 플랫폼 계층 → 인프라스트럭처 계층(하위)</li><li><strong>인공지능 관계:</strong> 딥러닝 ⊂ 머신러닝 ⊂ 인공지능</li><li><strong>머신러닝 종류:</strong> 지도학습, 비지도학습, 준지도학습, 강화학습</li><li><strong>최신 AI 기술:</strong> AutoML, MLOps, XAI, 생성형 AI(LLM, Diffusion Models)</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 비유:</strong> 인공지능이 가장 큰 겉옷, 머신러닝이 그 안의 옷, 딥러닝이 가장 안쪽의 속옷 느낌의 벤다이어그램입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 빅데이터 플랫폼 및 인공지능 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  지도학습(정답이 있음)과 비지도학습(정답이 없음)을 확실히 구분하는지 평가합니다.</div></div>"
+        },
+        {
+          "id": "c1-8",
+          "title": "개인정보 법제도 및 비식별 조치",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>데이터 3법 및 프라이버시 보호</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>데이터 3법</span><span class='concept-keyword-tag'>정보 분류</span><span class='concept-keyword-tag'>비식별 조치 절차</span><span class='concept-keyword-tag'>보호 모델</span></div><ul class='concept-block-ul'><li><strong>데이터 3법 (개정신):</strong> 개인정보보호법, 정보통신망법, 신용정보법</li><li><strong>정보 분류:</strong> 개인정보(홍길동, 33세) / 가명정보(홍OO, 30대 초반) / 익명정보(OOO, 30대)</li><li><strong>비식별 조치 절차:</strong> 사전검토 → 비식별조치(총계, 삭제, 마스킹) → 적정성평가 → 사후관리</li><li><strong>보호 모델:</strong> k-익명성, l-다양성, t-근접성</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 비유:</strong> 프라이버시를 지키려고 마스크를 씌우는 격입니다. K-익명성은 같은 속성을 가진 사람을 그룹으로 묶고, L-다양성은 묶었어도 병명이 다 다르도록 조치합니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 개인정보 법제도 및 비식별 조치 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  K-익명성, L-다양성, T-근접성은 단어(알파벳) 하나 바꿔서 내기 완벽한 출제자의 단골 함정 문제입니다.</div></div>"
+        },
+        {
+          "id": "c1-13",
+          "title": "빅데이터 조직·인력 및 위기관리",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>조직 구조 및 플랫폼</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>DSCoE</span><span class='concept-keyword-tag'>데이터 단위</span><span class='concept-keyword-tag'>플랫폼 범위</span></div><ul class='concept-block-ul'><li><strong>조직 구조(집기분):</strong> 집중구조(독립 전담조직, 중복업무 가능성), 기능구조(해당부서 직접분석, DSCoE 없음), 분산구조(분석인력을 현업부서에 배치)</li><li><strong>데이터 단위(패지요):</strong> KB < MB < GB < TB < PB < EB < ZB < YB</li><li><strong>플랫폼 범위:</strong> 광의의 분석 플랫폼(엔진+어플리케이션+API+하드웨어) ⊃ 협의의 분석 플랫폼(처리프레임워크+분석엔진+라이브러리)</li></ul><h4 class='concept-block-h4'>위기관리 및 통제</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>알고리즈미스트</span><span class='concept-keyword-tag'>차등정보보호</span></div><ul class='concept-block-ul'><li><strong>위기요인과 통제방안:</strong> 사생활침해(제공자→사용자 책임 전환), 책임원칙훼손(결과에 대해서만 책임), 데이터오용(알고리즈미스트 필요-부당한 피해자 구제 전문인력)</li><li><strong>차등정보보호:</strong> 데이터에 노이즈(섭동)를 섞어 개인정보 침해 없이 패턴을 발견하는 기법</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 비유:</strong> 알고리즈미스트는 AI가 잘못 판단해서 억울하게 피해를 본 사람을 구제해주는 '데이터 변호사' 같은 역할입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 이 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - 데이터 단위 크기 순서(KB~YB, 패지요)와 DSCoE 3가지 구조(집중/기능/분산) 구분 문제가 빈출됩니다.</div></div>"
+        },
+        {
+          "id": "c1-14",
+          "title": "AI 등급 및 경량 딥러닝 기법",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>인공지능의 수준</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>약인공지능</span><span class='concept-keyword-tag'>강인공지능</span><span class='concept-keyword-tag'>초인공지능</span></div><ul class='concept-block-ul'><li><strong>약인공지능:</strong> 주어진 조건에서만 동작하는 인공지능 (특정 과업 수행)</li><li><strong>강인공지능:</strong> 인간과 동일한 사고가 가능한 인공지능, 튜링테스트 통과</li><li><strong>초인공지능:</strong> 기술적 특이점을 뛰어넘어 인간을 초월한 인공지능</li></ul><h4 class='concept-block-h4'>딥러닝 경량화 기법</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>전이학습</span><span class='concept-keyword-tag'>지식증류</span></div><ul class='concept-block-ul'><li><strong>전이학습(Transfer Learning):</strong> 사전에 훈련된 모델을 재사용하는 학습 방식</li><li><strong>Fine-Tuning:</strong> 학습된 모델을 특정 타겟에 맞게 재조정하는 방법</li><li><strong>지식증류(Knowledge Distillation):</strong> Teacher Network의 지식을 Student Network에 전달하는 방법</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 비유:</strong> 지식증류는 '고수 선생님(Teacher)'의 노하우를 압축해서 '작은 제자(Student) 모델'에게 가르치는 것과 같습니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 이 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - 인공지능 3단계(약/강/초)와 경량 딥러닝 3기법(전이학습/Fine-Tuning/지식증류)의 명칭-정의 짝짓기가 출제 포인트입니다.</div></div>"
+        }
+      ]
+    },
+    {
+      "id": "s1-3",
+      "num": "03",
+      "title": "데이터분석 계획",
+      "cards": [
+        {
+          "id": "c1-9",
+          "title": "분석 방안 수립 및 문제 정의",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>하향식과 상향식 접근법</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>하향식 접근법</span><span class='concept-keyword-tag'>상향식 접근법</span><span class='concept-keyword-tag'>혼합 접근법</span><span class='concept-keyword-tag'>디자인 싱킹</span></div><ul class='concept-block-ul'><li><strong>하향식 접근법:</strong> 문제탐색 → 문제정의 → 해결방안탐색 → 타당성 검토</li><li><strong>상향식 접근법:</strong> 프로세스 분류 → 프로세스 흐름 분석 → 분석요건 식별 → 분석요건 정의</li><li><strong>혼합 접근법:</strong> 발산 단계(상향식, 방안 도출) ⇄ 수렴 단계(하향식, 방안 분석)</li><li><strong>디자인 싱킹:</strong> 공감하기 → 문제정의 → 아이디어 도출 → 프로토타입 → 테스트</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 비유:</strong> <strong>하향식</strong>은 '우리가 무엇이 문제일까?'를 미리 콕 집어서(정의) 해결하는 것이고, <strong>상향식</strong>은 '일단 데이터를 뒤져보니 이런 패턴이 있네?' 하고 우연히 보물을 발견하는 느낌입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 분석 방안 수립 및 문제 정의 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  하향식 접근법의 순서(문제탐색 -> 문제정의 -> 해결방안탐색 -> 타당성검토)를 묻는 배열 문제가 빈출입니다.</div></div>"
+        },
+        {
+          "id": "c1-10",
+          "title": "분석 방법론 및 수준 진단",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>주요 방법론 및 분석 준비도/성숙도</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>KDD 방법론</span><span class='concept-keyword-tag'>Crisp-DM 방법론</span><span class='concept-keyword-tag'>SEMMA 방법론</span><span class='concept-keyword-tag'>분석 수준 진단 결과</span></div><ul class='concept-block-ul'><li><strong>KDD 방법론:</strong> 데이터 선택 → 전처리 → 변환 → 마이닝 → 평가</li><li><strong>Crisp-DM 방법론 (업데데이트모델평가전):</strong> 업무 이해 → 데이터 이해 → 데이터 준비 → 모델링 → 평가 → 전개</li><li><strong>SEMMA 방법론:</strong> 샘플링 → 탐색 → 변형 → 모델링 → 평가</li><li><strong>분석 수준 진단 결과 (도준정확):</strong> 도입형, 준비형, 정착형, 확산형</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 비유:</strong> CRISP-DM은 요리를 할 때 (1)누구를 먹일지(업무), (2)재료가 어떤지(데이터이해), (3)손질하고(데이터준비), (4)볶고(모델링), (5)간을 보고(평가), (6)내놓는(전개) 요리 순서와 완전 똑같습니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 분석 방법론 및 수준 진단 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  CRISP-DM 6단계 중 '데이터 준비(Data Preparation)' 단계에서 가장 많은 시간이 소요됨을 명심하세요.</div></div>"
+        },
+        {
+          "id": "c1-15",
+          "title": "분석 기획 방향성 및 우선순위 선정",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>분석 기획 4분면 유형</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>최적화</span><span class='concept-keyword-tag'>통찰</span><span class='concept-keyword-tag'>솔루션</span><span class='concept-keyword-tag'>발견</span></div><ul class='concept-block-ul'><li><strong>대상·방법에 따른 4유형:</strong> Known+Known=최적화(Optimization), Known+Unknown=통찰(Insight), Unknown+Known=솔루션(Solution), Unknown+Unknown=발견(Discovery)</li><li><strong>접근 방식별 분류:</strong> 과제중심적 접근(Speed&Test, Quick&Win) vs 장기적 마스터플랜(Accuracy&Deploy, Long Term View)</li></ul><h4 class='concept-block-h4'>우선순위 선정 기준</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>ISP</span><span class='concept-keyword-tag'>시급성</span><span class='concept-keyword-tag'>난이도</span></div><ul class='concept-block-ul'><li><strong>IT프로젝트 우선순위(ISP 활용):</strong> 전략적 중요도(비전/KPI, 시급성) + 실행 용이성(투자용이성, 기술용이성)</li><li><strong>데이터분석 프로젝트 우선순위:</strong> 시급성 관점(Value=비즈니스효과·KPI) vs 난이도 관점(Investment=Volume·Variety·Velocity)</li><li><strong>4분면 우선순위 원칙:</strong> 시급성 중요시 3→4→2, 난이도 중요시 3→1→2</li></ul><div class='concept-block-note'>💡 4가지 유형(최적화/통찰/솔루션/발견)은 '대상(What)과 방법(How)을 아는지 모르는지'를 기준으로 구분하는 문제로 자주 출제됩니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 이 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - Known-Known=최적화, Unknown-Unknown=발견처럼 표를 뒤집어 헷갈리게 출제하는 문제가 빈출입니다.</div></div>"
+        },
+        {
+          "id": "c1-16",
+          "title": "문제 탐색 기법 (하향식 심화)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>비즈니스 모델 기반 탐색</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>지원인프라</span><span class='concept-keyword-tag'>업무</span><span class='concept-keyword-tag'>고객</span></div><ul class='concept-block-ul'><li><strong>비즈니스 모델 기반 탐색(지원인프라 업무 중에 고객이 제품을 규제와 감사 했다):</strong> 업무, 제품, 고객, 규제와 감사, 지원인프라</li></ul><h4 class='concept-block-h4'>분석 기회 발굴 범위 확장</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>STEEP</span><span class='concept-keyword-tag'>벤치마킹</span><span class='concept-keyword-tag'>유스케이스</span></div><ul class='concept-block-ul'><li><strong>거시적 관점:</strong> STEEP(사회, 기술, 경제, 환경, 정치)</li><li><strong>경쟁자 확대 관점:</strong> 대체자, 경쟁자, 신규 진입자</li><li><strong>시장 니즈 탐색 관점:</strong> 고객, 채널, 영향자</li><li><strong>역량의 재해석:</strong> 내부 역량, 파트너 네트워크</li><li><strong>내/외부 사례 참조:</strong> 벤치마킹(외부 참조모델), 유스케이스(과거 유사사례) — 문제탐색 단계에서 정성적 분석기법(FGI, 인터뷰, 설문) 활용 가능</li></ul><div class='concept-block-note'>💡 '지원인프라 업무 중에 고객이 제품을 규제와 감사 했다' 문장으로 5가지 비즈니스 모델 탐색 범위를 암기하세요.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 이 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - STEEP 5글자(사회/기술/경제/환경/정치) 완성 문제와, 문제탐색 단계에서도 정성적 기법을 활용할 수 있다는 점이 함정으로 출제됩니다.</div></div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> 하향식(Top-Down): 문제가 이미 무엇인지 알 때 (What -> How). 상향식(Bottom-Up): 문제가 뭔지 모를 때 데이터부터 보고 탐색 (데이터 -> 통찰).</div>"
+        },
+        {
+          "id": "c1-17",
+          "title": "빅데이터 분석방법론 및 프로젝트·거버넌스 관리",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>분석모형 및 방법론</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>나선형모델</span><span class='concept-keyword-tag'>SOW</span><span class='concept-keyword-tag'>WBS</span><span class='concept-keyword-tag'>회전완수</span></div><ul class='concept-block-ul'><li><strong>분석모형 유형:</strong> 계층적 프로세스모델(단계→태스크→스텝, 방법론의 기반), 폭포수모델(Top-Down), 프로토타입모델, 나선형모델(위험요소 제거 초점), 애자일(반복적 개발)</li><li><strong>빅데이터 분석방법론 5단계:</strong> 분석기획(SOW/WBS/위험계획-회피·전이·완화·수용=\"회전완수\") → 데이터준비(스토어설계) → 데이터분석(EDA/모델링) → 시스템구현 → 평가및전개</li></ul><h4 class='concept-block-h4'>프로젝트 및 거버넌스 관리</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>이범통이</span><span class='concept-keyword-tag'>시조프로마인드데</span><span class='concept-keyword-tag'>도준정확</span></div><ul class='concept-block-ul'><li><strong>분석 준비도 매트릭스(IT문데기인파):</strong> 분석적업무파악, 인력및조직, 분석기법, 분석데이터, IT인프라, 분석문화 6개 영역으로 진단</li><li><strong>분석 수준 결과 진단(도준정확):</strong> 준비형(사전준비 필요), 정착형(제한적 사용), 도입형(준비도만 높음), 확산형(6요소 모두 갖춤·4사분면부터 시계방향 역순 암기)</li><li><strong>프로젝트관리 10대 지식체계(이범통이 의자에서 시원한 조리품을 먹었다):</strong> 통합, 범위, 시간, 원가, 품질, 인적자원, 의사소통, 리스크, 조달, 이해관계자</li><li><strong>분석 거버넌스 체계(시조프로마인드데):</strong> 조직, 프로세스, 시스템, 데이터, 분석관련 교육 및 마인드 육성체계</li></ul><div class='concept-block-note'>💡 '이범통이 의자에서 시원한 조리품을 먹었다'로 프로젝트관리 10대 지식체계(의사소통/리스크/조달/이해관계자 등)를 암기하세요.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 이 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - 프로젝트 위험계획 4가지(회피/전이/완화/수용)와 분석수준진단 4분면(준비형/정착형/도입형/확산형)의 위치를 뒤바꿔 묻는 문제가 빈출입니다.</div></div>"
+        },
+        {
+          "id": "c1-3-new1",
+          "title": "분석 성숙도 (CMMI 모델 기반)",
+          "body": "빅데이터 분석 조직의 성숙도를 평가하는 4단계 모델입니다.<br><br><strong>1) 준비형</strong>: 데이터, 인력, 조직, 기법 등이 적용 안되어 사전 준비 필요<br><strong>2) 정착형</strong>: 인력, 조직, 분석업무 등을 제한적으로 사용<br><strong>3) 도입형</strong>: 조직 및 인력 준비도는 높으나 분석업무 및 기법 부족<br><strong>4) 확산형</strong>: 6가지 구성요소가 모두 갖춰져 지속적 확산 가능<br><br>👉 <strong>암기팁</strong>: 4사분면 시계방향 역순으로 <strong>[도,준,정,확]</strong>으로 암기!",
+          "tags": [
+            "분석기획",
+            "분석수준진단",
+            "성숙도",
+            "CMMI"
+          ],
+          "content": "<h4 class='concept-block-h4'>분석 성숙도 (CMMI 모델 기반)</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>성숙도 단계</span><span class='concept-keyword-tag'>초기-관리-정의-정량-최적화</span></div><ul class='concept-block-ul'><li><strong>도입(초기):</strong> 개인의 역량에 의존하는 단계</li><li><strong>활용(관리):</strong> 전문 부서를 통해 분석을 수행하는 단계</li><li><strong>확산(정의):</strong> 전사적 차원에서 분석을 관리하고 공유하는 단계</li><li><strong>최적화:</strong> 분석을 비즈니스에 내재화하여 혁신을 이끄는 단계</li></ul><div class='concept-block-note'>💡 <strong>출제위원 꿀팁:</strong> 도입 -> 활용 -> 확산 -> 최적화 순서를 기억하세요! '최적화' 단계가 가장 높은 수준입니다.</div>"
+        },
+        {
+          "id": "c1-3-new2",
+          "title": "데이터 거버넌스 체계",
+          "body": "전사 차원에서 데이터에 대해 표준화된 관리 체계를 수립하는 프레임워크입니다.<br><br><strong>📌 구성요소 3요소</strong><br>1) <strong>원칙</strong> (보안/품질/유지보수 기준)<br>2) <strong>조직</strong> (데이터 관리자, DB 관리자 등)<br>3) <strong>프로세스</strong> (데이터 메타데이터 및 사전 관리 작업)<br><br><strong>📌 거버넌스 체계 요소</strong><br>데이터 표준화, 메타데이터/사전 관리, 저장소 관리, 모니터링/표준화 활동<br><br>👉 <strong>암기팁</strong>: 거버넌스 체계 구성요소는 <strong>[시조프로마인드데]</strong> (시스템, 조직, 프로세스, 마인드, 데이터)",
+          "tags": [
+            "분석기획",
+            "거버넌스",
+            "표준화"
+          ],
+          "content": "<h4 class='concept-block-h4'>데이터 거버넌스 체계</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>데이터 표준화</span><span class='concept-keyword-tag'>거버넌스 조직</span><span class='concept-keyword-tag'>품질 관리</span></div><ul class='concept-block-ul'><li><strong>데이터 표준화:</strong> 데이터 표준 용어 설정, 명명 규칙, 메타데이터 구축</li><li><strong>데이터 관리 체계:</strong> 데이터 정합성 및 활용의 원칙과 지침을 수립</li><li><strong>데이터 거버넌스 조직:</strong> 데이터를 전사적으로 관리하는 전담 조직(CDO 등) 구성</li></ul><div class='concept-block-note'>💡 <strong>출제위원 꿀팁:</strong> 데이터 거버넌스의 3대 요소인 '원칙(Principle)', '조직(Organization)', '프로세스(Process)'를 묻는 문제가 자주 출제됩니다.</div>"
+        },
+        {
+          "id": "c1-3-new3",
+          "title": "상향식 접근법과 프로토타이핑",
+          "body": "문제가 명확히 주어지지 않았을 때 데이터를 기반으로 문제를 도출하는 방식입니다.<br><br><strong>📌 상향식 접근법 (Bottom-up)</strong><br>- 비지도학습 기법 적용 (군집화 등)<br>- 디자인 싱킹(Design Thinking)의 발산(Diverge) 단계에 해당<br><br><strong>📌 프로토타이핑 (Prototyping)</strong><br>- 요구사항을 완벽히 모를 때, 일부를 먼저 신속하게 개발(프로토타입)하고 피드백을 통해 보완하는 애자일한 접근법<br>- 과정: 가설 생성 ➔ 디자인 ➔ 테스트 ➔ 통찰 획득",
+          "tags": [
+            "분석기획",
+            "상향식접근",
+            "디자인싱킹",
+            "프로토타이핑"
+          ],
+          "content": "<h4 class='concept-block-h4'>상향식 접근법과 프로토타이핑</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>상향식 접근법</span><span class='concept-keyword-tag'>디자인 씽킹</span><span class='concept-keyword-tag'>프로토타이핑</span></div><ul class='concept-block-ul'><li><strong>상향식 접근법 (Bottom-up):</strong> 문제가 명확히 정의되지 않았을 때, 데이터를 먼저 탐색하면서 인사이트를 도출하는 방식 (비지도 학습 중심)</li><li><strong>디자인 씽킹 (Design Thinking):</strong> 발산(상향식)과 수렴(하향식)을 반복하며 아이디어를 구체화</li><li><strong>프로토타이핑 (Prototyping):</strong> 요구사항이 불명확할 때 신속하게 모형(시제품)을 만들어 사용자의 피드백을 통해 개선하는 방식</li></ul><div class='concept-block-note'>💡 <strong>출제위원 꿀팁:</strong> '문제가 주어지고 해법을 찾는다'면 하향식(Top-down), '문제 자체가 불명확하여 데이터로부터 찾는다'면 상향식(Bottom-up)입니다.</div>"
+        }
+      ]
+    },
+    {
+      "id": "s1-4",
+      "num": "04",
+      "title": "데이터 수집 및 저장 계획",
+      "cards": [
+        {
+          "id": "c1-11",
+          "title": "데이터 수집 및 품질 검증",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>수집 기술 및 품질 기준</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>수집 기술</span><span class='concept-keyword-tag'>데이터 유형</span><span class='concept-keyword-tag'>품질 기준</span></div><ul class='concept-block-ul'><li><strong>수집 기술:</strong> ETL, FTP, API, 아파치 스쿱(Sqoop), 아파치 플럼(Flume), 웹 크롤링</li><li><strong>데이터 유형:</strong> 정형 데이터, 반정형 데이터(HTML, XML, JSON), 비정형 데이터</li><li><strong>품질 기준:</strong> 완전성, 정확성, 일관성, 최신성, 유효성, 접근성, 보안성</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 비유:</strong> 정형 데이터는 '잘 정돈된 엑셀', 비정형은 '난장판 유튜브 영상이나 카톡 대화', 반정형은 '뼈대만 있는 HTML/JSON'입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 데이터 수집 및 품질 검증 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  반정형 데이터(Semi-structured)에 무엇이 속하는지(XML, JSON 등) 구분하는 문제가 출제됩니다.</div></div>"
+        },
+        {
+          "id": "c1-12",
+          "title": "데이터 적재 및 저장소",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>분산 시스템 및 하둡</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>분산 파일 시스템</span><span class='concept-keyword-tag'>NoSQL DB</span><span class='concept-keyword-tag'>스토리지</span><span class='concept-keyword-tag'>하둡 코어프로젝트</span></div><ul class='concept-block-ul'><li><strong>분산 파일 시스템:</strong> GFS, HDFS(네임노드와 데이터노드 구성)</li><li><strong>NoSQL DB:</strong> 키-값(Redis), 열(Hbase), 문서(MongoDB), 그래프(Neo4j)</li><li><strong>스토리지:</strong> DAS(직접 연결), NAS(네트워크 연결), SAN(고속 네트워크 연결)</li><li><strong>하둡 코어프로젝트:</strong> HDFS, MapReduce(Map, Reduce 단계)</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 비유:</strong> 하둡 에코시스템에서 HDFS는 데이터를 차곡차곡 쌓아두는 '창고'이고, MapReduce는 거기서 물건을 꺼내 포장하는 '분산작업장'입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 데이터 적재 및 저장소 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  HDFS(저장), MapReduce(처리), Sqoop(정형 수집), Flume(비정형 수집), Zookeeper(코디네이터) 짝짓기가 1순위 파트입니다.</div></div>"
+        },
+        {
+          "id": "c1-18",
+          "title": "데이터 유형 분류 및 비식별화 기법 상세",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>데이터 유형 분류 및 품질</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>가역성</span><span class='concept-keyword-tag'>발생위치</span><span class='concept-keyword-tag'>품질 진단</span></div><ul class='concept-block-ul'><li><strong>데이터 유형 5분류:</strong> 형태(정형/반정형/비정형), 표현방식(정량적/정성적), 분석목적(수치형-연속형·이산형 / 범주형-명목형·순서형), 가역성(가역/비가역), 발생위치(내부/외부)</li><li><strong>데이터 품질 진단·개선 절차:</strong> 진단(대상정의→진단실시→결과분석) / 개선(계획수립→수행→품질통제)</li></ul><h4 class='concept-block-h4'>비식별화 기법 및 프라이버시 보호</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>가명처리</span><span class='concept-keyword-tag'>데이터마스킹</span><span class='concept-keyword-tag'>k-익명성</span></div><ul class='concept-block-ul'><li><strong>비식별화 기법:</strong> 가명처리(휴리스틱가명화/암호화/교환), 총계처리(부분총계/라운딩/재배열), 데이터삭제(식별자삭제/부분삭제/레코드삭제), 데이터범주화(감추기/랜덤라운딩/범위방법), 데이터마스킹(노이즈추가/공백대체)</li><li><strong>프라이버시 보호 모델:</strong> k-익명성(연결공격 방어), l-다양성(동질성·배경지식공격 방어), t-근접성(쏠림·유사성공격 방어)</li></ul><div class='concept-block-note'>💡 k-익명성은 '나와 똑같은 값을 가진 사람이 여러 명 있어야 내가 누군지 특정할 수 없다'는 개념입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 이 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - 5가지 비식별화 기법 중 가명처리(홍길동→임꺽정)와 데이터마스킹(홍길동→홍OO)의 예시를 뒤바꿔 묻는 문제가 빈출 함정입니다.</div></div><div class='concept-block-note'>⚠️ <strong>[헷갈림 주의 포인트]</strong> 가명처리는 '홍길동 -> 임꺽정'으로 바꾸는 것, 총계처리는 '평균 35세' 뭉뚱그리기, 마스킹은 '홍O동' 가리기입니다. 이 3가지를 뒤섞어 놓고 찾는 문제가 무조건 1문제 나옵니다.</div>"
+        },
+        {
+          "id": "c1-19",
+          "title": "데이터웨어하우스·마트·레이크 및 병렬/분산 DBMS",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>데이터웨어하우스 및 레이크</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>주제지향성</span><span class='concept-keyword-tag'>비휘발성</span><span class='concept-keyword-tag'>ODS</span><span class='concept-keyword-tag'>데이터레이크</span></div><ul class='concept-block-ul'><li><strong>데이터웨어하우스(DW) 4대 특징:</strong> 주제지향성, 데이터통합, 시계열성, 비휘발성(읽기전용)</li><li><strong>DW 구성요소:</strong> ETL(추출·정제·적재), ODS(다양한 DBMS 데이터를 임시저장)</li><li><strong>데이터 마트(DM):</strong> DW의 한 분야로 특정 목적을 위해 사용하는 소규모 DW</li><li><strong>데이터 레이크:</strong> 비정형 데이터를 저장하며 하둡과 연계하여 처리</li></ul><h4 class='concept-block-h4'>병렬 및 분산 DBMS</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>Shared Nothing</span><span class='concept-keyword-tag'>분산 DBMS</span></div><ul class='concept-block-ul'><li><strong>병렬 DBMS:</strong> 공유메모리/공유디스크/Shared Nothing 구조 (VoltDB, SAP HANA, Vertica)</li><li><strong>분산 DBMS:</strong> 네트워크로 연결된 여러 DB를 하나처럼 사용, 위치투명성·확장성·가용성이 뛰어나지만 데이터 일관성 관리는 어려움</li></ul><div class='concept-block-note'>💡 DW는 '한번 쌓으면 잘 안 바뀌는 회사 전체 창고'이고, 데이터마트는 그 창고에서 '부서별로 필요한 것만 뽑아온 작은 창고'입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 이 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - DW의 비휘발성(읽기전용) 특징과 '데이터마트=소규모 DW' 정의를 헷갈리게 묻는 문제가 출제됩니다.</div></div>"
+        },
+        {
+          "id": "c1-20",
+          "title": "하둡 에코시스템 상세",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>하둡 코어 프로젝트</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>HDFS</span><span class='concept-keyword-tag'>MapReduce</span></div><ul class='concept-block-ul'><li><strong>하둡 코어프로젝트:</strong> HDFS(분산파일시스템), MapReduce(Map:Key-Value변환 → Reduce:결과집계)</li><li><strong>MapReduce 패턴 종류:</strong> 조인패턴, 그룹화패턴, 단어카운트패턴, 통계패턴, 필터링패턴</li></ul><h4 class='concept-block-h4'>하둡 서브 프로젝트</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>Zookeeper</span><span class='concept-keyword-tag'>YARN</span><span class='concept-keyword-tag'>Hive</span></div><ul class='concept-block-ul'><li><strong>분산 코디네이터:</strong> Zookeeper</li><li><strong>분산 리소스관리:</strong> YARN, Mesos</li><li><strong>데이터 저장:</strong> HBase, HDFS, Kudu</li><li><strong>데이터 수집:</strong> Chukwa, Flume, Scribe, Kafka</li><li><strong>데이터 처리:</strong> Pig, Mahout, Spark, Impala, Hive, MapReduce</li></ul><div class='concept-block-note'>💡 하둡 에코시스템은 '창고관리자(HDFS)+작업반장(MapReduce)+각 분야 전문 알바생들(Zookeeper·YARN·Hive 등)'로 구성된 하나의 회사와 같습니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 이 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - Zookeeper(코디네이터)-YARN(리소스관리)-Hive(처리)처럼 하둡 서브 프로젝트의 역할을 서로 바꿔 묻는 짝짓기 문제가 매 회차 출제됩니다.</div></div>"
+        }
+      ]
+    },
+    {
+      "id": "s2-1",
+      "num": "01",
+      "title": "데이터 정제",
+      "cards": [
+        {
+          "id": "c2-6",
+          "title": "데이터의 종류",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>척도 기준 구분</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>질적 척도 - 명목척도</span><span class='concept-keyword-tag'>질적 척도 - 순서척도</span><span class='concept-keyword-tag'>양적 척도 - 등간척도</span><span class='concept-keyword-tag'>양적 척도 - 비율척도</span><span class='concept-keyword-tag'>단변량 데이터</span></div><ul class='concept-block-ul'><li><strong>질적 척도 - 명목척도:</strong> 어느 집단에 속하는지 나타내는 자료 (예: 대학교, 성별)</li><li><strong>질적 척도 - 순서척도(서열척도):</strong> 서열관계가 존재하는 자료 (예: 학년, 순위)</li><li><strong>양적 척도 - 등간척도(구간척도):</strong> 구간 사이 간격이 의미가 있으며 덧셈과 뺄셈만 가능 (예: 온도, 지수 등)</li><li><strong>양적 척도 - 비율척도:</strong> 절대적 기준 0이 존재하고 사칙연산 가능, 가장 많이 수집되는 자료 (예: 무게, 나이 등)</li></ul><h4 class='concept-block-h4'>관측 기준 구분</h4><ul class='concept-block-ul'><li><strong>단변량 데이터:</strong> 데이터의 특성이 하나인 데이터</li><li><strong>다변량 데이터:</strong> 데이터의 특성이 두 개 이상인 데이터</li><li><strong>시계열 데이터:</strong> 시간 순서에 따라 관측된 데이터 (=종단면적 데이터)</li></ul><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 데이터의 종류 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - 종단면적 데이터(여러 시점에 측정) ↔ 횡단면적 데이터(한 시점에 측정) / 패널데이터(종단+횡단)</div></div>"
+        },
+        {
+          "id": "c2-7",
+          "title": "데이터 정제 기법",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>주요 데이터 정제 방법</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>집계</span><span class='concept-keyword-tag'>일반화</span><span class='concept-keyword-tag'>정규화</span><span class='concept-keyword-tag'>스무딩</span></div><ul class='concept-block-ul'><li><strong>집계:</strong> 데이터를 요약 (합계, 평균, 분산, 개수, 최대/최소)</li><li><strong>일반화:</strong> 데이터의 일반적인 특성 추출</li><li><strong>정규화:</strong> 데이터를 정해진 구간으로 조정하여 상대적 차이 제거</li><li><strong>스무딩(=평활화):</strong> 노이즈(잡음)를 제거하여 추세를 부드럽게 만듦</li></ul>"
+        }
+      ]
+    },
+    {
+      "id": "s2-2",
+      "num": "02",
+      "title": "데이터 결측값 및 이상값 처리",
+      "cards": [
+        {
+          "id": "c2-8",
+          "title": "결측값(Missing Value) 종류",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>결측 메커니즘 3가지</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>완전 무작위 결측</span><span class='concept-keyword-tag'>무작위 결측</span><span class='concept-keyword-tag'>비 무작위 결측</span></div><ul class='concept-block-ul'><li><strong>완전 무작위 결측(MCAR):</strong> 다른 변수들과 아무런 상관없는 경우 (예: 입력 실수, 전산 오류)</li><li><strong>무작위 결측(MAR):</strong> 특정 변수와 관련되어 발생하였지만, 결과와는 관계가 없는 경우 (예: 특정 정치 성향 유권자들의 응답률이 낮으나 정당의 득표율이 낮은 것은 아님)</li><li><strong>비 무작위 결측(MNAR):</strong> 결측치가 변수의 결과에 상관이 있는 경우 (예: 소득이 낮은 응답자들의 응답률이 낮음)</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> <strong>결측값(Missing Value)</strong>은 설문조사에서 응답자가 '빈칸'으로 남겨둔 부분입니다. 빈칸을 아예 버릴지(삭제), 평균값으로 대충 채울지(대치) 결정해야 합니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 결측값(Missing Value) 종류 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  결측값의 3가지 유형(완전 무작위 결측 MCAR, 무작위 결측 MAR, 비무작위 결측 MNAR)을 묻는 문제가 자주 나옵니다. 영어 약자와 뜻을 매칭해 두세요!</div></div>"
+        },
+        {
+          "id": "c2-9",
+          "title": "결측값 처리 방법",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>1. 결측 메커니즘 3가지 (MCAR, MAR, MNAR)</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 키워드:</span> \n  <span class='concept-keyword-tag'>MCAR (완전무작위)</span>\n  <span class='concept-keyword-tag'>MAR (무작위/조건부)</span>\n  <span class='concept-keyword-tag'>MNAR (비무작위)</span>\n</div>\n<ul class='concept-block-ul'>\n  <li><strong>완전 무작위 결측 (MCAR):</strong> 결측 발생이 어떤 다른 변수나 데이터 자체와도 전혀 무관한 경우 (예: 설문지가 바람에 날아감, 전산 통신 일시 오류). 삭제해도 편향(Bias)이 발생하지 않음.</li>\n  <li><strong>무작위 결측 (MAR):</strong> 결측 여부가 <strong>다른 관측된 변수와 관련</strong>되어 있지만, 결측값 자체와는 무관함 (예: 여성이 남성보다 체중 응답을 덜 하지만, 성별이 알려져 있는 경우).</li>\n  <li><strong>비무작위 결측 (MNAR):</strong> <strong>결측된 그 변수의 값 자체 때문</strong>에 결측이 발생한 경우 (예: 고소득자나 극빈층이 소득 질문에 무응답). 가장 편향이 크며 단순 삭제 시 심각한 왜곡 발생.</li>\n</ul>\n\n<h4 class='concept-block-h4'>2. 결측값 대체(Imputation) 기법 비교</h4>\n<table class='confusion-table' style='text-align:left;'>\n  <thead>\n    <tr>\n      <th style='width:25%;'>대체 기법</th>\n      <th style='width:40%;'>작동 원리</th>\n      <th style='width:35%;'>장단점 및 출제 포인트</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td><strong>단순 평균/중앙값 대체</strong></td>\n      <td>결측치를 해당 열의 전체 평균이나 중앙값으로 일괄 채움</td>\n      <td>간단하지만 <strong>분산이 과소추정(축소)</strong>되어 표준오차가 왜곡되는 한계</td>\n    </tr>\n    <tr>\n      <td><strong>KNN 대체법</strong></td>\n      <td>다른 변수들의 거리가 가장 가까운 K개 이웃의 평균/가중평균으로 대체</td>\n      <td>데이터의 국소적 특성 반영 가능, 계산 비용 증가</td>\n    </tr>\n    <tr>\n      <td><strong>회귀 대체법</strong></td>\n      <td>다른 변수들을 독립변수로 하여 결측 변수를 예측해 대입</td>\n      <td>변수 간 관계를 보존하나 결정론적 회귀는 분산을 지나치게 줄임</td>\n    </tr>\n    <tr>\n      <td><strong>MICE (다중대체법) 🔥</strong></td>\n      <td>체인 방정식을 이용해 여러 번(m회) 대치 후 결과를 통합</td>\n      <td><strong>결측치 불확실성을 완벽히 반영</strong>하여 표준오차 과소추정 극복</td>\n    </tr>\n  </tbody>\n</table>"
+        },
+        {
+          "id": "c2-10",
+          "title": "데이터 이상값(Outlier) 처리 기법",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>1. 사분위수(IQR) 기준 이상치 탐지 공식 🔥</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 키워드:</span> \n  <span class='concept-keyword-tag'>IQR = Q3 - Q1</span>\n  <span class='concept-keyword-tag'>하한치 Q1 - 1.5×IQR</span>\n  <span class='concept-keyword-tag'>상한치 Q3 + 1.5×IQR</span>\n  <span class='concept-keyword-tag'>극단치 3.0×IQR</span>\n</div>\n\n<div class='formula-card'>\n  <div class='formula-card-header'>\n    <span class='formula-badge'>🧮 박스플롯(Boxplot) 이상치 판단 기준</span>\n  </div>\n  <div class='formula-display'>\n    정상 범위: [ Q₁ - 1.5 × IQR, &nbsp; Q₃ + 1.5 × IQR ] &nbsp;&nbsp;(IQR = Q₃ - Q₁)\n  </div>\n  <div class='calc-step-container'>\n    <div class='calc-step-row'>\n      <span class='calc-step-num'>마일드 이상치</span>\n      <span class='calc-step-content'>1.5 × IQR 바깥 ~ 3.0 × IQR 이내에 위치하는 값</span>\n    </div>\n    <div class='calc-step-row'>\n      <span class='calc-step-num'>극단적 이상치 (Extreme)</span>\n      <span class='calc-step-content'>3.0 × IQR 바깥에 위치하는 심각한 이상치</span>\n    </div>\n  </div>\n</div>\n\n<h4 class='concept-block-h4'>2. 이상치 처리 기법 (윈저화 vs 절단)</h4>\n<ul class='concept-block-ul'>\n  <li><strong>윈저화 (Winsorizing) 🔥:</strong> 이상치를 삭제하지 않고 <strong>상한치(예: 99백분위수)나 하한치(1백분위수)의 값으로 대체(Clipping)</strong>하여 데이터 손실을 방지하는 기법.</li>\n  <li><strong>절단 (Trimming):</strong> 상위/하위 일정 비율(예: 상하위 5%)의 이상치 데이터를 완전히 제거하는 방법.</li>\n  <li><strong>Z-Score (표준점수):</strong> 평균 0, 표준편차 1로 표준화한 후 <strong>$|Z| > 3$</strong>인 값을 이상치로 판정 (데이터가 정규분포를 따를 때 유효).</li>\n  <li><strong>ESD / Generalized ESD:</strong> 정규분포 가정 하에 평균과 표준편차를 반복 갱신하며 다중 이상치를 탐지하는 기법.</li>\n</ul>"
+        }
+      ]
+    },
+    {
+      "id": "s2-3",
+      "num": "03",
+      "title": "분석 변수 처리",
+      "cards": [
+        {
+          "id": "c2-11",
+          "title": "변수 선택",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>변수 선택 방법 3가지</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>필터 방법</span><span class='concept-keyword-tag'>래퍼 방법</span><span class='concept-keyword-tag'>임베디드 방법</span></div><ul class='concept-block-ul'><li><strong>필터(Filter) 방법:</strong> 통계적 측정치를 활용 (기법: 상관계수, 카이제곱 검정, F-검정, 상호정보량). 상관계수 매트릭스 분석 시 높은 상관계수를 가진 변수 중 하나 제거 (상관계수는 -1 ~ 1 사이이며 -1은 음의 상관관계를, 1은 양의 상관관계를 의미)</li><li><strong>래퍼(Wrapper) 방법:</strong> 모델의 성능을 기준으로 선택 (기법: 전진 선택법, 후진 제거법, 단계적 선택법)</li><li><strong>임베디드(Embedded) 방법:</strong> 모델 학습 과정에서 선택 (기법: Lasso 규제, Ridge 규제)</li></ul><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 변수 선택 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - 분석 성능 향상을 위해 중요한 변수만 선별</div></div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> 전진선택법: 한 번 들어온 변수는 나갈 수 없음. / 후진제거법: 한 번 나간 변수는 들어올 수 없음. / 단계적 선택법: 들어오고 나가는 것 모두 가능(가장 유연함).</div>"
+        },
+        {
+          "id": "c2-12",
+          "title": "차원 축소",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>1. 주성분 분석 (PCA - Principal Component Analysis)</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 키워드:</span> \n  <span class='concept-keyword-tag'>고윳값(Eigenvalue)</span>\n  <span class='concept-keyword-tag'>고유벡터(Eigenvector)</span>\n  <span class='concept-keyword-tag'>설명분산비율</span>\n  <span class='concept-keyword-tag'>Scree Plot</span>\n  <span class='concept-keyword-tag'>비지도 학습</span>\n</div>\n\n<ul class='concept-block-ul'>\n  <li><strong>원리:</strong> 데이터의 공분산 행렬을 고유값 분해(Eigendecomposition)하여 <strong>분산(Variance)이 최대가 되는 직교(Orthogonal) 축</strong>을 찾아 차원을 축소함.</li>\n  <li><strong>제1주성분(PC1):</strong> 데이터의 전체 분산을 가장 많이 설명하는 축.</li>\n  <li><strong>제2주성분(PC2):</strong> PC1과 <strong>수직(직교, 상관계수=0)</strong>이면서 남은 분산을 최대로 설명하는 축.</li>\n</ul>\n\n<div class='formula-grid'>\n  <div class='formula-grid-item'>\n    <span class='formula-grid-title'>① 카이저 기준 (Kaiser Rule)</span>\n    <span class='formula-grid-expr'>고윳값(Eigenvalue) ≥ 1.0</span>\n    <span class='formula-grid-desc'>원래 변수 1개 이상의 분산 크기를 가지는 주성분만 선택</span>\n  </div>\n  <div class='formula-grid-item'>\n    <span class='formula-grid-title'>② 누적 설명 분산 비율</span>\n    <span class='formula-grid-expr'>누적 기여율 ≥ 80% ~ 85%</span>\n    <span class='formula-grid-desc'>전체 분산의 80% 이상을 설명할 때까지 주성분 개수를 채택</span>\n  </div>\n  <div class='formula-grid-item'>\n    <span class='formula-grid-title'>③ Scree Plot 엘보우 포인트</span>\n    <span class='formula-grid-expr'>기울기가 완만해지는 직전</span>\n    <span class='formula-grid-desc'>고윳값 감소 그래프의 꺾이는 지점(Elbow) 바로 앞까지 선택</span>\n  </div>\n</div>\n\n<h4 class='concept-block-h4'>2. PCA vs LDA vs t-SNE 핵심 비교</h4>\n<table class='confusion-table' style='text-align:left;'>\n  <thead>\n    <tr>\n      <th style='width:25%;'>차원축소 기법</th>\n      <th style='width:25%;'>학습 방식</th>\n      <th style='width:50%;'>핵심 메커니즘 & 목적</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td><strong>PCA (주성분분석)</strong></td>\n      <td><strong>비지도학습 (Unsupervised)</strong></td>\n      <td>라벨(Y) 없이 데이터의 <strong>전체 분산(Variance) 최대화</strong> 축 탐색</td>\n    </tr>\n    <tr>\n      <td><strong>LDA (선형판별분석) 🔥</strong></td>\n      <td><strong>지도학습 (Supervised)</strong></td>\n      <td>라벨(Y)을 고려하여 <strong>클래스 간 분산 최대화 & 클래스 내 분산 최소화</strong></td>\n    </tr>\n    <tr>\n      <td><strong>t-SNE / UMAP</strong></td>\n      <td>비선형 비지도학습</td>\n      <td>고차원 공간의 이웃 간 유사도를 저차원에 보존 (시각화에 주로 활용)</td>\n    </tr>\n  </tbody>\n</table>"
+        },
+        {
+          "id": "c2-13",
+          "title": "파생변수 생성 및 변수 변환",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>변수 요약 및 변환 방법</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>요약변수 vs 파생변수</span><span class='concept-keyword-tag'>파생변수 생성방법</span><span class='concept-keyword-tag'>수치형 변수 변환</span><span class='concept-keyword-tag'>범주형 변수 변환</span></div><ul class='concept-block-ul'><li><strong>요약변수 vs 파생변수:</strong> 요약변수는 수집된 정보를 종합한 변수(예: 1개월간 수입), 파생변수는 의미를 부여한 변수로 논리적 타당성 필요(예: 고객구매등급)</li><li><strong>파생변수 생성방법:</strong> 특징 추출, 결합, 부가적 정보 결합, 수학적 변환, 교호작용의 반영 (교호작용: 두 개 이상의 변수가 상호작용하여 특정 변수에 영향을 미치는 경우)</li><li><strong>수치형 변수 변환:</strong> 표준화(Z-Score, 평균 0 표준편차 1), 정규화(Min-Max Scaling, 0~1 사이 변환), 로그 변환(좌측으로 치우친 데이터), 지수/제곱근/Box-Cox 변환</li><li><strong>범주형 변수 변환:</strong> 레이블 인코딩(정수 변환, 서열 부여 문제), 원-핫 인코딩(고유 값만 1, 나머지 0, 메모리 소모 크나 독립적), 타깃 인코딩(타깃 변수 평균값으로 변환)</li></ul>"
+        },
+        {
+          "id": "c2-14",
+          "title": "불균형 데이터 처리",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>불균형 데이터 해결 방법</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>가중치 균형 적용</span><span class='concept-keyword-tag'>과소표집</span><span class='concept-keyword-tag'>과대표집</span></div><ul class='concept-block-ul'><li><strong>가중치 균형 적용(Weighted Balance):</strong> 불균형 데이터에 가중치를 부여하는 방법</li><li><strong>과소표집(UnderSampling):</strong> 다수 데이터의 일부만 선택 (방법: 랜덤 추출법, 계통 추출법, 집락 추출법, 층화 추출법)</li><li><strong>과대표집(OverSampling):</strong> 소수 데이터를 복사하거나 유사한 데이터를 생성 (방법: SMOTE, ADSYN, ROS)</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> <strong>불균형 데이터</strong>는 정상 카드가 99만 장인데 도난 카드는 1만 장뿐인 상황입니다. AI가 다 찍어도 99% 맞다고 우길 수 있으니, 도난 카드를 복사해서 늘리거나(오버샘플링), 정상 카드를 줄여서(언더샘플링) 비율을 맞춰야 합니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 불균형 데이터 처리 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  SMOTE 기법(오버샘플링의 한 종류로 KNN을 이용해 가상의 데이터를 생성)의 원리와 오버샘플링/언더샘플링의 특징을 묻는 문제가 자주 출제됩니다.</div></div><div class='concept-block-note'>⚠️ <strong>[헷갈림 주의 포인트]</strong> SMOTE 기법은 단순히 복사(Oversampling)하는 것이 아니라, 소수 클래스의 데이터 사이에 가상의 데이터를 '보간(생성)'하는 방식입니다. 단순 복제라고 하면 오답입니다!</div>"
+        },
+        {
+          "id": "c2-5-99",
+          "title": "불균형 데이터(Imbalanced Data) 처리",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>샘플링 기법</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>언더샘플링</span><span class='concept-keyword-tag'>오버샘플링</span><span class='concept-keyword-tag'>SMOTE</span><span class='concept-keyword-tag'>ADASYN</span></div><ul class='concept-block-ul'><li><strong>언더샘플링(Undersampling):</strong> 다수 클래스의 데이터를 줄여 소수 클래스와 맞춤. 데이터 유실 문제 발생.</li><li><strong>오버샘플링(Oversampling):</strong> 소수 클래스의 데이터를 복제하여 다수 클래스와 맞춤. 과적합 우려.</li></ul><h4 class='concept-block-h4'>고급 샘플링 알고리즘</h4><ul class='concept-block-ul'><li><strong>SMOTE:</strong> 소수 클래스 데이터들 사이를 선분으로 이어 가상의 새로운 데이터를 생성 (과적합 완화).</li><li><strong>ADASYN:</strong> SMOTE를 개선하여 분류가 어려운 데이터 주변에 더 많은 데이터를 생성.</li></ul><div class='concept-block-note'>🚨 [출제자의 꿀팁] 불균형 데이터에서는 정확도(Accuracy)보다 F1-Score, ROC-AUC 지표를 사용하는 것이 적절하다는 것이 단골 출제됩니다.</div><div class='concept-block-note'>⚠️ <strong>[헷갈림 주의 포인트]</strong> SMOTE 기법은 단순히 복사(Oversampling)하는 것이 아니라, 소수 클래스의 데이터 사이에 가상의 데이터를 '보간(생성)'하는 방식입니다. 단순 복제라고 하면 오답입니다!</div>"
+        }
+      ]
+    },
+    {
+      "id": "s2-4",
+      "num": "04",
+      "title": "데이터 탐색 개요",
+      "cards": [
+        {
+          "id": "c2-15",
+          "title": "EDA (탐색적 자료 분석)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>EDA의 4가지 주제 (저잔재현)</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>저항성의 강조</span><span class='concept-keyword-tag'>잔차 계산</span><span class='concept-keyword-tag'>자료변수의 재표현</span><span class='concept-keyword-tag'>그래프를 통한 현시성</span></div><ul class='concept-block-ul'><li><strong>저항성의 강조:</strong> 자료 변동에 민감하지 않음</li><li><strong>잔차 계산:</strong> 값들이 주경향으로부터 얼마나 벗어나 있는지 확인하는 척도</li><li><strong>자료변수의 재표현:</strong> 원래 변수를 적당한 척도로 변환</li><li><strong>그래프를 통한 현시성:</strong> 시각화를 통하여 효율적으로 파악</li></ul>"
+        },
+        {
+          "id": "c2-16",
+          "title": "상관관계 분석",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>상관분석의 유형 및 방법</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>단순상관분석</span><span class='concept-keyword-tag'>다중상관분석</span><span class='concept-keyword-tag'>편상관관계분석</span><span class='concept-keyword-tag'>피어슨 상관분석</span><span class='concept-keyword-tag'>스피어만 상관분석</span></div><ul class='concept-block-ul'><li><strong>단순상관분석:</strong> 두 개의 변수가 어느 정도 강한 관계에 있는가를 측정</li><li><strong>다중상관분석:</strong> 3개 이상의 변수 간 관계를 측정</li><li><strong>편상관관계분석:</strong> 제3의 변수를 통제한 상태에서 두 변수의 상관관계를 분석</li><li><strong>피어슨 상관분석:</strong> 양적 척도, 연속형 변수, 선형관계 크기 측정</li><li><strong>스피어만 상관분석:</strong> 서열 척도, 순서형 변수, 선형/비선형적 관계 나타냄 (X와 Y가 선형 관계가 아니더라도 +1 혹은 -1이 될 수 있음)</li></ul><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 상관관계 분석 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - 상관계수의 값으로는 정도만 파악 가능하며, 통계적으로 유의한지는 통계적 검정을 수행해야 함</div></div>"
+        },
+        {
+          "id": "c2-17",
+          "title": "기초통계량 추출 및 이해",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>중심경향성 측면</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>중심경향성</span><span class='concept-keyword-tag'>분산 정도</span><span class='concept-keyword-tag'>관계 측면</span><span class='concept-keyword-tag'>기댓값과 분산 특성</span><span class='concept-keyword-tag'>첨도와 왜도</span></div><ul class='concept-block-ul'><li><strong>중심경향성:</strong> 산술평균(모든 값 합산 후 개수로 나눔), 기하평균(곱한 후 n제곱근, 비율적 증가율), 조화평균(역수의 산술평균 후 역수, 비율 계산), 중앙값(크기 순서 중간 값), 최빈값(가장 자주 나타나는 값)</li></ul><h4 class='concept-block-h4'>분산 정도 측면</h4><ul class='concept-block-ul'><li><strong>분산 정도:</strong> 범위(최댓값-최솟값, 이상치에 민감), 분산(평균과의 거리 제곱 지표), 표준편차(분산의 제곱근), 사분위수(IQR, 25%와 75% 지점 사이 범위), 변동계수(CV, 표준편차/평균, 단위 다른 변수 간 상대적 비교)</li></ul><h4 class='concept-block-h4'>관계 측면 및 기댓값/분산 특성</h4><ul class='concept-block-ul'><li><strong>관계 측면:</strong> 공분산(두 확률변수의 상관정도, 0이면 무관, 최솟값/최댓값 없어 강약 판단 불가), 상관계수(공분산을 -1~1 사이로 표준화), 공분산과 독립성(두 변수가 독립이면 공분산은 0이지만, 공분산이 0이라고 독립인 것은 아님)</li><li><strong>기댓값과 분산 특성:</strong> 서로 독립인 X, Y에 대해 E(5X + 7Y + 15) = 5E(X) + 7E(Y) + 15, V(5X + 7Y + 15) = 25V(X) + 49V(Y) (V(상수) = 0)</li></ul><h4 class='concept-block-h4'>첨도와 왜도</h4><ul class='concept-block-ul'><li><strong>첨도와 왜도:</strong> 첨도(분포의 뾰족한 정도, 정규분포는 3), 왜도(비대칭 정도, 0일 때 대칭이며 음수면 최빈>중앙>평균, 양수면 최빈<중앙<평균)</li></ul>"
+        }
+      ]
+    },
+    {
+      "id": "s2-5",
+      "num": "05",
+      "title": "고급 데이터 탐색",
+      "cards": [
+        {
+          "id": "c2-18",
+          "title": "시공간 및 다변량 데이터 탐색",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>시공간 데이터 및 다변량 탐색</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>시공간 데이터</span><span class='concept-keyword-tag'>다변량 데이터 탐색 목표</span><span class='concept-keyword-tag'>다변량 데이터 탐색 방법</span></div><ul class='concept-block-ul'><li><strong>시공간 데이터:</strong> 공간적 정보에 시간의 흐름이 결합된 데이터</li><li><strong>다변량 데이터 탐색 목표:</strong> 변수 간 관계, 패턴 분석, 이상치 탐지, 데이터 요약</li><li><strong>다변량 데이터 탐색 방법:</strong> 상관관계분석, PCA, 다차원척도법, 다중선형회귀, 군집 분석 등</li></ul><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 시공간 및 다변량 데이터 탐색 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - 시공간 데이터 활용 핵심 키워드: '패지격' (시공간 패턴 예측, 지도 위치정보, 지리공간 격자 차트 결합)</div></div>"
+        },
+        {
+          "id": "c2-19",
+          "title": "비정형 데이터 탐색 (자연어 전처리)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>자연어 전처리 5단계</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>토큰화</span><span class='concept-keyword-tag'>불용어 처리</span><span class='concept-keyword-tag'>정규화</span><span class='concept-keyword-tag'>어간추출</span><span class='concept-keyword-tag'>표제어 추출</span></div><ul class='concept-block-ul'><li><strong>토큰화(Tokenization):</strong> 의미 있는 말뭉치로 문자를 나누는 작업</li><li><strong>불용어(Stop Words) 처리:</strong> 조사, 접속사 등의 의미 없는 정보 제거</li><li><strong>정규화:</strong> 같은 의미이면서 표현이 다른 단어를 통합</li><li><strong>어간추출(Stemming):</strong> 접사를 제거하여 기본 형태를 찾아내는 작업</li><li><strong>표제어 추출(Lemmatization):</strong> 사전에 기반하여 단어를 원형으로 변환</li></ul><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 비정형 데이터 탐색 (자연어 전처리) 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - 한국어는 띄어쓰기가 일정하지 않고 형태소 단위로 분리해야 하므로 토큰화가 어려움</div></div>"
+        }
+      ]
+    },
+    {
+      "id": "s2-6",
+      "num": "06",
+      "title": "통계기법 이해",
+      "cards": [
+        {
+          "id": "c2-20",
+          "title": "표본 추출 기법",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>주요 표본 추출(Sampling) 방법</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>단순 랜덤 추출</span><span class='concept-keyword-tag'>계통 추출</span><span class='concept-keyword-tag'>층화 추출</span><span class='concept-keyword-tag'>집락 추출</span></div><ul class='concept-block-ul'><li><strong>단순 랜덤 추출(Simple Random):</strong> 임의로 번호를 뽑는 가장 기본적인 방법 (제비뽑기)</li><li><strong>계통 추출(Systematic):</strong> K번째마다 하나씩 일정한 간격으로 추출 (예: 10번째 사람마다 조사)</li><li><strong>층화 추출(Stratified):</strong> 성별, 연령처럼 이질적인 집단(층)으로 나눈 뒤, 각 층 안에서 랜덤 추출 (비율 보장)</li><li><strong>집락 추출(Cluster):</strong> 서로 유사한 여러 집단으로 나누고, 특정 집단을 통째로 선택해서 조사</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> '층화 추출'은 피자 한 판을 여러 조각(층)으로 나눈 뒤 각 조각에서 토핑을 하나씩 골고루 맛보는 것이고, '집락 추출'은 피자 한 조각(집단)을 통째로 뜯어서 다 먹어버리는 것입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 표본 추출 기법 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  층화 추출(내부는 동질, 외부는 이질)과 집락 추출(내부는 이질, 외부는 동질)의 차이를 묻는 문제가 단골 출제됩니다.</div></div>"
+        },
+        {
+          "id": "c2-21",
+          "title": "확률분포의 종류",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>이산형과 연속형 확률분포</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>이산형</span><span class='concept-keyword-tag'>연속형</span></div><ul class='concept-block-ul'><li><strong>이산형(딱딱 끊어짐, 개수):</strong> 베르누이 분포(동전 던지기), 이항 분포(n번 던져 k번 성공), 포아송 분포(단위 시간/공간당 발생 횟수)</li><li><strong>연속형(이어짐, 측정값):</strong> 정규 분포(종 모양), t-분포(표본이 적을 때 사용), 카이제곱 분포(범주형 빈도, 분산), F-분포(두 집단 분산 비교)</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> '이산형'은 사람 수, 불량품 개수처럼 셀 수 있는 것이고, '연속형'은 키, 몸무게, 시간처럼 소수점 단위로 끝없이 쪼갤 수 있는 것입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 확률분포의 종류 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  단위 시간/면적 당 사건 발생 횟수(예: 1시간 동안 걸려온 전화 횟수)를 나타내는 것은 <strong>'포아송 분포'</strong>입니다. 이것을 찾는 객관식 문제가 자주 나옵니다.</div></div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> 이산형(건수, 횟수) = 이항, 포아송, 베르누이 / 연속형(시간, 길이, 무게) = 정규분포, t-분포, 카이제곱분포. 종류를 구분하는 문제가 100% 출제됩니다.</div>"
+        },
+        {
+          "id": "c2-22",
+          "title": "추정과 가설검정 (1종/2종 오류 & 비모수검정) 🔥 [12회 기출 7문항 최다출제]",
+          "open": false,
+          "content": "<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(239,68,68,0.12), rgba(245,158,11,0.12)); border-left:4px solid #ef4444; padding:14px 18px; border-radius:8px; margin-bottom:16px;'>\n  <strong style='color:#dc2626; font-size:1.05rem;'>🔥 [최근 12회 기출 7문항 최다 출제] 가설검정 & 통계적 추론 완전 정복</strong>\n  <p style='margin:6px 0 0 0; font-size:0.92rem; color:var(--text-color); line-height:1.6;'>\n    필기시험 합격의 승부처이자 <strong>실기시험 제3유형(가설검정 파이썬 통계분석)</strong>과 100% 직결되는 최우선 핵심 테마입니다.\n  </p>\n</div>\n\n<h4 class='concept-block-h4'>1. 모수 검정(Parametric Test) 3대 T-검정 비교</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 키워드:</span> \n  <span class='concept-keyword-tag'>단일표본 t-검정</span>\n  <span class='concept-keyword-tag'>독립표본 t-검정</span>\n  <span class='concept-keyword-tag'>대응표본 t-검정(Paired)</span>\n  <span class='concept-keyword-tag'>등분산 검정(Levene)</span>\n</div>\n\n<table class='confusion-table' style='text-align:left;'>\n  <thead>\n    <tr>\n      <th style='width:22%;'>검정 종류</th>\n      <th style='width:28%;'>적용 대상 & 목적</th>\n      <th style='width:25%;'>검정통계량 및 자유도(df)</th>\n      <th style='width:25%;'>실기(Python) 함수</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td><strong>단일표본 t-검정</strong><br>(One-Sample)</td>\n      <td>1개 표본 집단의 평균이 특정 기준값(μ₀)과 같은지 검정</td>\n      <td><span class='formula-display' style='font-size:0.9rem; padding:4px 8px; margin:2px 0;'>t = <span class='math-frac'><span class='math-frac-num'>X̄ - μ₀</span><span class='math-frac-den'>s / √n</span></span></span><br><strong>df = n - 1</strong></td>\n      <td><code>stats.ttest_1samp(data, popmean)</code></td>\n    </tr>\n    <tr>\n      <td><strong>독립표본 t-검정</strong><br>(Two-Sample Ind.)</td>\n      <td>서로 독립인 2개 집단 간 평균 차이 검정 (남 vs 여 등)</td>\n      <td>등분산 만족 시 합동분산(Sp) 사용<br><strong>df = n₁ + n₂ - 2</strong></td>\n      <td><code>stats.ttest_ind(a, b, equal_var=True/False)</code></td>\n    </tr>\n    <tr>\n      <td style='background:rgba(239,68,68,0.08);'><strong>대응표본 t-검정 🔥</strong><br>(Paired Sample)</td>\n      <td style='background:rgba(239,68,68,0.08);'><strong>동일 집단의 사전-사후 차이</strong> 검정 (투약 전 vs 투약 후, 교육 전 vs 후)</td>\n      <td style='background:rgba(239,68,68,0.08);'>차이값 D = X₁ - X₂ 의 평균(D̄) 검정<br><strong>df = n - 1 (n은 쌍의 개수)</strong></td>\n      <td style='background:rgba(239,68,68,0.08);'><code>stats.ttest_rel(before, after)</code></td>\n    </tr>\n  </tbody>\n</table>\n\n<div class='concept-block-note'>\n  💡 <strong>[시험장 단골 함정]:</strong> 독립표본 t-검정의 자유도는 <code>n₁ + n₂ - 2</code>이지만, 대응표본 t-검정(Paired t-test)은 동일 대상의 쌍(Pair)이므로 <strong>자유도가 <code>n - 1</code></strong>입니다!\n</div>\n\n<h4 class='concept-block-h4'>2. 비모수 검정(Non-parametric Test) 4대장</h4>\n<p style='font-size:0.92rem; color:var(--text-color); margin-bottom:8px;'>\n  데이터가 정규분포를 따르지 않거나(샤피로-윌크 검정 $p < 0.05$), 서열(순위) 척도일 때 <strong>평균 대신 중위수(Median)나 순위(Rank)</strong>를 바탕으로 검정합니다.\n</p>\n\n<table class='confusion-table' style='text-align:left;'>\n  <thead>\n    <tr>\n      <th style='width:25%;'>비모수 검정명</th>\n      <th style='width:30%;'>대응되는 모수 검정</th>\n      <th style='width:45%;'>핵심 특징 및 판별 키워드</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td><strong>샤피로-윌크 (Shapiro-Wilk)</strong></td>\n      <td>정규성 검정 (모수 vs 비모수 판별)</td>\n      <td>귀무가설(H₀: 정규성을 만족한다) / $p ge 0.05$여야 모수 검정 수행 가능</td>\n    </tr>\n    <tr>\n      <td><strong>맨-휘트니 U 검정 🔥</strong><br>(Mann-Whitney / 윌콕슨 순위합)</td>\n      <td>독립 2표본 t-검정 (2-sample ind)</td>\n      <td><strong>서로 다른 두 독립 집단</strong>의 순위합 비교 (예: A반과 B반 성적 순위 비교)</td>\n    </tr>\n    <tr>\n      <td><strong>윌콕슨 부호순위 검정 🔥</strong><br>(Wilcoxon Signed-Rank)</td>\n      <td>대응표본 t-검정 (Paired t-test)</td>\n      <td><strong>동일 집단의 사전-사후 차이</strong>에 부호(+,-)와 순위를 매겨 검정 (예: 다이어트 전후)</td>\n    </tr>\n    <tr>\n      <td><strong>크루스칼-왈리스 검정 🔥</strong><br>(Kruskal-Wallis)</td>\n      <td>일원배치 분산분석 (One-way ANOVA)</td>\n      <td><strong>3개 이상 독립 집단</strong> 간의 순위 기반 중위수 차이 검정</td>\n    </tr>\n  </tbody>\n</table>\n\n<h4 class='concept-block-h4'>3. 카이제곱(χ²) 검정 3총사 & 공식 마스터</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 키워드:</span> \n  <span class='concept-keyword-tag'>적합도 검정</span>\n  <span class='concept-keyword-tag'>독립성 검정</span>\n  <span class='concept-keyword-tag'>동질성 검정</span>\n  <span class='concept-keyword-tag'>자유도 (r-1)(c-1)</span>\n  <span class='concept-keyword-tag'>기대도수 공식</span>\n</div>\n\n<div class='formula-grid'>\n  <div class='formula-grid-item'>\n    <span class='formula-grid-title'>① 적합도 검정 (Goodness-of-Fit)</span>\n    <span class='formula-grid-expr'>자유도 df = k - 1</span>\n    <span class='formula-grid-desc'>관측된 도수가 특정 이론적 분포(예: 멘델의 유전법칙 9:3:3:1)를 따르는지 검정 (1개 범주형 변수)</span>\n  </div>\n  <div class='formula-grid-item'>\n    <span class='formula-grid-title'>② 독립성 검정 (Independence) 🔥</span>\n    <span class='formula-grid-expr'>자유도 df = (r - 1) × (c - 1)</span>\n    <span class='formula-grid-desc'>2개의 범주형 변수 간에 연관성이 있는지 검정 (예: 성별과 선호 정당이 독립인가?)</span>\n  </div>\n  <div class='formula-grid-item'>\n    <span class='formula-grid-title'>③ 기대도수(Expected Frequency) 공식 🔥</span>\n    <span class='formula-grid-expr' style='color:#dc2626;'>E_ij = (R_i × C_j) / N</span>\n    <span class='formula-grid-desc'>i번째 행의 합계(R_i)와 j번째 열의 합계(C_j)를 곱한 후 전체 표본수(N)로 나눔</span>\n  </div>\n</div>\n\n<div class='formula-card'>\n  <div class='formula-card-header'>\n    <span class='formula-badge'>🧮 카이제곱 검정통계량 계산 공식</span>\n  </div>\n  <div class='formula-display'>\n    χ² = Σ <span class='math-frac'><span class='math-frac-num'>(O_ij - E_ij)²</span><span class='math-frac-den'>E_ij</span></span>\n    &nbsp;&nbsp;(O: 관측도수, E: 기대도수)\n  </div>\n</div>\n\n<h4 class='concept-block-h4'>4. 가설검정 의사결정 & 1종·2종 오류 완벽 정리</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 키워드:</span> \n  <span class='concept-keyword-tag'>귀무가설(H₀)</span>\n  <span class='concept-keyword-tag'>대립가설(H₁)</span>\n  <span class='concept-keyword-tag'>1종 오류(α)</span>\n  <span class='concept-keyword-tag'>2종 오류(β)</span>\n  <span class='concept-keyword-tag'>검정력(1-β)</span>\n  <span class='concept-keyword-tag'>p-value 판정</span>\n</div>\n\n<table class='confusion-table'>\n  <thead>\n    <tr>\n      <th colspan='2' rowspan='2' style='background:var(--paper-subtle);'>가설검정 판정표</th>\n      <th colspan='2'>실제 모집단의 참 상태 (Reality)</th>\n    </tr>\n    <tr>\n      <th style='background:rgba(59,130,246,0.1); color:#2563EB;'>귀무가설(H₀)이 참인 경우</th>\n      <th style='background:rgba(16,185,129,0.1); color:#059669;'>귀무가설(H₀)이 거짓인 경우</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th rowspan='2' style='background:var(--paper-subtle); width:15%;'>통계적<br>의사결정</th>\n      <td style='font-weight:800; background:var(--surface);'>H₀ 기각<br><span style='font-size:0.8rem; color:var(--text-muted);'>(효과가 있다고 판정)</span></td>\n      <td class='confusion-cell-fp'>\n        <strong>제1종 오류 (α) 🚨</strong><br>\n        <span style='font-size:0.82rem;'>참인 H₀를 잘못 기각</span><br>\n        <span style='font-size:0.78rem;'>(유의수준 = 허용할 1종 오류 최대확률)</span>\n      </td>\n      <td class='confusion-cell-tp'>\n        <strong>옳은 결정 (검정력, 1 - β) ✅</strong><br>\n        <span style='font-size:0.82rem;'>거짓인 H₀를 올바르게 기각</span><br>\n        <span style='font-size:0.78rem;'>(검정력이 높을수록 우수한 검정)</span>\n      </td>\n    </tr>\n    <tr>\n      <td style='font-weight:800; background:var(--surface);'>H₀ 채택<br><span style='font-size:0.8rem; color:var(--text-muted);'>(효과가 없다고 판정)</span></td>\n      <td class='confusion-cell-tn'>\n        <strong>옳은 결정 (1 - α) ✅</strong><br>\n        <span style='font-size:0.82rem;'>참인 H₀를 올바르게 채택</span><br>\n        <span style='font-size:0.78rem;'>(신뢰수준 95% = 1 - 0.05)</span>\n      </td>\n      <td class='confusion-cell-fn'>\n        <strong>제2종 오류 (β) ⚠️</strong><br>\n        <span style='font-size:0.82rem;'>거짓인 H₀를 잘못 채택</span><br>\n        <span style='font-size:0.78rem;'>(차이가 있는데 없다고 놓침)</span>\n      </td>\n    </tr>\n  </tbody>\n</table>\n\n<div class='calc-step-container'>\n  <div class='calc-step-row'>\n    <span class='calc-step-num'>p-value 판정법</span>\n    <span class='calc-step-content'><strong>p-value < α (0.05):</strong> \"p값이 작으면 귀무가설 기각! 대립가설(차이가 있다) 채택\"</span>\n  </div>\n  <div class='calc-step-row'>\n    <span class='calc-step-num'>신뢰구간 판정법</span>\n    <span class='calc-step-content'><strong>모수 검정:</strong> 95% 신뢰구간에 0(또는 μ₀)이 포함되지 않으면 유의미한 차이(H₀ 기각)</span>\n  </div>\n</div>\n\n<div class='concept-block-quiz'>\n  <div class='concept-quiz-q'>⚡ <strong>실전 자가진단 OX:</strong> Q. 대응표본 t-검정에서 표본 쌍의 개수가 20쌍일 때 검정통계량의 자유도는 38이다?</div>\n  <div class='concept-quiz-a'>정답: <strong style='color:var(--danger);'>X (오답)</strong> - 대응표본 t-검정은 동일한 대상의 전-후 차이값 1개 변수(D)를 분석하므로 자유도는 <strong>n - 1 = 19</strong>입니다. 38은 독립된 두 집단(n1+n2-2)일 때의 자유도입니다.</div>\n</div>"
+        },
+        {
+          "id": "c2-6-new1",
+          "title": "이산확률분포 심화 (기하/음이항/포아송)",
+          "body": "기본적인 베르누이와 이항분포 외에 반드시 알아야 할 고난도 이산확률분포입니다.<br><br><strong>1) 기하분포</strong>: 처음으로 성공할 때까지의 시행 횟수의 분포 (예: 동전 던져 처음 앞면 나올 때까지 던진 횟수)<br><strong>2) 음이항분포</strong>: r번 성공할 때까지 반복한 시행 횟수의 분포<br><strong>3) 초기하분포</strong>: 비복원 추출에서 N개 중 n번 추출했을 때 원하는 결과가 k번 나올 확률<br><strong>4) 다항분포</strong>: 여러 개의 결과를 가질 수 있는 시행(예: 주사위)을 N번 반복 시 각 면이 나오는 횟수 분포<br><strong>5) 포아송분포</strong>: 단위 시간/공간 내에 드물게 발생하는 사건의 발생 횟수 (예: 하루 동안 걸려온 전화 수, 불량품 수)<br><br>👉 <strong>암기팁</strong>: <strong>[누포항하]</strong> - 포아송은 단위 시간당 발생 횟수!",
+          "tags": [
+            "통계기법",
+            "이산확률분포",
+            "포아송분포",
+            "기하분포"
+          ],
+          "content": "<h4 class='concept-block-h4'>이산확률분포 심화</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>기하분포</span><span class='concept-keyword-tag'>음이항분포</span><span class='concept-keyword-tag'>포아송분포</span></div><ul class='concept-block-ul'><li><strong>기하분포 (Geometric):</strong> 처음 성공할 때까지 시도한 횟수의 분포 (예: 첫 번째 불량품이 나올 때까지 검사한 제품 수)</li><li><strong>음이항분포 (Negative Binomial):</strong> r번째 성공할 때까지 시도한 실패 횟수의 분포</li><li><strong>포아송분포 (Poisson):</strong> 단위 시간/공간 내에서 희귀하게 발생하는 사건의 수 (예: 하루 동안 걸려온 문의 전화 수)</li></ul><div class='concept-block-note'>💡 <strong>출제위원 꿀팁:</strong> 이항분포와 베르누이 분포의 차이뿐만 아니라, '특정 횟수 성공할 때까지'라는 키워드가 나오면 기하/음이항 분포를 떠올리세요.</div>"
+        }
+      ]
+    },
+    {
+      "id": "s3-0",
+      "num": "00",
+      "title": "분석모형 설계 (분석 절차 수립·환경 구축)",
+      "cards": [
+        {
+          "id": "c2-1",
+          "title": "분석모형 선정 및 지도학습 분류 체계 🔥 [12회 기출 핵심]",
+          "open": false,
+          "content": "\n<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(16,185,129,0.12), rgba(59,130,246,0.12)); border-left:4px solid #10b981; padding:12px 16px; border-radius:8px; margin-bottom:16px;'>\n  <strong style='color:#059669; font-size:1.05rem;'>🔥 [12회 기출 핵심] 지도학습 타겟 변수 유형별 알고리즘 완벽 매핑</strong>\n  <p style='margin:6px 0 0 0; font-size:0.92rem; color:var(--text-color);'>종속변수 Y가 연속형(회귀)인지 범주형(분류)인지, 그리고 둘 다 가능한 복합 알고리즘을 묻는 문제가 매회 단골 출제됩니다.</p>\n</div>\n\n<h4 class='concept-block-h4'>1. 지도학습 알고리즘 유형 분류</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 키워드:</span>\n  <span class='concept-keyword-tag'>회귀(연속형)</span>\n  <span class='concept-keyword-tag'>분류(범주형)</span>\n  <span class='concept-keyword-tag'>트리/신경망(둘다가능)</span>\n</div>\n\n<ul class='concept-block-ul'>\n  <li><strong>① 회귀(Regression) 전용 [Y: 연속형]:</strong> 선형회귀(단순/다중/릿지/라쏘), 다항회귀</li>\n  <li><strong>② 분류(Classification) 전용 [Y: 범주형]:</strong> 로지스틱 회귀(Logistic), 판별분석(LDA/QDA), 나이브 베이즈(Naive Bayes)</li>\n  <li><strong>③ 회귀 & 분류 둘 다 가능한 만능 알고리즘:</strong>\n    <br>• <strong>의사결정나무 (Decision Tree)</strong>\n    <br>• <strong>랜덤포레스트 (Random Forest)</strong>\n    <br>• <strong>K-최근접 이웃 (K-NN)</strong>\n    <br>• <strong>서포트 벡터 머신 (SVM)</strong>\n    <br>• <strong>인공신경망 (ANN / DNN / Transformer)</strong> ★12회 집중출제\n    <br>• <strong>앙상블 기법 (Bagging, Boosting, Stacking)</strong>\n  </li>\n</ul>\n\n<h4 class='concept-block-h4'>2. 머신러닝 분석 파이프라인</h4>\n<p style='font-size:0.92rem;'>원 데이터 → EDA(탐색적 데이터 분석) → 데이터 전처리 → Train(80%) / Test(20%) 분할 → Train 내 K-Fold 검증 및 하이퍼파라미터 튜닝 → 최종 모형 평가(회귀: MSE/R², 분류: F1/ROC-AUC)</p>\n\n<div class='concept-block-quiz'>\n  <div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. '로지스틱 회귀'는 이름에 회귀가 들어가므로 연속형 종속변수를 예측하는 회귀 전용 알고리즘이다?</div>\n  <div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>X</strong> - 로지스틱 회귀는 시그모이드(Sigmoid) 함수를 통해 사건 발생 확률(0~1)을 구해 범주(0 또는 1)를 예측하는 대표적인 **'분류(Classification)'** 알고리즘입니다. (가장 빈출되는 낚시 지문!)</div>\n</div>"
+        },
+        {
+          "id": "c2-2",
+          "title": "분석모형 정의 시 고려사항",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>모형 정의 및 오류 요소</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>과대적합</span><span class='concept-keyword-tag'>과소적합</span><span class='concept-keyword-tag'>모형 선택의 오류</span><span class='concept-keyword-tag'>변수 선택의 오류</span><span class='concept-keyword-tag'>데이터 편향</span></div><ul class='concept-block-ul'><li><strong>과대적합(Overfitting):</strong> 모델이 지나치게 데이터를 학습하여 매우 복잡해진 모델</li><li><strong>과소적합(Underfitting):</strong> 데이터를 충분히 설명하지 못하는 단순한 모델</li><li><strong>모형 선택의 오류:</strong> 적합하지 않은 모델 선택</li><li><strong>변수 선택의 오류:</strong> 관련 있는 변수가 누락되거나 관련 없는 변수가 포함된 모델</li><li><strong>데이터 편향:</strong> 대표성 없는 훈련 데이터로 인한 편향</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 비유:</strong> <strong>과대적합(Overfitting)</strong>은 교과서(기출문제)를 통째로 외워서 다른 문제는 틀리는 공부법이고, <strong>과소적합(Underfitting)</strong>은 아예 공부를 덜 한 상태입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 분석모형 정의 시 고려사항 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  과대적합은 훈련 오차는 작지만 테스트 오차가 커지는 징후라는 점을 무조건 명심하세요!</div></div>"
+        },
+        {
+          "id": "c2-3",
+          "title": "분석모형 구축 절차",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>구축 4단계 프로세스</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>요건정의</span><span class='concept-keyword-tag'>모델링</span><span class='concept-keyword-tag'>검증 및 테스트</span><span class='concept-keyword-tag'>적용</span></div><ul class='concept-block-ul'><li><strong>요건정의:</strong> 분석요건 도출, 수행방안 설계, 요건 확정</li><li><strong>모델링:</strong> 설계 및 구축, 탐색적 분석 및 유의변수 도출, 모델링, 모델링 성능평가</li><li><strong>검증 및 테스트:</strong> 실제 테스트 수행, 비즈니스 영향도 평가</li><li><strong>적용:</strong> 운영시스템에 적용, 주기적 리모델링</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 비유:</strong> 분석을 시작할 때 코딩부터 하는 것이 아니라, 요건을 확실히 정하고(기획) 건물을 올려야(모델링) 무너지지 않습니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 분석모형 구축 절차 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  모델링 구축 프로세스 중 성능 평가(튜닝)가 끝난 후 현업에 '적용'하는 순서 흐름 파악이 핵심입니다.</div></div>"
+        },
+        {
+          "id": "c2-4",
+          "title": "분석 도구 선정 (R vs Python)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>주요 분석 도구 특징</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>R</span><span class='concept-keyword-tag'>Python</span></div><ul class='concept-block-ul'><li><strong>R:</strong> 통계 분석에 특화, 처리속도 느림, 강력한 시각화, SPSS/SAS 등 연동 가능</li><li><strong>Python:</strong> 간결함과 높은 가독성, R보다 속도 빠름, C로 구현된 모듈과 연동, R보다 상대적으로 약한 시각화</li></ul>"
+        },
+        {
+          "id": "c2-5",
+          "title": "데이터 분할 (Train / Validation / Test) 및 데이터 누수 방지 🔥",
+          "open": false,
+          "content": "\n<h4 class='concept-block-h4'>데이터 분할 3대 영역의 명확한 역할</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 키워드:</span>\n  <span class='concept-keyword-tag'>Train(학습)</span>\n  <span class='concept-keyword-tag'>Validation(튜닝)</span>\n  <span class='concept-keyword-tag'>Test(최종평가)</span>\n  <span class='concept-keyword-tag'>Data Leakage 방지</span>\n</div>\n\n<ul class='concept-block-ul'>\n  <li><strong>1) Train Data (훈련 데이터, 통상 60~80%):</strong> 모델의 가중치(파라미터)를 직접 학습시키는 데 사용.</li>\n  <li><strong>2) Validation Data (검증 데이터, 통상 10~20%):</strong> 학습 진행 중 모델 성능을 사전 평가하고 하이퍼파라미터 튜닝 및 과적합 조기 종료(Early Stopping)를 결정하는 데 사용.</li>\n  <li><strong>3) Test Data (평가 데이터, 통상 10~20%):</strong> 모든 학습과 튜닝이 완료된 최종 모델의 일반화 성능을 독립적으로 측정하기 위한 데이터. (<strong>★절대로 모델 학습이나 튜닝에 개입해서는 안 됨!</strong>)</li>\n</ul>\n\n<div class='concept-block-note'>\n  💡 <strong>Data Leakage (데이터 누수) 방지 수칙:</strong><br>\n  데이터를 Train/Validation/Test로 분할하기 전에 전체 데이터셋으로 스케일러(MinMax/Standard)를 <code>fit()</code>하거나 결측치 평균을 구하면, 테스트 데이터의 통계 정보가 모델 학습에 유출됩니다. 반드시 <strong>Train 데이터로만 fit</strong>하고, 그 기준값으로 Validation/Test에 transform해야 합니다!\n</div>\n"
+        }
+      ]
+    },
+    {
+      "id": "s3-1",
+      "num": "01",
+      "title": "회귀분석 종류 및 가정",
+      "cards": [
+        {
+          "id": "c3-1",
+          "title": "회귀분석의 5가지 유형과 선형회귀 가정",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>회귀분석의 종류</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>단순회귀</span><span class='concept-keyword-tag'>다중회귀</span><span class='concept-keyword-tag'>다항회귀</span><span class='concept-keyword-tag'>규제항이 포함된 회귀</span><span class='concept-keyword-tag'>교호항이 포함된 회귀</span></div><ul class='concept-block-ul'><li><strong>(1) 단순회귀:</strong> 1개의 독립변수와 종속변수의 선형 관계</li><li><strong>(2) 다중회귀:</strong> 2개 이상의 독립변수와 종속변수의 선형 관계</li><li><strong>(3) 다항회귀:</strong> 독립변수와 종속변수가 2차 함수 이상의 관계</li><li><strong>(4) 규제항이 포함된 회귀:</strong> 릿지회귀(L2 규제항 Σθ² 포함), 라쏘회귀(L1 규제항 Σ|θ| 포함), 엘라스틱넷(L1과 L2 동시 규제)</li><li><strong>(5) 교호항이 포함된 회귀:</strong> 독립변수들의 교호작용(상호작용)이 포함된 회귀 모형</li></ul><h4 class='concept-block-h4'>선형회귀분석의 4대 가정</h4><ul class='concept-block-ul'><li><strong>선형성:</strong> 종속변수와 독립변수는 선형 관계를 만족해야 함</li><li><strong>등분산성:</strong> 오차의 분산이 모든 독립변수 값에 대해 고르게 분포해야 함</li><li><strong>정규성:</strong> 오차가 정규분포의 특성을 지녀야 함</li><li><strong>독립성:</strong> 오차가 서로 독립적이어야 함 (자기상관성 없어야 함)</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> <strong>선형회귀</strong>는 산점도에 흩어진 점들을 가장 잘 관통하는 '단 하나의 직선'을 긋는 것입니다. 몸무게와 키의 관계처럼 x가 증가할 때 y가 어떻게 변하는지 직선으로 설명(예측)하는 모델입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 회귀분석의 5가지 유형과 선형회귀 가정 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  선형회귀의 4가지 가정(선형성, 독립성, 등분산성, 정규성)이 매우 자주 출제됩니다. 앞글자를 따서 '선독등정'으로 암기하시고, 특히 '잔차가 정규분포를 이룬다'는 정규성을 주의 깊게 보세요.</div></div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> 회귀분석 5대 가정 암기: '선(형성) 독(립성) 등(분산성) 정(상성/정규성) 비(상관성)'. 이 중 하나라도 위배되면 신뢰할 수 없습니다.</div>"
+        }
+      ]
+    },
+    {
+      "id": "s3-2",
+      "num": "02",
+      "title": "회귀 모형 구축 및 다중공선성",
+      "cards": [
+        {
+          "id": "c3-2",
+          "title": "회귀 모형 구축 절차, 다중공선성 및 변수 선택",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>회귀 모형 구축 절차 및 검정</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>구축 절차</span><span class='concept-keyword-tag'>회귀계수 유의성</span><span class='concept-keyword-tag'>모형 유의성</span><span class='concept-keyword-tag'>개념</span><span class='concept-keyword-tag'>진단 방법</span></div><ul class='concept-block-ul'><li><strong>구축 절차:</strong> 독립/종속변수 설정 → 회귀 계수 추정 → 회귀 계수들의 유의성 검정 → 모형의 유의성 검정</li><li><strong>회귀계수 유의성:</strong> 회귀계수들에 대한 t검정 수행</li><li><strong>모형 유의성:</strong> 모형에 대한 F검정 수행</li></ul><h4 class='concept-block-h4'>다중공선성(Multicollinearity) 문제</h4><ul class='concept-block-ul'><li><strong>개념:</strong> 독립변수들 간에 강한 상관관계가 나타나는 문제</li><li><strong>진단 방법:</strong> 변수 간 상관계수 절댓값 0.8 이상 의심, VIF(분산팽창인수) 10 이상 존재 판단, 조건수 30 이상 의심</li><li><strong>해결 방안:</strong> 독립변수 제거, 차원 축소, 변수 선택, 규제항이 포함된 회귀 적용</li></ul><h4 class='concept-block-h4'>최적의 회귀 방정식 탐색 방법</h4><ul class='concept-block-ul'><li><strong>전진선택법:</strong> 변수를 하나씩 추가하면서 최적의 회귀방정식을 찾아내는 방법</li><li><strong>후진제거법:</strong> 변수를 하나씩 제거하면서 최적의 회귀방정식을 찾아내는 방법</li><li><strong>단계별 선택법:</strong> 전진선택법 + 후진제거법으로 변수를 추가할 때 벌점을 고려</li><li><strong>선택 기준 (AIC, BIC, Mallow’s Cp):</strong> AIC(아카이케 정보 기준, 편향-분산 최적화, 자료 많을수록 부정확), BIC(베이즈 정보 기준, AIC보다 큰 패널티), Mallow’s Cp(SSE 활용). AIC와 BIC 모두 낮을수록(작을수록) 좋음</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> <strong>다중공선성</strong>은 시험 문제로 비유하면, '수학 점수'와 '수리 점수'처럼 사실상 똑같은 변수를 두 번 넣어서 분석 모델이 헷갈리는 현상입니다. 상관관계가 너무 높은 변수들이 동시에 들어갈 때 발생합니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 회귀 모형 구축 절차, 다중공선성 및 변수 선택 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  다중공선성을 진단하는 지표는 <strong>VIF(분산팽창지수)</strong>이며, VIF가 10 이상이면 다중공선성이 있다고 판단하고 변수를 제거하거나 주성분분석(PCA)을 해야 합니다. 이 수치(10)와 해결 방법이 자주 출제됩니다.</div></div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> 전진선택법: 한 번 들어온 변수는 나갈 수 없음. / 후진제거법: 한 번 나간 변수는 들어올 수 없음. / 단계적 선택법: 들어오고 나가는 것 모두 가능(가장 유연함).</div>"
+        },
+        {
+          "id": "c3-991",
+          "title": "[신규추가] 과적합 방지를 위한 정규화 (L1 vs L2 규제)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>라쏘(Lasso)와 릿지(Ridge) 회귀 완벽 비교</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>Lasso 회귀</span><span class='concept-keyword-tag'>Ridge 회귀</span><span class='concept-keyword-tag'>공통점</span></div><ul class='concept-block-ul'><li><strong>Lasso 회귀 (L1 규제):</strong> 가중치의 '절댓값' 합에 패널티를 부여. 일부 가중치를 0으로 만들어 변수를 선택하는 효과(Feature Selection)가 뛰어남.</li><li><strong>Ridge 회귀 (L2 규제):</strong> 가중치의 '제곱' 합에 패널티 부여. 가중치를 0에 가깝게 축소시킬 뿐 0으로 만들지는 않음.</li><li><strong>공통점:</strong> 두 기법 모두 회귀계수(W)가 커지는 것을 방지하여 모델의 분산을 줄이고 과대적합(Overfitting)을 막아줌.</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> L1(라쏘)은 미니멀리스트처럼 안 쓰는 물건을 싹 다 '버리는(가중치 0)' 스타일이고, L2(릿지)는 물건 크기만 압축시켜서 '전부 간직하는' 스타일입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. [신규추가] 과적합 방지를 위한 정규화 (L1 vs L2 규제) 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  (중요도 최상) '가중치를 0으로 만들어 변수선택 기능이 있다'는 무조건 라쏘(Lasso)의 특징입니다. 둘을 반대로 섞어내는 함정 문제가 매회 출제됩니다.</div></div>"
+        }
+      ]
+    },
+    {
+      "id": "s3-3",
+      "num": "03",
+      "title": "로지스틱 회귀분석",
+      "cards": [
+        {
+          "id": "c3-3",
+          "title": "로지스틱 회귀분석 원리 및 검정",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>로지스틱 회귀분석 개요</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>정의</span><span class='concept-keyword-tag'>오즈</span><span class='concept-keyword-tag'>로짓 변환</span><span class='concept-keyword-tag'>시그모이드 함수</span><span class='concept-keyword-tag'>회귀계수 추정</span></div><ul class='concept-block-ul'><li><strong>정의:</strong> 종속변수가 범주형 데이터를 대상으로 성공과 실패 2개의 집단을 분류하는 문제에 활용</li></ul><h4 class='concept-block-h4'>로지스틱 회귀분석의 원리</h4><ul class='concept-block-ul'><li><strong>오즈(Odds):</strong> 성공할 확률과 실패할 확률의 비 (성공확률 / 실패확률)</li><li><strong>로짓(logit) 변환:</strong> 오즈에 자연로그를 취하여 선형 관계로 변환 (값이 클수록 확률 증가)</li><li><strong>시그모이드 함수:</strong> 로짓 함수의 역함수를 통하여, 0~1 사이 확률을 도출하는 함수</li></ul><h4 class='concept-block-h4'>로지스틱 회귀분석의 검정</h4><ul class='concept-block-ul'><li><strong>회귀계수 추정:</strong> 최대우도법(MLE) 사용</li><li><strong>모형 전체 검정:</strong> 우도비 검정(카이제곱 검정) 활용</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> <strong>로지스틱 회귀분석</strong>은 이름만 '회귀'이고 사실은 <strong>'분류(합격/불합격)'</strong>를 하는 모델입니다. S자 모양의 커브(시그모이드 함수)를 그려서 확률이 50%를 넘으면 합격, 안 넘으면 불합격으로 나눕니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 로지스틱 회귀분석 원리 및 검정 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  오즈(Odds, 실패 대비 성공 확률)의 개념과 로짓(Logit) 변환 공식, 그리고 로지스틱 회귀가 '종속변수가 범주형(0 또는 1)'일 때 쓴다는 점이 핵심입니다.</div></div><div class='concept-block-note'>⚠️ <strong>[헷갈림 주의 포인트]</strong> 로지스틱 회귀분석은 이름은 '회귀'지만 사실상 '분류(Classification)' 기법입니다! 결과가 0 또는 1(합격/불합격 등)로 나오는 이항 분포를 따릅니다.</div>"
+        }
+      ]
+    },
+    {
+      "id": "s3-4",
+      "num": "04",
+      "title": "의사결정나무 및 분류 모델",
+      "cards": [
+        {
+          "id": "c3-4",
+          "title": "의사결정나무 개념 및 노드 분할 방법",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>의사결정나무(Decision Tree) 특징</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>정의</span><span class='concept-keyword-tag'>특징</span><span class='concept-keyword-tag'>과적합 방지 방안</span><span class='concept-keyword-tag'>분류 분할</span><span class='concept-keyword-tag'>회귀 분할</span></div><ul class='concept-block-ul'><li><strong>정의:</strong> 노드 내 동질성이 커지고, 노드 간 이질성이 커지는 방향으로 분리하는 트리 구조 모델</li><li><strong>특징:</strong> 화이트 박스 모델이며, 높은 과적합 위험이 존재함</li><li><strong>과적합 방지 방안:</strong> 정지규칙(더 이상 분리하지 않고 성장을 멈춤) 및 가지치기(일부 가지 제거)</li></ul><h4 class='concept-block-h4'>노드 분할 방법</h4><ul class='concept-block-ul'><li><strong>분류(범주형) 분할:</strong> CHAID(카이제곱 통계량), CART(지니지수 활용), C4.5/C5.0(엔트로피지수 활용)</li><li><strong>회귀(연속형) 분할:</strong> CHAID(ANOVA, F-통계량), CART(분산감소량 활용)</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> <strong>의사결정나무(Decision Tree)</strong>는 스무고개 게임입니다. '날개가 있니?', '포유류니?' 처럼 질문을 던지며 가지를 쳐 내려가면서 정답을 맞히는 가장 직관적인 모델입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 의사결정나무 개념 및 노드 분할 방법 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  노드를 분할하는 기준(지니 지수, 엔트로피 등)과, 너무 가지를 많이 치면 과적합이 발생하므로 가지치기(Pruning)를 해야 한다는 점이 무조건 나옵니다.</div></div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> 가지치기(Pruning)는 과적합(Overfitting)을 방지하기 위한 핵심 작업입니다. 분기 기준으로는 '불순도(Impurity)가 낮아지는' 즉, 데이터가 순수해지는 방향을 찾습니다.</div>"
+        }
+      ]
+    },
+    {
+      "id": "s3-5",
+      "num": "05",
+      "title": "인공신경망 및 다층 퍼셉트론",
+      "cards": [
+        {
+          "id": "c3-5",
+          "title": "다층 퍼셉트론 및 인공신경망 학습 원리",
+          "open": false,
+          "content": "<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(147,51,234,0.12), rgba(59,130,246,0.12)); border-left:4px solid #8b5cf6; padding:14px 18px; border-radius:8px; margin-bottom:16px;'>\n  <strong style='color:#7c3aed; font-size:1.05rem;'>⚡ [합격률 하락의 주원인] 딥러닝 & 인공신경망 핵심 학습 원리</strong>\n  <p style='margin:6px 0 0 0; font-size:0.92rem; color:var(--text-color); line-height:1.6;'>\n    단순 퍼셉트론부터 다층 퍼셉트론(MLP), 순전파(Forward), 역전파(Backpropagation, 연쇄법칙), 최적화 알고리즘까지 체계적으로 정리합니다.\n  </p>\n</div>\n\n<h4 class='concept-block-h4'>1. 퍼셉트론과 역전파(Backpropagation) 메커니즘</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 키워드:</span> \n  <span class='concept-keyword-tag'>단층 퍼셉트론(XOR 불가)</span>\n  <span class='concept-keyword-tag'>MLP(은닉층 도입)</span>\n  <span class='concept-keyword-tag'>오차 역전파</span>\n  <span class='concept-keyword-tag'>연쇄 법칙(Chain Rule)</span>\n</div>\n\n<ul class='concept-block-ul'>\n  <li><strong>단층 퍼셉트론 한계:</strong> 선형 분리만 가능하여 <strong>XOR 문제 해결 불가능</strong> (Minsky 지적).</li>\n  <li><strong>다층 퍼셉트론 (MLP):</strong> 입력층과 출력층 사이에 1개 이상의 <strong>은닉층(Hidden Layer)</strong>과 <strong>비선형 활성화 함수</strong>를 도입하여 비선형 결정 경계 형성 가능.</li>\n  <li><strong>순전파 (Forward Propagation):</strong> 입력값이 가중치(W)와 곱해지고 편향(b)이 더해져 활성화 함수를 거쳐 출력층까지 전달되는 과정.</li>\n  <li><strong>오차 역전파 (Backpropagation) 🔥:</strong> 출력층의 오차(Loss)를 <strong>미분의 연쇄법칙(Chain Rule)</strong>을 이용해 출력층에서 입력층 방향으로 거꾸로 전파하며 각 가중치(W)의 기울기(Gradient)를 계산하여 갱신하는 알고리즘.</li>\n</ul>\n\n<div class='formula-card'>\n  <div class='formula-card-header'>\n    <span class='formula-badge'>🧮 경사하강법 가중치 갱신 공식</span>\n  </div>\n  <div class='formula-display'>\n    W_new = W_old - η × <span class='math-frac'><span class='math-frac-num'>∂Loss</span><span class='math-frac-den'>∂W</span></span>\n    &nbsp;&nbsp;(η: 학습률 Learning Rate)\n  </div>\n</div>\n\n<h4 class='concept-block-h4'>2. 딥러닝 최적화 옵티마이저 (Optimizer) 발전 계보</h4>\n<table class='confusion-table' style='text-align:left;'>\n  <thead>\n    <tr>\n      <th style='width:25%;'>옵티마이저</th>\n      <th style='width:35%;'>주요 특징 및 메커니즘</th>\n      <th style='width:40%;'>핵심 수식 및 개선점</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td><strong>SGD (확률적 경사하강법)</strong></td>\n      <td>미니배치 단위로 무작위 샘플링하여 빠르게 가중치 갱신</td>\n      <td>진동(Oscillation)이 심하고 로컬 미니멈(Local Minima)에 갇힐 위험</td>\n    </tr>\n    <tr>\n      <td><strong>Momentum (모멘텀)</strong></td>\n      <td>이전 기울기의 관성(운동량)을 반영하여 관성 방향으로 가속</td>\n      <td>지그재그 진동을 줄이고 안장점(Saddle Point)을 빠르게 탈출</td>\n    </tr>\n    <tr>\n      <td><strong>AdaGrad</strong></td>\n      <td>자주 변한 변수는 학습률을 낮추고, 드문 변수는 학습률을 높임</td>\n      <td>학습이 진행될수록 학습률이 0에 수렴하여 조기 학습 중단 문제</td>\n    </tr>\n    <tr>\n      <td><strong>RMSprop</strong></td>\n      <td>AdaGrad의 학습률 급감 문제를 지수이동평균(EMA)으로 완화</td>\n      <td>최근 기울기 위주로 학습률을 조정하여 안정적 학습 유지</td>\n    </tr>\n    <tr>\n      <td style='background:rgba(147,51,234,0.08);'><strong>Adam (아담) 🔥</strong></td>\n      <td style='background:rgba(147,51,234,0.08);'><strong>Momentum (방향) + RMSprop (학습률 크기)</strong>을 결합한 최신 표준 기법</td>\n      <td style='background:rgba(147,51,234,0.08);'>가장 널리 쓰이며 하이퍼파라미터 튜닝에 강건(Robust)함</td>\n    </tr>\n  </tbody>\n</table>"
+        },
+        {
+          "id": "c3-6",
+          "title": "활성함수, 손실함수 및 과적합 방지",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>1. 활성화 함수(Activation Function) 완벽 비교</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 키워드:</span> \n  <span class='concept-keyword-tag'>Sigmoid (0~1)</span>\n  <span class='concept-keyword-tag'>Tanh (-1~1)</span>\n  <span class='concept-keyword-tag'>ReLU (0 이상 선형)</span>\n  <span class='concept-keyword-tag'>Leaky ReLU</span>\n  <span class='concept-keyword-tag'>기울기 소실(Vanishing Gradient)</span>\n</div>\n\n<table class='confusion-table' style='text-align:left;'>\n  <thead>\n    <tr>\n      <th style='width:22%;'>활성화 함수</th>\n      <th style='width:28%;'>수식 & 출력 범위</th>\n      <th style='width:50%;'>핵심 특징 및 출제 함정</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td><strong>Sigmoid (시그모이드)</strong></td>\n      <td><span style='font-family:monospace;'>σ(x) = 1 / (1 + e⁻ˣ)</span><br><strong>출력: (0, 1)</strong></td>\n      <td>이진 분류 출력층에 필수. 은닉층 깊어질 시 <strong>기울기 소실(Vanishing Gradient)</strong> 유발 (미분 최대값 0.25)</td>\n    </tr>\n    <tr>\n      <td><strong>Tanh (하이퍼볼릭 탄젠트)</strong></td>\n      <td><span style='font-family:monospace;'>tanh(x)</span><br><strong>출력: (-1, 1)</strong></td>\n      <td><strong>원점 중심(Zero-centered)</strong>으로 Sigmoid보다 학습 효율 우수하나 여전히 깊은 층에서 기울기 소실 발생</td>\n    </tr>\n    <tr>\n      <td style='background:rgba(16,185,129,0.08);'><strong>ReLU 🔥</strong></td>\n      <td style='background:rgba(16,185,129,0.08);'><span style='font-family:monospace;'>f(x) = max(0, x)</span><br><strong>출력: [0, ∞)</strong></td>\n      <td style='background:rgba(16,185,129,0.08);'>양수 구간 미분값이 1이므로 <strong>기울기 소실을 획기적으로 해결</strong>. 연산 속도 초고속. 음수 구간 뉴런이 죽는 Dying ReLU 단점</td>\n    </tr>\n    <tr>\n      <td><strong>Leaky ReLU</strong></td>\n      <td><span style='font-family:monospace;'>f(x) = max(αx, x) (α=0.01)</span><br><strong>출력: (-∞, ∞)</strong></td>\n      <td>음수 영역에 작은 기울기(0.01)를 부여하여 Dying ReLU 문제를 해결</td>\n    </tr>\n    <tr>\n      <td><strong>Softmax (소프트맥스)</strong></td>\n      <td><span style='font-family:monospace;'>eˣⁱ / Σeˣʲ</span><br><strong>총합 = 1.0 (확률)</strong></td>\n      <td><strong>다중 클래스 분류(Multi-class) 출력층</strong>의 필수 함수. 각 클래스에 속할 확률값 출력</td>\n    </tr>\n  </tbody>\n</table>\n\n<h4 class='concept-block-h4'>2. 딥러닝 과적합(Overfitting) 방지 기법 4종</h4>\n<ul class='concept-block-ul'>\n  <li><strong>드롭아웃 (Dropout) 🔥:</strong> 학습(Training) 시에는 무작위로 일부 뉴런을 꺼두고(비활성화), <strong>추론(Inference/Test) 시에는 모든 뉴런을 활성화</strong>하되 가중치를 스케일링하여 앙상블 효과 도출.</li>\n  <li><strong>배치 정규화 (Batch Normalization) 🔥:</strong> 미니배치마다 각 층의 활성화 출력을 평균 0, 분산 1로 정규화하여 <strong>내부 공변량 변화(Internal Covariate Shift)를 완화</strong>하고 학습 속도 및 안정성 극대화.</li>\n  <li><strong>가중치 규제 (Weight Decay):</strong> 손실함수에 가중치 크기 페널티를 추가 ($L_1$ 라쏘, $L_2$ 릿지)하여 가중치가 지나치게 커지는 것을 억제.</li>\n  <li><strong>조기 종료 (Early Stopping):</strong> 검증 손실(Validation Loss)이 일정 에폭(Patience) 동안 개선되지 않으면 과적합 직전에 학습을 조기 중단.</li>\n</ul>"
+        }
+      ]
+    },
+    {
+      "id": "s3-6",
+      "num": "06",
+      "title": "서포트 벡터 머신(SVM)",
+      "cards": [
+        {
+          "id": "c3-7",
+          "title": "서포트 벡터 머신(SVM) 원리 및 유형",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>서포트 벡터 머신(SVM) 개요</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>정의</span><span class='concept-keyword-tag'>하이퍼플레인</span><span class='concept-keyword-tag'>서포트 벡터</span><span class='concept-keyword-tag'>마진</span><span class='concept-keyword-tag'>커널 함수</span></div><ul class='concept-block-ul'><li><strong>정의:</strong> 마진이 최대가 되는 초평면을 찾아 선형이나 비선형 이진 분류, 회귀에서 활용 가능한 다목적 모델</li><li><strong>하이퍼플레인(초평면):</strong> 데이터를 구분하는 기준이 되는 경계, 가중치 벡터와 편향으로 결정</li><li><strong>서포트 벡터:</strong> 클래스를 나누는 하이퍼플레인과 가까운 위치의 샘플</li><li><strong>마진:</strong> 하이퍼플레인과 서포트 벡터 사이의 거리</li><li><strong>커널 함수:</strong> 저차원 데이터를 고차원 데이터로 변경하는 함수</li></ul><h4 class='concept-block-h4'>서포트 벡터 머신(SVM)의 유형</h4><ul class='concept-block-ul'><li><strong>하드 마진 분류:</strong> 오류를 전혀 허용하지 않는 방식</li><li><strong>소프트 마진 분류:</strong> 마진 내에 어느 정도 오류를 허용하는 방식</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> <strong>서포트 벡터 머신(SVM)</strong>은 두 개의 집단 사이에 '가장 넓은 도로(마진)'를 내는 모델입니다. 두 집단을 가르는 선(결정 경계)을 최대한 안전하게 멀찍이 긋는 것이 목표입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 서포트 벡터 머신(SVM) 원리 및 유형 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  마진(Margin)을 최대화한다는 개념, 비선형 데이터를 분류하기 위해 커널 트릭(Kernel Trick)을 사용한다는 점이 단골 문제입니다.</div></div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> SVM의 핵심 목표는 두 클래스 사이의 '마진(Margin)을 최대화'하는 초평면(결정 경계)을 찾는 것입니다. 데이터가 섞여 있다면 '커널 트릭(Kernel Trick)'을 써서 차원을 높여 해결합니다.</div>"
+        }
+      ]
+    },
+    {
+      "id": "s3-7",
+      "num": "07",
+      "title": "연관성 분석 및 빈발항목 도출",
+      "cards": [
+        {
+          "id": "c3-8",
+          "title": "연관성 분석 특징, 평가지표 및 빈발항목 알고리즘",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>연관성 분석(Association Analysis) 개요</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>정의</span><span class='concept-keyword-tag'>특징</span><span class='concept-keyword-tag'>확장</span><span class='concept-keyword-tag'>지지도</span><span class='concept-keyword-tag'>신뢰도</span></div><ul class='concept-block-ul'><li><strong>정의:</strong> 항목들 간의 조건-결로 이루어지는 패턴을 발견하는 기법 (장바구니 분석)</li><li><strong>특징:</strong> 결과가 단순하고 분명함(IF~THEN~), 비목적성 분석기법, 품목 수가 증가할수록 계산량이 기하급수적으로 증가</li><li><strong>확장:</strong> 연관 분석에 시간 개념을 추가하여 순차 패턴 분석 수행 가능</li></ul><h4 class='concept-block-h4'>연관성 분석의 3대 평가지표</h4><ul class='concept-block-ul'><li><strong>지지도(Support):</strong> 전체 거래 중 A와 B가 동시에 포함될 확률 P(A ∩ B)</li><li><strong>신뢰도(Confidence):</strong> A 품목이 거래될 때 B 품목도 거래될 조건부 확률 P(A ∩ B) / P(A)</li><li><strong>향상도(Lift):</strong> A와 B의 상관성 P(A ∩ B) / (P(A) * P(B)). 1보다 크면 양의 상관관계, 1이면 독립(상관없음), 1보다 작으면 음의 상관관계</li></ul><h4 class='concept-block-h4'>빈발항목 도출 알고리즘</h4><ul class='concept-block-ul'><li><strong>(1) Apriori 알고리즘:</strong> 최소 지지도를 만족하는 빈발 항목을 추출하여 연관규칙분석의 연산량을 줄이는 기법 (절차: 빈도수 집합 탐색 → 최소 지지도 확인 → 후보 집합 생성 → 반복 탐색 → 연관규칙 도출)</li><li><strong>(2) FP-Growth 알고리즘:</strong> Apriori 알고리즘의 반복 과정을 트리(FP-Tree) 기반으로 대체하여 연산 효율을 향상시킨 기법</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> <strong>연관성 분석(장바구니 분석)</strong>은 '기저귀를 산 아빠들이 맥주도 같이 사더라'는 규칙을 찾는 것입니다. 쇼핑몰 추천 시스템의 핵심 원리입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 연관성 분석 특징, 평가지표 및 빈발항목 알고리즘 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  지지도(Support), 신뢰도(Confidence), 향상도(Lift)의 공식 계산 문제가 자주 나옵니다. 향상도가 1보다 크면 양의 상관관계(우연이 아님)라는 점을 꼭 기억하세요.</div></div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> 지지도(Support): 전체 거래 중 A와 B가 함께 팔린 비율 / 신뢰도(Confidence): A를 산 사람 중 B도 산 비율 / 향상도(Lift): A를 샀을 때 B를 살 확률이 독립일 때보다 몇 배인가(1보다 커야 유의미).</div><div class='concept-block-note'>⚠️ <strong>[헷갈림 주의 포인트]</strong> 지지도 공식을 뒤집어 출제하는 경우가 많습니다. 분모는 무조건 '전체 거래 건수'입니다.</div>"
+        }
+      ]
+    },
+    {
+      "id": "s3-8",
+      "num": "08",
+      "title": "회귀모형 평가지표 및 기타",
+      "cards": [
+        {
+          "id": "c3-9",
+          "title": "회귀모형 평가지표 및 로지스틱 회귀 요약",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>회귀모형 주요 평가지표 및 진단</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>결정계수</span><span class='concept-keyword-tag'>다중공선성</span><span class='concept-keyword-tag'>개념</span><span class='concept-keyword-tag'>검정</span></div><ul class='concept-block-ul'><li><strong>결정계수(R-squared):</strong> 회귀모형의 설명력으로 SSR / SST 또는 1 - (SSE / SST)로 계산</li><li><strong>다중공선성(전통적 진단):</strong> 독립변수 간 강한 상관관계가 존재할 때 발생하며, VIF 값이 10 이상이면 문제 의심</li></ul><h4 class='concept-block-h4'>로지스틱 회귀분석 핵심 요약</h4><ul class='concept-block-ul'><li><strong>개념:</strong> 이항 분류를 위해 오즈와 로짓 변환, 시그모이드 함수를 활용하는 회귀 모형</li><li><strong>검정:</strong> 최대우도법을 통한 계수 추정 및 우도비검정(카이제곱검정) 수행</li></ul><div class='concept-block-note'>⚠️ <strong>[헷갈림 주의 포인트]</strong> 로지스틱 회귀분석은 이름은 '회귀'지만 사실상 '분류(Classification)' 기법입니다! 결과가 0 또는 1(합격/불합격 등)로 나오는 이항 분포를 따릅니다.</div>"
+        }
+      ]
+    },
+    {
+      "id": "s3-9",
+      "num": "09",
+      "title": "분류 및 군집 분석 심화",
+      "cards": [
+        {
+          "id": "c3-10",
+          "title": "군집분석(Clustering) 총정리",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>군집분석 개요</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>정의</span><span class='concept-keyword-tag'>계층적 방법</span><span class='concept-keyword-tag'>비계층적 방법</span><span class='concept-keyword-tag'>연속형 변수 거리</span><span class='concept-keyword-tag'>범주형 변수 유사도</span></div><ul class='concept-block-ul'><li><strong>정의:</strong> 비지도 학습으로 데이터들 간의 거리나 유사성을 기준으로 군집을 나누는 분석 기법</li><li><strong>(1) 계층적 방법:</strong> 데이터 간 유사성을 기준으로 군집을 형성 (덴드로그램 활용: 거리를 15에서 나누면 3개, 25에서 나누면 2개의 클러스터 형성 가능)</li><li><strong>(2) 비계층적 방법:</strong> 계층적 방법 외의 대표적 군집분석 기법</li></ul><h4 class='concept-block-h4'>거리 측정 방식 (데이터 간 및 군집 간)</h4><ul class='concept-block-ul'><li><strong>연속형 변수 거리:</strong> 유클리디안 거리(직선 거리), 맨하튼 거리(차이의 단순 합), 체비셰프 거리(차이 중 최댓값), 민코우스키 거리(유클리드·맨하튼 일반화), 마할라노비스 거리(표준화 거리에서 상관관계 고려), 표준화 거리</li><li><strong>범주형 변수 유사도:</strong> 자카드 유사도(합집합 중 교집합 비율), 코사인 유사도(두 벡터 간 각도의 코사인 값)</li><li><strong>군집 간 거리 측정 방식:</strong> 최단 연결법(단일), 최장 연결법(완전), 평균 연결법, 중심 연결법, 와드 연결법(편차 제곱합 최소)</li></ul><h4 class='concept-block-h4'>주요 비계층적 군집분석 알고리즘</h4><ul class='concept-block-ul'><li><strong>K-평균 군집화(K-means):</strong> 군집 수 K 사전에 지정(Elbow Method 활용), 거리 기반, 이상치 및 초기 중심점에 민감 (변형: K-modes-최빈값 활용, K-medoids-실제 대표값을 중심점으로 선정해 이상치에 강건)</li><li><strong>DBSCAN:</strong> 밀도 기반, 군집 수를 사전에 정할 필요 없음, 노이즈와 이상치에 강함 (Eps와 MinPts 사전에 설정)</li><li><strong>기타 기법:</strong> 퍼지군집화(확률 기반으로 속할 확률 계산), EM알고리즘(분포 기반, Likelihood 기댓값 E단계와 최대화 M단계 반복), 자기조직화지도(SOM, 신경망 활용 그래프 기반 차원축소 및 경쟁학습)</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> <strong>군집분석(Clustering)</strong>은 정답이 없는 상태에서 끼리끼리 묶어보는 것입니다. 'K-means'는 마치 반장(중심점)을 뽑아 가까운 친구들끼리 K개의 무리로 나누는 방식입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 군집분석(Clustering) 총정리 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  K-평균 군집(K-means)이 이상값에 민감하다는 단점과, 계층적 군집분석에서 거리를 측정하는 기법(최단연결, 최장연결, 와드연결법 등)이 주로 출제됩니다.</div></div>"
+        }
+      ]
+    },
+    {
+      "id": "s3-10",
+      "num": "10",
+      "title": "고급 분석기법 (시계열·범주형·다변량)",
+      "cards": [
+        {
+          "id": "c3-11",
+          "title": "범주형 자료 분석 및 다변량 분석",
+          "open": true,
+          "content": "<h4 class='concept-block-h4'>분할표(교차표) 및 연관성 지표</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>분할표</span><span class='concept-keyword-tag'>상대 위험도</span><span class='concept-keyword-tag'>오즈비</span><span class='concept-keyword-tag'>적합도 검정</span><span class='concept-keyword-tag'>독립성 검정</span></div><ul class='concept-block-ul'><li><strong>분할표:</strong> 여러 개의 범주형 변수를 기준으로 관측치를 기록하는 표</li><li><strong>상대 위험도(RR):</strong> 노출 집단의 질병 발생률 / 비노출 집단의 질병 발생률 (예: 0.7 / 0.2 = 3.5)</li><li><strong>오즈비(Odds Ratio):</strong> (노출집단 오즈) / (비노출집단 오즈) (예: (0.7/0.3) / (0.2/0.8) = 9.33)</li></ul><h4 class='concept-block-h4'>카이제곱 검정의 3가지 유형</h4><ul class='concept-block-ul'><li><strong>(1) 적합도 검정:</strong> 관측된 데이터가 특정 분포에 적합한지 검정</li><li><strong>(2) 독립성 검정:</strong> 두 변수 간 독립성 여부 검정 (교차표 활용)</li><li><strong>(3) 동질성 검정:</strong> 두 개 이상의 집단이 동일한 분포를 따르는지 검정 (교차표 활용)</li></ul><h4 class='concept-block-h4'>다변량 분석 기법</h4><ul class='concept-block-ul'><li><strong>공분산 분석 및 분산분석:</strong> 일원분산분석(One-Way, 1개 요인 다집단), 이원분산분석(Two-Way, 2개 요인 다집단), MANOVA(다변량분산분석, 다수 요인 다집단)</li><li><strong>요인분석(Factor Analysis):</strong> 집단 내 변수들의 상관관계를 분석하여 소수의 요인으로 축약 (추출: PCA, 주축요인분석, 최소제곱요인분석 / 회전: 직각회전-VARIMAX, QUARTIMAX, EQUIMAX / 사각회전-OBLIMIN, PROMAX)</li><li><strong>정준상관분석:</strong> 두 개 이상의 변수 집단 간의 상관관계를 가장 잘 분석하는 선형결합을 찾는 기법</li></ul>"
+        },
+        {
+          "id": "c3-12",
+          "title": "시계열 분석 및 베이지안 기법",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>시계열 분석 및 정상성</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>정상성</span><span class='concept-keyword-tag'>평활화</span><span class='concept-keyword-tag'>백색 잡음</span><span class='concept-keyword-tag'>AR 모형</span><span class='concept-keyword-tag'>MA 모형</span></div><ul class='concept-block-ul'><li><strong>정상성(Stationarity):</strong> 모든 시점에 일정한 평균과 분산을 가짐 (변환 방법: 차분-평균 일정화, 로그/제곱근/Box-Cox 변환-분산 안정화)</li><li><strong>평활화:</strong> 이동평균법(일정 기간 평균), 지수평활법(최근 데이터에 가중치 부여)</li><li><strong>백색 잡음:</strong> 평균 및 분산이 일정하고 자기상관이 없는 시계열 오차항 (평균 0인 경우 가우시안 백색잡음)</li></ul><h4 class='concept-block-h4'>시계열 모형 및 분해시계열</h4><ul class='concept-block-ul'><li><strong>AR 모형(자기회귀):</strong> 자기 자신의 과거 값이 미래를 결정 (PACF가 p+1 시점에서 급격히 감소하면 AR(p))</li><li><strong>MA 모형(이동평균):</strong> 백색잡음의 선형결합 (ACF가 q+1 시점에서 급격히 감소하면 MA(q))</li><li><strong>ARIMA(p, d, q):</strong> AR과 MA 결합 및 차분 횟수(d) 반영 (d=0: ARMA, p=0: IMA, q=0: ARI, 계절성 반영 시 SARIMA 고려)</li><li><strong>분해시계열:</strong> 추세요인(장기 증감), 계절요인(고정 주기), 순환요인(알려지지 않은 주기), 불규칙요인(설명 불가)으로 분리</li></ul><h4 class='concept-block-h4'>베이지안 기법 및 나이브 베이즈</h4><ul class='concept-block-ul'><li><strong>베이즈 정리:</strong> 사후확률 = (우도 × 사전확률) / 주변우도</li><li><strong>나이브 베이즈 분류:</strong> 나이브(속성 간 독립 가정)와 베이즈 정리를 결합하여 확률 기반 분류 수행</li></ul>"
+        }
+      ]
+    },
+    {
+      "id": "s3-11",
+      "num": "11",
+      "title": "딥러닝 분석",
+      "cards": [
+        {
+          "id": "c3-13",
+          "title": "DNN, CNN 및 RNN 구조",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>DNN (심층 신경망)</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>개념</span><span class='concept-keyword-tag'>정의</span><span class='concept-keyword-tag'>구조</span><span class='concept-keyword-tag'>구성 요소</span><span class='concept-keyword-tag'>주요 모델</span></div><ul class='concept-block-ul'><li><strong>개념:</strong> 은닉층이 2개 이상으로 구성된 인공신경망 (입력층 – 은닉층 – 출력층)</li></ul><h4 class='concept-block-h4'>CNN (합성곱 신경망)</h4><ul class='concept-block-ul'><li><strong>정의:</strong> Convolution Layer와 Pooling Layer를 활용하여 이미지에서 패턴을 찾는 신경망</li><li><strong>구조:</strong> Input → Convolution Layer → Pooling Layer → Flatten → Fully Connected Layer</li><li><strong>구성 요소:</strong> 컨볼루션 층(특징 추출/필터링), 풀링 층(공간적 특성 유지 및 크기 축소로 연산량 감소), 플래튼(2D/3D 데이터를 1D로 변환), 전결합 층(DNN 구조로 분류 또는 회귀 수행)</li><li><strong>주요 모델:</strong> 분류(LeNet, AlexNet, VGG Nets, GoogLeNet, ResNet, EfficientNet), 객체 탐지(RCNN, SPP Net, YOLO, Attention Net, EfficientDet), 분할/세그먼테이션(FCN, DeepLab, U-net, Segnet)</li></ul><h4 class='concept-block-h4'>RNN (순환 신경망)</h4><ul class='concept-block-ul'><li><strong>정의:</strong> 순차적인 데이터 학습에 특화된 순환 구조를 가지는 신경망</li><li><strong>장기 의존성 문제:</strong> 은닉층의 과거 정보가 시간 흐름에 따라 잘 전달되지 못하는 현상</li><li><strong>극복 모델:</strong> LSTM(Forget Gate, Input Gate, Output Gate 활용), GRU(Reset Gate, Update Gate 활용)</li></ul>"
+        },
+        {
+          "id": "c3-14",
+          "title": "오토인코더, Seq2Seq 및 트랜스포머",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>오토인코더 (Autoencoder)</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>정의</span><span class='concept-keyword-tag'>구조</span><span class='concept-keyword-tag'>생성 모델 활용</span><span class='concept-keyword-tag'>이상 탐지 활용</span><span class='concept-keyword-tag'>Seq2Seq</span></div><ul class='concept-block-ul'><li><strong>정의:</strong> 입력 데이터를 인코더로 압축한 후에 디코더로 형태를 재구성하는 비지도 학습 신경망</li><li><strong>구조:</strong> Encoder → Context Vector(Latent Space) → Decoder</li><li><strong>생성 모델 활용:</strong> VAE(확률분포 학습을 통한 데이터 생성), GAN(생성기와 판별기의 경쟁을 통한 유사 데이터 생성/적대적 훈련), DCGAN(GAN + CNN 구조로 안정적 학습)</li><li><strong>이상 탐지 활용:</strong> 정상 데이터만 학습하여 비정상 데이터를 판별</li></ul><h4 class='concept-block-h4'>Seq2Seq 및 트랜스포머 (Transformer)</h4><ul class='concept-block-ul'><li><strong>Seq2Seq:</strong> 인코더와 디코더를 활용하여 한 문장을 다른 문장으로 번역하는 모델 (입출력 길이 다를 때 유용하나 긴 문장에서 정보 손실 발생)</li><li><strong>트랜스포머(Transformer):</strong> 느린 속도, 병렬 처리 불가 및 정보 손실의 단점을 개선한 Attention 모델</li><li><strong>어텐션(Attention):</strong> 시퀀스 각 요소에 가중치를 부여하여 중요 정보에 집중하고 장기 의존성 문제를 해결</li><li><strong>트랜스포머 구성 요소:</strong> Positional Encoding, Self-Attention, Feed Forward Network</li><li><strong>주요 모델:</strong> BERT(구글 개발, 인코더 구조, 문장 중간 빈칸 학습, 양방향), GPT(OpenAI 개발, 디코더 구조, 이전 단어로 다음 단어 예측, 일방향)</li></ul>"
+        }
+      ]
+    },
+    {
+      "id": "s3-12",
+      "num": "12",
+      "title": "비정형 데이터 분석 및 앙상블·비모수 통계",
+      "cards": [
+        {
+          "id": "c3-15",
+          "title": "단어 표현 및 워드 임베딩",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>단어 표현 (Word Representation)</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>희소 표현 - 원핫 인코딩</span><span class='concept-keyword-tag'>카운트 기반 - BOW</span><span class='concept-keyword-tag'>카운트 기반 - TDM</span><span class='concept-keyword-tag'>카운트 기반 - TF-IDF</span><span class='concept-keyword-tag'>카운트 기반 - LSA</span></div><ul class='concept-block-ul'><li><strong>희소 표현 - 원핫 인코딩:</strong> 메모리가 낭비되며, 단어 상호 간 의미를 담지 못함</li><li><strong>카운트 기반 - BOW:</strong> 단어의 등장 개수 기반의 표현 방식</li><li><strong>카운트 기반 - TDM:</strong> 문서에서 등장하는 단어들의 빈도를 행렬로 표현</li><li><strong>카운트 기반 - TF-IDF:</strong> TF(문서 내 단어 빈도)와 IDF(전체 문서에서의 희소성)를 결합한 가중치 표현</li><li><strong>카운트 기반 - LSA:</strong> SVD(특이값 분해)를 활용하여 잠재적인 의미를 반영하고 차원을 축소하는 기법</li></ul><h4 class='concept-block-h4'>워드 임베딩 (Word Embedding)</h4><ul class='concept-block-ul'><li><strong>Word2Vec:</strong> 단어 간 거리를 기반으로 벡터로 표현 (CBOW: 앞뒤 단어로 중심 단어 유추, Skip-Gram: 중심 단어로 주변 단어 예측)</li><li><strong>GloVe:</strong> 전체 문장의 통계 정보(동시 등장 확률)를 반영하여 벡터화</li><li><strong>FastText:</strong> 하나의 단어를 여러 개의 서브워드(Sub-word)로 잘라서 벡터로 계산 (OOV 문제 대응)</li><li><strong>ELMo:</strong> 문맥에 따라 달라지는 단어 의미를 반영하기 위해 양방향 언어 모델을 적용</li></ul>"
+        },
+        {
+          "id": "c3-16",
+          "title": "비정형 데이터 분석 기법",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>비정형 데이터 분석 주요 기법</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>소셜 네트워크 분석</span><span class='concept-keyword-tag'>중심성 지표</span><span class='concept-keyword-tag'>감정 분석</span><span class='concept-keyword-tag'>오피니언 마이닝</span><span class='concept-keyword-tag'>리얼리티 마이닝</span></div><ul class='concept-block-ul'><li><strong>소셜 네트워크 분석(SNA):</strong> 노드와 엣지 간의 관계로 데이터를 표현 (사람 간 관계 및 SNS 사용자 영향력 분석)</li><li><strong>중심성 지표:</strong> 연결 중심성, 매개 중심성, 위세 중심성, 근접 중심성</li><li><strong>감정 분석:</strong> 텍스트 데이터에서 감정(긍정/부정)을 분석하는 기법</li><li><strong>오피니언 마이닝:</strong> 특정 이슈나 제품에 대한 대중의 주관적 의견을 분석</li><li><strong>리얼리티 마이닝:</strong> 기계나 센서로부터 비정형 데이터를 추출 및 분석</li></ul>"
+        },
+        {
+          "id": "c3-17",
+          "title": "앙상블 분석 및 비모수 통계",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>앙상블(Ensemble) 기법</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>보팅</span><span class='concept-keyword-tag'>배깅</span><span class='concept-keyword-tag'>OOB 오류</span><span class='concept-keyword-tag'>랜덤 포레스트</span><span class='concept-keyword-tag'>부스팅</span></div><ul class='concept-block-ul'><li><strong>보팅(Voting):</strong> 여러 모델의 예측 결과를 다수결로 결합 (하드보팅: 다수결 예측값, 소프트보팅: 확률값의 평균)</li><li><strong>배깅(Bagging):</strong> 복원추출 기반 붓스트랩(Bootstrap) 샘플링으로 모델을 학습 후 보팅 결합 (병렬 처리 가능)</li><li><strong>OOB(Out-of-Bag) 오류:</strong> 복원추출 시 특정 데이터가 선택되지 않을 확률이 무한히 반복될 때 약 36.8% (1/e 약 0.368) 임을 활용</li><li><strong>랜덤 포레스트:</strong> 배깅에 의사결정나무를 결합 (편향은 높으나 분산이 감소하여 과적합에 강한 블랙박스 모델)</li><li><strong>부스팅(Boosting):</strong> 잘못 분류된 데이터에 큰 가중치를 부여하며 순차적으로 학습 (이상치에 민감, 병렬 처리 불가 / AdaBoost, GBM, XGBoost, LightGBM)</li><li><strong>스태킹(Stacking):</strong> 개별 모델들의 예측 결과를 메타 학습기의 입력으로 사용하여 최종 학습 수행</li></ul><h4 class='concept-block-h4'>비모수 검정 (Non-parametric Test)</h4><ul class='concept-block-ul'><li><strong>개념:</strong> 모집단에 대한 사전 정보가 없고, 관측 자료가 특정 분포를 따른다고 가정할 수 없을 때 수행하는 검정</li><li><strong>특징:</strong> 두 관측값의 순위나 차이를 이용하여 검정 진행</li><li><strong>주요 종류:</strong> 부호검정, 순위합검정, 만-휘트니 U 검정, 크러스칼-월리스 검정, 프리드먼 검정, 카이제곱 검정</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> <strong>앙상블 분석</strong>은 한 명의 천재보다 백 명의 평범한 사람들의 다수결이 낫다는 '집단 지성'입니다. 배깅(Bagging, 랜덤포레스트)과 부스팅(Boosting)이 대표적입니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 앙상블 분석 및 비모수 통계 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  배깅은 병렬로 독립적으로 학습하고, 부스팅은 앞선 모델의 '오답'에 가중치를 두어 순차적으로 학습한다는 두 기법의 차이점 비교 문제가 단골입니다.</div></div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> 배깅(Bagging)은 여러 모델이 '투표(병렬)'해서 결정(예: 랜덤 포레스트). 부스팅(Boosting)은 앞 모델의 '오답 노트(순차적)'를 다음 모델이 이어받아 학습합니다.</div>"
+        }
+      ]
+    },
+    {
+      "id": "s4-1",
+      "num": "01",
+      "title": "분석모형 평가 및 진단",
+      "cards": [
+        {
+          "id": "c4-1-0",
+          "title": "평가 지표와 출제자의 함정",
+          "open": false,
+          "content": "<div class='concept-block-note'>🚨 [출제자의 함정 - 정확도의 역설] 암 환자가 1%인 데이터에서 모두 \"정상\"이라고 예측해도 정확도는 99%입니다. 즉, 불균형 데이터에서는 <strong>정확도(Accuracy)를 맹신하면 안 되며, 재현율(Recall)이나 F1-Score</strong>가 중요합니다.</div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> ROC 커브는 좌상단으로 딱 붙을수록 좋은 모델! 즉, 민감도는 높고(1에 가깝고), 1-특이도는 낮을수록(0에 가깝게) 최고입니다. F1-Score 공식은 '2*정*재 / (정+재)'로 외우세요!</div>"
+        },
+        {
+          "id": "c4-1",
+          "title": "분류모델 평가지표",
+          "open": false,
+          "content": "<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(239,68,68,0.12), rgba(245,158,11,0.12)); border-left:4px solid #ef4444; padding:14px 18px; border-radius:8px; margin-bottom:16px;'>\n  <strong style='color:#dc2626; font-size:1.05rem;'>🔥 [계산 문제 100% 출제] 혼동 행렬(Confusion Matrix) & 평가지표 5종 공식</strong>\n  <p style='margin:6px 0 0 0; font-size:0.92rem; color:var(--text-color); line-height:1.6;'>\n    실제값과 예측값의 2×2 오분류표를 바탕으로 <strong>정확도, 정밀도, 재현율(민감도), 특이도, F1-Score</strong>를 직접 손으로 계산하는 문제가 매회 출제됩니다.\n  </p>\n</div>\n\n<h4 class='concept-block-h4'>1. 혼동 행렬(Confusion Matrix) 4대 요소</h4>\n<table class='confusion-table'>\n  <thead>\n    <tr>\n      <th colspan='2' rowspan='2' style='background:var(--paper-subtle);'>혼동 행렬 (2×2)</th>\n      <th colspan='2'>실제값 (Actual Truth)</th>\n    </tr>\n    <tr>\n      <th style='background:rgba(59,130,246,0.1); color:#2563EB;'>실제 Positive (1, 양성/암/사기)</th>\n      <th style='background:rgba(107,114,128,0.1); color:#374151;'>실제 Negative (0, 음성/정상)</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th rowspan='2' style='background:var(--paper-subtle); width:15%;'>예측값<br>(Predicted)</th>\n      <td style='font-weight:800; background:var(--surface);'>예측 Positive (1)</td>\n      <td class='confusion-cell-tp'>\n        <strong>TP (True Positive) ✅</strong><br>\n        <span style='font-size:0.8rem;'>양성을 양성으로 정확히 맞춤</span>\n      </td>\n      <td class='confusion-cell-fp'>\n        <strong>FP (False Positive) 🚨 (1종오류)</strong><br>\n        <span style='font-size:0.8rem;'>음성을 양성으로 잘못 예측</span>\n      </td>\n    </tr>\n    <tr>\n      <td style='font-weight:800; background:var(--surface);'>예측 Negative (0)</td>\n      <td class='confusion-cell-fn'>\n        <strong>FN (False Negative) ⚠️ (2종오류)</strong><br>\n        <span style='font-size:0.8rem;'>양성을 음성으로 잘못 예측 (놓침)</span>\n      </td>\n      <td class='confusion-cell-tn'>\n        <strong>TN (True Negative) ✅</strong><br>\n        <span style='font-size:0.8rem;'>음성을 음성으로 정확히 맞춤</span>\n      </td>\n    </tr>\n  </tbody>\n</table>\n\n<h4 class='concept-block-h4'>2. 분류 평가지표 5대 공식 비교 & 암기법</h4>\n<div class='formula-grid'>\n  <div class='formula-grid-item'>\n    <span class='formula-grid-title'>① 정확도 (Accuracy)</span>\n    <span class='formula-grid-expr'>Accuracy = (TP + TN) / Total</span>\n    <span class='formula-grid-desc'>전체 예측 중 올바르게 맞춘 비율. 불균형 데이터에서는 정확도의 역설 발생.</span>\n  </div>\n  <div class='formula-grid-item'>\n    <span class='formula-grid-title'>② 정밀도 (Precision / PPV) 🔥</span>\n    <span class='formula-grid-expr' style='color:#2563eb;'>Precision = TP / (TP + FP)</span>\n    <span class='formula-grid-desc'><strong>모델이 Positive라고 예측한 것 중</strong> 진짜 Positive 비율 (스팸메일 분류 시 중요)</span>\n  </div>\n  <div class='formula-grid-item'>\n    <span class='formula-grid-title'>③ 재현율/민감도 (Recall / TPR) 🔥</span>\n    <span class='formula-grid-expr' style='color:#dc2626;'>Recall = TP / (TP + FN)</span>\n    <span class='formula-grid-desc'><strong>실제 Positive인 대상 중</strong> 모델이 놓치지 않고 찾아낸 비율 (암 진단, 금융 사기 탐지 시 최우선)</span>\n  </div>\n  <div class='formula-grid-item'>\n    <span class='formula-grid-title'>④ 특이도 (Specificity / TNR)</span>\n    <span class='formula-grid-expr'>Specificity = TN / (TN + FP)</span>\n    <span class='formula-grid-desc'>실제 음성(정상) 중에서 모델이 음성으로 정확히 판정한 비율</span>\n  </div>\n  <div class='formula-grid-item'>\n    <span class='formula-grid-title'>⑤ 위양성률 (FPR = False Positive Rate)</span>\n    <span class='formula-grid-expr'>FPR = 1 - 특이도 = FP / (TN + FP)</span>\n    <span class='formula-grid-desc'>실제 정상 중 모델이 양성으로 오경보를 울린 비율 (ROC 곡선의 X축)</span>\n  </div>\n  <div class='formula-grid-item' style='background:rgba(239,68,68,0.04); border-color:#ef4444;'>\n    <span class='formula-grid-title'>⑥ F1-Score (조화평균) 🔥🔥🔥</span>\n    <span class='formula-grid-expr' style='color:#b91c1c;'>F₁ = 2 × (P × R) / (P + R)</span>\n    <span class='formula-grid-desc'>정밀도(Precision)와 재현율(Recall)의 불균형을 고려한 조화평균 지표</span>\n  </div>\n</div>\n\n<div class='formula-card'>\n  <div class='formula-card-header'>\n    <span class='formula-badge'>🧮 F-Beta Score 확장 공식</span>\n  </div>\n  <div class='formula-display'>\n    F_β = (1 + β²) × <span class='math-frac'><span class='math-frac-num'>Precision × Recall</span><span class='math-frac-den'>β² × Precision + Recall</span></span>\n  </div>\n  <div class='calc-step-container'>\n    <div class='calc-step-row'>\n      <span class='calc-step-num'>β = 2 (F2-Score)</span>\n      <span class='calc-step-content'><strong>재현율(Recall)을 정밀도보다 2배 더 중요</strong>하게 평가 (암 진단, 결함 검출)</span>\n    </div>\n    <div class='calc-step-row'>\n      <span class='calc-step-num'>β = 0.5 (F0.5-Score)</span>\n      <span class='calc-step-content'><strong>정밀도(Precision)를 재현율보다 2배 더 중요</strong>하게 평가 (스팸 필터링)</span>\n    </div>\n  </div>\n</div>\n\n<h4 class='concept-block-h4'>3. ROC Curve와 AUC 심화</h4>\n<ul class='concept-block-ul'>\n  <li><strong>ROC 곡선:</strong> 분류 임계값(Threshold 0~1)을 변경할 때 <strong>X축: FPR (1 - 특이도)</strong> 대비 <strong>Y축: TPR (민감도/재현율)</strong>의 궤적을 그린 곡선.</li>\n  <li><strong>최적의 모델:</strong> 좌상단 모서리 (0, 1)에 바짝 붙을수록 우수함.</li>\n  <li><strong>AUC (Area Under Curve):</strong> ROC 곡선 아래 면적으로 <strong>1.0에 가까울수록 완벽한 모델</strong>이며, <strong>0.5는 무작위 동전 던지기 수준</strong>임.</li>\n</ul>"
+        },
+        {
+          "id": "c4-2",
+          "title": "회귀 및 군집모델 평가지표 🔥 [12회 기출 집중 출제]",
+          "open": false,
+          "content": "\n<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(239,68,68,0.12), rgba(245,158,11,0.12)); border-left:4px solid #ef4444; padding:12px 16px; border-radius:8px; margin-bottom:16px;'>\n  <strong style='color:#dc2626; font-size:1.05rem;'>🔥 [12회 기출 집중 출제] 회귀 평가지표 5종 공식 및 계산 완벽 암기</strong>\n  <p style='margin:6px 0 0 0; font-size:0.92rem; color:var(--text-color);'>실제값(y)과 예측값(ŷ)의 차이를 이용해 MSE, RMSE, MAE, MAPE를 직접 계산하는 문제가 매회 출제됩니다. 영문 약어와 한글 명칭을 함께 외우세요!</p>\n</div>\n\n<h4 class='concept-block-h4'>1. 회귀모형 핵심 5대 평가지표 비교 공식</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 지표:</span>\n  <span class='concept-keyword-tag'>MSE(평균제곱오차)</span>\n  <span class='concept-keyword-tag'>RMSE(평균제곱근오차)</span>\n  <span class='concept-keyword-tag'>MAE(평균절대오차)</span>\n  <span class='concept-keyword-tag'>MAPE(평균절대백분율오차)</span>\n  <span class='concept-keyword-tag'>R²(결정계수)</span>\n</div>\n\n<table style='width:100%; border-collapse:collapse; margin:14px 0; font-size:0.9rem; text-align:left;'>\n  <thead>\n    <tr style='background:rgba(0,0,0,0.05); border-bottom:2px solid var(--border-color);'>\n      <th style='padding:8px;'>지표명</th>\n      <th style='padding:8px;'>계산 공식</th>\n      <th style='padding:8px;'>핵심 특징 및 함정</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>MSE</strong><br>(Mean Squared Error / 평균제곱오차)</td>\n      <td style='padding:8px;'><code>1/n × Σ(y - ŷ)²</code></td>\n      <td style='padding:8px;'>오차 제곱 평균. <strong>이상치(Outlier)에 극도로 민감함</strong></td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>RMSE</strong><br>(Root MSE / 평균제곱근오차)</td>\n      <td style='padding:8px;'><code>√(MSE)</code></td>\n      <td style='padding:8px;'>MSE에 루트를 씌워 <strong>실제 타겟 변수와 단위(Scale)를 일치시킴</strong></td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>MAE</strong><br>(Mean Absolute Error / 평균절대오차)</td>\n      <td style='padding:8px;'><code>1/n × Σ|y - ŷ|</code></td>\n      <td style='padding:8px;'>오차 절댓값 평균. <strong>이상치 영향에 덜 민감(Robust)하고 직관적</strong></td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>MAPE</strong><br>(Mean Absolute Percentage Error)</td>\n      <td style='padding:8px;'><code>100/n × Σ|(y - ŷ) / y|</code></td>\n      <td style='padding:8px;'>오차 비율의 절댓값 평균(%). <strong>y=0일 때 나눗셈 불가 주의</strong></td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>R² (결정계수)</strong><br>(Coefficient of Determination)</td>\n      <td style='padding:8px;'><code>1 - (SSE / SST) = SSR / SST</code></td>\n      <td style='padding:8px;'>회귀모형의 설명력 (0~1 범위, <strong>1에 가까울수록 성능 우수</strong>)</td>\n    </tr>\n  </tbody>\n</table>\n\n<h4 class='concept-block-h4'>2. 군집분석 평가지표</h4>\n<ul class='concept-block-ul'>\n  <li><strong>실루엣 계수 (Silhouette Coefficient):</strong> -1 ~ 1 사이의 값. 1에 가까울수록 완벽한 군집화 (0.5 이상이면 타당).</li>\n  <li><strong>Dunn Index:</strong> 군집 간 거리의 최솟값 / 군집 내 거리의 최댓값 (클수록 우수).</li>\n</ul>\n\n<div class='concept-block-note'>\n  💡 <strong>[12회 실전 계산 꿀팁]:</strong><br>\n  실제 y = [1.2, 2.5, 2.7], 예측 ŷ = [1.4, 2.7, 2.6] 일 때:<br>\n  • 오차: [-0.2, -0.2, +0.1]<br>\n  • 제곱 오차 합 = 0.04 + 0.04 + 0.01 = 0.09 → <strong>MSE = 0.09 / 3 = 0.03</strong><br>\n  • 절대 오차 합 = 0.2 + 0.2 + 0.1 = 0.5 → <strong>MAE = 0.5 / 3 ≈ 0.167</strong>\n</div>\n\n<div class='concept-block-quiz'>\n  <div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 회귀 평가 지표 중 MAE는 MSE에 비해 이상치(Outlier)의 영향을 덜 받는다?</div>\n  <div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - MSE는 오차를 제곱하므로 큰 오차가 발생하면 값이 기하급수적으로 커져 이상치에 매우 취약하지만, MAE는 선형 절댓값이므로 이상치에 견고(Robust)합니다.</div>\n</div>"
+        },
+        {
+          "id": "c4-3",
+          "title": "분석모형 진단 및 검정",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>(1) 과대적합과 과소적합</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>과대적합</span><span class='concept-keyword-tag'>과소적합</span><span class='concept-keyword-tag'>교차 검증</span><span class='concept-keyword-tag'>적합도 검정</span><span class='concept-keyword-tag'>전제 조건</span></div><ul class='concept-block-ul'><li><strong>과대적합(Overfitting)</strong>: 높은 분산, 낮은 편향 (훈련 데이터에 과도 최적화)</li><li><strong>과소적합(Underfitting)</strong>: 낮은 분산, 높은 편향</li><li>☞ 분산과 편향의 Trade-Off 확인으로 최적의 모델 선정</li></ul><h4 class='concept-block-h4'>(2) 교차 검증 및 적합도 검정</h4><ul class='concept-block-ul'><li><strong>교차 검증</strong>: 홀드아웃, K-fold 교차검증, LOOCV, 부트스트래핑(복원추출)</li><li><strong>적합도 검정</strong>: Q-Q Plot(정규성 대각선 확인), 카이제곱 검정, 샤피로 윌크 검정, 콜모고로프-스미르노프 검정</li></ul><h4 class='concept-block-h4'>(3) 모수 유의성 검정</h4><ul class='concept-block-ul'><li><strong>전제 조건</strong>: 정규성(Shapiro-Wilk, Q-Q Plot), 등분산성(Levene, F-검정), 독립성(더빈-왓슨)</li><li><strong>검정 종류</strong>: Z-검정, t-검정(단일/독립/대응), F-검정, ANOVA 검정(셋 이상 평균 비교)</li></ul>"
+        },
+        {
+          "id": "c4-991",
+          "title": "[신규추가] ROC Curve와 AUC 심화 해석",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>분류 모델 성능 지표의 끝판왕</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>X축</span><span class='concept-keyword-tag'>Y축</span><span class='concept-keyword-tag'>해석 방법</span><span class='concept-keyword-tag'>AUC</span></div><ul class='concept-block-ul'><li><strong>X축 (거짓 긍정률, FPR):</strong> 1 - 특이도(Specificity). 낮을수록 좋음.</li><li><strong>Y축 (참 긍정률, TPR):</strong> 민감도(Sensitivity), 재현율(Recall). 높을수록 좋음.</li><li><strong>해석 방법:</strong> 곡선이 좌측 상단으로 치우칠수록(=X축이 0에 가깝고 Y축이 1에 닿을수록) 분류를 완벽하게 해내는 최고의 모델임.</li><li><strong>AUC (Area Under Curve):</strong> ROC 곡선 아래의 면적. 1.0에 가까울수록 성능이 뛰어나며, 완전한 무작위(동전던지기)일 경우 0.5가 됨.</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> 화살을 쏠 때, 빗나가는 것(FPR, X축)은 0으로 줄이고, 정확히 꽂히는 것(TPR, Y축)은 100%로 끌어올리면 점수(AUC)가 자연히 넓게(1.0) 가득 채워지는 것과 같습니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. [신규추가] ROC Curve와 AUC 심화 해석 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  X축과 Y축이 각각 무엇인지 묻는 문제가 가장 빈출입니다. 'X축 = 1 - 특이도', 'Y축 = 재현율'을 달달 외우셔야 합니다.</div></div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> ROC 커브는 좌상단으로 딱 붙을수록 좋은 모델! 즉, 민감도는 높고(1에 가깝고), 1-특이도는 낮을수록(0에 가깝게) 최고입니다. F1-Score 공식은 '2*정*재 / (정+재)'로 외우세요!</div>"
+        },
+        {
+          "id": "c4-992",
+          "title": "[신규추가] 교차 검증 기법 (K-Fold vs LOOCV)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>검증 데이터를 나누는 체계적 방법들</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>K-Fold 교차 검증</span><span class='concept-keyword-tag'>LOOCV</span><span class='concept-keyword-tag'>한계점</span></div><ul class='concept-block-ul'><li><strong>K-Fold 교차 검증:</strong> 데이터를 K개의 그룹으로 쪼개서 (K-1)개는 학습에, 1개는 평가에 씁니다. 돌아가며 K번 테스트하여 평균으로 검증합니다.</li><li><strong>LOOCV (Leave-One-Out):</strong> 전체 N개의 데이터 중 딱 1개만 검증용으로 쓰고 M-1개는 학습에 씁니다. 이를 N번 반복합니다.</li><li><strong>한계점:</strong> LOOCV는 데이터(N)가 클 경우 모델을 N번 훈련해야 하므로 학습 시간이 기하급수적으로 길어져 실무 적용이 불가합니다.</li></ul><div class='concept-block-note'>💡 <strong>비전공자를 위한 쉬운 이해:</strong> 피자 10조각을 샀을 때, K-Fold는 1조각씩 맛보고 나머지는 보관하는 방식입니다. 반면 LOOCV는 밥알 개수만큼 한 톨 한 톨 따로 빼서 검증하는 완벽주의자라 시간이 엄청 오래 걸립니다.</div><div class='concept-block-quiz'><div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. [신규추가] 교차 검증 기법 (K-Fold vs LOOCV) 개념에서 가장 주의해야 할 출제 함정은 무엇일까요?</div><div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> -  LOOCV가 데이터가 클 경우 연산 비용이 높아져 비효율적이라는 단점이 빈출 오답 선지로 등장합니다.</div></div><div class='concept-block-note'>⚠️ <strong>[헷갈림 주의 포인트]</strong> LOOCV(Leave-One-Out)는 데이터 하나만 빼고 다 학습시키는 무식한 방법입니다. 데이터가 크면 연산량이 폭발해서 쓸 수 없다는 점이 기출로 자주 나옵니다!</div>"
+        }
+      ]
+    },
+    {
+      "id": "s4-2",
+      "num": "02",
+      "title": "분석모형 개선",
+      "cards": [
+        {
+          "id": "c4-4",
+          "title": "과대적합 방지 및 매개변수 최적화",
+          "open": false,
+          "content": "<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(245,158,11,0.12), rgba(16,185,129,0.12)); border-left:4px solid #f59e0b; padding:14px 18px; border-radius:8px; margin-bottom:16px;'>\n  <strong style='color:#d97706; font-size:1.05rem;'>📊 편향-분산 트레이드오프(Bias-Variance Tradeoff) & 과적합 극복</strong>\n  <p style='margin:6px 0 0 0; font-size:0.92rem; color:var(--text-color); line-height:1.6;'>\n    모델 복잡도(Complexity) 변화에 따른 편향과 분산의 상충 관계 및 교차 검증을 통한 일반화 성능 확보 원리입니다.\n  </p>\n</div>\n\n<h4 class='concept-block-h4'>1. 편향-분산 트레이드오프 곡선 해석</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 키워드:</span> \n  <span class='concept-keyword-tag'>편향 (Bias)</span>\n  <span class='concept-keyword-tag'>분산 (Variance)</span>\n  <span class='concept-keyword-tag'>과소적합 (High Bias)</span>\n  <span class='concept-keyword-tag'>과대적합 (High Variance)</span>\n  <span class='concept-keyword-tag'>총 오차 U자 곡선</span>\n</div>\n\n<div class='formula-card'>\n  <div class='formula-card-header'>\n    <span class='formula-badge'>🧮 총 기대 오차 분해 공식 (Total Expected Error)</span>\n  </div>\n  <div class='formula-display'>\n    Total Error = Bias² + Variance + Irreducible Error(줄일 수 없는 오차, 노이즈)\n  </div>\n</div>\n\n<table class='confusion-table' style='text-align:left;'>\n  <thead>\n    <tr>\n      <th style='width:25%;'>구분</th>\n      <th style='width:38%;'>과소적합 (Underfitting)</th>\n      <th style='width:37%;'>과대적합 (Overfitting)</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td><strong>모델 복잡도</strong></td>\n      <td><strong>너무 단순함</strong> (선형 모형으로 비선형 데이터 설명)</td>\n      <td><strong>지나치게 복잡함</strong> (고차 다항회귀, 깊은 트리)</td>\n    </tr>\n    <tr>\n      <td><strong>편향 & 분산</strong></td>\n      <td><strong>High Bias (높은 편향)</strong> & Low Variance</td>\n      <td>Low Bias & <strong>High Variance (높은 분산)</strong></td>\n    </tr>\n    <tr>\n      <td><strong>학습/검증 오차</strong></td>\n      <td>학습 오차(Train Loss)도 높고, 검증 오차도 높음</td>\n      <td>학습 오차는 0에 가까우나, <strong>검증 오차가 급증함</strong></td>\n    </tr>\n    <tr>\n      <td><strong>해결 방안</strong></td>\n      <td>더 복잡한 모델 적용, 파생변수 추가, 규제 완화</td>\n      <td><strong>데이터 추가 수집, 규제(L1/L2), 드롭아웃, 차원축소, 교차검증</strong></td>\n    </tr>\n  </tbody>\n</table>\n\n<h4 class='concept-block-h4'>2. 교차 검증 (Cross-Validation) 기법 비교</h4>\n<ul class='concept-block-ul'>\n  <li><strong>K-Fold 교차 검증:</strong> 데이터를 K개(보통 5 또는 10)로 균등 분할하여 K-1개로 학습, 1개로 검증하는 과정을 K번 반복한 후 평균 성능을 측정.</li>\n  <li><strong>Stratified K-Fold (계층적 K-Fold) 🔥:</strong> 불균형 데이터셋에서 각 Fold마다 <strong>타깃 클래스(Y)의 비율을 원본과 동일하게 유지</strong>하며 분할하는 필수 기법.</li>\n  <li><strong>LOOCV (Leave-One-Out CV) 🔥:</strong> 전체 N개 데이터 중 <strong>단 1개만 검증용</strong>으로 쓰고 N-1개로 학습하는 과정을 N번 반복. 편향은 거의 없으나 <strong>계산 비용이 극도로 높고 분산이 큼</strong>.</li>\n  <li><strong>시계열 교차검증 (Time Series Split):</strong> 시간의 순서를 무시하고 랜덤 셔플링하면 <strong>미래 데이터 누수(Data Leakage)</strong>가 발생하므로, 과거 데이터로만 미래를 예측하도록 순차 확장(Rolling Window) 검증 수행.</li>\n</ul>"
+        },
+        {
+          "id": "c4-5",
+          "title": "분석모형 해석 및 주성분 분석(PCA)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>(1) 주요 분석 결과 해석 포인트</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>박스플롯</span><span class='concept-keyword-tag'>Summary 함수</span><span class='concept-keyword-tag'>히트맵</span><span class='concept-keyword-tag'>회귀 분산분석</span><span class='concept-keyword-tag'>스크리플롯</span></div><ul class='concept-block-ul'><li><strong>박스플롯</strong>: 사분위수, 중앙값, 이상치 유무 및 상대적 분산 파악</li><li><strong>Summary 함수</strong>: 수치형 변수의 요약 통계량 및 결측치 확인, 범주형 변수의 클래스 불균형 확인</li><li><strong>히트맵</strong>: 변수 간 상관관계 파악 및 다중공선성 진단</li><li><strong>회귀 분산분석(ANOVA)</strong>: F통계량 및 p-value를 통한 모형의 유의성 및 회귀계수 검정</li></ul><h4 class='concept-block-h4'>(2) 주성분 분석(PCA)</h4><ul class='concept-block-ul'><li>상관성 높은 변수들의 선형 결합으로 차원을 축소하여 새로운 변수 생성</li><li>자료의 분산이 가장 큰 축이 첫 번째 주성분</li><li><strong>스크리플롯(Screeplot)</strong>: 고유값 변화를 시각화하여 주성분 개수를 선택하는 그래프 (기울기가 완만해지기 전 단계 선택)</li></ul><h4 class='concept-block-h4'>(3) 비즈니스 기여도 평가</h4><ul class='concept-block-ul'><li><strong>재무적 평가</strong>: ROI, NPV, IRR, TCO</li><li><strong>비즈니스 성과 평가</strong>: KPI 기반 평가, 업무 자동화율, 생산성 증가율, 고객 만족도</li></ul>"
+        }
+      ]
+    },
+    {
+      "id": "s4-3",
+      "num": "03",
+      "title": "분석결과 시각화",
+      "cards": [
+        {
+          "id": "c4-6",
+          "title": "시공간, 관계 및 분포 시각화",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>(1) 시간 및 공간 시각화</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>시간 시각화</span><span class='concept-keyword-tag'>공간 시각화</span><span class='concept-keyword-tag'>관계 시각화</span><span class='concept-keyword-tag'>분포 시각화</span></div><ul class='concept-block-ul'><li><strong>시간 시각화</strong>: 경사 차트(두 지점 변화 선 연결), 영역 차트(누적 변화 표현)</li><li><strong>공간 시각화</strong>: 단계구분도(채도 활용 계급화), 카토그램(데이터 값 강조 면적 왜곡), 카토그램 히트맵, 버블 플롯 맵</li></ul><h4 class='concept-block-h4'>(2) 관계 및 분포 시각화</h4><ul class='concept-block-ul'><li><strong>관계 시각화</strong>: 산점도, 버블차트(3개 변수, 원 크기로 표현), 히트맵</li><li><strong>분포 시각화</strong>: 원형 차트, 모자이크 차트 / 트리맵(비율과 계층구조 표현)</li></ul>"
+        },
+        {
+          "id": "c4-7",
+          "title": "비교 시각화 및 인포그래픽",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>(1) 비교 시각화</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>버터플라이 차트</span><span class='concept-keyword-tag'>스타차트</span><span class='concept-keyword-tag'>체르노프 페이스</span><span class='concept-keyword-tag'>평행 좌표 그래프</span><span class='concept-keyword-tag'>유형</span></div><ul class='concept-block-ul'><li><strong>버터플라이 차트</strong>: 두 개 그룹을 좌우 대칭으로 비교</li><li><strong>스타차트</strong>: 3개 이상의 변수 균형과 경향 비교</li><li><strong>체르노프 페이스</strong>: 사람의 얼굴 형태로 변환 표현</li><li><strong>평행 좌표 그래프</strong>: 다차원 데이터 시각화</li></ul><h4 class='concept-block-h4'>(2) 인포그래픽</h4><ul class='concept-block-ul'><li>정보 + 시각적 형상, 패턴 발견보다는 일반인에게 설득형 메시지 전달 목적</li><li><strong>유형</strong>: 지도형, 도표형, 타임라인형, 스토리텔링형, 만화형, 비교분석형, 컨셉 맵</li><li><strong>원리</strong>: 단순성, 명확성, 중요성, 일관성, 가독성, 효과성, 대상 독자 (오컴의 면도날 적용)</li></ul>"
+        }
+      ]
+    },
+    {
+      "id": "s4-4",
+      "num": "04",
+      "title": "분석결과 활용",
+      "cards": [
+        {
+          "id": "c4-8",
+          "title": "분석결과 활용 및 모니터링",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>분석결과 활용 프로세스</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>분석모형 전개</span><span class='concept-keyword-tag'>활용 시나리오 개발</span><span class='concept-keyword-tag'>분석모형 모니터링</span><span class='concept-keyword-tag'>분석모형 리모델링</span></div><ul class='concept-block-ul'><li><strong>분석모형 전개</strong>: 분석결과를 확장 및 실제 현업에 적용</li><li><strong>활용 시나리오 개발</strong>: 인사이트 발굴 및 결과를 업무 프로세스에 반영</li><li><strong>분석모형 모니터링</strong>: 환경 변화를 지속적으로 반영하기 위한 모니터링 수행</li><li><strong>분석모형 리모델링</strong>: 새로운 알고리즘 및 최신 데이터를 반영하여 모형 재구축</li></ul>"
+        }
+      ]
+    },
+    {
+      "id": "s5-1",
+      "num": "01",
+      "title": "자주 출제되는 핵심 개념 픽",
+      "cards": [
+        {
+          "id": "c5-1",
+          "title": "KNN(K-Nearest Neighbor) 및 거리 측정 기법",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>KNN 알고리즘 원리</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>기반</span><span class='concept-keyword-tag'>특징</span></div><ul class='concept-block-ul'><li><strong>기반:</strong> 지도학습 분류/회귀 알고리즘으로, 새로운 데이터와 가장 가까운 K개 이웃의 범주로 분류 (유클리디안, 맨해튼 거리 사용)</li><li><strong>특징:</strong> 모델을 사전에 학습하지 않는 게으른 학습(Lazy Learning), K가 너무 작으면 과적합, 너무 크면 과소적합 발생</li></ul>"
+        },
+        {
+          "id": "c5-2",
+          "title": "나이브 베이즈 및 베이즈 정리",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>나이브 베이즈 분류기</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>기반</span><span class='concept-keyword-tag'>특징</span></div><ul class='concept-block-ul'><li><strong>기반:</strong> 조건부 확률과 베이즈 정리에 기반한 조건부 독립성 가정 지도학습 분류기</li><li><strong>특징:</strong> 스팸 메일 분류 및 텍스트 분류에 탁월, 모든 특성(Feature)이 독립이라는 강력한 가정 사용</li></ul>"
+        },
+        {
+          "id": "c5-3",
+          "title": "편향-분산 트레이드오프 (Bias-Variance Tradeoff)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>모델 오차의 구성 요인</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>편향</span><span class='concept-keyword-tag'>분산</span><span class='concept-keyword-tag'>트레이드오프</span></div><ul class='concept-block-ul'><li><strong>편향(Bias):</strong> 모델의 지나친 단순화로 발생하는 오차 (높으면 과소적합 Underfitting)</li><li><strong>분산(Variance):</strong> 모델이 훈련 데이터의 노이즈까지 학습하여 발생하는 변동성 (높으면 과대적합 Overfitting)</li><li><strong>트레이드오프:</strong> 모델 복잡도가 증가하면 편향은 감소하나 분산은 증가함</li></ul>"
+        },
+        {
+          "id": "c5-4",
+          "title": "하이퍼파라미터 최적화 기법",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>하이퍼파라미터 튜닝 방식 비교</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>Grid Search</span><span class='concept-keyword-tag'>Random Search</span></div><ul class='concept-block-ul'><li><strong>Grid Search:</strong> 하이퍼파라미터 후보군을 격자망으로 설정하여 전수 탐색 (정확하나 느림)</li><li><strong>Random Search:</strong> 지정된 범위 내 무작위 조합 탐색 (빠르고 효율적)</li><li><strong>Bayesian Optimization:</strong> 이전 탐색 결과를 바탕으로 확률적 대리모델(Surrogate Model)을 통해 최적 조합 추정</li></ul>"
+        },
+        {
+          "id": "c5-5",
+          "title": "설명 가능한 인공지능 (XAI: SHAP & LIME)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>XAI 및 SHAP 원리</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>SHAP</span><span class='concept-keyword-tag'>LIME</span></div><ul class='concept-block-ul'><li><strong>SHAP (Shapley Additive exPlanations):</strong> 게임 이론의 섀플리 값(Shapley Value) 기반으로 특성 기여도 산출</li><li><strong>LIME:</strong> 국소적 대리 모델을 통해 개별 샘플의 예측 원인 설명</li></ul>"
+        },
+        {
+          "id": "c5-6",
+          "title": "카이제곱 검정 (Chi-Square Test)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>범주형 데이터 검정</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>독립성 검정</span><span class='concept-keyword-tag'>적합도 검정</span><span class='concept-keyword-tag'>자유도</span></div><ul class='concept-block-ul'><li><strong>독립성 검정:</strong> 두 범주형 변수 간의 연관성/독립성 여부 판단</li><li><strong>적합도 검정:</strong> 관측 빈도가 기대 빈도와 일치하는지 검정</li><li><strong>자유도:</strong> 교차표 (행 수 - 1) × (열 수 - 1)</li></ul>"
+        },
+        {
+          "id": "c5-7",
+          "title": "경사하강법 최적화 알고리즘 (Optimizer)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>딥러닝 옵티마이저 종류</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>SGD</span><span class='concept-keyword-tag'>Momentum</span><span class='concept-keyword-tag'>Adam</span></div><ul class='concept-block-ul'><li><strong>SGD:</strong> 확률적 경사하강법 (노이즈 존재)</li><li><strong>Momentum:</strong> 관성을 고려하여 진행 방향으로 가속</li><li><strong>RMSProp / Adagrad:</strong> 학습률을 변수별로 적응적 조정</li><li><strong>Adam:</strong> Momentum과 RMSProp을 결합한 대표적 최적화 기법</li></ul>"
+        },
+        {
+          "id": "c5-8",
+          "title": "혼동 행렬 (Confusion Matrix) 및 평가 지표",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>분류 모델의 주요 평가 지표</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>정확도</span><span class='concept-keyword-tag'>정밀도</span><span class='concept-keyword-tag'>재현율</span><span class='concept-keyword-tag'>F1 Score</span></div><ul class='concept-block-ul'><li><strong>정확도(Accuracy):</strong> 전체 데이터 중 맞게 예측한 비율</li><li><strong>정밀도(Precision):</strong> Positive로 예측한 것 중 실제 Positive인 비율 (오진이 치명적일 때 중요)</li><li><strong>재현율(Recall / Sensitivity):</strong> 실제 Positive 중 예측이 적중한 비율 (질병 진단 등 놓치면 안 될 때 중요)</li><li><strong>F1 Score:</strong> 정밀도와 재현율의 조화평균 (데이터 불균형 시 유용)</li></ul><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> ROC 커브는 좌상단으로 딱 붙을수록 좋은 모델! 즉, 민감도는 높고(1에 가깝고), 1-특이도는 낮을수록(0에 가깝게) 최고입니다. F1-Score 공식은 '2*정*재 / (정+재)'로 외우세요!</div>"
+        },
+        {
+          "id": "c5-9",
+          "title": "앙상블 기법 (Ensemble Learning)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>다수결을 통한 성능 향상</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>배깅</span><span class='concept-keyword-tag'>부스팅</span><span class='concept-keyword-tag'>스태킹</span></div><ul class='concept-block-ul'><li><strong>배깅(Bagging):</strong> 훈련 데이터를 복원 추출하여 여러 모델을 독립적으로 학습 (예: Random Forest, 분산 감소에 효과적)</li><li><strong>부스팅(Boosting):</strong> 이전 모델의 오답에 가중치를 부여하며 순차적으로 학습 (예: XGBoost, LightGBM, 편향 감소에 효과적)</li><li><strong>스태킹(Stacking):</strong> 여러 모델의 예측값을 다시 훈련 데이터로 사용하여 최종 모델을 학습</li></ul><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> 배깅(Bagging)은 여러 모델이 '투표(병렬)'해서 결정(예: 랜덤 포레스트). 부스팅(Boosting)은 앞 모델의 '오답 노트(순차적)'를 다음 모델이 이어받아 학습합니다.</div>"
+        },
+        {
+          "id": "c5-10",
+          "title": "결측치(Missing Value) 및 이상치(Outlier) 처리",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>데이터 전처리 핵심</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>결측치 대치법</span><span class='concept-keyword-tag'>이상치 탐지</span></div><ul class='concept-block-ul'><li><strong>결측치 대치법:</strong> 단순 대치(평균, 중앙값, 최빈값), K-NN 대치법, 다중 대치법(Multiple Imputation)</li><li><strong>이상치 탐지(ESD):</strong> 평균으로부터 3 표준편차 이상 떨어진 값 제거</li><li><strong>이상치 탐지(IQR):</strong> Q1 - 1.5 * IQR 미만, Q3 + 1.5 * IQR 초과인 데이터 탐지 및 제거</li></ul><div class='concept-block-note'>⚠️ <strong>[헷갈림 주의 포인트]</strong> 기출문제에서 '다중 대치법'을 '단순 대치법'으로 교묘하게 바꿔서 출제합니다. 다중 대치법은 여러 번 대치하여 불확실성을 줄이는 고급 기법임을 잊지 마세요.</div>"
+        },
+        {
+          "id": "c5-11",
+          "title": "딥러닝 활성화 함수 (Activation Function)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>비선형성 부여 함수</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>Sigmoid</span><span class='concept-keyword-tag'>Softmax</span><span class='concept-keyword-tag'>ReLU</span></div><ul class='concept-block-ul'><li><strong>Sigmoid:</strong> 0~1 사이의 값으로 변환 (이진 분류의 출력층에 주로 사용)</li><li><strong>Softmax:</strong> 여러 값들의 합이 1이 되도록 변환 (다중 분류의 출력층에 사용)</li><li><strong>ReLU:</strong> 음수는 0, 양수는 그대로 반환 (기울기 소실 문제 해결, 은닉층에서 가장 널리 쓰임)</li></ul>"
+        },
+        {
+          "id": "c5-12",
+          "title": "차원 축소 기법 (PCA vs t-SNE)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>데이터 압축 및 시각화</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>PCA</span><span class='concept-keyword-tag'>t-SNE</span></div><ul class='concept-block-ul'><li><strong>PCA (주성분 분석):</strong> 데이터의 분산을 최대한 보존하는 새로운 직교 기저(주성분)를 찾아 선형적으로 차원을 축소</li><li><strong>t-SNE:</strong> 데이터 점들 간의 거리/유사도를 기반으로 고차원 데이터를 2차원 또는 3차원으로 비선형 축소 (시각화에 탁월)</li></ul>"
+        },
+        {
+          "id": "c5-13",
+          "title": "데이터 불균형 해결 (Data Imbalance Handling)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>샘플링 기법</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>오버샘플링</span><span class='concept-keyword-tag'>SMOTE</span><span class='concept-keyword-tag'>언더샘플링</span></div><ul class='concept-block-ul'><li><strong>오버샘플링(Oversampling):</strong> 적은 클래스의 데이터를 복제하여 증가시킴 (과적합 위험 있음)</li><li><strong>SMOTE (Synthetic Minority Over-sampling Technique):</strong> 소수 클래스 데이터의 K-최근접 이웃을 찾아 그 사이를 가상의 데이터로 채우는 기법 (가장 빈출)</li><li><strong>언더샘플링(Undersampling):</strong> 많은 클래스의 데이터를 줄여 비율을 맞춤 (데이터 손실 문제 발생)</li></ul>"
+        },
+        {
+          "id": "c5-14",
+          "title": "연관 분석 (Association Rules)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>장바구니 분석의 3대 지표</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>지지도</span><span class='concept-keyword-tag'>신뢰도</span><span class='concept-keyword-tag'>향상도</span></div><ul class='concept-block-ul'><li><strong>지지도(Support):</strong> 전체 거래 중 항목 A와 B를 동시에 포함하는 거래의 비율 (P(A∩B))</li><li><strong>신뢰도(Confidence):</strong> 항목 A를 포함한 거래 중에서 B도 포함하는 비율 (P(B|A))</li><li><strong>향상도(Lift):</strong> A가 주어지지 않았을 때 B의 확률에 비해 A가 주어졌을 때 B의 확률 증가 비율. 1보다 크면 양의 상관관계, 1이면 독립</li></ul>"
+        },
+        {
+          "id": "c5-15",
+          "title": "군집 분석 평가 지표 (Clustering Evaluation)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>비지도 학습의 품질 평가</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>실루엣 계수</span><span class='concept-keyword-tag'>Dunn Index</span></div><ul class='concept-block-ul'><li><strong>실루엣 계수 (Silhouette Coefficient):</strong> -1에서 1 사이의 값을 가지며, 1에 가까울수록 군집화가 잘 된 것 (클러스터 내 거리는 가깝고, 클러스터 간 거리는 멀다)</li><li><strong>Dunn Index:</strong> 군집 간 거리의 최솟값을 군집 내 거리의 최댓값으로 나눈 값 (클수록 좋음)</li></ul><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> ROC 커브는 좌상단으로 딱 붙을수록 좋은 모델! 즉, 민감도는 높고(1에 가깝고), 1-특이도는 낮을수록(0에 가깝게) 최고입니다. F1-Score 공식은 '2*정*재 / (정+재)'로 외우세요!</div>"
+        },
+        {
+          "id": "c5-16",
+          "title": "교차 검증 (Cross Validation)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>과적합 방지 및 모델 일반화</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>K-Fold 교차 검증</span><span class='concept-keyword-tag'>LOOCV</span></div><ul class='concept-block-ul'><li><strong>K-Fold 교차 검증:</strong> 데이터를 K개로 분할하여 K-1개로 훈련, 1개로 검증을 K번 반복</li><li><strong>Stratified K-Fold:</strong> 불균형 데이터에서 각 폴드가 원본 데이터의 클래스 비율을 유지하도록 분할</li><li><strong>LOOCV (Leave-One-Out CV):</strong> 데이터 1개만 검증용으로, 나머지를 훈련용으로 사용하는 방식 (시간 오래 걸림)</li></ul><div class='concept-block-note'>⚠️ <strong>[헷갈림 주의 포인트]</strong> LOOCV(Leave-One-Out)는 데이터 하나만 빼고 다 학습시키는 무식한 방법입니다. 데이터가 크면 연산량이 폭발해서 쓸 수 없다는 점이 기출로 자주 나옵니다!</div>"
+        },
+        {
+          "id": "c5-17",
+          "title": "과적합(Overfitting) 방지 기법 및 편향-분산 상충관계 🔥 [12회 기출 집중 출제]",
+          "open": false,
+          "content": "\n<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(239,68,68,0.12), rgba(59,130,246,0.12)); border-left:4px solid #3b82f6; padding:12px 16px; border-radius:8px; margin-bottom:16px;'>\n  <strong style='color:#2563eb; font-size:1.05rem;'>🔥 [12회 기출 집중 출제] 편향-분산 트레이드오프 (Bias-Variance Tradeoff) 완벽 해석</strong>\n  <p style='margin:6px 0 0 0; font-size:0.92rem; color:var(--text-color);'>모델 복잡도 증가에 따른 편향과 분산의 변화, 그리고 학습 에러 vs 검증 에러 곡선 해석 문제가 12회 핵심으로 출제되었습니다.</p>\n</div>\n\n<h4 class='concept-block-h4'>1. 편향-분산 상충관계 (Bias-Variance Tradeoff)</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 키워드:</span>\n  <span class='concept-keyword-tag'>편향(Bias)</span>\n  <span class='concept-keyword-tag'>분산(Variance)</span>\n  <span class='concept-keyword-tag'>과소적합</span>\n  <span class='concept-keyword-tag'>과적합</span>\n  <span class='concept-keyword-tag'>최적모델</span>\n</div>\n\n<ul class='concept-block-ul'>\n  <li><strong>편향 (Bias²):</strong> 모델이 너무 단순하여 데이터의 본질적 패턴을 잡지 못하는 오차 → <strong>모델 복잡도 ↑ 시 편향 ↓</strong></li>\n  <li><strong>분산 (Variance):</strong> 모델이 훈련 데이터의 사소한 노이즈까지 과도하게 민감하게 학습하는 변동성 → <strong>모델 복잡도 ↑ 시 분산 ↑</strong></li>\n  <li><strong>Total Error (총 오차):</strong> <code>Bias² + Variance + Irreducible Error (줄일 수 없는 오차)</code></li>\n  <li><strong>과소적합 (Underfitting):</strong> High Bias & Low Variance (모델이 지나치게 단순)</li>\n  <li><strong>과적합 (Overfitting):</strong> Low Bias & High Variance (모델이 지나치게 복잡)</li>\n  <li><strong>최적 모델 (Optimal Model):</strong> 편향과 분산의 합(Total Error)이 최소가 되는 균형 지점</li>\n</ul>\n\n<h4 class='concept-block-h4'>2. 학습 주기(Training cycle)와 에러 곡선 추이</h4>\n<ul class='concept-block-ul'>\n  <li><strong>Training Error:</strong> 학습이 계속 반복(Epoch ↑)될수록 0에 수렴하며 <strong>지속적으로 하락</strong>.</li>\n  <li><strong>Testing Error:</strong> 처음에는 하락하다가 최적 모델 시점을 지나면 과적합으로 인해 <strong>다시 상승 (U자형 반등)</strong>.</li>\n</ul>\n\n<h4 class='concept-block-h4'>3. 과적합(Overfitting) 방지 5대 핵심 솔루션</h4>\n<ol class='concept-block-ul' style='padding-left:20px;'>\n  <li><strong>데이터 증강 (Data Augmentation):</strong> 훈련 데이터의 양을 늘려 일반화 능력 향상.</li>\n  <li><strong>정규화 / 규제 (Regularization):</strong> 가중치 축소 (L1 Lasso: 변수 선택 효과 / L2 Ridge: 가중치 감쇠).</li>\n  <li><strong>차원 축소 및 피처 선택:</strong> 불필요한 노이즈 변수 제거 (PCA, RFE).</li>\n  <li><strong>드롭아웃 (Dropout) & 앙상블 (Ensemble):</strong> 무작위 노드 비활성화 및 배깅/랜덤포레스트 적용.</li>\n  <li><strong>조기 종료 (Early Stopping) & 교차검증 (Cross Validation):</strong> 검증 오차가 반등할 때 학습 즉시 중단.</li>\n</ol>\n\n<div class='concept-block-note'>\n  💡 <strong>[12회 킬러 개념 - Data Leakage (데이터 누수)]:</strong><br>\n  Train/Test를 분할하기 전에 전체 데이터셋으로 스케일링(Standardization)하거나 결측치를 대치하면 미래 Test 정보가 Train에 유출되는 <strong>Data Leakage</strong>가 발생합니다. 반드시 <strong>Train 세트로만 Fit</strong>하고 Test는 Transform만 적용해야 합니다!\n</div>\n\n<div class='concept-block-quiz'>\n  <div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 모델의 복잡도를 계속 높이면 테스트 데이터에 대한 에러가 지속적으로 0에 수렴한다?</div>\n  <div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>X</strong> - 모델 복잡도가 지나치게 높아지면 분산(Variance)이 급격히 증가하여 테스트 데이터에 대한 오차(Testing Error)는 다시 상승(과적합)합니다.</div>\n</div>"
+        },
+        {
+          "id": "c5-18",
+          "title": "데이터 스케일링 (Data Scaling)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>수치형 데이터 정규화</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>표준화</span><span class='concept-keyword-tag'>최소-최대 스케일링</span><span class='concept-keyword-tag'>Robust Scaler</span></div><ul class='concept-block-ul'><li><strong>표준화 (Standardization / Z-score):</strong> 평균을 0, 표준편차를 1로 변환. 이상치에 덜 민감함.</li><li><strong>최소-최대 스케일링 (Min-Max Scaling):</strong> 최솟값을 0, 최댓값을 1로 변환. 이상치에 매우 취약함.</li><li><strong>Robust Scaler:</strong> 중앙값(Median)과 사분위수(IQR)를 사용하여 이상치의 영향을 최소화</li></ul>"
+        }
+      ]
+    },
+    {
+      "id": "s3-13",
+      "num": "13",
+      "title": "최신 딥러닝 및 최적화",
+      "cards": [
+        {
+          "id": "c3-13-1",
+          "title": "하이퍼파라미터 최적화(Hyperparameter Tuning)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>주요 최적화 기법 비교</h4><div class='concept-keywords-row'><span class='concept-keyword-label'>🔑 핵심 키워드:</span> <span class='concept-keyword-tag'>그리드 서치</span><span class='concept-keyword-tag'>랜덤 서치</span><span class='concept-keyword-tag'>베이지안 최적화</span></div><ul class='concept-block-ul'><li><strong>그리드 서치(Grid Search):</strong> 사용자가 지정한 모든 하이퍼파라미터 조합을 탐색. 확실하지만 시간이 매우 오래 걸림.</li><li><strong>랜덤 서치(Random Search):</strong> 지정된 범위 내에서 무작위로 값을 추출하여 탐색. 그리드 서치보다 빠르고 효율적일 때가 많음.</li><li><strong>베이지안 최적화(Bayesian Optimization):</strong> 이전 탐색 결과를 바탕으로 다음 탐색 위치를 지능적으로 추정(Surrogate Model 활용). 최적해를 빠르게 찾음.</li></ul><div class='concept-block-note'>🚨 [출제자의 함정] 베이지안 최적화는 단순히 무작위 탐색이 아니라 <strong>사전 정보(Prior)</strong>를 활용한다는 점이 빈출 포인트입니다.</div>"
+        },
+        {
+          "id": "c3-13-2",
+          "title": "어텐션 메커니즘과 트랜스포머 (Attention & Transformer) 🔥 [12회 신경향 킬러]",
+          "open": false,
+          "content": "<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(59,130,246,0.12), rgba(147,51,234,0.12)); border-left:4px solid #3b82f6; padding:14px 18px; border-radius:8px; margin-bottom:16px;'>\n  <strong style='color:#2563eb; font-size:1.05rem;'>🚀 [12회 신경향 킬러] 트랜스포머(Transformer) & 어텐션(Attention) 아키텍처</strong>\n  <p style='margin:6px 0 0 0; font-size:0.92rem; color:var(--text-color); line-height:1.6;'>\n    RNN의 순차적(Sequential) 연산 한계를 뛰어넘어 <strong>Self-Attention과 완전 병렬 처리</strong>를 구현한 현대 초거대 AI(LLM, GPT, BERT)의 핵심 근간입니다.\n  </p>\n</div>\n\n<h4 class='concept-block-h4'>1. 스케일드 닷 프로덕트 어텐션 (Scaled Dot-Product Attention)</h4>\n<div class='concept-keywords-row'>\n  <span class='concept-keyword-label'>🔑 핵심 키워드:</span> \n  <span class='concept-keyword-tag'>Query(Q)</span>\n  <span class='concept-keyword-tag'>Key(K)</span>\n  <span class='concept-keyword-tag'>Value(V)</span>\n  <span class='concept-keyword-tag'>√d_k 스케일링</span>\n  <span class='concept-keyword-tag'>Softmax 가중합</span>\n</div>\n\n<div class='formula-card'>\n  <div class='formula-card-header'>\n    <span class='formula-badge'>🧮 어텐션 핵심 계산 수식 (Attention Formula)</span>\n  </div>\n  <div class='formula-display'>\n    Attention(Q, K, V) = softmax<span class='math-frac'><span class='math-frac-num'>Q Kᵀ</span><span class='math-frac-den'>√d_k</span></span> V\n  </div>\n  <div class='calc-step-container'>\n    <div class='calc-step-row'>\n      <span class='calc-step-num'>1. 내적 유사도</span>\n      <span class='calc-step-content'>Query(검색어)와 Key(데이터 키)의 전치행렬을 행렬곱(Dot-Product)하여 단어 간 연관도 산출</span>\n    </div>\n    <div class='calc-step-row'>\n      <span class='calc-step-num'>2. 스케일링</span>\n      <span class='calc-step-content'>차원수 √d_k 로 나누어 내적값이 너무 커져 softmax 기울기가 소실되는 것을 방지</span>\n    </div>\n    <div class='calc-step-row'>\n      <span class='calc-step-num'>3. 가중합 산출</span>\n      <span class='calc-step-content'>Softmax를 적용해 어텐션 가중치(합=1)를 구한 후 실제 내용인 Value(V)와 곱해 최종 맥락 벡터 도출</span>\n    </div>\n  </div>\n</div>\n\n<h4 class='concept-block-h4'>2. 트랜스포머 아키텍처 4대 핵심 구성 요소</h4>\n<table class='confusion-table' style='text-align:left;'>\n  <thead>\n    <tr>\n      <th style='width:25%;'>핵심 요소</th>\n      <th style='width:75%;'>원리 및 기능 설명</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <td><strong>Multi-Head Attention 🔥</strong></td>\n      <td>어텐션을 한 번만 계산하지 않고, Q, K, V를 여러 개(h개 헤드)의 부분 공간으로 사영하여 <strong>다양한 관점의 문맥적 의미를 동시에 병렬로 포착</strong>함.</td>\n    </tr>\n    <tr>\n      <td><strong>위치 인코딩 🔥<br>(Positional Encoding)</strong></td>\n      <td>트랜스포머는 RNN처럼 순차 입력받지 않고 전체 문장을 한 번에 입력받으므로, <strong>단어의 순서(위치) 정보</strong>를 주입하기 위해 sin, cos 주기함수 값을 임베딩에 더해줌.</td>\n    </tr>\n    <tr>\n      <td><strong>잔차 연결 및 층 정규화<br>(Add & LayerNorm)</strong></td>\n      <td>입력값을 출력값에 그대로 더해주는 <strong>Residual Connection (Skip Connection)</strong>을 적용하여 깊은 신경망에서도 기울기 소실 없이 안정적으로 학습.</td>\n    </tr>\n    <tr>\n      <td><strong>완전한 병렬화 (Parallelism)</strong></td>\n      <td>순환 루프가 전혀 없으므로 GPU를 통한 <strong>행렬 병렬 연산이 100% 가능</strong>하여 학습 속도가 RNN 대비 수십~수백 배 향상됨.</td>\n    </tr>\n  </tbody>\n</table>\n\n<div class='concept-block-quiz'>\n  <div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 트랜스포머 모델은 이전 타임스텝의 은닉 상태(Hidden State)를 순차적으로 전달받는 순환 구조(RNN)를 채택하고 있다?</div>\n  <div class='concept-quiz-a'>정답: <strong style='color:var(--danger);'>X (오답)</strong> - 트랜스포머는 순환(Recurrence) 구조를 완전히 제거하고 <strong>Self-Attention 메커니즘과 Positional Encoding</strong>만으로 문맥과 위치를 병렬 처리합니다.</div>\n</div>"
+        }
+      ]
+    },
+    {
+      "id": "s5-2",
+      "num": "02",
+      "title": "12회 기출특강 & 합격 로드맵 마스터 🔥",
+      "cards": [
+        {
+          "id": "c5-2-1",
+          "title": "설명 가능한 AI (XAI)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>XAI (eXplainable AI) 개요</h4><p class='concept-block-p'>XAI는 딥러닝과 같은 '블랙박스(Black Box)' 모델의 의사결정 과정을 인간이 이해할 수 있는 형태로 설명해 주는 기술입니다. 모델의 신뢰성, 공정성, 규제 준수(예: GDPR의 설명 요구권)를 위해 필수적인 기술로 대두되었습니다.</p><h4 class='concept-block-h4'>주요 기법</h4><ul class='concept-block-ul'><li>LIME (Local Interpretable Model-agnostic Explanations): 개별 예측에 대해 국소적(Local)으로 선형 모델을 근사시켜 모델의 예측 근거를 설명합니다.</li><li>SHAP (SHapley Additive exPlanations): 게임 이론의 섀플리 값(Shapley Value)을 기반으로, 각 변수(Feature)가 예측값에 기여한 정도를 수치화하여 전역적/국소적 설명을 제공합니다.</li></ul><div class='concept-block-note'>최근 기출 포인트: LIME은 '국소적(Local)' 설명에 집중하며, SHAP은 각 변수의 '기여도(게임 이론)'를 기반으로 한다는 점을 구분하는 문제가 빈출됩니다.</div>"
+        },
+        {
+          "id": "c5-2-2",
+          "title": "머신러닝 운영 (MLOps)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>MLOps의 개념</h4><p class='concept-block-p'>MLOps(Machine Learning Operations)는 데이터 수집부터 모델 개발(Dev), 배포 및 운영(Ops)에 이르는 머신러닝의 전체 생애주기(Lifecycle)를 안정적이고 자동화된 방식으로 관리하는 실무 방법론입니다.</p><h4 class='concept-block-h4'>핵심 요소 및 모니터링</h4><ul class='concept-block-ul'><li>CI/CD/CT: 지속적 통합(CI), 지속적 배포(CD) 외에 모델을 새로운 데이터로 지속적으로 재학습시키는 '지속적 학습(Continuous Training, CT)'이 포함됩니다.</li><li>Data Drift (데이터 드리프트): 시간이 지남에 따라 입력 데이터의 통계적 분포가 변화하여 모델 성능이 저하되는 현상.</li><li>Concept Drift (개념 드리프트): 입력 데이터와 종속변수 간의 관계(정답의 기준) 자체가 변하는 현상.</li></ul><div class='concept-block-note'>비유하자면, 스마트폰 앱을 계속 업데이트하듯 AI 모델도 세상이 변함에 따라 계속 재학습(CT)하고 모니터링해야 한다는 것이 MLOps의 핵심입니다.</div>"
+        },
+        {
+          "id": "c5-2-3",
+          "title": "최신 프라이버시 보호 기술",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>심화 프라이버시 모델</h4><p class='concept-block-p'>기존의 정적인 비식별화(k-익명성, l-다양성 등)를 넘어, 대규모 데이터 분석 및 인공지능 학습 환경에서 개인정보를 보호하는 최신 기술들입니다.</p><ul class='concept-block-ul'><li>차분 프라이버시 (Differential Privacy): 쿼리 결과나 데이터셋에 고의적으로 통계적 노이즈(수학적 잡음)를 추가하여, 단일 개인의 정보 포함 여부를 역추적할 수 없게 만드는 기법입니다.</li><li>동형 암호 (Homomorphic Encryption): 데이터를 암호화한 상태 그대로 복호화 과정 없이 연산 및 분석이 가능하게 하는 차세대 암호화 기술입니다.</li><li>재현 데이터 (Synthetic Data): 실제 원본 데이터의 통계적 특성을 유지하면서 인공적으로 새롭게 생성해 낸 '가짜 데이터'로, 프라이버시 침해 우려 없이 분석 훈련에 사용할 수 있습니다.</li></ul><div class='concept-block-note'>기출 주의: '노이즈 추가' = 차분 프라이버시, '암호화된 채로 연산' = 동형 암호.</div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> K-익명성은 'K'명 이상의 동일한 정보! L-다양성은 'L'개의 다양한 민감정보! T-근접성은 'T'이하의 분포 차이! (K-명수, L-다양, T-분포)로 기억하세요.</div>"
+        },
+        {
+          "id": "c5-2-4",
+          "title": "생성형 AI 및 대형 언어 모델 (LLM)",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>LLM의 주요 개념 및 한계</h4><p class='concept-block-p'>LLM(Large Language Model)은 대규모 텍스트 데이터를 학습하여 자연어를 이해하고 생성하는 딥러닝 기반 모델입니다.</p><ul class='concept-block-ul'><li>할루시네이션(Hallucination, 환각): 인공지능이 마치 사실인 것처럼 그럴듯하게 거짓된 정보나 허위 사실을 생성해 내는 현상입니다.</li><li>파인튜닝 (Fine-Tuning): 사전 학습된 거대 모델을 특정 도메인(예: 법률, 의료)에 맞게 소량의 데이터로 미세 조정하여 가중치를 업데이트하는 기법입니다.</li><li>RAG (검색 증강 생성, Retrieval-Augmented Generation): 모델 자체를 재학습시키지 않고, 외부 데이터베이스에서 최신/신뢰할 수 있는 정보를 검색해 프롬프트에 결합함으로써 환각 현상을 줄이는 기술입니다.</li></ul><div class='concept-block-note'>파인튜닝은 '전문 지식을 머리에 새로 입력'하는 것이고, RAG는 '오픈북 테스트(검색 후 대답)'를 하는 것과 같습니다.</div>"
+        },
+        {
+          "id": "c5-2-5",
+          "title": "AI 윤리 및 신뢰성 가이드라인",
+          "open": false,
+          "content": "<h4 class='concept-block-h4'>인공지능 윤리의 주요 원칙</h4><p class='concept-block-p'>인공지능이 인간에게 미치는 영향이 커짐에 따라, 사회적 피해를 방지하기 위해 지켜야 할 가이드라인입니다.</p><ul class='concept-block-ul'><li>공정성 (Fairness): 학습 데이터의 편향(Bias)으로 인해 특정 인종, 성별, 연령 등에 대해 불합리한 차별을 하지 않도록 해야 합니다.</li><li>투명성 (Transparency): 모델의 결정 과정이 설명 가능(XAI)해야 하며, 사용자가 AI 시스템과 상호작용하고 있음을 인지할 수 있어야 합니다.</li><li>책임성 (Accountability): AI 시스템의 오류나 사고 발생 시 법적, 윤리적 책임의 주체를 명확히 할 수 있어야 합니다.</li></ul><div class='concept-block-note'>출제 포인트: 데이터 편향(Data Bias)이 모델의 불공정성을 야기하는 핵심 원인으로 자주 등장합니다.</div><div class='concept-block-note'>🚨 <strong>[출제위원의 암기 꿀팁]</strong> 환각(Hallucination): AI의 그럴듯한 헛소리 / 공정성(Fairness): 인종이나 성별로 부당하게 차별 금지 / 투명성(Transparency): 알고리즘의 결정 과정을 설명할 수 있어야 함(XAI).</div>"
+        },
+        {
+          "id": "c5-2-6",
+          "title": "12회 총평 & 합격률 30% 미만 급락 원인 및 과목별 비중 분석 🔥",
+          "open": true,
+          "content": "\n<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(239,68,68,0.15), rgba(147,51,234,0.15)); border-left:5px solid #dc2626; padding:16px 20px; border-radius:10px; margin-bottom:18px;'>\n  <strong style='color:#dc2626; font-size:1.15rem;'>📊 [12회 기출 총평] 합격률 30% 미만 시대의 필기 합격 전략</strong>\n  <p style='margin:8px 0 0 0; font-size:0.95rem; color:var(--text-color); line-height:1.65;'>\n    빅데이터분석기사 필기는 9회차부터 50% 밑으로 떨어졌으며, <strong>최근 11회 및 12회 시험에서는 30% 미만으로 급락</strong>했습니다. 단순 암기식 문제보다는 <strong>이론의 전체적인 이해, 수학·통계적 계산, 최신 AX(AI 전환) 딥러닝 아키텍처, 실무 데이터 파이프라인</strong>의 변별력이 대폭 강화되었습니다.\n  </p>\n</div>\n\n<h4 class='concept-block-h4'>1. 최근 난이도 상승 3대 핵심 원인</h4>\n<ul class='concept-block-ul'>\n  <li><strong>① AX 시대 인공신경망(딥러닝) 비중 급증:</strong> Transformer, Multi-Head Attention, Scaled Dot-Product, 위치 인코딩(Positional Encoding), 활성화 함수(ReLU)의 기울기 소실 극복 등 최신 딥러닝 구조가 집중 출제됨.</li>\n  <li><strong>② 수학·통계적 지식 및 가설검정 심화:</strong> 2과목에서 가설검정(대응표본 t-검정, 맨-휘트니 U검정, 카이제곱 독립성 검정)이 무려 7문제 출제되며 과락의 주원인이 됨.</li>\n  <li><strong>③ 신유형 실무 개념 대거 출제:</strong> 데이터 누수(Data Leakage), Bias-Variance Tradeoff 곡선 해석, Box-Cox 변환, 맵리듀스 분산캐시 조인, NoSQL(MongoDB BSON 문서) 등 실무형 개념 다수 등장.</li>\n</ul>\n\n<h4 class='concept-block-h4'>2. 12회 과목별 실제 출제 문항 비중 분석표</h4>\n<table style='width:100%; border-collapse:collapse; margin:14px 0; font-size:0.9rem;'>\n  <thead>\n    <tr style='background:rgba(0,0,0,0.06); border-bottom:2px solid var(--border-color);'>\n      <th style='padding:8px;'>과목</th>\n      <th style='padding:8px;'>핵심 출제 테마 및 문항수</th>\n      <th style='padding:8px;'>초단기 공략 팁</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>1과목 기획</strong></td>\n      <td style='padding:8px;'>척와/스크래핑/파싱(3), KDD vs CRISP-DM(2), 빅데이터SW/NoSQL(2), 맵리듀스 조인(2), 비식별화 모델(2), 마스터플랜(2)</td>\n      <td style='padding:8px;'>수집 프레임워크(Chukwa, Flume)와 분석방법론 순서 암기로 80점 이상 확보</td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>2과목 탐색</strong></td>\n      <td style='padding:8px;'><strong style='color:#dc2626;'>가설검정(7), 데이터 전처리(7)</strong>, 기초통계(5), 불균형데이터(1), 계통추출(1)</td>\n      <td style='padding:8px;'><strong>전체 20문제 중 19문제가 가설검정+전처리+기초통계에 집중!</strong> 계산 공식 완벽 정복 필수</td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>3과목 모델링</strong></td>\n      <td style='padding:8px;'>선형회귀(4), 인공신경망/트랜스포머(3), 앙상블(3), 차원축소 PCA(3), SVM(2), 시계열(2)</td>\n      <td style='padding:8px;'>선형회귀(VIF/잔차/릿지)와 최신 신경망(Attention), 앙상블(배깅/부스팅) 집중 공략</td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>4과목 결과해석</strong></td>\n      <td style='padding:8px;'>시각화(5), 분류성능 F1/F2/ROC(3), 교차검증 LOOCV(2), 편향-분산 곡선(1), 데이터 누수(1)</td>\n      <td style='padding:8px;'>회귀 평가지표 계산(MSE/MAE)과 혼동행렬(F1/F2/ROC), 편향-분산 그래프 해석 마스터</td>\n    </tr>\n  </tbody>\n</table>\n\n<div class='concept-block-note'>\n  💡 <strong>[합격 기준 및 전략]:</strong><br>\n  • <strong>합격 커트라인:</strong> 전 과목 평균 60점 이상 (80문제 중 48문제 이상 정답)<br>\n  • <strong>과락 기준:</strong> 과목당 40점 미만 (20문제 중 7문제 이하 정답 시 불합격)<br>\n  • <strong>전략:</strong> 1과목과 4과목에서 75~80점을 획득하고, 난도가 높은 2과목(가설검정)과 3과목(모델링)에서 65점 이상을 안정적으로 확보하는 것이 최선의 합격 공식입니다.\n</div>\n"
+        },
+        {
+          "id": "c5-2-7",
+          "title": "12회 4과목 킬러: 회귀 성능 평가지표 5종 계산 공식 완벽 뽀개기 🔥",
+          "open": true,
+          "content": "\n<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(245,158,11,0.12), rgba(239,68,68,0.12)); border-left:4px solid #f59e0b; padding:14px 18px; border-radius:8px; margin-bottom:16px;'>\n  <strong style='color:#d97706; font-size:1.05rem;'>🔥 [12회 기출 집중 출제] 회귀 평가지표 5종 공식 및 실제 계산법</strong>\n  <p style='margin:6px 0 0 0; font-size:0.92rem; color:var(--text-color);'>실제값(y)과 예측값(ŷ)의 차이를 이용해 MSE, RMSE, MAE, MAPE, R²을 직접 계산하는 문제가 매회 출제됩니다.</p>\n</div>\n\n<h4 class='concept-block-h4'>1. 회귀 평가지표 5대 핵심 공식 비교표</h4>\n<table style='width:100%; border-collapse:collapse; margin:12px 0; font-size:0.9rem;'>\n  <thead>\n    <tr style='background:rgba(0,0,0,0.05); border-bottom:2px solid var(--border-color);'>\n      <th style='padding:8px;'>지표명</th>\n      <th style='padding:8px;'>공식</th>\n      <th style='padding:8px;'>핵심 특징 및 출제 함정</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>MSE</strong><br>(Mean Squared Error / 평균제곱오차)</td>\n      <td style='padding:8px;'><code>1/n × Σ(y - ŷ)²</code></td>\n      <td style='padding:8px;'>오차 제곱의 평균. <strong>이상치(Outlier)에 극도로 민감</strong> (오차가 클수록 페널티 폭증)</td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>RMSE</strong><br>(Root MSE / 평균제곱근오차)</td>\n      <td style='padding:8px;'><code>√(MSE)</code></td>\n      <td style='padding:8px;'>MSE에 루트를 씌워 <strong>실제 타겟 변수 y와 측정 단위(Scale)를 일치</strong>시킴</td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>MAE</strong><br>(Mean Absolute Error / 평균절대오차)</td>\n      <td style='padding:8px;'><code>1/n × Σ|y - ŷ|</code></td>\n      <td style='padding:8px;'>오차 절댓값의 평균. <strong>이상치 영향에 덜 민감(Robust)</strong>하고 직관적 해석 가능</td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>MAPE</strong><br>(Mean Absolute Percentage Error)</td>\n      <td style='padding:8px;'><code>100/n × Σ|(y - ŷ)/y|</code></td>\n      <td style='padding:8px;'>오차 비율(%)의 평균. <strong>실제값 y=0일 때 나눗셈 불가(분모가 0) 주의</strong></td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>R² (결정계수)</strong><br>(Coefficient of Determination)</td>\n      <td style='padding:8px;'><code>1 - (SSE/SST) = SSR/SST</code></td>\n      <td style='padding:8px;'>회귀모형의 설명력 (0~1 범위, <strong>1에 가까울수록 회귀선 설명력 우수</strong>)</td>\n    </tr>\n  </tbody>\n</table>\n\n<h4 class='concept-block-h4'>2. [12회 기출 실전 예제] 3초 계산 풀이 과정</h4>\n<div style='background:var(--paper-subtle); border:1.5px solid var(--line); border-radius:8px; padding:14px 16px; margin:12px 0;'>\n  <p style='margin:0 0 10px 0; font-weight:800; color:var(--primary-accent);'>[기출 데이터] 3개 샘플의 실제값과 예측값:</p>\n  <ul style='margin:0; padding-left:18px; font-size:0.92rem; line-height:1.7;'>\n    <li>샘플 1: 실제 y = 1.2, 예측 ŷ = 1.4 → 오차: -0.2 → <strong>오차² = 0.04</strong>, <strong>|오차| = 0.2</strong></li>\n    <li>샘플 2: 실제 y = 2.5, 예측 ŷ = 2.7 → 오차: -0.2 → <strong>오차² = 0.04</strong>, <strong>|오차| = 0.2</strong></li>\n    <li>샘플 3: 실제 y = 2.7, 예측 ŷ = 2.6 → 오차: +0.1 → <strong>오차² = 0.01</strong>, <strong>|오차| = 0.1</strong></li>\n  </ul>\n  <div style='margin-top:12px; padding-top:10px; border-top:1px dashed var(--line); font-size:0.92rem; line-height:1.8;'>\n    • <strong>MSE</strong> = (0.04 + 0.04 + 0.01) / 3 = 0.09 / 3 = <strong style='color:#dc2626;'>0.03</strong><br>\n    • <strong>RMSE</strong> = √(0.03) ≈ <strong style='color:#dc2626;'>0.173</strong><br>\n    • <strong>MAE</strong> = (0.2 + 0.2 + 0.1) / 3 = 0.5 / 3 ≈ <strong style='color:#dc2626;'>0.167</strong>\n  </div>\n</div>\n\n<div class='concept-block-quiz'>\n  <div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 이상치(Outlier)가 포함된 데이터셋에서는 MSE가 MAE보다 이상치의 영향을 훨씬 더 크게 받는다?</div>\n  <div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>O</strong> - MSE는 오차를 제곱하므로 큰 오차에 대해 기하급수적으로 큰 페널티를 부여하여 이상치에 극도로 민감합니다. 반면 MAE는 선형 절댓값이므로 이상치에 로버스트(Robust)합니다.</div>\n</div>\n"
+        },
+        {
+          "id": "c5-2-8",
+          "title": "12회 3·4과목 핵심: 편향-분산 트레이드오프 & 과적합 방지 및 데이터 누수 🔥",
+          "open": true,
+          "content": "\n<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(59,130,246,0.12), rgba(16,185,129,0.12)); border-left:4px solid #3b82f6; padding:14px 18px; border-radius:8px; margin-bottom:16px;'>\n  <strong style='color:#2563eb; font-size:1.05rem;'>🔥 [12회 기출 집중 출제] Bias-Variance 곡선 & Training vs Testing Error 완벽 해석</strong>\n  <p style='margin:6px 0 0 0; font-size:0.92rem; color:var(--text-color);'>모델 복잡도 증가에 따른 편향과 분산의 상충관계 및 학습 에러 vs 검증 에러 곡선 해석 문제가 12회 핵심으로 출제되었습니다.</p>\n</div>\n\n<h4 class='concept-block-h4'>1. 편향-분산 상충관계 (Bias-Variance Tradeoff) 2대 그래프 해석</h4>\n\n<div style='display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px; margin:14px 0;'>\n  <div style='background:var(--paper-subtle); border:1.5px solid var(--line); border-radius:8px; padding:14px;'>\n    <strong style='color:#1d4ed8; font-size:0.95rem;'>📈 1) 복잡도(Complexity)에 따른 오차 곡선</strong>\n    <ul style='margin:8px 0 0 0; padding-left:18px; font-size:0.88rem; line-height:1.7;'>\n      <li><strong>모델 복잡도 ↑:</strong> 편향(Bias²)은 감소 ↓, 분산(Variance)은 증가 ↑</li>\n      <li><strong>과소적합 (Underfitting):</strong> High Bias, Low Variance (모델이 너무 단순함)</li>\n      <li><strong>과적합 (Overfitting):</strong> Low Bias, High Variance (모델이 너무 복잡함)</li>\n      <li><strong>최적 모델:</strong> Total Error = Bias² + Variance + Irreducible Error 가 최소가 되는 균형점</li>\n    </ul>\n  </div>\n\n  <div style='background:var(--paper-subtle); border:1.5px solid var(--line); border-radius:8px; padding:14px;'>\n    <strong style='color:#059669; font-size:0.95rem;'>📉 2) 학습 주기(Training cycle)에 따른 에러 곡선</strong>\n    <ul style='margin:8px 0 0 0; padding-left:18px; font-size:0.88rem; line-height:1.7;'>\n      <li><strong>Training Error (훈련 오차):</strong> 학습이 지속(Epoch ↑)될수록 0을 향해 <strong>계속해서 단조 하락</strong></li>\n      <li><strong>Testing Error (검증 오차):</strong> 처음에는 하락하다가 최적 지점 이후 과적합으로 인해 <strong>다시 상승 (U자형 반등)</strong></li>\n      <li><strong>조기 종료 (Early Stopping):</strong> Testing Error가 다시 증가하기 시작하는 시점에 학습을 멈춤</li>\n    </ul>\n  </div>\n</div>\n\n<h4 class='concept-block-h4'>2. 과적합(Overfitting) 해결 5대 핵심 솔루션</h4>\n<ol class='concept-block-ul' style='padding-left:20px;'>\n  <li><strong>데이터 양 증대:</strong> 데이터 증강(Data Augmentation), 추가 수집</li>\n  <li><strong>정규화 / 규제 (Regularization):</strong> L1 Lasso(절댓값 페널티, 계수 0 생성으로 변수 선택), L2 Ridge(제곱 페널티, 가중치 감쇠)</li>\n  <li><strong>차원 축소 및 피처 선택:</strong> PCA, RFE, 상관관계가 높은 중복 변수 제거</li>\n  <li><strong>드롭아웃 (Dropout) & 앙상블:</strong> 인공신경망 노드 무작위 비활성화, 배깅/랜덤포레스트로 분산 감소</li>\n  <li><strong>교차 검증 (Cross Validation):</strong> K-Fold, Stratified K-Fold로 데이터 분할 일반화</li>\n</ol>\n\n<div class='concept-block-note' style='background:rgba(239,68,68,0.08); border-left:4px solid #ef4444;'>\n  🚨 <strong>[12회 킬러 출제 - Data Leakage (데이터 누수) 절대 금기]:</strong><br>\n  Train 데이터와 Test 데이터를 분할하기 전에 <strong>전체 데이터셋으로 평균/표준편차를 계산하여 스케일링(Standardization)을 적용하거나 결측치를 대치하는 행위는 미래/테스트 데이터의 정보가 훈련에 유출되는 치명적인 Data Leakage</strong>입니다. 반드시 <strong>Train 데이터로만 fit</strong>하고 Test 데이터에는 transform만 수행해야 합니다!\n</div>\n\n<div class='concept-block-quiz'>\n  <div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 모델의 복잡도를 무한히 높이면 Training Error와 Testing Error가 모두 0에 수렴한다?</div>\n  <div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>X</strong> - Training Error는 0에 수렴하지만, Testing Error는 분산(Variance) 급증으로 인해 특정 시점 이후 과적합이 발생하여 다시 상승(U자형)합니다.</div>\n</div>\n"
+        },
+        {
+          "id": "c5-2-9",
+          "title": "12회 3과목 지도학습 맵 & 최신 인공신경망 (Transformer & Attention) 🔥",
+          "open": true,
+          "content": "\n<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(147,51,234,0.12), rgba(59,130,246,0.12)); border-left:4px solid #9333ea; padding:14px 18px; border-radius:8px; margin-bottom:16px;'>\n  <strong style='color:#7e22ce; font-size:1.05rem;'>🔥 [12회 기출 핵심] 종속변수 유형별 알고리즘 분류 & 최신 딥러닝 아키텍처</strong>\n  <p style='margin:6px 0 0 0; font-size:0.92rem; color:var(--text-color);'>종속변수 Y가 연속형(회귀)인지 범주형(분류)인지의 매핑과 트랜스포머의 Self-Attention 구조가 12회 시험의 핵심 변별력이었습니다.</p>\n</div>\n\n<h4 class='concept-block-h4'>1. 머신러닝 지도학습 알고리즘 3대 분류 체계</h4>\n<table style='width:100%; border-collapse:collapse; margin:12px 0; font-size:0.9rem;'>\n  <thead>\n    <tr style='background:rgba(0,0,0,0.05); border-bottom:2px solid var(--border-color);'>\n      <th style='padding:8px;'>구분</th>\n      <th style='padding:8px;'>타겟 변수(Y)</th>\n      <th style='padding:8px;'>해당 알고리즘</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>① 회귀 전용</strong></td>\n      <td style='padding:8px;'>연속형 / 수치형</td>\n      <td style='padding:8px;'>선형회귀(단순/다중/릿지/라쏘), 다항회귀</td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>② 분류 전용</strong></td>\n      <td style='padding:8px;'>범주형 / 이산형</td>\n      <td style='padding:8px;'>로지스틱 회귀(Logistic), 판별분석(LDA/QDA), 나이브 베이즈(Naive Bayes)</td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'><strong>③ 회귀 & 분류<br>둘 다 가능</strong></td>\n      <td style='padding:8px;'>연속형 & 범주형<br>모두 지원</td>\n      <td style='padding:8px;'>\n        • <strong>의사결정나무 (Decision Tree)</strong><br>\n        • <strong>랜덤포레스트 (Random Forest)</strong><br>\n        • <strong>K-최근접 이웃 (K-NN)</strong><br>\n        • <strong>서포트 벡터 머신 (SVM)</strong><br>\n        • <strong>인공신경망 (ANN / DNN / Transformer)</strong> ★꼼꼼한 학습 필수<br>\n        • <strong>앙상블 (Bagging, Boosting - XGBoost/LightGBM, Stacking)</strong>\n      </td>\n    </tr>\n  </tbody>\n</table>\n\n<h4 class='concept-block-h4'>2. 트랜스포머(Transformer)와 셀프 어텐션(Self-Attention) 4대 핵심 구조</h4>\n<ul class='concept-block-ul'>\n  <li><strong>① 완전 병렬 처리 (Parallelism):</strong> 순차적(Sequential)으로 단어를 읽던 RNN/LSTM의 한계를 벗어나 시퀀스 전체를 한 번에 병렬 연산하여 대규모 사전학습(LLM) 가능.</li>\n  <li><strong>② 장기 의존성 (Long-term Dependency) 극복:</strong> 문장 내 단어 간 거리에 상관없이 직접 어텐션을 연결하여 이전 정보 소실 문제 해결.</li>\n  <li><strong>③ Self-Attention (Q, K, V):</strong>\n    <br>• Query(질문), Key(대조키), Value(실제정보)의 내적과 소프트맥스로 단어 간 상관 가중치 계산\n    <br>• <code>Attention(Q, K, V) = Softmax(Q·Kᵀ / √d_k) · V</code>\n  </li>\n  <li><strong>④ 위치 인코딩 (Positional Encoding) 필수:</strong> 병렬 입력으로 인해 단어의 위치/순서를 모르므로, **주기 함수(Sin, Cos) 기반 위치 벡터를 임베딩에 반드시 더해주어야 함**.</li>\n</ul>\n\n<div class='concept-block-quiz'>\n  <div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 나이브 베이즈(Naive Bayes)와 로지스틱 회귀는 연속형 종속변수를 예측하는 회귀 모델이다?</div>\n  <div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>X</strong> - 나이브 베이즈와 로지스틱 회귀는 대표적인 **'분류 전용(Classification)'** 알고리즘입니다. (로지스틱 회귀는 이름에 회귀가 들어가지만 실제로는 분류를 수행하는 단골 낚시 문제입니다!)</div>\n</div>\n"
+        },
+        {
+          "id": "c5-2-10",
+          "title": "12회 2과목 7문항 최다출제: 통계적 가설검정 & 비모수 검정 & 전처리 마스터 🔥",
+          "open": true,
+          "content": "\n<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(245,158,11,0.12), rgba(16,185,129,0.12)); border-left:4px solid #10b981; padding:14px 18px; border-radius:8px; margin-bottom:16px;'>\n  <strong style='color:#047857; font-size:1.05rem;'>🔥 [12회 2과목 최다 출제 - 7문항] 가설검정 오류, 비모수 검정 및 Box-Cox 변환</strong>\n  <p style='margin:6px 0 0 0; font-size:0.92rem; color:var(--text-color);'>1종/2종 오류 관계, t-검정 vs 비모수 검정 매핑, Box-Cox 변환의 파라미터 λ를 완벽히 정복하세요.</p>\n</div>\n\n<h4 class='concept-block-h4'>1. 가설검정의 오류와 검정력 (Power of Test)</h4>\n<ul class='concept-block-ul'>\n  <li><strong>귀무가설(H₀):</strong> 효과가 없다, 차이가 없다 (기존 상태 유지)</li>\n  <li><strong>대립가설(H₁):</strong> 효과가 있다, 차이가 있다 (연구자의 주장)</li>\n  <li><strong>제1종 오류 (α):</strong> H₀가 참인데 잘못 기각하는 오류 (= 유의수준)</li>\n  <li><strong>제2종 오류 (β):</strong> H₀가 거짓(H₁ 참)인데 H₀를 채택하는 오류</li>\n  <li><strong>검정력 (1 - β):</strong> H₁이 참일 때 H₀를 올바르게 기각할 확률 (1에 가까울수록 우수)</li>\n  <li><strong>오류의 상충관계:</strong> α를 낮추면 귀무가설 기각이 까다로워져 β가 증가함. <strong>두 오류를 동시에 줄이는 유일한 방법은 표본 크기(n)를 늘리는 것</strong></li>\n</ul>\n\n<h4 class='concept-block-h4'>2. 모수 검정 vs 비모수 검정 완벽 매핑표</h4>\n<table style='width:100%; border-collapse:collapse; margin:12px 0; font-size:0.9rem;'>\n  <thead>\n    <tr style='background:rgba(0,0,0,0.05); border-bottom:2px solid var(--border-color);'>\n      <th style='padding:8px;'>검정 목적</th>\n      <th style='padding:8px;'>모수 검정 (정규성 만족 O)</th>\n      <th style='padding:8px;'>비모수 검정 (정규성 만족 X, 순위 기반)</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'>독립 2표본 평균/위치 비교</td>\n      <td style='padding:8px;'>독립표본 t-검정</td>\n      <td style='padding:8px;'><strong style='color:#2563EB;'>맨-휘트니 U 검정 (Mann-Whitney U)</strong></td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'>대응 2표본 (동일 표본 전/후 비교)</td>\n      <td style='padding:8px;'>대응표본 t-검정 (Paired t-test)</td>\n      <td style='padding:8px;'><strong style='color:#2563EB;'>윌콕슨 부호순위 검정 (Wilcoxon Signed-Rank)</strong></td>\n    </tr>\n    <tr style='border-bottom:1px solid var(--border-color);'>\n      <td style='padding:8px;'>3개 이상 독립 집단 비교</td>\n      <td style='padding:8px;'>일원배치 분산분석 (One-way ANOVA)</td>\n      <td style='padding:8px;'><strong style='color:#2563EB;'>크루스칼-왈리스 검정 (Kruskal-Wallis)</strong></td>\n    </tr>\n  </tbody>\n</table>\n\n<h4 class='concept-block-h4'>3. 박스-콕스 변환 (Box-Cox Transformation) 핵심</h4>\n<p style='font-size:0.92rem;'>데이터의 정규성을 확보하기 위해 왜곡된 연속형 양수 데이터($y > 0$)를 파라미터 $lambda$를 이용해 변환하는 기법:</p>\n<ul class='concept-block-ul'>\n  <li><strong>λ = 1:</strong> 선형 변환 ($y - 1$) → <strong>원본 데이터 형태 유지 (무변환)</strong></li>\n  <li><strong>λ = 0:</strong> <strong>자연로그 변환 ($ln y$)</strong></li>\n  <li><strong>λ = 0.5:</strong> <strong>제곱근 변환 ($sqrt{y}$)</strong></li>\n  <li><strong>λ = 2:</strong> 제곱 변환 ($y^2$)</li>\n  <li><strong>★ 필수 조건:</strong> 모든 데이터 값이 <strong>반드시 양수($y > 0$)</strong>여야 함 (음수/0이 있으면 상수 c를 더해 보정)</li>\n</ul>\n\n<div class='concept-block-quiz'>\n  <div class='concept-quiz-q'>⚡ <strong>자가진단 OX:</strong> Q. 정규성을 만족하지 않는 두 독립 집단의 평균 차이를 비교할 때는 윌콕슨 부호순위 검정을 사용한다?</div>\n  <div class='concept-quiz-a'>정답: <strong style='color:var(--brand-dark);'>X</strong> - 독립된 두 집단은 **맨-휘트니 U 검정(Mann-Whitney U)**을 사용하며, 윌콕슨 부호순위 검정은 동일 집단의 사전-사후 처치 효과를 비교하는 대응표본(Paired) 비모수 검정입니다.</div>\n</div>\n"
+        },
+        {
+          "id": "c5-2-11",
+          "title": "12회 시험장 파이널 5분: 전과목 빈출 계산 공식 & 3초 치트키 10선 📄",
+          "open": true,
+          "content": "\n<div class='concept-highlight-banner' style='background:linear-gradient(135deg, rgba(16,185,129,0.15), rgba(59,130,246,0.15)); border-left:5px solid #10b981; padding:16px 20px; border-radius:10px; margin-bottom:18px;'>\n  <strong style='color:#047857; font-size:1.1rem;'>📄 [시험장 5분 전] 12회 기출 기반 필수 계산 공식 & 핵심 치트키 10선</strong>\n  <p style='margin:6px 0 0 0; font-size:0.92rem; color:var(--text-color);'>시험 직전 OMR 마킹 전 반드시 눈에 새겨야 할 10대 계산 공식과 판정 기준입니다.</p>\n</div>\n\n<ol class='concept-block-ul' style='padding-left:20px; gap:14px;'>\n  <li>\n    <strong>1. 표본분산 (Sample Variance):</strong> <code>s² = Σ(x - x̄)² / (n - 1)</code><br>\n    <span style='color:var(--text-muted); font-size:0.88rem;'>★ 표본분산은 n이 아니라 반드시 <strong>(n - 1)</strong>로 나눔! (불편추정량)</span>\n  </li>\n  <li>\n    <strong>2. 카이제곱 독립성 검정 자유도:</strong> <code>df = (행의 수 - 1) × (열의 수 - 1) = (r - 1)(c - 1)</code><br>\n    <span style='color:var(--text-muted); font-size:0.88rem;'>예: 3×4 분할표 ➔ (3-1)×(4-1) = 2×3 = <strong>6</strong></span>\n  </li>\n  <li>\n    <strong>3. IQR 이상치 경계 판정:</strong> <code>IQR = Q3 - Q1</code><br>\n    <span style='color:var(--text-muted); font-size:0.88rem;'>하한선 = <strong>Q1 - 1.5×IQR</strong> / 상한선 = <strong>Q3 + 1.5×IQR</strong></span>\n  </li>\n  <li>\n    <strong>4. F1-Score (조화평균):</strong> <code>F1 = 2 × (Precision × Recall) / (Precision + Recall)</code><br>\n    <span style='color:var(--text-muted); font-size:0.88rem;'>F2 = 재현율 2배 가중(암 진단) / F0.5 = 정밀도 2배 가중(스팸 필터)</span>\n  </li>\n  <li>\n    <strong>5. ROC 곡선과 AUC:</strong> <code>X축 = FPR (1 - 특이도), Y축 = TPR (민감도/재현율)</code><br>\n    <span style='color:var(--text-muted); font-size:0.88rem;'>AUC = 1.0 (완벽한 모델), AUC = 0.5 (무작위 동전던지기 수준)</span>\n  </li>\n  <li>\n    <strong>6. 왜도(Skewness)와 대표값 대소 비교:</strong><br>\n    <span style='color:var(--text-muted); font-size:0.88rem;'>• 왜도 > 0 (오른쪽 꼬리): <strong>최빈값 < 중앙값 < 평균</strong><br>• 왜도 < 0 (왼쪽 꼬리): <strong>평균 < 중앙값 < 최빈값</strong></span>\n  </li>\n  <li>\n    <strong>7. 시계열 ARIMA 차수 판정 규칙 (절단 규칙):</strong><br>\n    <span style='color:var(--text-muted); font-size:0.88rem;'>• <strong>AR(p):</strong> PACF가 p차에서 절단 (Cut-off) / ACF는 점진적 감쇄<br>• <strong>MA(q):</strong> ACF가 q차에서 절단 (Cut-off) / PACF는 점진적 감쇄<br>★ 암기 짝: <strong>AR-PACF</strong>, <strong>MA-ACF</strong></span>\n  </li>\n  <li>\n    <strong>8. 자카드 유사도 & 거리:</strong> <code>유사도 = |A ∩ B| / |A ∪ B|</code>, <code>거리 = 1 - 유사도</code><br>\n    <span style='color:var(--text-muted); font-size:0.88rem;'>교집합 개수를 전체 합집합(중복 제외) 개수로 나눔</span>\n  </li>\n  <li>\n    <strong>9. 다중공선성(VIF) 판정:</strong> <code>VIF = 1 / (1 - R²)</code><br>\n    <span style='color:var(--text-muted); font-size:0.88rem;'><strong>VIF ≥ 10</strong> 이면 심각한 다중공선성 존재 (해결: Ridge/Lasso 또는 PCA)</span>\n  </li>\n  <li>\n    <strong>10. 회귀 잔차 4대 기본 가정:</strong> <code>선형성, 등분산성, 독립성, 정규성 (선등독정)</code><br>\n    <span style='color:var(--text-muted); font-size:0.88rem;'>독립성(자기상관) 검정 통계량: <strong>더빈-왓슨(Durbin-Watson)</strong> 통계량 (2에 가까우면 독립)</span>\n  </li>\n</ol>\n"
+        }
+      ]
+    }
+  ],
+  "footer": "Copyright 2026. 아답터 (IT의 답을 터득하다) All rights reserved."
+};

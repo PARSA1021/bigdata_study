@@ -13,22 +13,39 @@
 
 document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
-  // 1. CONSTANTS & STORAGE KEYS
+  // 1. CONSTANTS & STORAGE KEYS (Frozen Config)
   // ==========================================
-  const STATS_KEY = "knowway_stats_v2";
-  const HABIT_KEY = "knowway_habit_v2";
-  const BOOKMARK_KEY = "knowway_bookmarks_v2";
-  const MEMO_KEY = "knowway_concept_memos_v2";
-  const QUIZ_MEMO_KEY = "knowway_quiz_memos_v2";
-  const LEARNED_KEY = "knowway_learned_concepts_v2";
-  const MOCK_RECORDS_KEY = "knowway_mock_records_v2";
+  const STORAGE_KEYS = Object.freeze({
+    STATS: "knowway_stats_v2",
+    HABIT: "knowway_habit_v2",
+    BOOKMARK: "knowway_bookmarks_v2",
+    MEMO: "knowway_concept_memos_v2",
+    QUIZ_MEMO: "knowway_quiz_memos_v2",
+    LEARNED: "knowway_learned_concepts_v2",
+    MOCK_RECORDS: "knowway_mock_records_v2"
+  });
 
-  const SUBJECT_NAMES = {
+  const MOCK_EXAM_CONFIG = Object.freeze({
+    TOTAL_QUESTIONS: 80,
+    TIME_LIMIT_MINUTES: 120,
+    PASSING_AVERAGE: 60,
+    FAIL_SUBJECT_SCORE: 40
+  });
+
+  const STATS_KEY = STORAGE_KEYS.STATS;
+  const HABIT_KEY = STORAGE_KEYS.HABIT;
+  const BOOKMARK_KEY = STORAGE_KEYS.BOOKMARK;
+  const MEMO_KEY = STORAGE_KEYS.MEMO;
+  const QUIZ_MEMO_KEY = STORAGE_KEYS.QUIZ_MEMO;
+  const LEARNED_KEY = STORAGE_KEYS.LEARNED;
+  const MOCK_RECORDS_KEY = STORAGE_KEYS.MOCK_RECORDS;
+
+  const SUBJECT_NAMES = Object.freeze({
     1: "1과목 · 분석 기획",
     2: "2과목 · 데이터 탐색",
     3: "3과목 · 데이터 모델링",
     4: "4과목 · 결과 해석"
-  };
+  });
 
   const TARGET_13TH_KEYWORDS = [
     "가설검정", "회귀분석", "데이터 전처리", "이상치", "차원축소", "과적합", "정규화", 
@@ -80,12 +97,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // Practice state
   let quizFilter = {
     subject: "all",
+    round: "all",
+    type: "all",
     difficulty: "all",
     importance: "all",
     tag: "all",
     keyword: "",
     conceptCardId: null,
-    calcOnly: false
+    calcOnly: false,
+    bookmarkedOnly: false,
+    is12thOnly: false,
+    is11thOnly: false,
+    is10thOnly: false
   };
   let practiceSolvedMap = new Map();
 
@@ -251,6 +274,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const printCheatSheetBtn = document.getElementById("printCheatSheetBtn");
   const cheatSheetContent = document.getElementById("cheatSheetContent");
 
+  // Badge Helper Functions
+  function getDifficultyBadgeHTML(difficulty) {
+    const BADGES = {
+      easy: '<span class="quiz-tag-badge" style="background:rgba(52,199,89,0.12); color:var(--success);">쉬움</span>',
+      medium: '<span class="quiz-tag-badge" style="background:rgba(255,149,0,0.12); color:var(--warn);">보통</span>',
+      hard: '<span class="quiz-tag-badge" style="background:rgba(255,59,48,0.12); color:var(--danger);">어려움</span>'
+    };
+    return BADGES[difficulty] || "";
+  }
+
+  function getImportanceBadgeHTML(grade) {
+    const BADGES = {
+      A: '<span class="badge-tag badge-grade-a">⭐ A급 필수</span>',
+      B: '<span class="badge-tag badge-grade-b">🎯 B급 변형</span>',
+      C: '<span class="badge-tag badge-grade-c">💡 C급 심화</span>'
+    };
+    return BADGES[grade] || "";
+  }
+
   const conceptModal = document.getElementById("conceptModal");
   const closeConceptBtn = document.getElementById("closeConceptBtn");
   const closeConceptModalBtn = document.getElementById("closeConceptModalBtn");
@@ -289,11 +331,21 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (e) {}
   }
 
+  function updateGlobalReactivity() {
+    updateHabitUI();
+    if (currentNav === "home") {
+      renderHome();
+    } else if (currentNav === "stats") {
+      renderStats();
+    }
+  }
+
   function scheduleSave() {
     if (saveTimer) clearTimeout(saveTimer);
     saveTimer = setTimeout(() => {
       saveJSON(STATS_KEY, cumulativeStats);
       saveJSON(HABIT_KEY, habitData);
+      updateGlobalReactivity();
     }, 400);
   }
 
@@ -349,6 +401,17 @@ document.addEventListener("DOMContentLoaded", () => {
     return function (...args) {
       if (t) clearTimeout(t);
       t = setTimeout(() => fn.apply(this, args), delay);
+    };
+  }
+
+  function throttle(fn, limit = 100) {
+    let inThrottle;
+    return function(...args) {
+      if (!inThrottle) {
+        fn.apply(this, args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+      }
     };
   }
 
@@ -504,31 +567,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateHabitUI() {
-    const todayStr = getTodayString();
-    const todayCount = habitData.activity[todayStr] || 0;
-    const goal = habitData.dailyGoal || 30;
-
-    const targetDate = new Date(habitData.ddayDate || "2026-09-05");
-    const today = new Date(todayStr);
-    const diffDays = Math.ceil((targetDate - today) / (1000 * 60 * 60 * 24));
-    const ddayStr = diffDays > 0 ? `D-${diffDays}` : diffDays === 0 ? "D-Day" : `D+${Math.abs(diffDays)}`;
-
-    if (topbarDdayText) topbarDdayText.textContent = ddayStr;
-    if (topbarStreakCount) topbarStreakCount.textContent = `${habitData.streak || 1}일`;
-
-    if (homeDdayCount) homeDdayCount.textContent = ddayStr;
-    if (homeDdayTarget) homeDdayTarget.textContent = `${habitData.ddayTitle || "시험"} (${habitData.ddayDate})`;
-    if (homeStreakNum) homeStreakNum.textContent = habitData.streak || 1;
-
-    const goalPct = Math.min(100, Math.round((todayCount / goal) * 100));
-    if (homeGoalRate) homeGoalRate.textContent = `${goalPct}%`;
-    if (homeTodaySolved) homeTodaySolved.textContent = todayCount;
-    if (homeGoalProgressFill) homeGoalProgressFill.style.width = `${goalPct}%`;
-    if (homeGoalSubText) {
-      if (todayCount >= goal) homeGoalSubText.innerHTML = "🎉 오늘 목표 달성 완료! 추가로 더 공부해볼까요?";
-      else homeGoalSubText.textContent = `오늘 목표까지 ${goal - todayCount}문제 남았어요! 🔥`;
-    }
-
     if (homeTotalSolved) homeTotalSolved.textContent = cumulativeStats.totalSolved;
     const acc = cumulativeStats.totalSolved > 0 ? Math.round((cumulativeStats.totalCorrect / cumulativeStats.totalSolved) * 100) : 0;
     if (homeAccuracy) homeAccuracy.textContent = `${acc}%`;
@@ -539,9 +577,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     if (homeWrongCount) homeWrongCount.textContent = wrongCount;
 
-    renderStreakWeekDots();
-    renderReverseRoadmap();
-    renderHeatmap();
     renderHomeSubjectBars();
 
     if (resumeBanner) {
@@ -555,103 +590,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function renderStreakWeekDots() {
-    if (!homeStreakWeekDots) return;
-    const days = ["일", "월", "화", "수", "목", "금", "토"];
-    const now = new Date();
-    const currentDayIdx = now.getDay();
-    let html = "";
-
-    for (let i = 0; i < 7; i++) {
-      const d = new Date(now);
-      d.setDate(now.getDate() - (currentDayIdx - i));
-      const dStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-      const count = habitData.activity[dStr] || 0;
-      const isActive = count > 0;
-      const isToday = i === currentDayIdx;
-
-      html += `
-        <div class="week-day-dot ${isActive ? "active" : ""}">
-          <div class="dot-circle" title="${dStr}: ${count}문제 풀이">${isActive ? "✓" : ""}</div>
-          <div class="day-label" style="${isToday ? "font-weight: 900; color: var(--text-color);" : ""}">${days[i]}</div>
-        </div>
-      `;
-    }
-    homeStreakWeekDots.innerHTML = html;
-  }
-
-  // ==========================================
-  // 7. REVERSE CHRONOLOGICAL ROADMAP
-  // ==========================================
-  function renderReverseRoadmap() {
-    if (!examTimelineGrid) return;
-
-    const timelinePresets = [
-      { id: "11th", title: "11회 기출 실전 모의고사", tag: "2025 최신 80제", desc: "가장 최근 출제된 최신 트렌드 완벽 복원", icon: "🔥" },
-      { id: "10th", title: "10회 기출 실전 모의고사", tag: "핵심 기출 80제", desc: "단골 빈출 계산 및 모델링 응용 문항", icon: "🏆" },
-      { id: "4th", title: "4회 기출 실전 모의고사", tag: "기본 완성 80제", desc: "합격을 위한 필수 기초 개념 총집결", icon: "🎯" },
-      { id: "random", title: "랜덤 전과목 조합 모의고사", tag: "실전 대비 80제", desc: "실제 시험처럼 무작위 과목별 20문항 배분", icon: "🔀" }
-    ];
-
-    let passedCount = 0;
-    let html = "";
-
-    timelinePresets.forEach(preset => {
-      const rec = mockRecords[preset.id] || { solvedCount: 0, bestScore: 0, passed: false };
-      if (rec.passed) passedCount++;
-
-      let statusBadge = `<span class="timeline-status-badge status-unattempted">미응시</span>`;
-      if (rec.passed) {
-        statusBadge = `<span class="timeline-status-badge status-passed">✓ 합격 (${rec.bestScore}점)</span>`;
-      } else if (rec.solvedCount > 0) {
-        statusBadge = `<span class="timeline-status-badge status-progress">응시완료 (${rec.bestScore}점)</span>`;
-      }
-
-      html += `
-        <div class="timeline-exam-card" data-preset="${preset.id}">
-          <div>
-            <div class="timeline-card-header">
-              <span class="timeline-round-tag">${preset.tag}</span>
-              ${statusBadge}
-            </div>
-            <div class="timeline-exam-title">${preset.icon} ${preset.title}</div>
-            <div class="timeline-exam-desc">${preset.desc}</div>
-          </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--line); padding-top: 10px;">
-            <span class="timeline-score-val">${rec.bestScore > 0 ? `최고점: <strong>${rec.bestScore}점</strong>` : '80문항 / 120분'}</span>
-            <span style="font-size: 12px; font-weight: 900; color: var(--primary-accent);">응시하기 ➔</span>
-          </div>
-        </div>
-      `;
-    });
-
-    examTimelineGrid.innerHTML = html;
-
-    const masteryPct = Math.round((passedCount / timelinePresets.length) * 100);
-    if (roadmapMasteryRate) roadmapMasteryRate.textContent = `${masteryPct}% (${passedCount}/${timelinePresets.length}회차 정복)`;
-  }
-
-  function renderHeatmap() {
-    if (!heatmapGrid) return;
-    const now = new Date();
-    let html = "";
-
-    for (let i = 29; i >= 0; i--) {
-      const d = new Date(now);
-      d.setDate(now.getDate() - i);
-      const dStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-      const count = habitData.activity[dStr] || 0;
-
-      let lvl = "lvl-0";
-      if (count >= 30) lvl = "lvl-4";
-      else if (count >= 20) lvl = "lvl-3";
-      else if (count >= 10) lvl = "lvl-2";
-      else if (count >= 1) lvl = "lvl-1";
-
-      html += `<div class="heatmap-square ${lvl}" title="${dStr} (${count}문제 풀이)">${count > 0 ? count : ""}</div>`;
-    }
-    heatmapGrid.innerHTML = html;
-  }
 
   function renderHomeSubjectBars() {
     if (!homeSubjectBars) return;
@@ -785,9 +723,28 @@ document.addEventListener("DOMContentLoaded", () => {
       if (quizFilter.subject !== "all" && q.subject !== parseInt(quizFilter.subject, 10)) return false;
       if (quizFilter.difficulty !== "all" && q.difficulty !== quizFilter.difficulty) return false;
       if (quizFilter.importance !== "all" && getImportanceGrade(q) !== quizFilter.importance) return false;
+      
+      // Round Filter (11회, 10회, 9회... 4회 이하)
+      if (quizFilter.round !== "all") {
+        if (quizFilter.round === "4") {
+          if (q.question.includes("[11회") || q.question.includes("[10회") || q.question.includes("[9회") || q.question.includes("[8회") || q.question.includes("[7회") || q.question.includes("[6회") || q.question.includes("[5회")) return false;
+        } else {
+          if (!q.question.includes(`[${quizFilter.round}회`)) return false;
+        }
+      }
+
+      // Type Filter (계산공식형, A급필수, 내북마크)
+      if (quizFilter.type !== "all") {
+        if (quizFilter.type === "calc" && !isCalcQuestion(q)) return false;
+        if (quizFilter.type === "gradeA" && getImportanceGrade(q) !== "A") return false;
+        if (quizFilter.type === "bookmark" && !bookmarks.has(q.id)) return false;
+      }
+
       if (quizFilter.calcOnly && !isCalcQuestion(q)) return false;
       if (quizFilter.bookmarkedOnly && !bookmarks.has(q.id)) return false;
       if (quizFilter.is12thOnly && !q.question.includes("[12회")) return false;
+      if (quizFilter.is11thOnly && !q.question.includes("[11회")) return false;
+      if (quizFilter.is10thOnly && !q.question.includes("[10회")) return false;
       if (quizFilter.tag !== "all" && !q.question.includes(`[${quizFilter.tag}]`)) return false;
       if (quizFilter.keyword) {
         const kw = quizFilter.keyword.toLowerCase();
@@ -920,17 +877,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const impGrade = getImportanceGrade(quiz);
     const isCalc = isCalcQuestion(quiz);
 
-    const impBadge = {
-      A: '<span class="badge-tag badge-grade-a">⭐ A급 필수</span>',
-      B: '<span class="badge-tag badge-grade-b">🎯 B급 변형</span>',
-      C: '<span class="badge-tag badge-grade-c">💡 C급 심화</span>'
-    }[impGrade] || "";
-
-    const diffBadge = {
-      easy: '<span class="quiz-tag-badge" style="background:#DCFCE7; color:#16A34A;">쉬움</span>',
-      medium: '<span class="quiz-tag-badge" style="background:#FEF3C7; color:#D97706;">보통</span>',
-      hard: '<span class="quiz-tag-badge" style="background:#FEE2E2; color:#DC2626;">어려움</span>'
-    }[quiz.difficulty] || "";
+    const impBadge = getImportanceBadgeHTML(impGrade);
+    const diffBadge = getDifficultyBadgeHTML(quiz.difficulty);
 
     return `
       <div class="quiz-card" id="quiz-${quiz.id}" data-id="${quiz.id}">
@@ -987,68 +935,83 @@ document.addEventListener("DOMContentLoaded", () => {
               <span style="font-size: 13.5px; font-weight: 800;">정답: ${quiz.answer + 1}번</span>
             </div>
 
-            <!-- 2. Main Explanation -->
-            <div class="quiz-explanation-text">
-              ${escapeHTML(quiz.explanation || "")}
+            <!-- 2. Main Explanation (정답 분석) -->
+            <div class="explain-section">
+              <div class="explain-section-title correct-title">
+                ✅ 정답 분석
+              </div>
+              <div class="correct-analysis-box">
+                <div class="quiz-explanation-text">
+                  ${escapeHTML(quiz.explanation || "")}
+                </div>
+                ${(quiz.whyWrong && quiz.whyWrong[quiz.answer] && quiz.whyWrong[quiz.answer].trim() !== "") ? `
+                  <div class="correct-answer-reason">
+                    <strong>${quiz.answer + 1}번 보기가 정답인 이유:</strong> ${escapeHTML(quiz.whyWrong[quiz.answer])}
+                  </div>
+                ` : ""}
+              </div>
             </div>
 
-            <!-- 3. Key Point Card (🎯 실제 기출 핵심 포인트) -->
-            ${quiz.memorizationPoint ? `
-              <div class="keypoint-card">
-                <div class="keypoint-card-header">
-                  <span>🎯</span> <span>실제 기출 핵심 포인트 & 필수 암기</span>
+            <!-- 3. Wrong Answers (오답 분석) -->
+            ${quiz.whyWrong && quiz.whyWrong.some((why, idx) => idx !== quiz.answer && why.trim().length > 0) ? `
+              <div class="explain-section">
+                <div class="explain-section-title wrong-title">
+                  🚫 오답 분석 (출제 함정)
                 </div>
-                <div class="keypoint-card-body">
-                  ${escapeHTML(quiz.memorizationPoint)}
-                </div>
-              </div>
-            ` : ""}
-
-            <!-- 4. Examiner Secret Tip Card (💡 출제위원의 비밀 꿀팁) -->
-            ${quiz.examinerTip ? `
-              <div class="examiner-tip-card">
-                <div class="examiner-tip-header">
-                  <span>💡</span> <span>출제위원의 비밀 꿀팁 & 함정 탈출법</span>
-                </div>
-                <div class="examiner-tip-body">
-                  ${escapeHTML(quiz.examinerTip)}
+                <div class="wrong-analysis-box">
+                  <ul class="wrong-analysis-list">
+                    ${quiz.whyWrong.map((why, wIdx) => {
+                      if (wIdx === quiz.answer || !why.trim()) return "";
+                      return `<li><strong>${wIdx + 1}번 보기</strong>: ${escapeHTML(why)}</li>`;
+                    }).join("")}
+                  </ul>
                 </div>
               </div>
             ` : ""}
 
-            <!-- 5. 3-Step Calculation Template -->
+            <!-- 4. 3-Step Calculation Template -->
             ${isCalc ? `
-              <div class="calc-formula-template">
-                <div class="calc-template-header">
-                  <span>📐</span> <span>2·3과목 빈출 계산 공식 & 3단계 풀이 템플릿</span>
+              <div class="explain-section">
+                <div class="explain-section-title calc-title">
+                  📐 계산 공식 & 3단계 풀이
                 </div>
-                <div class="calc-step-row">
-                  <span class="calc-step-num">1단계</span>
-                  <div class="calc-step-content"><strong>사용 공식:</strong> ${escapeHTML(getCalcSolutionTemplate(quiz).formula)}</div>
-                </div>
-                <div class="calc-step-row">
-                  <span class="calc-step-num">2단계</span>
-                  <div class="calc-step-content"><strong>수치 대입:</strong> ${escapeHTML(getCalcSolutionTemplate(quiz).substitute)}</div>
-                </div>
-                <div class="calc-step-row">
-                  <span class="calc-step-num">3단계</span>
-                  <div class="calc-step-content"><strong>10초 암산팁:</strong> ${escapeHTML(getCalcSolutionTemplate(quiz).tip)}</div>
+                <div class="calc-formula-template">
+                  <div class="calc-step-row">
+                    <span class="calc-step-num">1단계</span>
+                    <div class="calc-step-content"><strong>사용 공식:</strong> ${escapeHTML(getCalcSolutionTemplate(quiz).formula)}</div>
+                  </div>
+                  <div class="calc-step-row">
+                    <span class="calc-step-num">2단계</span>
+                    <div class="calc-step-content"><strong>수치 대입:</strong> ${escapeHTML(getCalcSolutionTemplate(quiz).substitute)}</div>
+                  </div>
+                  <div class="calc-step-row">
+                    <span class="calc-step-num">3단계</span>
+                    <div class="calc-step-content"><strong>10초 암산팁:</strong> ${escapeHTML(getCalcSolutionTemplate(quiz).tip)}</div>
+                  </div>
                 </div>
               </div>
             ` : ""}
 
-            <!-- 6. Trap Analysis -->
-            ${quiz.whyWrong && quiz.whyWrong.length > 0 ? `
-              <div class="trap-breakdown-box">
-                <div class="trap-breakdown-title">
-                  ⚠️ 보기별 오답 함정(Trap) 분석
+            <!-- 5. Core Memorization Note (핵심 암기 노트) -->
+            ${(quiz.memorizationPoint || quiz.examinerTip) ? `
+              <div class="explain-section">
+                <div class="explain-section-title memo-title">
+                  🎯 핵심 암기 노트
                 </div>
-                <ul class="trap-item-list">
-                  ${quiz.whyWrong.map((why, wIdx) => {
-                    if (wIdx === quiz.answer) return "";
-                    return `<li><strong>${wIdx + 1}번 보기</strong>: ${escapeHTML(why)}</li>`;
-                  }).join("")}
-                </ul>
+                <div class="premium-memo-card">
+                  ${quiz.memorizationPoint ? `
+                    <div class="memo-part keypoint-part">
+                      <div class="memo-part-title">📖 기출 필수 암기</div>
+                      <div class="memo-part-body">${escapeHTML(quiz.memorizationPoint)}</div>
+                    </div>
+                  ` : ""}
+                  ${quiz.examinerTip ? `
+                    <div class="memo-part tip-part">
+                      <div class="memo-part-title">💡 출제위원의 단골 함정</div>
+                      <div class="memo-part-body">${escapeHTML(quiz.examinerTip)}</div>
+                    </div>
+                  ` : ""}
+                </div>
               </div>
             ` : ""}
 
@@ -1678,13 +1641,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   async function loadDataAndInit() {
     try {
-      const [noteRes, cbtRes] = await Promise.all([
-        fetch("data.json").then(r => r.json()),
-        fetch("cbt_bank.json").then(r => r.json())
-      ]);
+      // Fetch fallback removed. We exclusively use the natively loaded data scripts 
+      // (.js copies) to completely bypass file:// CORS and prevent loading errors.
+      if (!window.noteData || !window.cbtBank) {
+         throw new Error("Static data scripts fail. Make sure data.js and cbt_bank.js are loaded.");
+      }
 
-      noteData = noteRes;
-      allQuizzes = cbtRes.questions || [];
+      noteData = window.noteData;
+      allQuizzes = window.cbtBank.questions || [];
 
       buildMaps();
       renderNav();
@@ -1726,6 +1690,25 @@ document.addEventListener("DOMContentLoaded", () => {
       if (q.sectionId) {
         if (!sectionToQuizMap.has(q.sectionId)) sectionToQuizMap.set(q.sectionId, []);
         sectionToQuizMap.get(q.sectionId).push(q);
+      }
+    });
+  }
+
+  function buildNotesSearchIndex() {
+    notesSearchIndex = [];
+    if (!noteData || !noteData.sections) return;
+    noteData.sections.forEach(sec => {
+      if (sec.cards) {
+        sec.cards.forEach(card => {
+          notesSearchIndex.push({
+            id: card.id,
+            sectionId: sec.id,
+            sectionTitle: sec.title || "",
+            title: card.title || "",
+            content: card.content || "",
+            keywords: card.keywords || []
+          });
+        });
       }
     });
   }
@@ -2073,29 +2056,68 @@ document.addEventListener("DOMContentLoaded", () => {
         switchNav("home");
       });
     }
+    
+    const heroStartBtn = document.getElementById("heroStartPracticeBtn");
+    if (heroStartBtn) {
+      heroStartBtn.addEventListener("click", () => {
+        switchNav("practice");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
 
-    // Mobile Sidebar
-    if (menuBtn) {
-      menuBtn.addEventListener("click", () => {
-        if (sidebar) sidebar.classList.add("active");
-        if (overlay) overlay.classList.add("active");
-      });
-    }
-    if (closeSidebarBtn) {
-      closeSidebarBtn.addEventListener("click", () => {
-        if (sidebar) sidebar.classList.remove("active");
-        if (overlay) overlay.classList.remove("active");
-      });
-    }
-    if (overlay) {
-      overlay.addEventListener("click", () => {
-        if (sidebar) sidebar.classList.remove("active");
-        if (overlay) overlay.classList.remove("active");
+    // Global Keyboard Shortcuts (1-4 for Quiz Options, Esc for Modal Dismissal)
+    document.addEventListener("keydown", e => {
+      // 1. Esc Key Modal Dismissal
+      if (e.key === "Escape") {
+        const modals = [cheatSheetModal, oxTrainerModal, conceptModal, sprintTimerOverlay];
+        modals.forEach(m => {
+          if (m && m.style.display !== "none") {
+            m.style.display = "none";
+          }
+        });
+        const omrModal = document.getElementById("omrModal");
+        if (omrModal && omrModal.classList.contains("active")) {
+          omrModal.classList.remove("active");
+        }
+        document.body.style.overflow = "";
+        return;
+      }
+
+      // Ignore input fields and textareas
+      const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : "";
+      if (activeTag === "input" || activeTag === "textarea") return;
+
+      // 2. Quiz Option Selection (1-4 Keys)
+      if (["1", "2", "3", "4"].includes(e.key)) {
+        if (currentNav === "practice" || currentNav === "mock") {
+          const optIndex = parseInt(e.key, 10) - 1;
+          const visibleCard = document.querySelector(".quiz-card");
+          if (visibleCard) {
+            const options = visibleCard.querySelectorAll(".quiz-option");
+            if (options[optIndex]) {
+              options[optIndex].click();
+            }
+          }
+        }
+      }
+    });
+
+    // Mobile Collapsible TOC Toggle
+    const toggleTocBtn = document.getElementById("toggleMobileTocBtn");
+    const notesTocContainer = document.getElementById("notesTocContainer");
+    const tocToggleText = document.getElementById("tocToggleText");
+    const tocToggleIcon = document.getElementById("tocToggleIcon");
+
+    if (toggleTocBtn && notesTocContainer) {
+      toggleTocBtn.addEventListener("click", () => {
+        const isCollapsed = notesTocContainer.classList.toggle("collapsed");
+        if (tocToggleText) tocToggleText.textContent = isCollapsed ? "펼치기" : "접기";
+        if (tocToggleIcon) tocToggleIcon.textContent = isCollapsed ? "▼" : "▲";
       });
     }
 
     // Theme Switcher
-    const themeTriggers = document.querySelectorAll("#themeToggleBtn, #sidebarThemeToggleBtn, .sidebar-theme-toggle");
+    const themeTriggers = document.querySelectorAll("#themeToggleBtn");
     themeTriggers.forEach(btn => {
       btn.addEventListener("click", toggleTheme);
     });
@@ -2103,13 +2125,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const initTheme = document.documentElement.getAttribute("data-theme") || localStorage.getItem("theme") || "light";
     updateThemeUI(initTheme);
 
-    // Scroll to top
-    window.addEventListener("scroll", () => {
+    // Scroll to top (Optimized with throttle to prevent rendering lag)
+    window.addEventListener("scroll", throttle(() => {
       if (toTopBtn) {
         if (window.scrollY > 300) toTopBtn.classList.add("visible");
         else toTopBtn.classList.remove("visible");
       }
-    }, { passive: true });
+    }, 150), { passive: true });
 
     if (toTopBtn) {
       toTopBtn.addEventListener("click", () => {
@@ -2309,71 +2331,63 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- ENHANCED: Practice Header & Filter Events ---
   function setupPracticeHeaderEvents() {
     const resetAllPills = () => {
-      document.querySelectorAll(".pack-chip-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".premium-pack-card").forEach(b => b.classList.remove("active"));
     };
 
-    // 1. A급 필수 300제 팩
-    const btnAgrade = document.getElementById("btnAgradePass");
-    if (btnAgrade) {
-      btnAgrade.addEventListener("click", () => {
-        resetAllPills();
-        btnAgrade.classList.add("active");
-        quizFilter = { subject: "all", difficulty: "all", importance: "A", tag: "all", keyword: "", conceptCardId: null, calcOnly: false, bookmarkedOnly: false, is12thOnly: false };
-        if (importanceFilter) importanceFilter.value = "A";
-        applyQuizFilter();
-        renderQuizzes(true);
-        showToast("⭐ A급 필수 300제 모드로 전환되었습니다!");
-      });
-    }
+    const updateMatchCount = () => {
+      const matchCountEl = document.getElementById("matchedQuizCount");
+      if (matchCountEl) matchCountEl.textContent = workingQuizzes.length;
+    };
 
-    // 2. 12회 기출복원 킬러 30제 팩
-    const btn12th = document.getElementById("btn12thExamPack");
-    if (btn12th) {
-      btn12th.addEventListener("click", () => {
-        resetAllPills();
-        btn12th.classList.add("active");
-        quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: false, bookmarkedOnly: false, is12thOnly: true };
-        applyQuizFilter();
-        renderQuizzes(true);
-        showToast("🔥 12회 기출복원 킬러 문항 모드로 전환되었습니다!");
-      });
-    }
+    const bindPackBtn = (id, msg, updateFilterFn) => {
+      const btn = document.getElementById(id);
+      if (btn) {
+        btn.addEventListener("click", () => {
+          resetAllPills();
+          btn.classList.add("active");
+          quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: false, bookmarkedOnly: false, is12thOnly: false, is11thOnly: false, is10thOnly: false };
+          updateFilterFn(quizFilter);
+          applyQuizFilter();
+          renderQuizzes(true);
+          showToast(msg);
+          updateMatchCount();
+        });
+      }
+    };
 
-    // 3. 계산 문제 집중 공략 팩
-    const btnCalc = document.getElementById("btnCalcPack");
-    if (btnCalc) {
-      btnCalc.addEventListener("click", () => {
-        resetAllPills();
-        btnCalc.classList.add("active");
-        quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: true, bookmarkedOnly: false, is12thOnly: false };
-        applyQuizFilter();
-        renderQuizzes(true);
-        showToast("🧮 2·3과목 빈출 계산 공식 팩으로 전환되었습니다!");
-      });
-    }
+    bindPackBtn("btnAgradePass", "⭐ A급 필수 빈출 모드로 전환되었습니다!", f => f.importance = "A");
+    bindPackBtn("btn12thExamPack", "🔥 12회 기출 복원 모드로 전환되었습니다!", f => f.is12thOnly = true);
+    bindPackBtn("btn11thExamPack", "🏆 11회 기출 집중 모드로 전환되었습니다!", f => f.is11thOnly = true);
+    bindPackBtn("btn10thExamPack", "🎯 10회 기출 집중 모드로 전환되었습니다!", f => f.is10thOnly = true);
+    bindPackBtn("btnCalcPack", "🧮 계산 집중 공략 팩으로 전환되었습니다!", f => f.calcOnly = true);
+    bindPackBtn("btnBookmarkedOnly", "⭐ 나의 북마크 문제 모드로 전환되었습니다!", f => {
+      if (bookmarks.size === 0) showToast("⚠️ 북마크(⭐)한 문제가 없습니다.");
+      f.bookmarkedOnly = true;
+    });
 
-    // 4. 13회 출제예상 20제
     const target13thBtn = document.getElementById("target13thQuizBtn");
     if (target13thBtn) {
       target13thBtn.addEventListener("click", () => {
         resetAllPills();
         target13thBtn.classList.add("active");
+        quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: false, bookmarkedOnly: false, is12thOnly: false, is11thOnly: false, is10thOnly: false };
         const matched = allQuizzes.filter(q => {
           const text = (q.question + " " + q.chapter).toLowerCase();
           return TARGET_13TH_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
         });
         workingQuizzes = shuffleArray(matched).slice(0, 20);
         renderQuizzes(true);
-        showToast("🎯 13회 적중 출제예상 20문항이 추출되었습니다!");
+        showToast("🔮 13회 적중 출제예상 20문항이 추출되었습니다!");
+        updateMatchCount();
       });
     }
 
-    // 5. 빈출 용어·통계 20제
     const termStatBtn = document.getElementById("termStatQuizBtn");
     if (termStatBtn) {
       termStatBtn.addEventListener("click", () => {
         resetAllPills();
         termStatBtn.classList.add("active");
+        quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: false, bookmarkedOnly: false, is12thOnly: false, is11thOnly: false, is10thOnly: false };
         const matched = allQuizzes.filter(q => {
           const text = (q.question + " " + q.chapter).toLowerCase();
           return TERM_STAT_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
@@ -2381,109 +2395,98 @@ document.addEventListener("DOMContentLoaded", () => {
         workingQuizzes = shuffleArray(matched).slice(0, 20);
         renderQuizzes(true);
         showToast("🔄 빈출 용어·통계 20문항이 추출되었습니다!");
+        updateMatchCount();
       });
     }
 
-    // 6. 북마크만 모아 풀기
-    const btnBookmarked = document.getElementById("btnBookmarkedOnly");
-    if (btnBookmarked) {
-      btnBookmarked.addEventListener("click", () => {
-        if (bookmarks.size === 0) {
-          showToast("⚠️ 북마크(⭐)한 문제가 없습니다. 문제의 별표를 눌러 추가해보세요!");
-          return;
-        }
-        resetAllPills();
-        btnBookmarked.classList.add("active");
-        quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: false, bookmarkedOnly: true, is12thOnly: false };
-        applyQuizFilter();
-        renderQuizzes(true);
-        showToast(`⭐ 북마크한 ${workingQuizzes.length}문항을 불러왔습니다!`);
-      });
-    }
-
-    // 7. 과목 퀵 칩 (전과목 / 1과목 / 2과목 / 3과목 / 4과목)
-    const psChips = document.querySelectorAll(".ps-chip");
-    psChips.forEach(chip => {
+    const subjectChips = document.querySelectorAll("#subjectFilterChips .f-chip");
+    subjectChips.forEach(chip => {
       chip.addEventListener("click", () => {
-        psChips.forEach(c => c.classList.remove("active"));
+        subjectChips.forEach(c => c.classList.remove("active"));
         chip.classList.add("active");
-        const sub = chip.dataset.sub;
-        quizFilter.subject = sub;
-        if (subjectFilter) subjectFilter.value = sub;
+        quizFilter.subject = chip.dataset.sub;
         applyQuizFilter();
         renderQuizzes(true);
+        updateMatchCount();
       });
     });
 
-    // 8. Select Filters
-    if (subjectFilter) {
-      subjectFilter.addEventListener("change", e => {
-        quizFilter.subject = e.target.value;
-        psChips.forEach(c => c.classList.toggle("active", c.dataset.sub === e.target.value));
+    const roundChips = document.querySelectorAll("#roundFilterChips .f-chip");
+    roundChips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        roundChips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        quizFilter.round = chip.dataset.round;
         applyQuizFilter();
         renderQuizzes(true);
+        updateMatchCount();
       });
-    }
-    if (difficultyFilter) {
-      difficultyFilter.addEventListener("change", e => {
-        quizFilter.difficulty = e.target.value;
+    });
+
+    const typeChips = document.querySelectorAll("#typeFilterChips .f-chip");
+    typeChips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        typeChips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        quizFilter.type = chip.dataset.type;
         applyQuizFilter();
         renderQuizzes(true);
+        updateMatchCount();
       });
-    }
-    if (importanceFilter) {
-      importanceFilter.addEventListener("change", e => {
-        quizFilter.importance = e.target.value;
+    });
+
+    const importanceChips = document.querySelectorAll("#importanceFilterChips .f-chip");
+    importanceChips.forEach(chip => {
+      chip.addEventListener("click", () => {
+        importanceChips.forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        quizFilter.importance = chip.dataset.imp;
         applyQuizFilter();
         renderQuizzes(true);
+        updateMatchCount();
       });
-    }
-    if (tagFilter) {
-      tagFilter.addEventListener("change", e => {
-        quizFilter.tag = e.target.value;
-        applyQuizFilter();
-        renderQuizzes(true);
+    });
+
+    const searchBtn = document.getElementById("searchQuizBtn");
+    const kwInput = document.getElementById("keywordSearch");
+    
+    const executeSearch = () => {
+      if (kwInput) quizFilter.keyword = kwInput.value.trim();
+      applyQuizFilter();
+      renderQuizzes(true);
+      updateMatchCount();
+    };
+
+    if (searchBtn) searchBtn.addEventListener("click", executeSearch);
+    if (kwInput) {
+      kwInput.addEventListener("keydown", e => {
+        if (e.key === "Enter") executeSearch();
       });
     }
 
-    // 9. Search & Reset
-    const searchBtn = document.getElementById("searchQuizBtn");
-    const kwInput = document.getElementById("keywordSearch");
-    if (searchBtn) {
-      searchBtn.addEventListener("click", () => {
-        if (kwInput) quizFilter.keyword = kwInput.value.trim();
-        applyQuizFilter();
-        renderQuizzes(true);
-      });
-    }
-    if (kwInput) {
-      kwInput.addEventListener("keydown", e => {
-        if (e.key === "Enter") {
-          quizFilter.keyword = kwInput.value.trim();
-          applyQuizFilter();
-          renderQuizzes(true);
-        }
-      });
-    }
     const resetBtn = document.getElementById("resetFilterBtn");
     if (resetBtn) {
       resetBtn.addEventListener("click", () => {
         resetAllPills();
-        quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: false, bookmarkedOnly: false, is12thOnly: false };
-        if (subjectFilter) subjectFilter.value = "all";
-        if (difficultyFilter) difficultyFilter.value = "all";
-        if (importanceFilter) importanceFilter.value = "all";
-        if (tagFilter) tagFilter.value = "all";
+        quizFilter = { subject: "all", round: "all", type: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: false, bookmarkedOnly: false, is12thOnly: false, is11thOnly: false, is10thOnly: false };
         if (kwInput) kwInput.value = "";
-        psChips.forEach(c => c.classList.toggle("active", c.dataset.sub === "all"));
+        subjectChips.forEach(c => c.classList.toggle("active", c.dataset.sub === "all"));
+        roundChips.forEach(c => c.classList.toggle("active", c.dataset.round === "all"));
+        typeChips.forEach(c => c.classList.toggle("active", c.dataset.type === "all"));
+        importanceChips.forEach(c => c.classList.toggle("active", c.dataset.imp === "all"));
         applyQuizFilter();
         renderQuizzes(true);
+        updateMatchCount();
         showToast("🔄 모든 필터와 검색이 초기화되었습니다.");
       });
     }
+
     const shuffleBtn = document.getElementById("shuffleQuizBtn");
     if (shuffleBtn) {
-      shuffleBtn.addEventListener("click", () => handleShuffleQuizzes());
+      shuffleBtn.addEventListener("click", () => {
+        handleShuffleQuizzes();
+        updateMatchCount();
+      });
     }
   }
 
