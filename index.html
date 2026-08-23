@@ -185,34 +185,31 @@
           <!-- VIEW 2: 📚 전과목 핵심 요약노트 (Concept Notes) -->
           <!-- ============================================== -->
           <div id="notes-view" class="view-section hidden">
-            <!-- 요약노트 헤더 & 진도율 대시보드 카드 -->
-            <div class="notes-header-card">
-              <div class="notes-header-top">
-                <div>
-                  <div class="notes-hero-badge">
-                    <span class="pulse-dot"></span> 1~4과목 + 12회 기출특강
-                  </div>
-                  <h2 class="notes-main-title">전과목 핵심 요약노트</h2>
-                  <p class="notes-main-subtitle">
-                    출제위원 빈출 개념 · 12회 기출 킬러 테마 · 선지 변형 자가진단 OX
-                  </p>
+            <!-- 요약노트 헤더 & 진도율 대시보드 카드 (컴팩트 1줄 스타일) -->
+            <div class="notes-header-card compact-notes-header">
+              <div class="notes-header-top compact-header-top">
+                <div class="notes-header-title-group">
+                  <h2 class="notes-main-title compact-title">📚 핵심 요약노트</h2>
+                  <span class="notes-hero-badge compact-badge">
+                    <span class="pulse-dot"></span> 1~4과목 + 12회 기출
+                  </span>
                 </div>
                 
-                <div class="notes-progress-stat-box">
-                  <div class="stat-progress-val" id="progressPercent">0%</div>
-                  <div class="stat-progress-lbl">전체 개념 마스터율</div>
+                <div class="notes-progress-stat-inline">
+                  <span class="stat-progress-lbl">마스터율</span>
+                  <span class="stat-progress-val" id="progressPercent">0%</span>
                 </div>
               </div>
 
               <!-- 진도율 프로그레스 바 -->
-              <div class="notes-progress-track">
+              <div class="notes-progress-track compact-track">
                 <div id="progressBar" class="notes-progress-fill" style="width: 0%;"></div>
               </div>
 
               <!-- 모바일/태블릿/PC 반응형 과목 퀵 네비게이션 탭바 -->
-              <div class="notes-subject-tabs" id="notesSubjectTabs">
+              <div class="notes-subject-tabs compact-tabs" id="notesSubjectTabs">
                 <button class="notes-sub-tab active" data-subject="all">
-                  <span class="sub-tab-icon">🌐</span> 전체 보기
+                  <span class="sub-tab-icon">🌐</span> 전체
                 </button>
                 <button class="notes-sub-tab" data-subject="1">
                   <span class="sub-tab-icon">1️⃣</span> 1과목 기획
@@ -227,55 +224,52 @@
                   <span class="sub-tab-icon">4️⃣</span> 4과목 결과해석
                 </button>
                 <button class="notes-sub-tab highlight-tab" data-subject="5">
-                  <span class="sub-tab-icon">🔥</span> 12회 기출특강 & 로드맵
+                  <span class="sub-tab-icon">🔥</span> 12회 기출특강
                 </button>
               </div>
 
-              <!-- 학습 편의 컨트롤 툴바 (접기/펼치기, 필터, 인라인 검색) -->
-              <div class="notes-control-toolbar">
-                <div class="notes-tool-group">
-                  <button id="btnToggleAllCards" class="notes-tool-btn" title="모든 개념 카드 접기/펼치기">
-                    <span class="tool-icon">↕️</span> <span id="toggleAllText">전체 펼치기</span>
-                  </button>
-                  <button id="btnFilterUnlearned" class="notes-tool-btn" title="아직 학습 체크 안 한 개념만 모아보기">
-                    <span class="tool-icon">📌</span> 미학습만
-                  </button>
-                  <button id="btnFilterBookmarked" class="notes-tool-btn" title="북마크(⭐)한 중요 개념만 모아보기">
-                    <span class="tool-icon">⭐</span> 북마크만
-                  </button>
-                  <button id="btnFilterWeakness" class="notes-tool-btn" title="오답 2회 이상 발생한 취약 개념만 모아보기">
-                    <span class="tool-icon">🔴</span> 약점 집중공략만
-                  </button>
-                </div>
-
-                <div class="notes-inline-search">
+              <!-- 학습 편의 통합 툴바 (검색 + 목차 + 핵심 필터) -->
+              <div class="notes-control-toolbar compact-toolbar">
+                <div class="notes-inline-search compact-search">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                     <circle cx="11" cy="11" r="8"></circle>
                     <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                   </svg>
-                  <input type="text" id="notesInlineSearchInput" placeholder="요약노트 내 개념 검색..." />
+                  <input type="text" id="notesInlineSearchInput" placeholder="개념 및 목차 통합 검색... (Ctrl/⌘+K)" />
                   <button id="clearNotesInlineSearch" class="notes-search-clear hidden">✕</button>
                 </div>
+
+                <div class="notes-tool-group compact-tool-group">
+                  <button id="btnToggleToc" class="notes-tool-btn toc-trigger-btn" title="전체 학습 목차 열기">
+                    <span class="tool-icon">📑</span> 목차
+                  </button>
+                  <button id="btnToggleAllCards" class="notes-tool-btn" title="모든 개념 카드 접기/펼치기">
+                    <span class="tool-icon">↕️</span> <span id="toggleAllText">전체 펼치기</span>
+                  </button>
+                  <button id="btnFilterUnlearned" class="notes-tool-btn" title="미학습 개념만 모아보기">
+                    <span class="tool-icon">📌</span> 미학습만
+                  </button>
+                  <button id="btnFilterBookmarked" class="notes-tool-btn" title="북마크한 개념만 모아보기">
+                    <span class="tool-icon">⭐</span> 북마크만
+                  </button>
+                  <button id="btnFilterWeakness" class="notes-tool-btn" title="오답 2회 이상 약점 개념만 모아보기">
+                    <span class="tool-icon">🔴</span> 약점 집중
+                  </button>
+                </div>
               </div>
-              
-              <!-- 📑 새로운 컨텍스츄얼 목차 메뉴 (과거 글로벌 사이드바 대체) -->
-              <div class="notes-toc-container" id="notesTocContainer">
+            </div>
+
+            <!-- 📑 빠른 목차 팝업 드로어 모달 (화면 낭비 제거) -->
+            <div id="notesTocOverlay" class="notes-toc-overlay hidden">
+              <div class="notes-toc-drawer blur-glass">
                 <div class="toc-header">
                   <div style="display: flex; align-items: center; gap: 8px;">
                     <span class="badge-dot"></span>
                     <h3>학습 목차 리스트</h3>
                   </div>
-                  <button id="toggleMobileTocBtn" class="toc-mobile-toggle-btn" aria-label="목차 접기/펴기">
-                    <span id="tocToggleIcon">▲</span> <span id="tocToggleText">접기</span>
+                  <button id="closeTocDrawerBtn" class="toc-mobile-toggle-btn" aria-label="목차 닫기">
+                    <span>✕</span> 닫기
                   </button>
-                </div>
-                <div class="search-box" style="margin-bottom: 15px;">
-                  <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  </svg>
-                  <input type="text" id="searchInput" placeholder="목차 키워드 검색... (Ctrl/⌘+K)" />
-                  <button id="clearSearchBtn" class="search-clear-btn hidden" aria-label="검색어 지우기">✕</button>
                 </div>
                 <div id="searchStatus" class="search-status hidden"></div>
                 <nav id="nav-container" class="nav-scroll"></nav>
@@ -298,83 +292,25 @@
           <!-- VIEW 3: 📝 스마트 기출문제 & CBT (Practice & Mock) -->
           <!-- ============================================== -->
           <div id="quiz-content" class="view-section hidden">
-            <!-- 연습 모드 헤더 -->
-            <div id="practice-header" class="hero-section practice-hero-card">
-              <div class="practice-hero-top">
-                <div>
-                  <div class="hero-tag">
-                    <span class="pulse-dot"></span> 총 625문항 실전 문제은행
-                  </div>
-                  <h2 class="hero-title">스마트 기출·변형 문제 풀이</h2>
-                  <p class="hero-subtitle">
-                    즉시 정답 확인 · 출제위원 오답 트랩 해설 · 1줄 암기 비법 · 계산 3단계 풀이
-                  </p>
-                </div>
-                
-                <div class="practice-stat-badge">
-                  <span class="ps-num" id="practiceTotalCount">625</span>
-                  <span class="ps-lbl">총 보유 문항</span>
+            <!-- 연습 모드 헤더 (컴팩트 1줄 헤더 + 퀵 팩 스크롤바 + 통합 검색/필터) -->
+            <div id="practice-header" class="practice-header-compact">
+              <div class="practice-header-top">
+                <div class="practice-title-group">
+                  <h2 class="practice-title-text">⚡ 스마트 기출·변형 문제 풀이</h2>
+                  <span class="practice-count-badge">총 <strong id="practiceTotalCount">727</strong>문항 실전 문제은행</span>
                 </div>
               </div>
 
-              <!-- 💎 프리미엄 테마 팩 (Premium Theme Packs) -->
-              <div class="premium-packs-grid">
-                <button id="btnAgradePass" class="premium-pack-card brand">
-                  <div class="pack-icon">⭐</div>
-                  <div class="pack-content">
-                    <h4>A급 필수 빈출</h4>
-                    <p>가장 자주 나오는 300제</p>
-                  </div>
-                </button>
-                <button id="btn12thExamPack" class="premium-pack-card danger">
-                  <div class="pack-icon">🔥</div>
-                  <div class="pack-content">
-                    <h4>12회 기출 복원</h4>
-                    <p>최신 기출 70제</p>
-                  </div>
-                </button>
-                <button id="btn11thExamPack" class="premium-pack-card warning">
-                  <div class="pack-icon">🏆</div>
-                  <div class="pack-content">
-                    <h4>11회 기출 집중</h4>
-                    <p>최신 트렌드 80제</p>
-                  </div>
-                </button>
-                <button id="btn10thExamPack" class="premium-pack-card success">
-                  <div class="pack-icon">🎯</div>
-                  <div class="pack-content">
-                    <h4>10회 기출 집중</h4>
-                    <p>핵심 단골 80제</p>
-                  </div>
-                </button>
-                <button id="btnCalcPack" class="premium-pack-card purple">
-                  <div class="pack-icon">🧮</div>
-                  <div class="pack-content">
-                    <h4>계산 집중 공략</h4>
-                    <p>2·3과목 공식 64제</p>
-                  </div>
-                </button>
-                <button id="target13thQuizBtn" class="premium-pack-card indigo">
-                  <div class="pack-icon">🔮</div>
-                  <div class="pack-content">
-                    <h4>13회 출제예상</h4>
-                    <p>합격 당락 결정 20제</p>
-                  </div>
-                </button>
-                <button id="termStatQuizBtn" class="premium-pack-card teal">
-                  <div class="pack-icon">🔄</div>
-                  <div class="pack-content">
-                    <h4>빈출 용어·통계</h4>
-                    <p>헷갈리는 개념 20제</p>
-                  </div>
-                </button>
-                <button id="btnBookmarkedOnly" class="premium-pack-card dark">
-                  <div class="pack-icon">⭐</div>
-                  <div class="pack-content">
-                    <h4>나의 북마크</h4>
-                    <p>저장한 문제만 풀기</p>
-                  </div>
-                </button>
+              <!-- 💎 프리미엄 테마 팩 (1줄 가로 스크롤 칩 바) -->
+              <div class="premium-packs-scroll-bar">
+                <button id="btnAgradePass" class="p-pack-chip brand active">⭐ A급 필수 (300)</button>
+                <button id="btn12thExamPack" class="p-pack-chip danger">🔥 12회 기출 (87)</button>
+                <button id="btn11thExamPack" class="p-pack-chip warning">🏆 11회 기출 (80)</button>
+                <button id="btn10thExamPack" class="p-pack-chip success">🎯 10회 기출 (80)</button>
+                <button id="btnCalcPack" class="p-pack-chip purple">🧮 계산 공략 (156)</button>
+                <button id="target13thQuizBtn" class="p-pack-chip indigo">🔮 13회 예상 (20)</button>
+                <button id="termStatQuizBtn" class="p-pack-chip teal">🔄 용어·통계 (20)</button>
+                <button id="btnBookmarkedOnly" class="p-pack-chip dark">📌 내 북마크</button>
               </div>
 
               <!-- 💎 고급 검색바 (Spotlight Style) -->
@@ -410,14 +346,12 @@
                   <span class="filter-label">기출회차:</span>
                   <div class="filter-chip-bar" id="roundFilterChips">
                     <button class="f-chip active" data-round="all">전체 회차</button>
+                    <button class="f-chip" data-round="12">12회 (2026.03)</button>
                     <button class="f-chip" data-round="11">11회 (2025.10)</button>
                     <button class="f-chip" data-round="10">10회 (2025.06)</button>
-                    <button class="f-chip" data-round="9">9회</button>
-                    <button class="f-chip" data-round="8">8회</button>
-                    <button class="f-chip" data-round="7">7회</button>
-                    <button class="f-chip" data-round="6">6회</button>
-                    <button class="f-chip" data-round="5">5회</button>
-                    <button class="f-chip" data-round="4">4회 이하</button>
+                    <button class="f-chip" data-round="4">4회 (2022.04)</button>
+                    <button class="f-chip" data-round="practice">단원별 연습</button>
+                    <button class="f-chip" data-round="mock">실전 모의고사</button>
                   </div>
                 </div>
 
@@ -459,51 +393,35 @@
           <!-- VIEW 4: 📕 스마트 오답노트 & 탈출 (Wrong Notes) -->
           <!-- ============================================== -->
           <div id="wrong-view" class="view-section hidden">
-            <div class="knowway-hero" style="min-height: auto; padding: 32px 0 24px;">
-              <div class="hero-tag" style="background: rgba(255,59,48,0.15); color: var(--danger);">
-                📕 약점 집중 박멸
-              </div>
-              <h2 class="hero-main-title" style="font-size: clamp(28px, 4vw, 42px);">
-                스마트 오답노트 & 오답 탈출
-              </h2>
-              <p class="hero-desc">
-                틀린 문제를 완벽히 이해하고 다시 풀어 맞히면 '마스터 완료'로 오답을 탈출합니다!
-              </p>
-            </div>
+            <!-- 오답노트 헤더 (1줄 컴팩트 헤더 + 인라인 통계 칩 + 다시풀기 CTA) -->
+            <div class="wrong-header-compact">
+              <div class="wrong-header-top">
+                <div class="wrong-title-group">
+                  <h2 class="wrong-title-text">📕 스마트 오답노트 & 약점 탈출</h2>
+                  <div class="wrong-stat-pills">
+                    <span class="ws-pill danger">오답 <strong id="wrongTotalCount">0</strong></span>
+                    <span class="ws-pill success">마스터 <strong id="wrongMasteredCount">0</strong></span>
+                    <span class="ws-pill brand">북마크 <strong id="wrongBookmarkCount">0</strong></span>
+                  </div>
+                </div>
 
-            <!-- 오답 통계 & 탈출 컨트롤 -->
-            <div class="wrong-control-bar">
-              <div class="wrong-stats-summary">
-                <div class="wrong-stat-item">
-                  <span class="ws-label">누적 오답 문항</span>
-                  <strong class="ws-val danger-text" id="wrongTotalCount">0</strong>
-                </div>
-                <div class="wrong-stat-item">
-                  <span class="ws-label">탈출(마스터) 성공</span>
-                  <strong class="ws-val success-text" id="wrongMasteredCount">0</strong>
-                </div>
-                <div class="wrong-stat-item">
-                  <span class="ws-label">즐겨찾기 문항</span>
-                  <strong class="ws-val brand-text" id="wrongBookmarkCount">0</strong>
+                <div class="wrong-actions-group">
+                  <button id="retryAllWrongBtn" class="action-btn-primary">
+                    ⚡ 오답 전체 다시 풀기
+                  </button>
                 </div>
               </div>
 
-              <div class="wrong-actions-group">
-                <button id="retryAllWrongBtn" class="button button-brand">
-                  ⚡ 오답 문제 전부 다시 풀기
-                </button>
+              <!-- 오답 필터 탭 (1줄 가로 스크롤 칩 바) -->
+              <div class="wrong-filters-scroll-bar">
+                <button class="wrong-filter-btn wrong-filter-chip active" data-filter="all">전체 오답 (<span id="wfAllCount">0</span>)</button>
+                <button class="wrong-filter-btn wrong-filter-chip warning" data-filter="high">2회 이상 틀림 ⚠️ (<span id="wfHighCount">0</span>)</button>
+                <button class="wrong-filter-btn wrong-filter-chip brand" data-filter="bookmarks">⭐ 북마크 문항 (<span id="wfBookCount">0</span>)</button>
+                <button class="wrong-filter-btn wrong-filter-chip" data-filter="sub1">1과목</button>
+                <button class="wrong-filter-btn wrong-filter-chip" data-filter="sub2">2과목</button>
+                <button class="wrong-filter-btn wrong-filter-chip" data-filter="sub3">3과목</button>
+                <button class="wrong-filter-btn wrong-filter-chip" data-filter="sub4">4과목</button>
               </div>
-            </div>
-
-            <!-- 오답 필터 탭 -->
-            <div class="wrong-filters">
-              <button class="wrong-filter-btn active" data-filter="all">전체 오답 (<span id="wfAllCount">0</span>)</button>
-              <button class="wrong-filter-btn" data-filter="high">2회 이상 틀림 ⚠️ (<span id="wfHighCount">0</span>)</button>
-              <button class="wrong-filter-btn" data-filter="bookmarks">⭐ 북마크 문항 (<span id="wfBookCount">0</span>)</button>
-              <button class="wrong-filter-btn" data-filter="sub1">1과목</button>
-              <button class="wrong-filter-btn" data-filter="sub2">2과목</button>
-              <button class="wrong-filter-btn" data-filter="sub3">3과목</button>
-              <button class="wrong-filter-btn" data-filter="sub4">4과목</button>
             </div>
 
             <!-- 오답 문제 카드 리스트 컨테이너 -->
