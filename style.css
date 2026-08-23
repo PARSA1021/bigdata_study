@@ -1814,116 +1814,7 @@ input, select, textarea {
   font-weight: 600;
 }
 
-/* CBT OMR Drawer */
-.omr-drawer {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(420px, 100vw);
-  background: var(--surface);
-  border-left: 2px solid var(--line-bold);
-  z-index: 2100;
-  display: flex;
-  flex-direction: column;
-  box-shadow: var(--shadow-floating);
-  animation: slideLeft 200ms ease;
-}
-
-@keyframes slideLeft {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(0); }
-}
-
-.omr-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 20px;
-  border-bottom: 1.5px solid var(--line);
-}
-
-.omr-badge {
-  font-size: 11px;
-  font-weight: 900;
-  padding: 2px 8px;
-  border-radius: 6px;
-  background: var(--brand);
-  color: #090909;
-}
-
-.omr-summary {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 20px;
-  background: var(--paper-subtle);
-  font-size: 13px;
-  font-weight: 750;
-  border-bottom: 1px solid var(--line);
-}
-
-.omr-grid {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px 20px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
-
-.omr-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 6px 10px;
-  background: var(--paper-subtle);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  font-size: 12px;
-  cursor: pointer;
-}
-.omr-row:hover {
-  border-color: var(--line-bold);
-}
-.omr-row.solved {
-  border-color: var(--primary-accent);
-}
-.omr-row.flagged {
-  background: #FEF3C7;
-  color: #92400E;
-}
-
-.omr-options-circles {
-  display: flex;
-  gap: 4px;
-}
-
-.omr-circle {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 1px solid var(--line-strong);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  font-weight: 800;
-}
-.omr-circle.marked {
-  background: #090909;
-  color: var(--brand);
-  border-color: #090909;
-}
-[data-theme="dark"] .omr-circle.marked {
-  background: var(--brand);
-  color: #090909;
-  border-color: var(--brand);
-}
-
-.omr-footer {
-  padding: 16px 20px;
-  border-top: 1.5px solid var(--line);
-}
+/* OMR Drawer Removed */
 
 /* =========================================================
    Mobile Bottom Navigation Bar
@@ -2636,9 +2527,10 @@ tr:nth-child(even) {
   .main-content {
     margin-left: 0;
     max-width: 100%;
-    padding: 12px 12px calc(90px + env(safe-area-inset-bottom));
+    padding: 12px 12px calc(96px + env(safe-area-inset-bottom));
   }
 
+  /* Bottom Navigation Bar Mobile Optimization */
   .bottom-nav {
     display: flex;
     position: fixed;
@@ -2665,6 +2557,26 @@ tr:nth-child(even) {
 
   .bottom-nav-item:active {
     transform: scale(0.93);
+  }
+
+  /* To-Top Button Collision Fix - Float Above Bottom Nav */
+  .to-top-btn {
+    bottom: calc(90px + env(safe-area-inset-bottom)) !important;
+    right: 16px !important;
+    width: 44px !important;
+    height: 44px !important;
+    z-index: 999 !important;
+    box-shadow: var(--shadow-md) !important;
+  }
+
+  /* Prevent iOS Safari Auto-Zoom on Input Focus */
+  input[type="text"],
+  input[type="search"],
+  .search-box input,
+  .notes-inline-search input,
+  .quiz-input,
+  .premium-search-input {
+    font-size: 16px !important;
   }
 
   .routine-grid {
@@ -2703,9 +2615,47 @@ tr:nth-child(even) {
   }
 }
 
+/* Mobile Collapsible Filter Chips Toggle */
+.mobile-filter-toggle-btn {
+  display: none;
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--line-strong);
+  color: var(--text-color);
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  transition: background 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .mobile-filter-toggle-btn {
+    display: flex;
+  }
+  .premium-filters-wrapper.collapsed .filter-group,
+  .premium-filters-wrapper.collapsed .filter-actions {
+    display: none !important;
+  }
+}
+
 @media (max-width: 600px) {
   .topbar {
     padding: 0 12px;
+  }
+  .brand-lockup {
+    gap: 6px;
+  }
+  .brand-name {
+    font-size: 16px;
+  }
+  .brand-sub {
+    font-size: 10px;
+    padding: 1px 5px;
   }
   .topbar-actions {
     gap: 6px;
@@ -2718,7 +2668,29 @@ tr:nth-child(even) {
     font-size: 12px;
   }
   .theme-toggle-btn .theme-label {
-    display: none;
+    display: none !important;
+  }
+
+  /* Hero Section Mobile Spacing */
+  .knowway-hero {
+    padding: 24px 18px 20px;
+    border-radius: 16px;
+  }
+  .hero-main-title {
+    font-size: 26px;
+    line-height: 1.2;
+  }
+  .hero-desc {
+    font-size: 14px;
+    margin-bottom: 18px;
+  }
+
+  /* Floating Sprint Timer Mobile Position */
+  #sprintTimerOverlay {
+    top: 64px !important;
+    font-size: 18px !important;
+    padding: 8px 18px !important;
+    border-width: 1.5px !important;
   }
 
   /* Premium Packs Mobile Touch Card Slider */
@@ -2757,9 +2729,10 @@ tr:nth-child(even) {
     flex-shrink: 0;
     scroll-snap-align: start;
     touch-action: manipulation;
+    min-height: 40px;
   }
 
-  /* Quiz Option Padding for Thumb Tapping */
+  /* Quiz Option Padding & Touch Target */
   .quiz-option {
     padding: 14px 16px;
     min-height: 50px;
@@ -2767,6 +2740,16 @@ tr:nth-child(even) {
   }
   .quiz-option:active {
     transform: scale(0.98);
+  }
+
+  /* OMR Drawer & Footer Mobile Safe Area */
+  .omr-drawer {
+    max-height: 88dvh !important;
+    border-radius: 20px 20px 0 0 !important;
+  }
+  .omr-footer {
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom)) !important;
+    background: var(--surface);
   }
 
   /* Mobile Bottom-Sheet Drawers for Modals */
@@ -4852,6 +4835,62 @@ tr:nth-child(even) {
   background: var(--surface-hover);
   border-color: var(--line-bold);
 }
+
+/* ==========================================================================
+   Weakness Curation & Choice Trap Breakdown Styling
+   ========================================================================== */
+.badge-weakness {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 59, 48, 0.12);
+  color: var(--danger);
+  border: 1px solid rgba(255, 59, 48, 0.3);
+  font-size: 11.5px;
+  font-weight: 850;
+  padding: 3px 10px;
+  border-radius: 99px;
+  letter-spacing: -0.02em;
+  box-shadow: 0 1px 4px rgba(255, 59, 48, 0.1);
+  animation: pulseWeakness 2s infinite ease-in-out;
+}
+
+@keyframes pulseWeakness {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.02); opacity: 0.85; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.card.card-weakness {
+  border-left: 4px solid var(--danger) !important;
+  background: linear-gradient(135deg, rgba(255, 59, 48, 0.03) 0%, var(--surface-card) 100%);
+}
+
+.choice-trap-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.choice-trap-item {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--paper-subtle);
+  transition: all 0.2s ease;
+}
+
+.choice-trap-item.correct-trap {
+  border-color: rgba(52, 199, 89, 0.4);
+  background: rgba(52, 199, 89, 0.05);
+}
+
+.choice-trap-item.wrong-trap:hover {
+  border-color: rgba(255, 149, 0, 0.4);
+  background: rgba(255, 149, 0, 0.04);
+}
+
 
 
 

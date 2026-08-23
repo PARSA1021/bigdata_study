@@ -22,7 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
     MEMO: "knowway_concept_memos_v2",
     QUIZ_MEMO: "knowway_quiz_memos_v2",
     LEARNED: "knowway_learned_concepts_v2",
-    MOCK_RECORDS: "knowway_mock_records_v2"
+    MOCK_RECORDS: "knowway_mock_records_v2",
+    WEAKNESS: "knowway_weakness_counts_v1"
   });
 
   const MOCK_EXAM_CONFIG = Object.freeze({
@@ -39,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const QUIZ_MEMO_KEY = STORAGE_KEYS.QUIZ_MEMO;
   const LEARNED_KEY = STORAGE_KEYS.LEARNED;
   const MOCK_RECORDS_KEY = STORAGE_KEYS.MOCK_RECORDS;
+  const WEAKNESS_KEY = STORAGE_KEYS.WEAKNESS;
 
   const SUBJECT_NAMES = Object.freeze({
     1: "1과목 · 분석 기획",
@@ -93,8 +95,15 @@ document.addEventListener("DOMContentLoaded", () => {
   let cumulativeStats = loadStats();
   let habitData = loadHabitData();
   let mockRecords = loadJSON(MOCK_RECORDS_KEY, {});
+  let weaknessCounts = loadJSON(WEAKNESS_KEY, {});
 
-  // Practice state
+  let notesFilter = {
+    subject: "all",
+    unlearnedOnly: false,
+    bookmarkedOnly: false,
+    weaknessOnly: false,
+    searchKeyword: ""
+  };
   let quizFilter = {
     subject: "all",
     round: "all",
@@ -658,10 +667,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       applyQuizFilter();
       renderQuizzes(true);
-    } else if (targetNav === "mock") {
-      if (quizContentView) quizContentView.classList.remove("hidden");
-      setMode("mock");
-      loadMockPreset(options.preset || "11th");
     } else if (targetNav === "wrong") {
       if (wrongView) wrongView.classList.remove("hidden");
       renderWrongNotesView("all");
@@ -672,18 +677,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function setMode(mode) {
-    currentMode = mode;
-    if (mode === "practice") {
-      if (tabPractice) tabPractice.classList.add("active");
-      if (tabMockExam) tabMockExam.classList.remove("active");
-      if (practiceHeader) practiceHeader.classList.remove("hidden");
-      if (mockHeader) mockHeader.classList.add("hidden");
-    } else {
-      if (tabPractice) tabPractice.classList.remove("active");
-      if (tabMockExam) tabMockExam.classList.add("active");
-      if (practiceHeader) practiceHeader.classList.add("hidden");
-      if (mockHeader) mockHeader.classList.remove("hidden");
-    }
+    currentMode = "practice";
+    if (practiceHeader) practiceHeader.classList.remove("hidden");
   }
 
 
@@ -952,22 +947,36 @@ document.addEventListener("DOMContentLoaded", () => {
               </div>
             </div>
 
-            <!-- 3. Wrong Answers (오답 분석) -->
-            ${quiz.whyWrong && quiz.whyWrong.some((why, idx) => idx !== quiz.answer && why.trim().length > 0) ? `
-              <div class="explain-section">
-                <div class="explain-section-title wrong-title">
-                  🚫 오답 분석 (출제 함정)
-                </div>
-                <div class="wrong-analysis-box">
-                  <ul class="wrong-analysis-list">
-                    ${quiz.whyWrong.map((why, wIdx) => {
-                      if (wIdx === quiz.answer || !why.trim()) return "";
-                      return `<li><strong>${wIdx + 1}번 보기</strong>: ${escapeHTML(why)}</li>`;
-                    }).join("")}
-                  </ul>
-                </div>
+            <!-- 3. Choice Trap 1:1 Breakdown (선지별 출제자의 오답 트랩) -->
+            <div class="explain-section">
+              <div class="explain-section-title wrong-title" style="color: var(--amber-text); border-color: rgba(255, 149, 0, 0.3);">
+                🎯 선지별 출제 트랩 1:1 분석 (Choice Trap Breakdown)
               </div>
-            ` : ""}
+              <div class="choice-trap-box" style="display: flex; flex-direction: column; gap: 8px;">
+                ${quiz.choices.map((choiceText, cIdx) => {
+                  const isTargetAns = cIdx === quiz.answer;
+                  const trapDesc = (quiz.optionTraps && quiz.optionTraps[cIdx]) || (quiz.whyWrong && quiz.whyWrong[cIdx]);
+                  return `
+                    <div class="choice-trap-item ${isTargetAns ? 'correct-trap' : 'wrong-trap'}" style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid ${isTargetAns ? 'var(--success)' : 'var(--line-bold)'}; background: ${isTargetAns ? 'rgba(52, 199, 89, 0.06)' : 'var(--paper-subtle)'}; font-size: 13px;">
+                      <div class="choice-trap-header" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+                        <span class="choice-num-badge" style="font-weight: 850; font-size: 12px; color: ${isTargetAns ? 'var(--success)' : 'var(--text-bold)'};">${cIdx + 1}번 선지</span>
+                        <span class="choice-trap-tag" style="font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 99px; background: ${isTargetAns ? 'rgba(52, 199, 89, 0.15)' : 'rgba(255, 149, 0, 0.15)'}; color: ${isTargetAns ? 'var(--success)' : '#D97706'};">
+                          ${isTargetAns ? '✅ 정답 포인트' : '⚠️ 오답 유도 함정'}
+                        </span>
+                      </div>
+                      <div class="choice-trap-body" style="color: var(--text-normal); line-height: 1.5;">
+                        <span style="font-weight: 600;">"${escapeHTML(choiceText)}"</span>
+                        ${trapDesc ? `
+                          <div class="trap-desc" style="margin-top: 4px; font-size: 12.5px; color: ${isTargetAns ? 'var(--success)' : 'var(--text-subtle)'}; font-weight: 500;">
+                            👉 ${escapeHTML(trapDesc)}
+                          </div>
+                        ` : ''}
+                      </div>
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            </div>
 
             <!-- 4. 3-Step Calculation Template -->
             ${isCalc ? `
@@ -1740,12 +1749,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // 14. ENHANCED CONCEPT NOTES ENGINE (요약노트 고도화)
   // ==========================================
-  let notesFilter = {
-    subject: "all",
-    unlearnedOnly: false,
-    bookmarkedOnly: false,
-    keyword: ""
-  };
   let areAllCardsExpanded = true;
 
   function renderContent() {
@@ -1756,6 +1759,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const kw = (notesFilter.keyword || "").trim().toLowerCase();
 
+    // Check if weakness cards exist
+    const weakCardsCount = Object.values(weaknessCounts).filter(cnt => cnt >= 2).length;
+
+    // Render pinned weakness section banner if weakness filter is active or in overall view
+    if (notesFilter.weaknessOnly) {
+      html += `
+        <div class="weakness-pinned-banner blur-glass" style="margin-bottom: 24px; padding: 18px 24px; border-radius: var(--radius-lg); border: 2px solid var(--danger); background: rgba(255, 59, 48, 0.08);">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 24px;">🔴</span>
+              <div>
+                <h3 style="margin: 0; font-size: 17px; font-weight: 850; color: var(--danger);">나의 약점 집중공략 개념 (${weakCardsCount}개)</h3>
+                <p style="margin: 4px 0 0 0; font-size: 13px; color: var(--text-subtle);">문제 풀이 중 2회 이상 오답이 발생하여 집중 복습이 필요한 핵심 개념 모음입니다.</p>
+              </div>
+            </div>
+            <button id="btnResetWeaknessFilter" class="button button-light btn-small">전체 개념 보기</button>
+          </div>
+        </div>
+      `;
+    }
+
     noteData.sections.forEach(sec => {
       const calcSubject = sec.id.match(/^s(\d+)-/)?.[1];
       const subject = String(sec.subject || calcSubject || "1");
@@ -1763,20 +1787,21 @@ document.addEventListener("DOMContentLoaded", () => {
       // 1) 과목 필터링
       if (notesFilter.subject !== "all") {
         if (notesFilter.subject === "5") {
-          // 5과목 (자주 출제되는 핵심 개념 / 최신 출제 트렌드)
           if (!sec.id.startsWith("s5-") && sec.id !== "s5-1" && sec.id !== "s5-2") return;
         } else {
           if (subject !== notesFilter.subject) return;
         }
       }
 
-      // 2) 카드 필터링 (미학습, 북마크, 키워드 검색)
+      // 2) 카드 필터링 (미학습, 북마크, 약점, 키워드 검색)
       const matchingCards = (sec.cards || []).filter(card => {
         const isLearned = learnedConcepts.has(card.id);
         const isBookmarked = bookmarks.has(card.id);
+        const wCount = weaknessCounts[card.id] || 0;
 
         if (notesFilter.unlearnedOnly && isLearned) return false;
         if (notesFilter.bookmarkedOnly && !isBookmarked) return false;
+        if (notesFilter.weaknessOnly && wCount < 2) return false;
 
         if (kw) {
           const title = (card.title || "").toLowerCase();
@@ -1825,6 +1850,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     contentEl.innerHTML = html;
+
+    const resetWeaknessBtn = document.getElementById("btnResetWeaknessFilter");
+    if (resetWeaknessBtn) {
+      resetWeaknessBtn.addEventListener("click", () => {
+        notesFilter.weaknessOnly = false;
+        const btnFilterWeakness = document.getElementById("btnFilterWeakness");
+        if (btnFilterWeakness) btnFilterWeakness.classList.remove("active");
+        renderContent();
+      });
+    }
+
     updateNoteProgress();
   }
 
@@ -1837,19 +1873,25 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderNoteCardHTML(card, kw = "") {
     const isLearned = learnedConcepts.has(card.id);
     const isBookmarked = bookmarks.has(card.id);
+    const wCount = weaknessCounts[card.id] || 0;
     const relatedQuizzes = cardToQuizMap.get(card.id) || [];
     const cardContent = card.content || "";
-    const isExpanded = areAllCardsExpanded;
+    const isExpanded = areAllCardsExpanded || Boolean(kw) || notesFilter.unlearnedOnly || notesFilter.bookmarkedOnly || notesFilter.weaknessOnly;
     const displayTitle = kw ? highlightSearchKeywordStr(card.title, kw) : escapeHTML(card.title);
 
     return `
-      <div class="card ${isExpanded ? 'expanded' : 'collapsed'}" id="card-${card.id}" data-id="${card.id}">
+      <div class="card ${isExpanded ? 'expanded' : 'collapsed'} ${wCount >= 2 ? 'card-weakness' : ''}" id="card-${card.id}" data-id="${card.id}">
         <div class="card-header" data-action="toggle-accordion" title="클릭하여 내용 펼치기/접기">
           <div class="card-header-left">
             <button class="learn-check-btn ${isLearned ? 'learned' : ''}" data-id="${card.id}" data-action="toggle-learned" title="${isLearned ? '학습 완료됨 (클릭하여 취소)' : '학습 완료 체크'}">
               ${isLearned ? '✓' : ''}
             </button>
-            <h3 class="card-title">${displayTitle}</h3>
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+              <h3 class="card-title" style="margin:0;">${displayTitle}</h3>
+              ${wCount >= 2 ? `
+                <span class="badge-weakness" title="오답 ${wCount}회 발생 개념">🔴 약점 집중공략 (${wCount}회 오답)</span>
+              ` : ""}
+            </div>
           </div>
           
           <div class="card-header-actions" onclick="event.stopPropagation()">
@@ -2488,6 +2530,20 @@ document.addEventListener("DOMContentLoaded", () => {
         updateMatchCount();
       });
     }
+
+    // Mobile Filter Collapsible Toggle
+    const toggleFilterBtn = document.getElementById("toggleMobileFiltersBtn");
+    const premiumFiltersWrapper = document.getElementById("premiumFiltersWrapper");
+    const filterToggleIcon = document.getElementById("filterToggleIcon");
+
+    if (toggleFilterBtn && premiumFiltersWrapper) {
+      toggleFilterBtn.addEventListener("click", () => {
+        const isCollapsed = premiumFiltersWrapper.classList.toggle("collapsed");
+        if (filterToggleIcon) {
+          filterToggleIcon.textContent = isCollapsed ? "▼ 펼치기" : "▲ 접기";
+        }
+      });
+    }
   }
 
   // --- ENHANCED: Notes Toolbar & Tabs Events ---
@@ -2547,6 +2603,16 @@ document.addEventListener("DOMContentLoaded", () => {
       filterBookmarkedBtn.addEventListener("click", () => {
         notesFilter.bookmarkedOnly = !notesFilter.bookmarkedOnly;
         filterBookmarkedBtn.classList.toggle("active", notesFilter.bookmarkedOnly);
+        renderContent();
+      });
+    }
+
+    // 4-2. Filter Weak Concepts Only (🔴 약점 집중공략만)
+    const filterWeaknessBtn = document.getElementById("btnFilterWeakness");
+    if (filterWeaknessBtn) {
+      filterWeaknessBtn.addEventListener("click", () => {
+        notesFilter.weaknessOnly = !notesFilter.weaknessOnly;
+        filterWeaknessBtn.classList.toggle("active", notesFilter.weaknessOnly);
         renderContent();
       });
     }
@@ -2661,21 +2727,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const quiz = allQuizzes.find(q => q.id === quizId);
         if (!quiz) return;
 
-        if (currentMode === "practice") {
-          practiceSolvedMap.set(quizId, choiceIdx);
-          const isCorrect = choiceIdx === quiz.answer;
-          recordQuizAttempt(quiz, isCorrect, choiceIdx);
-          const cardIndex = workingQuizzes.findIndex(q => q.id === quizId);
-          card.outerHTML = renderQuizCardHTML(quiz, cardIndex + 1);
-        } else if (currentMode === "mock" && !isMockSubmitted) {
-          mockSolvedMap.set(quizId, choiceIdx);
-          card.querySelectorAll(".quiz-option").forEach((b, idx) => {
-            if (idx === choiceIdx) b.classList.add("correct");
-            else b.classList.remove("correct");
-          });
-          updateSingleOmrRow(quizId, choiceIdx, mockFlaggedSet.has(quizId));
-          updateOmrHeaderCounts();
-        }
+        practiceSolvedMap.set(quizId, choiceIdx);
+        const isCorrect = choiceIdx === quiz.answer;
+        recordQuizAttempt(quiz, isCorrect, choiceIdx);
+        const cardIndex = workingQuizzes.findIndex(q => q.id === quizId);
+        card.outerHTML = renderQuizCardHTML(quiz, cardIndex + 1);
         return;
       }
 
@@ -2787,8 +2843,30 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupContentDelegation() {
     if (!contentEl) return;
     contentEl.addEventListener("click", e => {
+      // 1. Reset Notes Filter (Empty State Button)
+      const resetBtn = e.target.closest("#btnResetNotesFilter");
+      if (resetBtn) {
+        notesFilter = { subject: "all", unlearnedOnly: false, bookmarkedOnly: false, keyword: "" };
+        const inlineSearch = document.getElementById("notesInlineSearchInput");
+        if (inlineSearch) inlineSearch.value = "";
+        if (searchInput) searchInput.value = "";
+        const clearInlineBtn = document.getElementById("clearNotesInlineSearch");
+        if (clearInlineBtn) clearInlineBtn.classList.add("hidden");
+        const filterUnlearnedBtn = document.getElementById("btnFilterUnlearned");
+        if (filterUnlearnedBtn) filterUnlearnedBtn.classList.remove("active");
+        const filterBookmarkedBtn = document.getElementById("btnFilterBookmarked");
+        if (filterBookmarkedBtn) filterBookmarkedBtn.classList.remove("active");
+        const subjectTabs = document.querySelectorAll(".notes-sub-tab");
+        subjectTabs.forEach(t => t.classList.toggle("active", (t.dataset.subject || "all") === "all"));
+        renderContent();
+        showToast("🔄 요약노트 필터 및 검색이 초기화되었습니다.");
+        return;
+      }
+
+      // 2. Learn Check Mark Button
       const learnBtn = e.target.closest(".learn-check-btn");
       if (learnBtn) {
+        e.stopPropagation();
         const cardId = learnBtn.dataset.id;
         if (!cardId) return;
         if (learnedConcepts.has(cardId)) {
@@ -2796,27 +2874,92 @@ document.addEventListener("DOMContentLoaded", () => {
           learnBtn.classList.remove("learned");
           learnBtn.textContent = "";
           learnBtn.style.background = "var(--surface)";
+          showToast("학습 완료 해제");
         } else {
           learnedConcepts.add(cardId);
           learnBtn.classList.add("learned");
           learnBtn.textContent = "✓";
           learnBtn.style.background = "var(--brand)";
+          showToast("✓ 학습 완료 마크!");
         }
         saveJSON(LEARNED_KEY, [...learnedConcepts]);
         updateNoteProgress();
         return;
       }
 
+      // 3. Concept Bookmark Button
+      const bookmarkBtn = e.target.closest(".card-bookmark-btn");
+      if (bookmarkBtn) {
+        e.stopPropagation();
+        const cardId = bookmarkBtn.dataset.id;
+        if (!cardId) return;
+        if (bookmarks.has(cardId)) {
+          bookmarks.delete(cardId);
+          bookmarkBtn.classList.remove("bookmarked");
+          bookmarkBtn.textContent = "☆";
+          showToast("⭐ 개념 북마크 해제");
+        } else {
+          bookmarks.add(cardId);
+          bookmarkBtn.classList.add("bookmarked");
+          bookmarkBtn.textContent = "⭐";
+          showToast("⭐ 핵심 개념 북마크 저장!");
+        }
+        saveJSON(BOOKMARK_KEY, [...bookmarks]);
+        return;
+      }
+
+      // 4. Concept Text Copy Button
+      const copyBtn = e.target.closest(".card-copy-btn");
+      if (copyBtn) {
+        e.stopPropagation();
+        const cardId = copyBtn.dataset.id;
+        const cardObj = cardMap.get(cardId);
+        if (cardObj) {
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = cardObj.content || "";
+          const textToCopy = `${cardObj.title}\n\n${tempDiv.textContent || tempDiv.innerText || ""}`;
+          navigator.clipboard.writeText(textToCopy).then(() => {
+            showToast("📋 개념 텍스트가 클립보드에 복사되었습니다!");
+          }).catch(() => {
+            showToast("⚠️ 복사 권한 오류가 발생했습니다.");
+          });
+        }
+        return;
+      }
+
+      // 5. Practice Card Quizzes Button
       const practiceBtn = e.target.closest(".practice-card-quizzes-btn");
       if (practiceBtn) {
+        e.stopPropagation();
         const cardId = practiceBtn.dataset.id;
         if (cardId) switchNav("practice", { cardId });
+        return;
+      }
+
+      // 6. Accordion Toggle (Card Header or Chevron Button)
+      const headerOrToggle = e.target.closest(".card-header, .card-accordion-toggle");
+      if (headerOrToggle) {
+        const card = headerOrToggle.closest(".card");
+        if (!card) return;
+        const body = card.querySelector(".card-body");
+        if (!body) return;
+
+        const isCollapsed = card.classList.contains("collapsed");
+        if (isCollapsed) {
+          card.classList.remove("collapsed");
+          card.classList.add("expanded");
+          body.classList.remove("hidden");
+        } else {
+          card.classList.remove("expanded");
+          card.classList.add("collapsed");
+          body.classList.add("hidden");
+        }
         return;
       }
     });
   }
 
-  // --- DELEGATION 5: Sidebar Nav Container ---
+  // --- DELEGATION 5: Sidebar / TOC Nav Container ---
   function setupNavDelegation() {
     if (!navContainer) return;
     navContainer.addEventListener("click", e => {
@@ -2826,8 +2969,27 @@ document.addEventListener("DOMContentLoaded", () => {
         const targetId = link.getAttribute("href")?.substring(1);
         if (targetId) {
           switchNav("notes");
-          const targetEl = document.getElementById(targetId);
-          if (targetEl) targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+
+          // Ensure subject filter does not hide the target
+          let targetEl = document.getElementById(targetId);
+          if (!targetEl) {
+            notesFilter.subject = "all";
+            const subjectTabs = document.querySelectorAll(".notes-sub-tab");
+            subjectTabs.forEach(t => t.classList.toggle("active", (t.dataset.subject || "all") === "all"));
+            renderContent();
+            targetEl = document.getElementById(targetId);
+          }
+
+          if (targetEl) {
+            if (targetEl.classList.contains("card") && targetEl.classList.contains("collapsed")) {
+              targetEl.classList.remove("collapsed");
+              targetEl.classList.add("expanded");
+              const body = targetEl.querySelector(".card-body");
+              if (body) body.classList.remove("hidden");
+            }
+            targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+
           if (window.innerWidth <= 900) {
             if (sidebar) sidebar.classList.remove("active");
             if (overlay) overlay.classList.remove("active");
@@ -2843,8 +3005,7 @@ document.addEventListener("DOMContentLoaded", () => {
     examTimelineGrid.addEventListener("click", e => {
       const card = e.target.closest(".timeline-exam-card");
       if (card) {
-        const presetId = card.dataset.preset;
-        if (presetId) switchNav("mock", { preset: presetId });
+        switchNav("practice");
       }
     });
   }

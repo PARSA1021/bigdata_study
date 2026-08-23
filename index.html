@@ -49,7 +49,7 @@
         </a>
       </div>
 
-      <!-- 데스크탑 메인 탭바 (5개 핵심 탭) -->
+      <!-- 데스크탑 메인 탭바 (4개 핵심 탭) -->
       <nav class="desktop-nav-tabs">
         <button class="main-nav-btn active" data-nav="home">
           <span class="nav-tab-icon">🏠</span> 홈·루틴
@@ -59,9 +59,6 @@
         </button>
         <button class="main-nav-btn" data-nav="practice">
           <span class="nav-tab-icon">📝</span> 스마트기출
-        </button>
-        <button class="main-nav-btn" data-nav="mock">
-          <span class="nav-tab-icon">⏱️</span> 실전 CBT
         </button>
         <button class="main-nav-btn" data-nav="wrong">
           <span class="nav-tab-icon">📕</span> 오답탈출
@@ -246,6 +243,9 @@
                   <button id="btnFilterBookmarked" class="notes-tool-btn" title="북마크(⭐)한 중요 개념만 모아보기">
                     <span class="tool-icon">⭐</span> 북마크만
                   </button>
+                  <button id="btnFilterWeakness" class="notes-tool-btn" title="오답 2회 이상 발생한 취약 개념만 모아보기">
+                    <span class="tool-icon">🔴</span> 약점 집중공략만
+                  </button>
                 </div>
 
                 <div class="notes-inline-search">
@@ -298,16 +298,6 @@
           <!-- VIEW 3: 📝 스마트 기출문제 & CBT (Practice & Mock) -->
           <!-- ============================================== -->
           <div id="quiz-content" class="view-section hidden">
-            <!-- 모드 전환 탭 (연습 모드 vs 실전 모의고사 모드) -->
-            <div class="mode-tabs">
-              <button id="tabPractice" class="mode-tab active">
-                <span class="tab-icon">📖</span> 연습 모드 (문제 풀기 & AI 해설)
-              </button>
-              <button id="tabMockExam" class="mode-tab">
-                <span class="tab-icon">⏱️</span> 실전 CBT 모의고사 (80제)
-              </button>
-            </div>
-
             <!-- 연습 모드 헤더 -->
             <div id="practice-header" class="hero-section practice-hero-card">
               <div class="practice-hero-top">
@@ -400,7 +390,11 @@
               </div>
 
               <!-- 💎 필터 칩 (과목, 회차, 유형, 중요도) -->
-              <div class="premium-filters-wrapper">
+              <div class="premium-filters-wrapper" id="premiumFiltersWrapper">
+                <button id="toggleMobileFiltersBtn" class="mobile-filter-toggle-btn" aria-label="필터 접기/펼치기">
+                  <span>⚙️ 상세 필터 설정 (과목/회차/유형)</span>
+                  <span id="filterToggleIcon">▲ 접기</span>
+                </button>
                 <div class="filter-group">
                   <span class="filter-label">과목:</span>
                   <div class="filter-chip-bar" id="subjectFilterChips">
@@ -452,38 +446,6 @@
                   <button id="resetFilterBtn" class="action-btn-sm" title="필터 초기화">🔄 전체 해제</button>
                   <button id="shuffleQuizBtn" class="action-btn-sm" title="순서 섞기">🎲 무작위 섞기</button>
                 </div>
-              </div>
-            </div>
-
-            <!-- 실전 모의고사 타이머 & OMR 토글 헤더 -->
-            <div id="mock-header" class="hero-section hidden mock-banner">
-              <div class="mock-info-bar">
-                <div class="timer-container" style="flex: 1; margin-right: 16px; display: flex; flex-direction: column; gap: 6px;">
-                  <div class="timer-box" style="width: fit-content; margin-bottom: 2px;">
-                    <span class="timer-icon">⏱️</span>
-                    <span class="timer-label">남은 시간:</span>
-                    <span id="examTimer" class="timer-value">80:00</span>
-                  </div>
-                  <div class="cbt-timer-progress-bg" style="width: 100%; height: 6px; background: var(--line-strong); border-radius: 999px; overflow: hidden;">
-                    <div id="cbtTimerProgress" class="cbt-timer-progress-fill" style="width: 100%; height: 100%; background: var(--success); transition: width 1s linear, background-color 0.3s ease;"></div>
-                  </div>
-                  <div id="cbtTimerMsg" class="cbt-timer-msg" style="font-size: 12px; font-weight: 600; color: var(--success);">🟢 1-Pass 구간: 아는 문제부터 빠르게 마킹하세요.</div>
-                </div>
-                <div class="mock-actions">
-                  <button id="openOmrBtn" class="button button-light omr-toggle-btn">
-                    📋 OMR 답안지 (<span id="omrSolvedCount">0</span>/80)
-                  </button>
-                  <button id="submitExamBtn" class="button button-brand submit-exam-btn">
-                    🏁 최종 제출하기
-                  </button>
-                </div>
-              </div>
-
-              <div class="mock-presets">
-                <button id="mockPreset11th" class="preset-pill active">🔥 11회 최신 기출 (80제)</button>
-                <button id="mockPreset10th" class="preset-pill">🏆 10회 기출 (80제)</button>
-                <button id="mockPreset4th" class="preset-pill">🎯 4회 기출 (80제)</button>
-                <button id="mockPresetRandom" class="preset-pill">🔀 랜덤 조합 (80제)</button>
               </div>
             </div>
 
@@ -615,28 +577,6 @@
     </div>
 
     <!-- ============================================== -->
-    <!-- MODAL 1: 📋 CBT OMR 답안지 드로어 -->
-    <!-- ============================================== -->
-    <div id="omrOverlay" class="omr-overlay hidden"></div>
-    <div id="omrDrawer" class="omr-drawer blur-glass hidden">
-      <div class="omr-header">
-        <div class="omr-title-group">
-          <span class="omr-badge">CBT</span>
-          <h3>📋 실시간 OMR 답안지</h3>
-        </div>
-        <button id="closeOmrBtn" class="icon-btn close-btn">✕</button>
-      </div>
-      <div class="omr-summary">
-        <div>풀이 진행: <strong id="omrProgress">0 / 80</strong></div>
-        <div>검토 필요(★): <strong id="omrFlagCount">0</strong></div>
-      </div>
-      <div id="omrGrid" class="omr-grid"></div>
-      <div class="omr-footer">
-        <button id="omrSubmitBtn" class="button button-brand w-full">최종 제출 및 자동 채점하기</button>
-      </div>
-    </div>
-
-    <!-- ============================================== -->
     <!-- MODAL 2: ⚡ 선지 OX 벼락치기 훈련 모달 (New) -->
     <!-- ============================================== -->
     <!-- Floating Sprint Timer -->
@@ -750,7 +690,7 @@
     </div>
 
 
-    <!-- 모바일 하단 네비게이션 바 (Knowway Style 5 Tabs) -->
+    <!-- 모바일 하단 네비게이션 바 (Knowway Style 4 Tabs) -->
     <!-- ============================================== -->
     <nav class="bottom-nav blur-glass">
       <button class="bottom-nav-item active" data-nav="home">
@@ -764,10 +704,6 @@
       <button class="bottom-nav-item" data-nav="practice">
         <span class="nav-icon">📝</span>
         <span class="nav-label">스마트기출</span>
-      </button>
-      <button class="bottom-nav-item" data-nav="mock">
-        <span class="nav-icon">⏱️</span>
-        <span class="nav-label">실전CBT</span>
       </button>
       <button class="bottom-nav-item" data-nav="wrong">
         <span class="nav-icon">📕</span>
