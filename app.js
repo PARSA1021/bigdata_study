@@ -3760,12 +3760,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateThemeUI(theme) {
     const isDark = theme === "dark";
-    document.querySelectorAll(".theme-toggle-btn, .theme-btn").forEach(btn => {
-      btn.setAttribute("title", isDark ? "라이트모드로 전환" : "다크모드로 전환");
-      btn.setAttribute("aria-label", isDark ? "라이트모드로 전환" : "다크모드로 전환");
-      const label = btn.querySelector(".theme-label");
+    const themeBtn = document.getElementById("themeToggleBtn");
+    if (themeBtn) {
+      themeBtn.setAttribute("title", isDark ? "라이트모드로 전환" : "다크모드로 전환");
+      themeBtn.setAttribute("aria-label", isDark ? "라이트모드로 전환" : "다크모드로 전환");
+      const label = themeBtn.querySelector(".theme-label");
       if (label) label.textContent = isDark ? "라이트모드" : "다크모드";
-    });
+    }
   }
 
   function showToast(msg) {
@@ -3974,8 +3975,226 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // ==========================================
+  // 16-1. FORMULA CALCULATOR TOOL (🧮 3초 공식 빠른 계산기)
+  // ==========================================
+  const calcToolModal = document.getElementById("calcToolModal");
+  const openCalcToolTopBtn = document.getElementById("openCalcToolTopBtn");
+  const closeCalcToolBtn = document.getElementById("closeCalcToolBtn");
+  const closeCalcToolModalBtn = document.getElementById("closeCalcToolModalBtn");
+
+  function openCalcToolModal() {
+    if (calcToolModal) {
+      calcToolModal.classList.remove("hidden");
+      updateCalcResults();
+    }
+  }
+
+  function closeCalcToolModal() {
+    if (calcToolModal) {
+      calcToolModal.classList.add("hidden");
+    }
+  }
+
+  function initCalcTool() {
+    if (openCalcToolTopBtn) openCalcToolTopBtn.addEventListener("click", openCalcToolModal);
+    if (closeCalcToolBtn) closeCalcToolBtn.addEventListener("click", closeCalcToolModal);
+    if (closeCalcToolModalBtn) closeCalcToolModalBtn.addEventListener("click", closeCalcToolModal);
+    if (calcToolModal) {
+      calcToolModal.addEventListener("click", e => {
+        if (e.target === calcToolModal) closeCalcToolModal();
+      });
+    }
+
+    // Tabs
+    const tabs = [
+      { btn: "calcTabMatrix", pane: "calcPaneMatrix" },
+      { btn: "calcTabIqr", pane: "calcPaneIqr" },
+      { btn: "calcTabZscore", pane: "calcPaneZscore" },
+      { btn: "calcTabR2", pane: "calcPaneR2" }
+    ];
+
+    tabs.forEach(t => {
+      const btnEl = document.getElementById(t.btn);
+      if (btnEl) {
+        btnEl.addEventListener("click", () => {
+          tabs.forEach(x => {
+            const b = document.getElementById(x.btn);
+            const p = document.getElementById(x.pane);
+            if (b) b.classList.toggle("active", x.btn === t.btn);
+            if (p) p.classList.toggle("hidden", x.pane !== t.pane);
+          });
+          updateCalcResults();
+        });
+      }
+    });
+
+    // Inputs Live Updating
+    const inputIds = [
+      "calcInputTP", "calcInputFP", "calcInputFN", "calcInputTN",
+      "calcInputQ1", "calcInputQ3", "calcInputX", "calcInputMu",
+      "calcInputSigma", "calcInputSSE", "calcInputSST"
+    ];
+
+    inputIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener("input", updateCalcResults);
+    });
+  }
+
+  function updateCalcResults() {
+    // 1. Confusion Matrix
+    const tp = parseFloat(document.getElementById("calcInputTP")?.value || 0);
+    const fp = parseFloat(document.getElementById("calcInputFP")?.value || 0);
+    const fn = parseFloat(document.getElementById("calcInputFN")?.value || 0);
+    const tn = parseFloat(document.getElementById("calcInputTN")?.value || 0);
+
+    const precision = (tp + fp) > 0 ? (tp / (tp + fp)) : 0;
+    const recall = (tp + fn) > 0 ? (tp / (tp + fn)) : 0;
+    const specificity = (tn + fp) > 0 ? (tn / (tn + fp)) : 0;
+    const accuracy = (tp + fp + fn + tn) > 0 ? ((tp + tn) / (tp + fp + fn + tn)) : 0;
+    const f1 = (precision + recall) > 0 ? (2 * precision * recall / (precision + recall)) : 0;
+
+    const resMatrix = document.getElementById("calcMatrixResult");
+    if (resMatrix) {
+      resMatrix.innerHTML = `
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:10px; margin-bottom:12px;">
+          <div style="padding:10px 14px; background:var(--surface); border:1px solid var(--line-bold); border-radius:10px;">
+            <div style="font-size:11px; font-weight:800; color:var(--text-muted);">🎯 정밀도 (Precision)</div>
+            <div style="font-size:18px; font-weight:950; color:var(--brand-accent, #007AFF);">${(precision * 100).toFixed(1)}%</div>
+            <div style="font-size:11px; color:var(--text-muted);">공식: $\\frac{TP}{TP + FP} = \\frac{${tp}}{${tp}+${fp}}$</div>
+          </div>
+
+          <div style="padding:10px 14px; background:var(--surface); border:1px solid var(--line-bold); border-radius:10px;">
+            <div style="font-size:11px; font-weight:800; color:var(--text-muted);">📢 재현율/민감도 (Recall)</div>
+            <div style="font-size:18px; font-weight:950; color:#10B981;">${(recall * 100).toFixed(1)}%</div>
+            <div style="font-size:11px; color:var(--text-muted);">공식: $\\frac{TP}{TP + FN} = \\frac{${tp}}{${tp}+${fn}}$</div>
+          </div>
+
+          <div style="padding:10px 14px; background:var(--surface); border:1px solid var(--line-bold); border-radius:10px;">
+            <div style="font-size:11px; font-weight:800; color:var(--text-muted);">⚡ F1-Score (조화평균)</div>
+            <div style="font-size:18px; font-weight:950; color:#F59E0B;">${f1.toFixed(3)}</div>
+            <div style="font-size:11px; color:var(--text-muted);">공식: $\\frac{2 \\times P \\times R}{P + R}$</div>
+          </div>
+
+          <div style="padding:10px 14px; background:var(--surface); border:1px solid var(--line-bold); border-radius:10px;">
+            <div style="font-size:11px; font-weight:800; color:var(--text-muted);">🛡️ 특이도 (Specificity)</div>
+            <div style="font-size:18px; font-weight:950; color:var(--text-color);">${(specificity * 100).toFixed(1)}%</div>
+            <div style="font-size:11px; color:var(--text-muted);">공식: $\\frac{TN}{TN + FP} = \\frac{${tn}}{${tn}+${fp}}$</div>
+          </div>
+
+          <div style="padding:10px 14px; background:var(--surface); border:1px solid var(--line-bold); border-radius:10px;">
+            <div style="font-size:11px; font-weight:800; color:var(--text-muted);">✅ 정확도 (Accuracy)</div>
+            <div style="font-size:18px; font-weight:950; color:var(--text-color);">${(accuracy * 100).toFixed(1)}%</div>
+            <div style="font-size:11px; color:var(--text-muted);">공식: $\\frac{TP + TN}{\\text{전체}}$</div>
+          </div>
+        </div>
+
+        <div style="font-size:12px; line-height:1.5; padding:10px 12px; background:var(--paper-subtle); border-left:3.5px solid var(--brand); border-radius:6px; color:var(--text-color);">
+          💡 <strong>시험 암기 팁:</strong> <strong>정밀도</strong>는 '예측'이 분모($TP+FP$), <strong>재현율</strong>은 '실제'가 분모($TP+FN$)입니다. 불균형 데이터에서는 <strong>F1-Score</strong>가 성능 평가의 핵심 기준이 됩니다!
+        </div>
+      `;
+    }
+
+    // 2. IQR
+    const q1 = parseFloat(document.getElementById("calcInputQ1")?.value || 0);
+    const q3 = parseFloat(document.getElementById("calcInputQ3")?.value || 0);
+    const iqr = q3 - q1;
+    const lowerBound = q1 - (1.5 * iqr);
+    const upperBound = q3 + (1.5 * iqr);
+
+    const resIqr = document.getElementById("calcIqrResult");
+    if (resIqr) {
+      resIqr.innerHTML = `
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:10px; margin-bottom:12px;">
+          <div style="padding:12px; background:var(--surface); border:1px solid var(--line-bold); border-radius:10px;">
+            <div style="font-size:11px; font-weight:800; color:var(--text-muted);">📏 사분위수 범위 (IQR)</div>
+            <div style="font-size:20px; font-weight:950; color:var(--brand);">${iqr}</div>
+            <div style="font-size:11px; color:var(--text-muted);">$Q_3 - Q_1 = ${q3} - ${q1}$</div>
+          </div>
+
+          <div style="padding:12px; background:var(--surface); border:1px solid var(--line-bold); border-radius:10px;">
+            <div style="font-size:11px; font-weight:800; color:var(--text-muted);">🔽 이상치 하한 경계 (Lower Whisker)</div>
+            <div style="font-size:20px; font-weight:950; color:#EF4444;">${lowerBound}</div>
+            <div style="font-size:11px; color:var(--text-muted);">$Q_1 - 1.5 \\times IQR = ${q1} - ${1.5 * iqr}$</div>
+          </div>
+
+          <div style="padding:12px; background:var(--surface); border:1px solid var(--line-bold); border-radius:10px;">
+            <div style="font-size:11px; font-weight:800; color:var(--text-muted);">🔼 이상치 상한 경계 (Upper Whisker)</div>
+            <div style="font-size:20px; font-weight:950; color:#EF4444;">${upperBound}</div>
+            <div style="font-size:11px; color:var(--text-muted);">$Q_3 + 1.5 \\times IQR = ${q3} + ${1.5 * iqr}$</div>
+          </div>
+        </div>
+
+        <div style="font-size:12px; line-height:1.5; padding:10px 12px; background:var(--paper-subtle); border-left:3.5px solid #FF9500; border-radius:6px; color:var(--text-color);">
+          📦 <strong>박스플롯 해석:</strong> 관측값이 <strong>${lowerBound} 미만</strong>이거나 <strong>${upperBound} 초과</strong>이면 박스플롯 상 이상치(Outlier)점으로 표시됩니다.
+        </div>
+      `;
+    }
+
+    // 3. Z-Score
+    const x = parseFloat(document.getElementById("calcInputX")?.value || 0);
+    const mu = parseFloat(document.getElementById("calcInputMu")?.value || 0);
+    const sigma = parseFloat(document.getElementById("calcInputSigma")?.value || 1);
+    const z = sigma !== 0 ? (x - mu) / sigma : 0;
+
+    const resZ = document.getElementById("calcZscoreResult");
+    if (resZ) {
+      resZ.innerHTML = `
+        <div style="padding:14px; background:var(--surface); border:1.5px solid var(--line-bold); border-radius:12px; margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:13px; font-weight:800;">📈 Z-Score 표준화 점수</span>
+            <span style="font-size:22px; font-weight:950; color:var(--brand);">$z = ${z.toFixed(3)}$</span>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); margin-top:6px;">
+            공식: $z = \\frac{X - \\mu}{\\sigma} = \\frac{${x} - ${mu}}{${sigma}} = ${z.toFixed(3)}$
+          </div>
+        </div>
+        <div style="font-size:12px; line-height:1.5; padding:10px 12px; background:var(--paper-subtle); border-left:3.5px solid #3B82F6; border-radius:6px; color:var(--text-color);">
+          💡 <strong>해석:</strong> Z-Score 변환 후 데이터의 평균은 <strong>0</strong>, 표준편차는 <strong>1</strong>이 됩니다. (이상치 판별 기준: $|z| \\ge 3$)
+        </div>
+      `;
+    }
+
+    // 4. R2
+    const sse = parseFloat(document.getElementById("calcInputSSE")?.value || 0);
+    const sst = parseFloat(document.getElementById("calcInputSST")?.value || 1);
+    const r2 = sst !== 0 ? 1 - (sse / sst) : 0;
+
+    const resR2 = document.getElementById("calcR2Result");
+    if (resR2) {
+      resR2.innerHTML = `
+        <div style="padding:14px; background:var(--surface); border:1.5px solid var(--line-bold); border-radius:12px; margin-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:13px; font-weight:800;">📐 결정계수 ($R^2$) 설명력</span>
+            <span style="font-size:22px; font-weight:950; color:#10B981;">$R^2 = ${r2.toFixed(3)}$ (${(r2 * 100).toFixed(1)}%)</span>
+          </div>
+          <div style="font-size:12px; color:var(--text-muted); margin-top:6px;">
+            공식: $R^2 = 1 - \\frac{SSE}{SST} = 1 - \\frac{${sse}}{${sst}} = ${r2.toFixed(3)}$
+          </div>
+        </div>
+        <div style="font-size:12px; line-height:1.5; padding:10px 12px; background:var(--paper-subtle); border-left:3.5px solid #10B981; border-radius:6px; color:var(--text-color);">
+          🎯 <strong>해석:</strong> 총변동(SST) 중 회귀 모형이 <strong>${(r2 * 100).toFixed(1)}%</strong>를 설명할 수 있음을 의미합니다. (관계: $SST = SSR + SSE$)
+        </div>
+      `;
+    }
+
+    // Render KaTeX in updated calc panes if renderMathInElement is available
+    if (typeof window.renderMathInElement === "function" && calcToolModal) {
+      window.renderMathInElement(calcToolModal, {
+        delimiters: [
+          { left: "$$", right: "$$", display: true },
+          { left: "$", right: "$", display: false }
+        ],
+        throwOnError: false
+      });
+    }
+  }
+
+
+  // ==========================================
   // 17. BOOTSTRAP APPLICATION
   // ==========================================
+  initCalcTool();
   setupEventListeners();
   loadDataAndInit();
 

@@ -2594,8 +2594,23 @@ tr:nth-child(even) {
 }
 
 /* =========================================================
-   Responsive Breakpoints
+   Responsive Breakpoints for Tablet and Mobile
    ========================================================= */
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .must-know-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+  .routine-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .home-subject-bars {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
 @media (max-width: 900px) {
   :root {
@@ -2620,7 +2635,7 @@ tr:nth-child(even) {
     left: 50%;
     transform: translateX(-50%);
     width: calc(100% - 24px);
-    max-width: 420px;
+    max-width: 440px;
     height: 64px;
     background: var(--glass-bg);
     backdrop-filter: blur(16px);
@@ -2635,6 +2650,11 @@ tr:nth-child(even) {
     touch-action: manipulation;
     user-select: none;
     -webkit-user-select: none;
+  }
+
+  .bottom-nav-item {
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .bottom-nav-item:active {
@@ -2654,15 +2674,12 @@ tr:nth-child(even) {
   /* Prevent iOS Safari Auto-Zoom on Input Focus */
   input[type="text"],
   input[type="search"],
+  input[type="number"],
   .search-box input,
   .notes-inline-search input,
   .quiz-input,
   .premium-search-input {
     font-size: 16px !important;
-  }
-
-  .routine-grid {
-    grid-template-columns: 1fr;
   }
 
   .ox-buttons-row {
@@ -2723,6 +2740,14 @@ tr:nth-child(even) {
   .premium-filters-wrapper.collapsed .filter-actions {
     display: none !important;
   }
+  .routine-grid, .home-subject-bars {
+    grid-template-columns: 1fr;
+  }
+  .modal-card {
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 16px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -2751,6 +2776,18 @@ tr:nth-child(even) {
   }
   .theme-toggle-btn .theme-label {
     display: none !important;
+  }
+  .must-know-grid {
+    grid-template-columns: 1fr;
+  }
+  .modal-card {
+    width: 95% !important;
+    margin: 0 auto;
+    border-radius: 16px;
+  }
+  .quiz-card {
+    padding: 18px 14px;
+    border-radius: 14px;
   }
 
   /* Hero Section Mobile Spacing */
@@ -2846,9 +2883,78 @@ tr:nth-child(even) {
     border-radius: 24px 24px 0 0 !important;
     animation: slideUpSheet 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
-  @keyframes slideUpSheet {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
+}
+
+@keyframes slideUpSheet {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+/* =========================================================
+   UNIVERSAL RESPONSIVE SYSTEM (Mobile, Tablet, Desktop)
+   ========================================================= */
+
+/* 1. KaTeX & Math Equations & Tables Touch-Scroll Overflow */
+.katex-display,
+.mk-table,
+.cbt-question-content pre,
+.cbt-explanation pre,
+.calc-result-box,
+table {
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  scrollbar-width: thin;
+}
+
+/* 2. Responsive Grid System for Must-Know Cards */
+.must-know-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 1024px) {
+  .must-know-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .must-know-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 3. CBT Split Layout Responsiveness */
+@media (max-width: 1024px) {
+  .cbt-split-container {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+  .cbt-omr-sidebar {
+    width: 100% !important;
+    position: static !important;
+    max-height: 280px !important;
+  }
+}
+
+/* 4. Formula Calculator Modal Grid Responsiveness */
+.calc-input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+/* 5. Touch Target Optimization & Safe Area Adjustments */
+@media (max-width: 768px) {
+  .notes-card-grid, .sprint-card-container, .routine-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .quiz-option, .main-nav-btn, .button, .btn-small {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+  .mk-card-container {
+    padding: 16px 14px;
   }
 }
 
@@ -6019,4 +6125,43 @@ td .katex {
   font-family: var(--font-sans);
   font-size: 0.95em;
   font-style: normal;
+}
+
+/* =========================================================
+   🖨️ A4 PRINTABLE STYLES FOR EXAM DAY CHEAT SHEET & MUST-KNOW DECK
+   ========================================================= */
+@media print {
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 12pt;
+  }
+  .topbar, .bottom-nav, .to-top-btn, .theme-toggle-btn, .notes-control-toolbar, 
+  .practice-header-compact, .icon-btn, .modal-footer, button {
+    display: none !important;
+  }
+  .modal-overlay {
+    position: static !important;
+    background: none !important;
+    backdrop-filter: none !important;
+    display: block !important;
+  }
+  .modal-card {
+    border: none !important;
+    box-shadow: none !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    background: #FFFFFF !important;
+  }
+  .must-know-card, .cheat-sheet-card {
+    page-break-inside: avoid;
+    border: 1px solid #CCCCCC !important;
+    margin-bottom: 12pt !important;
+    background: #FFFFFF !important;
+  }
+  .mk-blind-word {
+    background: transparent !important;
+    color: #000000 !important;
+    border-bottom: 1px solid #000000 !important;
+  }
 }

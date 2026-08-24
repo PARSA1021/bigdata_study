@@ -1143,5 +1143,255 @@ window.mustKnowData = [
     traps: "오답 Trap: '생키 다이어그램은 다차원 변수의 상관계수 행렬을 색상으로 표현하는 데 가장 적합하다' ➔ 땡(❌)! 상관계수 행렬은 [히트맵]입니다.",
     quizKeyword: "시각화",
     cardId: "c4-6"
+  },
+  {
+    id: "mk-1-9",
+    subject: 1,
+    subjectName: "1과목 분석 기획",
+    category: "데이터 거버넌스",
+    importance: "A+",
+    title: "데이터 거버넌스 4대 구성요소 & 데이터 표준화 (명칭/정의/형식)",
+    summary: "전사적 데이터 자산을 효율적·안전하게 관리하기 위한 데이터 거버넌스 프레임워크와 표준 체계 3대 요소.",
+    memoryTip: "💡 1초 암기: 거버넌스 4요소 = 【조직, 프로세스, 시스템, 데이터표준】 | 데이터 표준화 3요소 = 【표준 단어, 표준 용어, 표준 도메인】",
+    corePoints: [
+      "데이터 거버넌스(Data Governance): 데이터의 원천, 품질, 보안, 체계적 관리를 위한 전사적 관리 체계 및 조직적 의사결정 구조",
+      "거버넌스 4대 구성요소: 조직(Organization), 프로세스(Process), 시스템(System), 데이터 표준화(Data Standard)",
+      "데이터 표준화 3대 구성요소:",
+      " 1) 표준 단어: 사업 분야에서 사용하는 단어를 단의어/동의어 정제 후 등록 (예: 고객, 금액)",
+      " 2) 표준 용어: 표준 단어를 조합하여 생성한 명칭 (예: 고객 + 금액 ➔ 고객금액)",
+      " 3) 표준 도메인: 데이터의 값의 범위, 타입, 길이를 정의 (예: 금액 도메인 ➔ NUMBER(15))",
+      "데이터 관리 체계: 메타데이터 관리, 마스터 데이터 관리(MDM - 핵심 기준정보 통합)"
+    ],
+    comparisonTable: `
+      <table class="mk-table">
+        <thead><tr><th>구분</th><th>표준 단어</th><th>표준 용어</th><th>표준 도메인</th></tr></thead>
+        <tbody>
+          <tr><td><strong>정의</strong></td><td>기본 구성 단위 단어</td><td>단어들의 조합으로 만든 명칭</td><td>데이터의 타입, 길이, 허용값 범위</td></tr>
+          <tr><td><strong>예시</strong></td><td>'고객', '매출'</td><td>'고객_매출_금액'</td><td>NUMBER(12), YYYY-MM-DD (날짜)</td></tr>
+          <tr><td><strong>핵심 역할</strong></td><td>동의어 헷갈림 방지</td><td>컬럼명 통일성 확보</td><td>DB 필드 데이터 타입 일치화</td></tr>
+        </tbody>
+      </table>
+    `,
+    traps: "오답 Trap: '데이터 도메인은 표준 단어를 조합하여 만든 완성된 명칭이다' ➔ 땡(❌)! 단어를 조합한 것은 [표준 용어]이며, 도메인은 [데이터의 형식 및 범위]입니다.",
+    quizKeyword: "거버넌스",
+    cardId: "c1-22"
+  },
+  {
+    id: "mk-1-10",
+    subject: 1,
+    subjectName: "1과목 분석 기획",
+    category: "하둡/스파크 에코시스템",
+    importance: "A+",
+    title: "하둡(Hadoop) 2.0 스택 & 스파크(Apache Spark) RDD vs DataFrame",
+    summary: "분산 파일 시스템 HDFS, 분산 자원 관리자 YARN, 그리고 인메모리 초고속 처리 엔진 Spark의 핵심 메커니즘.",
+    memoryTip: "💡 1초 암기: 하둡 = HDFS(저장) + YARN(자원배분) + MapReduce(디스크연산) | Spark = 인메모리(100배빠름) + RDD(불변/불변성)",
+    corePoints: [
+      "HDFS (Hadoop Distributed File System): 대용량 데이터를 블록(기본 128MB) 단위로 나누어 분산 저장 (NameNode = 마스터 메타데이터, DataNode = 실제 블록 저장)",
+      "YARN (Yet Another Resource Negotiator): 하둡 2.0 자원 관리 및 작업 스케줄링 플랫폼 (ResourceManager + NodeManager)",
+      "MapReduce: Map(데이터 쪼개기/키-값 생성) ➔ Shuffle(정렬) ➔ Reduce(합산) 단계의 디스크 기반 분산 처리",
+      "Apache Spark (아파치 스파크):",
+      " - **인메모리(In-Memory) 연산**으로 MapReduce 대비 최대 100배 빠름",
+      " - RDD (Resilient Distributed Dataset): 병렬 처리 가능한 **불변(Immutable)** 분산 데이터 컬렉션, 장애 복구 능력 보유",
+      " - DataFrame / Dataset: RDD에 스키마(Schema) 구조를 부여하여 Catalyst 최적화기 지원"
+    ],
+    comparisonTable: `
+      <table class="mk-table">
+        <thead><tr><th>구분</th><th>하둡 MapReduce</th><th>아파치 스파크 (Spark)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>연산 매체</strong></td><td>디스크 (Disk I/O 잦음)</td><td><strong>메모리 (In-Memory DRAM)</strong></td></tr>
+          <tr><td><strong>처리 속도</strong></td><td>상대적으로 느림 (배치 작업에 적합)</td><td>매우 빠름 (실시간 및 반복 학습)</td></tr>
+          <tr><td><strong>핵심 추상화</strong></td><td>Map & Reduce 키-값 쌍</td><td><strong>RDD / DataFrame / Dataset</strong></td></tr>
+          <tr><td><strong>반복 학습</strong></td><td>매 단계 디스크 쓰기로 인공지능에 비효율</td><td>메모리 재사용으로 ML/DL 연산에 최적화</td></tr>
+        </tbody>
+      </table>
+    `,
+    traps: "오답 Trap: 'Spark의 RDD는 언제든지 자유롭게 요소를 변경할 수 있는 가변(Mutable) 객체이다' ➔ 땡(❌)! RDD는 읽기 전용 **불변(Immutable)** 객체입니다.",
+    quizKeyword: "Spark",
+    cardId: "c1-23"
+  },
+  {
+    id: "mk-2-10",
+    subject: 2,
+    subjectName: "2과목 데이터 탐색",
+    category: "표본 추출 기법",
+    importance: "A+",
+    title: "표본 추출 4대 확률 추출 기법 비교 (단순무작위, 계통, 층화, 군집) 🔥 [최다출제]",
+    summary: "시험에서 매회 1~2문제 무조건 출제되는 4가지 표본 추출(Sampling) 기법의 정의와 층화 vs 군집 1:1 영구 비교.",
+    memoryTip: "💡 1초 암기: 계통(k번째 간격) | 층화(집단내 동질, 집단간 이질 -> 층별 추출) | 군집(집단내 이질, 집단간 동질 -> 군집 통째 추출)",
+    corePoints: [
+      "1) 단순 무작위 추출 (Simple Random Sampling): 모든 개체가 뽑힐 확률이 동일함 (난수표 사용)",
+      "2) 계통 추출 (Systematic Sampling): 첫 번째 개체를 무작위로 뽑은 후 **일정한 간격 $k$번째 마다** 표본 추출 ($k = N/n$)",
+      "3) 층화 추출 (Stratified Sampling):",
+      " - 모집단을 **집단 내부는 동질적, 집단 간은 이질적인** 층(Layer)으로 나눔 (예: 학년별, 성별)",
+      " - **각 층별로 무작위 표본을 각각 추출** ➔ 추정의 가변성/오차 최소화 (대표성 극대화)",
+      "4) 군집/집단 추출 (Cluster Sampling):",
+      " - 모집단을 **집단 내부는 이질적, 집단 간은 동질적인** 군집으로 나눔 (예: 학급, 구/동)",
+      " - **선택된 몇 개 군집을 통째로 전수조사** ➔ 조사 비용 및 시간 대폭 절감"
+    ],
+    comparisonTable: `
+      <table class="mk-table">
+        <thead><tr><th>구분</th><th>층화 추출 (Stratified)</th><th>군집/집단 추출 (Cluster)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>집단 내부 (Within)</strong></td><td><strong style="color:var(--brand);">동질적 (Homogeneous)</strong></td><td><strong style="color:var(--danger);">이질적 (Heterogeneous)</strong></td></tr>
+          <tr><td><strong>집단 간 (Between)</strong></td><td><strong style="color:var(--danger);">이질적 (Heterogeneous)</strong></td><td><strong style="color:var(--brand);">동질적 (Homogeneous)</strong></td></tr>
+          <tr><td><strong>추출 방식</strong></td><td><strong>모든 층에서 각각 일부 추출</strong></td><td><strong>몇 개 군집 선택 후 통째로 추출</strong></td></tr>
+          <tr><td><strong>주요 목적</strong></td><td>대표성 확보 및 표본 오차 최소화</td><td>조사 비용 및 시간 대폭 절감</td></tr>
+        </tbody>
+      </table>
+    `,
+    traps: "오답 Trap: '층화 추출은 집단 내부가 이질적이고 집단 간이 동질적일 때 사용한다' ➔ 땡(❌)! 거꾸로 말했습니다. 집단 내 동질/집단 간 이질이 [층화], 집단 내 이질/집단 간 동질이 [군집]입니다.",
+    quizKeyword: "층화추출",
+    cardId: "c2-25"
+  },
+  {
+    id: "mk-2-11",
+    subject: 2,
+    subjectName: "2과목 데이터 탐색",
+    category: "가설검정 통계량",
+    importance: "A+",
+    title: "가설검정 핵심 통계량 4종 ($Z, t, F, \\chi^2$) 및 자유도 총정리",
+    summary: "검정 목적에 따른 $Z$-검정, $t$-검정, $F$-검정, 카이제곱 검정의 적용 기준과 자유도(df) 수식.",
+    memoryTip: "💡 1초 암기: Z(모분산 앎/대표본) ➔ t(모분산 모름/소표본 n-1) ➔ F(두 분산 비/ANOVA) ➔ 카이제곱(독립성/범주형 (r-1)(c-1))",
+    corePoints: [
+      "1) Z-검정: 모분산 $\\sigma^2$을 알고 있거나, 표본 크기가 충분히 큰 경우($n \\ge 30$) 모평균 검정",
+      "2) t-검정: 모분산 $\\sigma^2$을 모르고, 표본 크기가 작은 소표본($n < 30$)일 때 모평균 검정 (단일표본 자유도 $df = n-1$, 독립2표본 자유도 $df = n_1 + n_2 - 2$)",
+      "3) F-검정: 두 독립적인 정규 모집단의 분산 비교 및 분산분석(ANOVA), 회귀분석 유의성 검정 ($F = \\frac{MSR}{MSE} = \\frac{s_1^2}{s_2^2}$, 분자/분모 2개의 자유도 가짐)",
+      "4) 카이제곱($\\chi^2$) 검정: 범주형 변수의 적합도 검정, 교차표 독립성/동질성 검정 (분할표 자유도 $df = (r - 1)(c - 1)$)"
+    ],
+    comparisonTable: `
+      <table class="mk-table">
+        <thead><tr><th>검정 방법</th><th>주요 활용 목적</th><th>자유도 (Degree of Freedom)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>단일표본 t-검정</strong></td><td>모분산 모를 때 모평균 검정</td><td>$df = n - 1$</td></tr>
+          <tr><td><strong>독립 2표본 t-검정</strong></td><td>두 집단의 평균 차이 비교</td><td>$df = n_1 + n_2 - 2$</td></tr>
+          <tr><td><strong>분산분석 (ANOVA)</strong></td><td>3개 이상 집단 평균 비교</td><td>분자 $k-1$, 분모 $N-k$</td></tr>
+          <tr><td><strong>카이제곱 독립성 검정</strong></td><td>$r \\times c$ 분할표 범주 간 관련성</td><td>$df = (r - 1)(c - 1)$</td></tr>
+        </tbody>
+      </table>
+    `,
+    traps: "오답 Trap: '3행 4열 분할표의 카이제곱 검정 자유도는 12이다' ➔ 땡(❌)! 자유도는 $(3-1) \\times (4-1) = 2 \\times 3 = 6$ 입니다.",
+    quizKeyword: "자유도",
+    cardId: "c2-26"
+  },
+  {
+    id: "mk-3-11",
+    subject: 3,
+    subjectName: "3과목 데이터 모델링",
+    category: "인공신경망",
+    importance: "A+",
+    title: "인공신경망 활성화 함수 (Sigmoid, ReLU, LeakyReLU, Softmax)",
+    summary: "신경망 비선형성 부여 함수들의 수식, 기울기 소실(Vanishing Gradient) 극복 과정과 출력층 활성화 함수 선택 기준.",
+    memoryTip: "💡 1초 암기: 은닉층 = ReLU(0이하 0, 0이상 x/기울기소실해결) | 출력층 이진분류 = Sigmoid | 출력층 다중분류 = Softmax(합=1)",
+    corePoints: [
+      "시그모이드 (Sigmoid): $\\sigma(x) = \\frac{1}{1 + e^{-x}}$ ➔ 출력 범위 $(0, 1)$, 양 끝단에서 미분값이 0으로 수렴하여 **기울기 소실(Vanishing Gradient) 유발** (이진 분류 출력층용)",
+      "ReLU (Rectified Linear Unit): $f(x) = \\max(0, x)$ ➔ 양수 영역 미분값이 1로 유지되어 **은닉층 기울기 소실 완벽 해결** (단점: 음수 영역 뉴런 사망 Dying ReLU)",
+      "Leaky ReLU: $f(x) = \\max(\\alpha x, x)$ $(\\alpha = 0.01)$ ➔ 음수 영역에 미세한 경사를 주어 Dying ReLU 방지",
+      "소프트맥스 (Softmax): $S(z_i) = \\frac{e^{z_i}}{\\sum e^{z_j}}$ ➔ **출력값의 총합이 정확히 1.0이 되도록 확률 분포로 변환** (K개 클래스 다중 분류 출력층용)"
+    ],
+    comparisonTable: `
+      <table class="mk-table">
+        <thead><tr><th>활성화 함수</th><th>수식 / 출력 범위</th><th>주요 사용 위치 및 역할</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Sigmoid</strong></td><td>$\\frac{1}{1+e^{-x}} \\quad (0, 1)$</td><td>이진 분류 (Binary) 출력층 / 기울기 소실 단점</td></tr>
+          <tr><td><strong>ReLU</strong></td><td>$\\max(0, x) \\quad [0, \\infty)$</td><td>딥러닝 **은닉층(Hidden Layer) 기본 표준**</td></tr>
+          <tr><td><strong>Softmax</strong></td><td>$\\frac{e^{z_i}}{\\sum e^{z_j}} \\quad (0, 1)$, $\\sum=1$</td><td>**다중 클래스(Multi-class) 분류 출력층**</td></tr>
+        </tbody>
+      </table>
+    `,
+    traps: "오답 Trap: '다중 클래스 분류 신경망의 출력층 활성화 함수로는 시그모이드가 가장 적합하다' ➔ 땡(❌)! 다중 분류 출력층은 확률 합이 1인 [소프트맥스(Softmax)]를 써야 합니다.",
+    quizKeyword: "ReLU",
+    cardId: "c3-25"
+  },
+  {
+    id: "mk-3-12",
+    subject: 3,
+    subjectName: "3과목 데이터 모델링",
+    category: "경사하강법 옵티마이저",
+    importance: "A+",
+    title: "신경망 최적화 옵티마이저 계보 (SGD ➔ Momentum ➔ RMSprop ➔ Adam)",
+    summary: "손실함수를 최소화하기 위한 가중치 업데이트 알고리즘의 발전 계보와 Adam 옵티마이저의 원리.",
+    memoryTip: "💡 1초 암기: Momentum(관성/가속도) | RMSprop(지수이동평균 학습률조절) | Adam = Momentum + RMSprop (현재 최적 표준!)",
+    corePoints: [
+      "1) 경사하강법 (GD / SGD): 손실함수의 기울기(Gradient) 반대 방향으로 가중치 업데이트 ($w \\leftarrow w - \\eta \\nabla L$)",
+      "2) 모멘텀 (Momentum): 이전 기울기 변화량에 관성(가속도)을 적용하여 국소 최적점(Local Minima) 탈출 유도",
+      "3) Adagrad: 변화가 잦은 파라미터는 학습률을 줄이고, 드문 파라미터는 학습률을 높임 (단점: 학습이 진행될수록 학습률이 0이 됨)",
+      "4) RMSprop: Adagrad의 단점을 보완하여 최근 기울기 변화에 지수이동평균(EMA) 가중치를 부여",
+      "5) **Adam (Adaptive Moment Estimation)**: **모멘텀(1차 모멘트: 관성) + RMSprop(2차 모멘트: 적응형 학습률)을 결합**한 현대 딥러닝 표준 옵티마이저"
+    ],
+    comparisonTable: `
+      <table class="mk-table">
+        <thead><tr><th>옵티마이저</th><th>핵심 아이디어</th><th>특징 및 단점</th></tr></thead>
+        <tbody>
+          <tr><td><strong>SGD</strong></td><td>가장 기본 경사하강법</td><td>진동 심함, Local Minima 갇힘</td></tr>
+          <tr><td><strong>Momentum</strong></td><td>관성(가속도) 도입</td><td>국소 최적점 및 안장점(Saddle Point) 용이한 탈출</td></tr>
+          <tr><td><strong>RMSprop</strong></td><td>적응형 학습률 (EMA)</td><td>최근 기울기 위주 반영으로 학습 멈춤 방지</td></tr>
+          <tr><td><strong>Adam</strong></td><td><strong>Momentum + RMSprop 결합</strong></td><td><strong>대부분의 딥러닝 모델에서 가장 뛰어난 성능 보장</strong></td></tr>
+        </tbody>
+      </table>
+    `,
+    traps: "오답 Trap: 'Adam 옵티마이저는 관성(Momentum) 개념을 제외하고 오직 학습률 조정만 수행한다' ➔ 땡(❌)! Adam은 [Momentum]과 [RMSprop]을 결합한 알고리즘입니다.",
+    quizKeyword: "Adam",
+    cardId: "c3-26"
+  },
+  {
+    id: "mk-4-9",
+    subject: 4,
+    subjectName: "4과목 결과 해석",
+    category: "텍스트 마이닝",
+    importance: "A+",
+    title: "텍스트 마이닝 TF-IDF 수식 계산 & 토픽 모델링 (LDA)",
+    summary: "단어의 상대적 중요도를 계산하는 TF-IDF 공식과 잠재 디리클레 할당(LDA) 토픽 모델링.",
+    memoryTip: "💡 1초 암기: TF-IDF = TF(단어빈도) × IDF(역문서빈도 log(N/df)) | 흔한 단어(의,가)는 IDF가 0에 수렴하여 중요도 감소!",
+    corePoints: [
+      "TF (Term Frequency): 특정 문서 내에서 단어 $t$가 등장한 빈도",
+      "DF (Document Frequency): 단어 $t$가 등장한 문서의 수",
+      "IDF (Inverse Document Frequency): 전체 문서 수 $N$을 $DF$로 나눈 후 자연로그를 취함 ➔ $IDF(t) = \\log\\left(\\frac{N}{DF(t)}\\right)$",
+      "TF-IDF: $TF-IDF(t, d) = TF(t, d) \\times IDF(t)$",
+      " - **특정 문서 $d$에서 자주 등장하면서, 전체 문서군에서는 흔하지 않은 희소 핵심 키워드**일수록 높은 점수",
+      " - '은', '는', '이', '가' 등 모든 문서에 등장하는 불용어(Stopwords)는 $DF \\approx N \\implies IDF \\approx 0$이 되어 자동 배제됨",
+      "LDA (Latent Dirichlet Allocation, 잠재 디리클레 할당): 문서를 여러 토픽(Topic)의 확률 혼합체로 가정하고, 각 토픽을 단어들의 확률 분포로 추출하는 대표적 비지도 토픽 모델링"
+    ],
+    comparisonTable: `
+      <table class="mk-table">
+        <thead><tr><th>지표 / 기법</th><th>계산 수식 / 알고리즘</th><th>의미 및 역할</th></tr></thead>
+        <tbody>
+          <tr><td><strong>TF (단어 빈도)</strong></td><td>문서 내 등장 횟수</td><td>해당 문서 내 단어 출현 비중</td></tr>
+          <tr><td><strong>IDF (역문서 빈도)</strong></td><td>$\\log\\left(\\frac{\\text{전체 문서수 } N}{DF}\\right)$</td><td>흔한 단어 페널티, 희귀 단어 가중치 부여</td></tr>
+          <tr><td><strong>LDA 토픽모델링</strong></td><td>잠재 디리클레 할당 (비지도)</td><td>대용량 문서 집합에서 숨겨진 주제(Topic) 추출</td></tr>
+        </tbody>
+      </table>
+    `,
+    traps: "오답 Trap: '모든 문서에 공통으로 자주 등장하는 단어일수록 TF-IDF 값이 높아진다' ➔ 땡(❌)! 모든 문서에 흔한 단어는 IDF가 0이 되어 TF-IDF 값도 0에 수렴합니다.",
+    quizKeyword: "TF-IDF",
+    cardId: "c4-25"
+  },
+  {
+    id: "mk-4-10",
+    subject: 4,
+    subjectName: "4과목 결과 해석",
+    category: "모형 모니터링",
+    importance: "A+",
+    title: "데이터 시프트 & 모형 드리프트 (Data Drift vs Concept Drift vs Covariate Shift)",
+    summary: "모델 배포 후 시간이 지남에 따라 성능이 저하되는 원인인 3대 드리프트 개념 비교.",
+    memoryTip: "💡 1초 암기: Covariate Shift(입력 P(X) 변화) ➔ Concept Drift(관계 P(Y|X) 변화/코로나후 소비패턴) ➔ Prior Shift(타겟 P(Y) 변화)",
+    corePoints: [
+      "1) 공변량 시프트 (Covariate Shift): 입력 데이터의 분포 $P(X)$는 변했지만, $X$와 $Y$ 간의 관계 $P(Y|X)$는 동일함 (예: 학습 데이터는 20대 위주, 운영 데이터는 50대 위주)",
+      "2) 개념 드리프트 (Concept Drift): 입력과 출력 간의 실제 관계 $P(Y|X)$ 자체가 시간에 따라 변화함 (예: 코로나19 이후 동일한 입력 소득이라도 소비 패턴 및 위험도 판정이 달라짐)",
+      "3) 사후/사전 시프트 (Prior Shift): 타겟 클래스 라벨 $P(Y)$의 모집단 비율이 변화함",
+      "모형 재학습(Retraining) 트리거: PSI (Population Stability Index), KS 검정 등으로 드리프트를 감지하여 자동 데이터 재학습 파이프라인 수행"
+    ],
+    comparisonTable: `
+      <table class="mk-table">
+        <thead><tr><th>드리프트 유형</th><th>변화하는 확률 분포</th><th>실제 사례 및 현상</th></tr></thead>
+        <tbody>
+          <tr><td><strong>공변량 시프트 (Covariate)</strong></td><td>$P(X)$ 변화 ($P(Y|X)$ 고정)</td><td>이용자 연령층/기기 분포 변화</td></tr>
+          <tr><td><strong>개념 드리프트 (Concept)</strong></td><td>$P(Y|X)$ 변화</td><td>팬데믹/경기 변동으로 신용평가 기준 변화</td></tr>
+          <tr><td><strong>라벨 시프트 (Prior)</strong></td><td>$P(Y)$ 변화</td><td>금융 사기(Fraud) 발생 비율 급증</td></tr>
+        </tbody>
+      </table>
+    `,
+    traps: "오답 Trap: '입력 특징 X와 타겟 Y 사이의 관계 $P(Y|X)$ 자체가 변화하는 현상을 Covariate Shift라고 한다' ➔ 땡(❌)! 입력과 타겟의 관계가 변하는 것은 [Concept Drift]입니다.",
+    quizKeyword: "드리프트",
+    cardId: "c4-26"
   }
 ];

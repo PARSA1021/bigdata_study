@@ -74,6 +74,10 @@
       </nav>
 
       <div class="topbar-actions">
+        <button id="openCalcToolTopBtn" class="theme-toggle-btn calc-topbar-btn" title="3초 실전 공식 빠른 계산기" aria-label="3초 실전 공식 빠른 계산기">
+          <span class="theme-toggle-icon">🧮</span>
+          <span class="theme-label">공식 계산기</span>
+        </button>
 
         <button id="themeToggleBtn" class="theme-toggle-btn" title="다크/라이트모드 전환" aria-label="다크/라이트모드 전환">
           <span class="theme-toggle-icon">
@@ -92,7 +96,7 @@
               <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
             </svg>
           </span>
-          <span class="theme-label">다크모드</span>
+          <span class="theme-label" id="themeLabelText">다크모드</span>
         </button>
       </div>
     </header>
@@ -677,6 +681,114 @@
 
         <div class="modal-footer">
           <button id="closeCheatSheetModalBtn" class="button button-light">닫기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================== -->
+    <!-- MODAL 4: 🧮 3초 실전 공식 빠른 계산기 모달 (New) -->
+    <!-- ============================================== -->
+    <div id="calcToolModal" class="modal-overlay hidden">
+      <div class="modal-card blur-glass calc-tool-modal-card" style="max-width: 650px; width: 92%;">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <span class="brand-badge-pill">🧮 3초 공식 검증기</span>
+            <h2>빅분기 실전 공식 빠른 계산기</h2>
+          </div>
+          <button id="closeCalcToolBtn" class="icon-btn">✕</button>
+        </div>
+
+        <div class="modal-body" style="padding: 20px;">
+          <!-- 계산기 탭 -->
+          <div class="concept-modal-tabs" style="margin-bottom: 16px;">
+            <button id="calcTabMatrix" class="concept-tab active">📊 혼동행렬 (P/R/F1)</button>
+            <button id="calcTabIqr" class="concept-tab">📦 IQR 이상치</button>
+            <button id="calcTabZscore" class="concept-tab">📈 Z-Score 표준화</button>
+            <button id="calcTabR2" class="concept-tab">📐 결정계수 (R²)</button>
+          </div>
+
+          <!-- P1: 혼동행렬 계산기 -->
+          <div id="calcPaneMatrix" class="calc-pane">
+            <p class="section-card-sub" style="margin-bottom: 12px;">혼동행렬(Confusion Matrix) 수치를 입력하면 정밀도, 재현율, F1-Score를 실시간 자동 계산합니다.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
+              <div>
+                <label style="font-size:12px; font-weight:700;">TP (진양성 - 예측T / 실제T)</label>
+                <input type="number" id="calcInputTP" value="80" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
+              </div>
+              <div>
+                <label style="font-size:12px; font-weight:700;">FP (위양성 - 예측T / 실제F)</label>
+                <input type="number" id="calcInputFP" value="20" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
+              </div>
+              <div>
+                <label style="font-size:12px; font-weight:700;">FN (위음성 - 예측F / 실제T)</label>
+                <input type="number" id="calcInputFN" value="10" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
+              </div>
+              <div>
+                <label style="font-size:12px; font-weight:700;">TN (진음성 - 예측F / 실제F)</label>
+                <input type="number" id="calcInputTN" value="90" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
+              </div>
+            </div>
+
+            <div id="calcMatrixResult" style="padding:14px; background:var(--bg-secondary); border-radius:12px; line-height:1.6; font-size:14px;">
+              <!-- JS auto filled -->
+            </div>
+          </div>
+
+          <!-- P2: IQR 이상치 계산기 -->
+          <div id="calcPaneIqr" class="calc-pane hidden">
+            <p class="section-card-sub" style="margin-bottom: 12px;">Q1(25%)과 Q3(75%)를 입력하여 박스플롯 이상치 울타리(Whisker) 경계값을 계산합니다.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
+              <div>
+                <label style="font-size:12px; font-weight:700;">Q1 (제1사분위수)</label>
+                <input type="number" id="calcInputQ1" value="20" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
+              </div>
+              <div>
+                <label style="font-size:12px; font-weight:700;">Q3 (제3사분위수)</label>
+                <input type="number" id="calcInputQ3" value="60" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
+              </div>
+            </div>
+            <div id="calcIqrResult" style="padding:14px; background:var(--bg-secondary); border-radius:12px; line-height:1.6; font-size:14px;"></div>
+          </div>
+
+          <!-- P3: Z-Score 계산기 -->
+          <div id="calcPaneZscore" class="calc-pane hidden">
+            <p class="section-card-sub" style="margin-bottom: 12px;">측정값(X), 평균(μ), 표준편차(σ)를 입력하여 Z-Score(표준점수)를 구합니다.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px;">
+              <div>
+                <label style="font-size:12px; font-weight:700;">측정값 (X)</label>
+                <input type="number" id="calcInputX" value="85" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
+              </div>
+              <div>
+                <label style="font-size:12px; font-weight:700;">평균 (μ)</label>
+                <input type="number" id="calcInputMu" value="70" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
+              </div>
+              <div>
+                <label style="font-size:12px; font-weight:700;">표준편차 (σ)</label>
+                <input type="number" id="calcInputSigma" value="10" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
+              </div>
+            </div>
+            <div id="calcZscoreResult" style="padding:14px; background:var(--bg-secondary); border-radius:12px; line-height:1.6; font-size:14px;"></div>
+          </div>
+
+          <!-- P4: R2 결정계수 계산기 -->
+          <div id="calcPaneR2" class="calc-pane hidden">
+            <p class="section-card-sub" style="margin-bottom: 12px;">잔차제곱합(SSE)과 총제곱합(SST) 또는 설명제곱합(SSR)을 입력하여 R²를 계산합니다.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
+              <div>
+                <label style="font-size:12px; font-weight:700;">SSE (잔차제곱합)</label>
+                <input type="number" id="calcInputSSE" value="20" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
+              </div>
+              <div>
+                <label style="font-size:12px; font-weight:700;">SST (총제곱합)</label>
+                <input type="number" id="calcInputSST" value="100" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
+              </div>
+            </div>
+            <div id="calcR2Result" style="padding:14px; background:var(--bg-secondary); border-radius:12px; line-height:1.6; font-size:14px;"></div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button id="closeCalcToolModalBtn" class="button button-light">닫기</button>
         </div>
       </div>
     </div>
