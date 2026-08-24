@@ -23,7 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
     QUIZ_MEMO: "knowway_quiz_memos_v2",
     LEARNED: "knowway_learned_concepts_v2",
     MOCK_RECORDS: "knowway_mock_records_v2",
-    WEAKNESS: "knowway_weakness_counts_v1"
+    WEAKNESS: "knowway_weakness_counts_v1",
+    MUSTKNOW_MASTERED: "knowway_mustknow_mastered_v1"
   });
 
   const MOCK_EXAM_CONFIG = Object.freeze({
@@ -91,11 +92,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let bookmarks = new Set(loadJSON(BOOKMARK_KEY, []));
   let learnedConcepts = new Set(loadJSON(LEARNED_KEY, []));
+  let mustKnowMastered = new Set(loadJSON(STORAGE_KEYS.MUSTKNOW_MASTERED, []));
   let quizMemos = loadJSON(QUIZ_MEMO_KEY, {});
   let cumulativeStats = loadStats();
   let habitData = loadHabitData();
   let mockRecords = loadJSON(MOCK_RECORDS_KEY, {});
   let weaknessCounts = loadJSON(WEAKNESS_KEY, {});
+
+  let mustKnowFilter = {
+    subject: "all",
+    unmasteredOnly: false,
+    searchKeyword: ""
+  };
+  let isBlindModeActive = false;
+  let allMkCardsOpen = false;
 
   let notesFilter = {
     subject: "all",
@@ -155,10 +165,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Views
   const homeView = document.getElementById("home-view");
+  const mustKnowView = document.getElementById("must-know-view");
   const notesView = document.getElementById("notes-view");
   const quizContentView = document.getElementById("quiz-content");
   const wrongView = document.getElementById("wrong-view");
   const statsView = document.getElementById("stats-view");
+
+  // Must-Know View Elements
+  const mustKnowCardsContainer = document.getElementById("mustKnowCardsContainer");
+  const mustKnowSubjectTabs = document.getElementById("mustKnowSubjectTabs");
+  const mustKnowSearchInput = document.getElementById("mustKnowSearchInput");
+  const clearMustKnowSearch = document.getElementById("clearMustKnowSearch");
+  const btnToggleBlindMode = document.getElementById("btnToggleBlindMode");
+  const blindModeBtnText = document.getElementById("blindModeBtnText");
+  const btnFilterUnmasteredMk = document.getElementById("btnFilterUnmasteredMk");
+  const filterUnmasteredMkText = document.getElementById("filterUnmasteredMkText");
+  const btnToggleAllMkCards = document.getElementById("btnToggleAllMkCards");
+  const toggleAllMkText = document.getElementById("toggleAllMkText");
+  const btnPrintMustKnow = document.getElementById("btnPrintMustKnow");
+  const mustKnowOverallPercent = document.getElementById("mustKnowOverallPercent");
+  const mustKnowProgressBar = document.getElementById("mustKnowProgressBar");
+  const mustKnowMasteredCount = document.getElementById("mustKnowMasteredCount");
+  const mustKnowTotalCount = document.getElementById("mustKnowTotalCount");
+  const heroStartMustKnowBtn = document.getElementById("heroStartMustKnowBtn");
+  const homeMustKnowBannerCard = document.getElementById("homeMustKnowBannerCard");
 
   // Stats View & Settings elements
   const statsSubjectGrid = document.getElementById("statsSubjectGrid");
@@ -640,7 +670,7 @@ document.addEventListener("DOMContentLoaded", () => {
       else btn.classList.remove("active");
     });
 
-    [homeView, notesView, quizContentView, wrongView, statsView].forEach(v => {
+    [homeView, mustKnowView, notesView, quizContentView, wrongView, statsView].forEach(v => {
       if (v) v.classList.add("hidden");
     });
 
@@ -652,6 +682,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (targetNav === "home") {
       if (homeView) homeView.classList.remove("hidden");
       updateHabitUI();
+    } else if (targetNav === "mustknow") {
+      if (mustKnowView) mustKnowView.classList.remove("hidden");
+      renderMustKnowDeck();
     } else if (targetNav === "notes") {
       if (notesView) notesView.classList.remove("hidden");
     } else if (targetNav === "practice") {
@@ -680,6 +713,336 @@ document.addEventListener("DOMContentLoaded", () => {
   function setMode(mode) {
     currentMode = "practice";
     if (practiceHeader) practiceHeader.classList.remove("hidden");
+  }
+
+  // ==========================================
+  // 8-0. MATHEMATICAL FORMULA RENDERING ENGINE (KaTeX & Smart Fallback)
+  // ==========================================
+  function renderMath(container) {
+    if (!container) return;
+
+    // 1. If KaTeX auto-render is available
+    if (typeof window.renderMathInElement === "function") {
+      try {
+        window.renderMathInElement(container, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false,
+          errorColor: "#EF4444",
+          strict: false,
+          ignoredTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+        });
+        return;
+      } catch (err) {
+        console.warn("KaTeX render error:", err);
+      }
+    }
+
+    // 2. High-Fidelity Fallback HTML Math Formatter
+    formatMathFallback(container);
+  }
+
+  function formatMathFallback(container) {
+    if (!container) return;
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+    const nodesToProcess = [];
+    let curr;
+    while ((curr = walker.nextNode())) {
+      if (curr.nodeValue && curr.nodeValue.includes("$")) {
+        nodesToProcess.push(curr);
+      }
+    }
+
+    nodesToProcess.forEach(textNode => {
+      const parent = textNode.parentNode;
+      if (!parent) return;
+      const tag = parent.tagName ? parent.tagName.toUpperCase() : "";
+      if (tag === "SCRIPT" || tag === "STYLE" || (parent.classList && parent.classList.contains("katex"))) return;
+
+      const raw = textNode.nodeValue;
+      if (!raw || !raw.includes("$")) return;
+
+      const formatted = raw
+        .replace(/\$\$([\s\S]+?)\$\$/g, (m, p) => `<span class="math-display-fallback">${convertLatexToHTML(p)}</span>`)
+        .replace(/\$([^$]+?)\$/g, (m, p) => `<span class="math-formula-badge">${convertLatexToHTML(p)}</span>`);
+
+      if (formatted !== raw) {
+        const span = document.createElement("span");
+        span.className = "math-wrapper-node";
+        span.innerHTML = formatted;
+        parent.replaceChild(span, textNode);
+      }
+    });
+  }
+
+  function convertLatexToHTML(latex) {
+    if (!latex) return "";
+    let str = latex.trim();
+
+    // Normalize any multi-escaped backslashes
+    str = str.replace(/\\+/g, "\\");
+
+    // Text wrappers
+    str = str.replace(/\\text\{([^}]+)\}/g, '<span class="math-text">$1</span>');
+    str = str.replace(/\\mathbf\{([^}]+)\}/g, '<strong>$1</strong>');
+
+    // Fractions supporting nested curly braces in num/denom (e.g. X_{min})
+    str = str.replace(/\\frac\{((?:[^{}]|\{[^{}]*\})+)\}\{((?:[^{}]|\{[^{}]*\})+)\}/g, (match, num, denom) => {
+      return `<span class="math-frac"><span class="math-num">${convertLatexToHTML(num)}</span><span class="math-denom">${convertLatexToHTML(denom)}</span></span>`;
+    });
+
+    // Roots
+    str = str.replace(/\\sqrt\{((?:[^{}]|\{[^{}]*\})+)\}/g, (match, rad) => {
+      return `<span class="math-sqrt">√<span class="math-radicand">${convertLatexToHTML(rad)}</span></span>`;
+    });
+
+    // Subscripts & Superscripts
+    str = str.replace(/_\{([^}]+)\}/g, '<sub>$1</sub>');
+    str = str.replace(/\^\{([^}]+)\}/g, '<sup>$1</sup>');
+    str = str.replace(/_([a-zA-Z0-9])/g, '<sub>$1</sub>');
+    str = str.replace(/\^([a-zA-Z0-9])/g, '<sup>$1</sup>');
+
+    // Common symbols
+    const syms = {
+      "\\alpha": "α", "\\beta": "β", "\\gamma": "γ", "\\delta": "δ",
+      "\\epsilon": "ε", "\\lambda": "λ", "\\mu": "μ", "\\sigma": "σ",
+      "\\tau": "τ", "\\theta": "θ", "\\pi": "π", "\\rho": "ρ",
+      "\\chi": "χ", "\\Sigma": "Σ", "\\Delta": "Δ",
+      "\\ge": "≥", "\\le": "≤", "\\ne": "≠", "\\approx": "≈",
+      "\\times": "×", "\\div": "÷", "\\pm": "±",
+      "\\cap": "∩", "\\cup": "∪", "\\subset": "⊂",
+      "\\rightarrow": "→", "\\leftarrow": "←", "\\Rightarrow": "⇒",
+      "\\sum": "∑", "\\prod": "∏", "\\int": "∫",
+      "\\infty": "∞", "\\ln": "ln", "\\log": "log",
+      "\\sim": "~", "\\quad": " ", "\\,": " "
+    };
+
+    for (const [k, v] of Object.entries(syms)) {
+      str = str.replace(new RegExp("\\" + k, "g"), v);
+    }
+
+    return str;
+  }
+
+  // ==========================================
+  // 8-1. MUST-KNOW DECK ENGINE (과목별 무조건 암기 족보)
+  // ==========================================
+
+  function wrapBlindKeywords(text) {
+    if (!text) return "";
+    let res = text.replace(/<strong>(.*?)<\/strong>/g, (match, p1) => {
+      return `<strong><span class="blind-target" title="클릭하여 정답 확인">${p1}</span></strong>`;
+    });
+    res = res.replace(/\$\$([\s\S]+?)\$\$/g, (match, p1) => {
+      return `<span class="blind-target" title="클릭하여 공식 확인">$$${p1}$$</span>`;
+    });
+    res = res.replace(/\$([^$]+?)\$/g, (match, p1) => {
+      return `<span class="blind-target" title="클릭하여 공식 확인">$${p1}$</span>`;
+    });
+    return res;
+  }
+
+  function getMustKnowData() {
+    return window.mustKnowData || [];
+  }
+
+  function renderMustKnowDeck() {
+    if (!mustKnowCardsContainer) return;
+
+    const data = getMustKnowData();
+    if (!data || data.length === 0) {
+      mustKnowCardsContainer.innerHTML = `<div style="padding: 40px; text-align: center; color: var(--text-muted);">무조건 암기 족보 데이터를 불러올 수 없습니다.</div>`;
+      return;
+    }
+
+    const keyword = (mustKnowFilter.searchKeyword || "").trim().toLowerCase();
+    const filtered = data.filter(item => {
+      if (mustKnowFilter.subject !== "all" && String(item.subject) !== String(mustKnowFilter.subject)) {
+        return false;
+      }
+      if (mustKnowFilter.unmasteredOnly && mustKnowMastered.has(item.id)) {
+        return false;
+      }
+      if (keyword) {
+        const fullText = (item.title + " " + item.category + " " + item.summary + " " + item.memoryTip + " " + (item.corePoints || []).join(" ") + " " + (item.traps || "") + " " + (item.quizKeyword || "")).toLowerCase();
+        if (!fullText.includes(keyword)) return false;
+      }
+      return true;
+    });
+
+    updateMustKnowProgress();
+
+    if (filtered.length === 0) {
+      mustKnowCardsContainer.innerHTML = `
+        <div class="empty-state-card" style="padding: 48px 20px; text-align: center; background: var(--surface); border: 1.5px dashed var(--line); border-radius: var(--radius-lg);">
+          <div style="font-size: 36px; margin-bottom: 12px;">🔍</div>
+          <h3 style="font-size: 17px; font-weight: 800; margin-bottom: 6px;">조건에 맞는 암기 족보가 없습니다</h3>
+          <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 16px;">검색어 또는 미암기 필터를 초기화해 보세요.</p>
+          <button id="resetMustKnowFilterBtn" class="button button-brand" style="margin: 0 auto;">🔄 필터 초기화</button>
+        </div>
+      `;
+      const resetBtn = document.getElementById("resetMustKnowFilterBtn");
+      if (resetBtn) {
+        resetBtn.addEventListener("click", () => {
+          mustKnowFilter.subject = "all";
+          mustKnowFilter.unmasteredOnly = false;
+          mustKnowFilter.searchKeyword = "";
+          if (mustKnowSearchInput) mustKnowSearchInput.value = "";
+          if (filterUnmasteredMkText) filterUnmasteredMkText.textContent = "미암기만";
+          if (btnFilterUnmasteredMk) btnFilterUnmasteredMk.classList.remove("active");
+          const tabs = mustKnowSubjectTabs ? mustKnowSubjectTabs.querySelectorAll(".notes-sub-tab") : [];
+          tabs.forEach(t => t.classList.toggle("active", t.dataset.mkSubject === "all"));
+          renderMustKnowDeck();
+        });
+      }
+      return;
+    }
+
+    let html = "";
+    filtered.forEach(item => {
+      const isMastered = mustKnowMastered.has(item.id);
+      const pointsHTML = (item.corePoints || []).map(p => `<li>${wrapBlindKeywords(p)}</li>`).join("");
+      const summaryHTML = wrapBlindKeywords(item.summary);
+      const memoryTipHTML = wrapBlindKeywords(item.memoryTip);
+      const tableHTML = wrapBlindKeywords(item.comparisonTable || "");
+      const trapsHTML = wrapBlindKeywords(item.traps || "");
+
+      html += `
+        <div class="mk-card subject-${item.subject} ${isMastered ? 'mastered' : ''} ${allMkCardsOpen ? 'open' : ''}" id="card-${item.id}" data-id="${item.id}">
+          <div class="mk-card-header" data-id="${item.id}">
+            <div class="mk-card-header-left">
+              <span class="mk-subject-pill">${item.subjectName}</span>
+              <div class="mk-card-title-group">
+                <div class="mk-category-text">${item.category} · <span style="color:#FF9500; font-weight:800;">⭐ ${item.importance}</span></div>
+                <h3 class="mk-card-title">${item.title}</h3>
+              </div>
+            </div>
+            <div class="mk-card-header-right">
+              <button class="mk-mastery-btn ${isMastered ? 'active' : ''}" data-id="${item.id}" title="암기 완료 체크">
+                ${isMastered ? '✓ 암기완료' : '○ 미암기'}
+              </button>
+              <span class="mk-toggle-icon">▼</span>
+            </div>
+          </div>
+          <div class="mk-card-body">
+            <div class="mk-summary-box">
+              ${summaryHTML}
+            </div>
+
+            ${item.memoryTip ? `
+              <div class="mk-memory-box">
+                ${memoryTipHTML}
+              </div>
+            ` : ''}
+
+            <ul class="mk-points-list">
+              ${pointsHTML}
+            </ul>
+
+            ${item.comparisonTable ? `
+              <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                ${tableHTML}
+              </div>
+            ` : ''}
+
+            ${item.traps ? `
+              <div class="mk-trap-box">
+                ${trapsHTML}
+              </div>
+            ` : ''}
+
+            <div class="mk-footer-row">
+              <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <button class="mk-quiz-cta-btn" data-keyword="${item.quizKeyword || ''}" data-subject="${item.subject}" data-card-id="${item.cardId || ''}">
+                  🎯 이 개념 기출문제 풀기 ➔
+                </button>
+                ${item.cardId ? `
+                  <button class="button button-light btn-view-full-note" data-card-id="${item.cardId}" style="min-height:34px; padding: 0 10px; font-size:12px;">
+                    📖 전체 요약노트 ↗
+                  </button>
+                ` : ''}
+              </div>
+              <span style="font-size:11.5px; color:var(--text-muted);">
+                ${isBlindModeActive ? '💡 가려진 단어를 클릭하면 정답이 표시됩니다' : '⭐ 빅분기 필기 A급 필수'}
+              </span>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    mustKnowCardsContainer.innerHTML = html;
+    if (isBlindModeActive) {
+      mustKnowCardsContainer.classList.add("blind-mode-active");
+    } else {
+      mustKnowCardsContainer.classList.remove("blind-mode-active");
+    }
+    renderMath(mustKnowCardsContainer);
+  }
+
+  function updateMustKnowProgress() {
+    const data = getMustKnowData();
+    const total = data.length;
+    let masteredCount = 0;
+
+    const subCounts = { 1: 0, 2: 0, 3: 0, 4: 0 };
+    data.forEach(item => {
+      if (mustKnowMastered.has(item.id)) masteredCount++;
+      if (subCounts[item.subject] !== undefined) {
+        subCounts[item.subject]++;
+      }
+    });
+
+    const pct = total > 0 ? Math.round((masteredCount / total) * 100) : 0;
+    if (mustKnowOverallPercent) mustKnowOverallPercent.textContent = `${pct}%`;
+    if (mustKnowProgressBar) mustKnowProgressBar.style.width = `${pct}%`;
+    if (mustKnowMasteredCount) mustKnowMasteredCount.textContent = masteredCount;
+    if (mustKnowTotalCount) mustKnowTotalCount.textContent = total;
+
+    for (let s = 1; s <= 4; s++) {
+      const el = document.getElementById(`mkTabCount${s}`);
+      if (el) el.textContent = subCounts[s] || 0;
+    }
+    const elAll = document.getElementById("mkTabCountAll");
+    if (elAll) elAll.textContent = total;
+  }
+
+  function toggleMustKnowMastery(id) {
+    if (mustKnowMastered.has(id)) {
+      mustKnowMastered.delete(id);
+      showToast("미암기 상태로 변경되었습니다.");
+    } else {
+      mustKnowMastered.add(id);
+      showToast("🎉 암기 완료로 기록되었습니다!");
+      if (typeof confetti === "function") {
+        try {
+          confetti({
+            particleCount: 25,
+            spread: 45,
+            origin: { y: 0.85 }
+          });
+        } catch (e) {}
+      }
+    }
+    saveJSON(STORAGE_KEYS.MUSTKNOW_MASTERED, [...mustKnowMastered]);
+    updateMustKnowProgress();
+
+    const card = document.getElementById(`card-${id}`);
+    if (card) {
+      const isMastered = mustKnowMastered.has(id);
+      card.classList.toggle("mastered", isMastered);
+      const btn = card.querySelector(`.mk-mastery-btn[data-id="${id}"]`);
+      if (btn) {
+        btn.classList.toggle("active", isMastered);
+        btn.textContent = isMastered ? "✓ 암기완료" : "○ 미암기";
+      }
+    }
+
+    if (mustKnowFilter.unmasteredOnly) {
+      renderMustKnowDeck();
+    }
   }
 
 
@@ -867,6 +1230,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       quizContainer.innerHTML = html;
       setupInfiniteScrollObserver();
+      renderMath(quizContainer);
     }
   }
 
@@ -903,6 +1267,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     setupInfiniteScrollObserver();
+    renderMath(quizContainer);
   }
 
   function setupInfiniteScrollObserver() {
@@ -1709,6 +2074,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     wrongListContainer.innerHTML = html;
+    renderMath(wrongListContainer);
   }
 
 
@@ -1731,6 +2097,9 @@ document.addEventListener("DOMContentLoaded", () => {
       renderContent();
       buildNotesSearchIndex();
       updateHabitUI();
+      if (window.mustKnowData) {
+        updateMustKnowProgress();
+      }
 
       const psTotalEl = document.getElementById("practiceTotalCount");
       if (psTotalEl) psTotalEl.textContent = allQuizzes.length;
@@ -1917,6 +2286,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     contentEl.innerHTML = html;
+    renderMath(contentEl);
 
     const resetWeaknessBtn = document.getElementById("btnResetWeaknessFilter");
     if (resetWeaknessBtn) {
@@ -2079,6 +2449,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     conceptModal.classList.remove("hidden");
+    renderMath(conceptModal);
   }
 
 
@@ -2370,6 +2741,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Enhanced Notes View Controls
     setupNotesToolbarEvents();
+    setupMustKnowEvents();
 
     if (oxQuestionCard) {
       let startX = 0; let currentX = 0; let isDragging = false;
@@ -2786,6 +3158,166 @@ document.addEventListener("DOMContentLoaded", () => {
       clearInlineSearch.addEventListener("click", () => {
         inlineSearch.value = "";
         handleNotesSearch("");
+      });
+    }
+  }
+
+  // --- ENHANCED: Must-Know Deck Events & Delegation ---
+  function setupMustKnowEvents() {
+    // 1. Subject Tabs Filter
+    if (mustKnowSubjectTabs) {
+      const tabs = mustKnowSubjectTabs.querySelectorAll(".notes-sub-tab");
+      tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+          tabs.forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          mustKnowFilter.subject = tab.dataset.mkSubject || "all";
+          renderMustKnowDeck();
+        });
+      });
+    }
+
+    // 2. Real-time Instant Search Input
+    if (mustKnowSearchInput) {
+      const debouncedMkSearch = debounce(val => {
+        mustKnowFilter.searchKeyword = val;
+        renderMustKnowDeck();
+        if (clearMustKnowSearch) {
+          clearMustKnowSearch.classList.toggle("hidden", !val);
+        }
+      }, 100);
+      mustKnowSearchInput.addEventListener("input", e => debouncedMkSearch(e.target.value));
+    }
+
+    if (clearMustKnowSearch && mustKnowSearchInput) {
+      clearMustKnowSearch.addEventListener("click", () => {
+        mustKnowSearchInput.value = "";
+        mustKnowFilter.searchKeyword = "";
+        clearMustKnowSearch.classList.add("hidden");
+        renderMustKnowDeck();
+      });
+    }
+
+    // 3. Blind Mode Toggle (가림판 모드)
+    if (btnToggleBlindMode) {
+      btnToggleBlindMode.addEventListener("click", () => {
+        isBlindModeActive = !isBlindModeActive;
+        btnToggleBlindMode.classList.toggle("active", isBlindModeActive);
+        if (blindModeBtnText) {
+          blindModeBtnText.textContent = isBlindModeActive ? "가림판 모드 ON" : "가림판 모드 OFF";
+        }
+        if (mustKnowCardsContainer) {
+          mustKnowCardsContainer.classList.toggle("blind-mode-active", isBlindModeActive);
+          const revealed = mustKnowCardsContainer.querySelectorAll(".blind-target.revealed");
+          revealed.forEach(r => r.classList.remove("revealed"));
+        }
+        showToast(isBlindModeActive ? "🙈 가림판 모드 ON: 단어를 클릭하면 정답이 나타납니다!" : "👀 가림판 모드 OFF");
+      });
+    }
+
+    // 4. Filter Unmastered Only
+    if (btnFilterUnmasteredMk) {
+      btnFilterUnmasteredMk.addEventListener("click", () => {
+        mustKnowFilter.unmasteredOnly = !mustKnowFilter.unmasteredOnly;
+        btnFilterUnmasteredMk.classList.toggle("active", mustKnowFilter.unmasteredOnly);
+        if (filterUnmasteredMkText) {
+          filterUnmasteredMkText.textContent = mustKnowFilter.unmasteredOnly ? "전체 보기" : "미암기만";
+        }
+        renderMustKnowDeck();
+      });
+    }
+
+    // 5. Expand / Collapse All Must-Know Cards
+    if (btnToggleAllMkCards) {
+      btnToggleAllMkCards.addEventListener("click", () => {
+        allMkCardsOpen = !allMkCardsOpen;
+        btnToggleAllMkCards.classList.toggle("active", allMkCardsOpen);
+        if (toggleAllMkText) {
+          toggleAllMkText.textContent = allMkCardsOpen ? "전체 접기" : "전체 펼치기";
+        }
+        const cards = mustKnowCardsContainer ? mustKnowCardsContainer.querySelectorAll(".mk-card") : [];
+        cards.forEach(c => c.classList.toggle("open", allMkCardsOpen));
+      });
+    }
+
+    // 6. Print / PDF Button
+    if (btnPrintMustKnow) {
+      btnPrintMustKnow.addEventListener("click", () => {
+        window.print();
+      });
+    }
+
+    // 7. Hero / Home Quick Banner CTA
+    if (heroStartMustKnowBtn) {
+      heroStartMustKnowBtn.addEventListener("click", () => switchNav("mustknow"));
+    }
+    if (homeMustKnowBannerCard) {
+      homeMustKnowBannerCard.addEventListener("click", () => switchNav("mustknow"));
+    }
+
+    // 8. Event Delegation on Cards Container
+    if (mustKnowCardsContainer) {
+      mustKnowCardsContainer.addEventListener("click", e => {
+        // Mastery toggle button
+        const masteryBtn = e.target.closest(".mk-mastery-btn");
+        if (masteryBtn) {
+          e.stopPropagation();
+          const id = masteryBtn.dataset.id;
+          if (id) toggleMustKnowMastery(id);
+          return;
+        }
+
+        // Blind keyword click to reveal
+        const blindTarget = e.target.closest(".blind-target");
+        if (blindTarget && isBlindModeActive) {
+          e.stopPropagation();
+          blindTarget.classList.toggle("revealed");
+          return;
+        }
+
+        // Quiz CTA button
+        const quizCta = e.target.closest(".mk-quiz-cta-btn");
+        if (quizCta) {
+          e.stopPropagation();
+          const keyword = quizCta.dataset.keyword;
+          const sub = quizCta.dataset.subject;
+          const cardId = quizCta.dataset.cardId;
+          switchNav("practice");
+          quizFilter.subject = sub ? String(sub) : "all";
+          quizFilter.keyword = keyword || "";
+          quizFilter.conceptCardId = cardId || null;
+          if (keywordSearch) keywordSearch.value = keyword || "";
+          applyQuizFilter();
+          renderQuizzes(true);
+          showToast(`🎯 '${keyword || "관련"}' 기출문제로 이동했습니다!`);
+          return;
+        }
+
+        // View full note button
+        const noteBtn = e.target.closest(".btn-view-full-note");
+        if (noteBtn) {
+          e.stopPropagation();
+          const cardId = noteBtn.dataset.cardId;
+          switchNav("notes");
+          setTimeout(() => {
+            const noteCard = document.getElementById(cardId);
+            if (noteCard) {
+              noteCard.classList.add("open");
+              noteCard.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          }, 200);
+          return;
+        }
+
+        // Card header click -> toggle open
+        const header = e.target.closest(".mk-card-header");
+        if (header) {
+          const card = header.closest(".mk-card");
+          if (card) {
+            card.classList.toggle("open");
+          }
+          return;
+        }
       });
     }
   }
@@ -3446,4 +3978,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   setupEventListeners();
   loadDataAndInit();
+
+  window.addEventListener("load", () => {
+    if (typeof window.renderMathInElement === "function") {
+      if (mustKnowCardsContainer) renderMath(mustKnowCardsContainer);
+      if (contentEl) renderMath(contentEl);
+      if (quizContainer) renderMath(quizContainer);
+    }
+  });
 });

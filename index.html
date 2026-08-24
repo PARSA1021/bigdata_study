@@ -26,6 +26,11 @@
 
     <link rel="stylesheet" href="style.css" />
 
+    <!-- KaTeX for Beautiful Math Formula Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
     <!-- Game/Animation Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
@@ -49,10 +54,13 @@
         </a>
       </div>
 
-      <!-- 데스크탑 메인 탭바 (4개 핵심 탭) -->
+      <!-- 데스크탑 메인 탭바 (5개 핵심 탭) -->
       <nav class="desktop-nav-tabs">
         <button class="main-nav-btn active" data-nav="home">
           <span class="nav-tab-icon">🏠</span> 홈·루틴
+        </button>
+        <button class="main-nav-btn highlight-nav-btn" data-nav="mustknow">
+          <span class="nav-tab-icon">⭐</span> 무조건암기
         </button>
         <button class="main-nav-btn" data-nav="notes">
           <span class="nav-tab-icon">📚</span> 핵심노트
@@ -113,10 +121,13 @@
                 기출 풀이부터 AI 핵심 개념, 선지 변형 OX 훈련, 계산 공식 마스터까지. 단번에 60점 넘는 필기 합격 루틴!
               </p>
               
-              <!-- [NEW] Primary Call-to-Action for Immediate Engagement -->
-              <div class="hero-primary-cta" style="margin-top: 24px; padding-bottom: 12px;">
-                <button id="heroStartPracticeBtn" class="button button-brand hero-massive-btn" style="width:100%; max-width: 380px; justify-content: center; font-size: 17px; padding: 16px 24px; box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3); border-radius: 14px; font-weight: 750; color: #FFFFFF;">
-                  ⚡ 스마트 기출 모의고사 바로 풀기
+              <!-- Primary Call-to-Action for Immediate Engagement -->
+              <div class="hero-primary-cta" style="margin-top: 24px; padding-bottom: 12px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+                <button id="heroStartPracticeBtn" class="button button-brand hero-massive-btn" style="flex:1; min-width:240px; max-width: 320px; justify-content: center; font-size: 16px; padding: 15px 20px; box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3); border-radius: 14px; font-weight: 750; color: #FFFFFF;">
+                  ⚡ 스마트 기출 풀기
+                </button>
+                <button id="heroStartMustKnowBtn" class="button hero-massive-btn" style="flex:1; min-width:240px; max-width: 320px; justify-content: center; font-size: 16px; padding: 15px 20px; background: linear-gradient(135deg, #FF9500, #FF2D55); border: none; box-shadow: 0 4px 16px rgba(255, 149, 0, 0.35); border-radius: 14px; font-weight: 750; color: #FFFFFF;">
+                  ⭐ 과목별 무조건 암기 족보
                 </button>
               </div>
 
@@ -136,6 +147,18 @@
             <!-- Routine Dashboard Cards Grid -->
             <div class="routine-grid">
 
+              <!-- 무조건 암기 족보 퀵 배너 카드 -->
+              <div class="routine-card mustknow-hero-card" id="homeMustKnowBannerCard" style="cursor:pointer; background: linear-gradient(135deg, rgba(255,149,0,0.12), rgba(255,45,85,0.08)); border: 1px solid rgba(255,149,0,0.3);">
+                <div class="card-header-mini">
+                  <span class="mini-icon">⭐</span>
+                  <span class="card-label" style="color:var(--brand-accent, #FF9500); font-weight:800;">과목별 무조건 암기 족보</span>
+                  <button class="link-pill-btn" data-nav="mustknow" style="background: rgba(255,149,0,0.2); color:#FF9500;">족보 보기 ➔</button>
+                </div>
+                <div style="margin-top: 10px;">
+                  <h4 style="font-size: 16px; font-weight: 800; margin: 0 0 6px 0;">시험 전 1초 암기 & 필수 이해 35제</h4>
+                  <p style="font-size: 13px; color: var(--text-muted); margin: 0;">두문자 암기(공표연내, 선독등정비), 6대 공식, 오답 Trap, 블라인드 셀프 테스트</p>
+                </div>
+              </div>
 
               <!-- Cumulative Stats Card -->
               <div class="routine-card stats-overview-card">
@@ -161,13 +184,6 @@
               </div>
             </div>
 
-            <!-- ============================================== -->
-            <!-- ⏱️ 최신 역순 기출 정복 로드맵 타임라인 (New) -->
-            <!-- ============================================== -->
-
-
-
-
             <!-- Subject Performance Quick Bar -->
             <div class="section-card subject-overview-section">
               <div class="section-card-header">
@@ -177,6 +193,96 @@
                 </div>
               </div>
               <div id="homeSubjectBars" class="home-subject-bars"></div>
+            </div>
+          </div>
+
+
+          <!-- ============================================== -->
+          <!-- VIEW: ⭐ 과목별 무조건 암기 족보 (Must-Know Deck) -->
+          <!-- ============================================== -->
+          <div id="must-know-view" class="view-section hidden">
+            <!-- 족보 헤더 및 과목별 암기율 대시보드 -->
+            <div class="mustknow-header-card blur-glass">
+              <div class="mustknow-header-top">
+                <div class="mustknow-title-group">
+                  <div class="mustknow-badge-row">
+                    <span class="badge-tag mk-badge-accent">
+                      ⭐ 과목별 무조건 암기 & 이해 족보
+                    </span>
+                    <span class="notes-hero-badge compact-badge">
+                      <span class="pulse-dot"></span> 1~4과목 필수 A급 35제 마스터
+                    </span>
+                  </div>
+                  <h2 class="mustknow-main-title">시험 전 무조건 외워야 하는 과목별 핵심 족보</h2>
+                  <p class="mustknow-sub-desc">
+                    두문자 암기법(공표연내, 선독등정비), 6대 공식, 혼동하기 쉬운 오답 Trap, 블라인드 셀프 테스트까지 한곳에 모았습니다.
+                  </p>
+                </div>
+
+                <div class="mustknow-progress-box">
+                  <div class="mk-progress-header">
+                    <span class="mk-progress-label">전체 암기 달성률</span>
+                    <span class="mk-progress-pct" id="mustKnowOverallPercent">0%</span>
+                  </div>
+                  <div class="notes-progress-track">
+                    <div id="mustKnowProgressBar" class="notes-progress-fill mk-progress-fill" style="width: 0%;"></div>
+                  </div>
+                  <div class="mk-progress-sub-count">
+                    <span id="mustKnowMasteredCount">0</span> / <span id="mustKnowTotalCount">35</span>개 암기 완료
+                  </div>
+                </div>
+              </div>
+
+              <!-- 과목별 탭 바 -->
+              <div class="notes-subject-tabs compact-tabs" id="mustKnowSubjectTabs">
+                <button class="notes-sub-tab active" data-mk-subject="all">
+                  <span class="sub-tab-icon">🌐</span> 전체 족보 (<span id="mkTabCountAll">35</span>)
+                </button>
+                <button class="notes-sub-tab" data-mk-subject="1">
+                  <span class="sub-tab-icon">1️⃣</span> 1과목 기획 (<span id="mkTabCount1">8</span>)
+                </button>
+                <button class="notes-sub-tab" data-mk-subject="2">
+                  <span class="sub-tab-icon">2️⃣</span> 2과목 탐색 (<span id="mkTabCount2">9</span>)
+                </button>
+                <button class="notes-sub-tab" data-mk-subject="3">
+                  <span class="sub-tab-icon">3️⃣</span> 3과목 모델링 (<span id="mkTabCount3">10</span>)
+                </button>
+                <button class="notes-sub-tab" data-mk-subject="4">
+                  <span class="sub-tab-icon">4️⃣</span> 4과목 결과해석 (<span id="mkTabCount4">8</span>)
+                </button>
+              </div>
+
+              <!-- 족보 전용 컨트롤 툴바 (검색, 블라인드 모드, 미암기 필터, 인쇄) -->
+              <div class="notes-control-toolbar compact-toolbar">
+                <div class="notes-inline-search compact-search">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  </svg>
+                  <input type="text" id="mustKnowSearchInput" placeholder="암기 족보 키워드/공식 검색... (예: 공표연내, 혼동행렬, 라쏘)" />
+                  <button id="clearMustKnowSearch" class="notes-search-clear hidden">✕</button>
+                </div>
+
+                <div class="notes-tool-group compact-tool-group">
+                  <button id="btnToggleBlindMode" class="notes-tool-btn highlight-tool-btn" title="핵심 키워드 가림판 모드 (클릭하여 정답 확인)">
+                    <span class="tool-icon">🙈</span> <span id="blindModeBtnText">가림판 모드 OFF</span>
+                  </button>
+                  <button id="btnFilterUnmasteredMk" class="notes-tool-btn" title="아직 암기하지 않은 족보만 모아보기">
+                    <span class="tool-icon">📌</span> <span id="filterUnmasteredMkText">미암기만</span>
+                  </button>
+                  <button id="btnToggleAllMkCards" class="notes-tool-btn" title="모든 족보 카드 접기/펼치기">
+                    <span class="tool-icon">↕️</span> <span id="toggleAllMkText">전체 펼치기</span>
+                  </button>
+                  <button id="btnPrintMustKnow" class="notes-tool-btn" title="시험장 지참용 A4 족보 인쇄/PDF 저장">
+                    <span class="tool-icon">🖨️</span> 족보 인쇄
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 족보 카드 리스트 컨테이너 -->
+            <div id="mustKnowCardsContainer" class="must-know-cards-container">
+              <!-- JS 동적 주입 -->
             </div>
           </div>
 
@@ -608,12 +714,16 @@
     </div>
 
 
-    <!-- 모바일 하단 네비게이션 바 (Knowway Style 4 Tabs) -->
+    <!-- 모바일 하단 네비게이션 바 (Knowway Style 5 Tabs) -->
     <!-- ============================================== -->
     <nav class="bottom-nav blur-glass">
       <button class="bottom-nav-item active" data-nav="home">
         <span class="nav-icon">🏠</span>
         <span class="nav-label">홈·루틴</span>
+      </button>
+      <button class="bottom-nav-item" data-nav="mustknow">
+        <span class="nav-icon">⭐</span>
+        <span class="nav-label">필수암기</span>
       </button>
       <button class="bottom-nav-item" data-nav="notes">
         <span class="nav-icon">📚</span>
@@ -638,6 +748,7 @@
     </button>
 
     <!-- Data Scripts (CORS Bypass) -->
+    <script src="must_know_data.js"></script>
     <script src="data.js"></script>
     <script src="cbt_bank.js"></script>
     
