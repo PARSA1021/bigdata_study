@@ -1,870 +1,731 @@
 <!doctype html>
 <html lang="ko" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="노웨이 | 빅분기" />
-    <meta name="theme-color" content="#007AFF" />
 
-    <title>노웨이(Knowway) | 빅데이터분석기사 필기 합격 마스터</title>
-    <meta name="description" content="기출 풀이부터 AI 개념 학습, 오답 복습, 합격 루틴까지. 빅데이터분석기사 필기 전문 스마트 학습 앱." />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="노웨이 | 빅분기" />
+  <meta name="theme-color" content="#007AFF" />
 
-    <!-- PWA Manifest & Icons -->
-    <link rel="manifest" href="manifest.json" />
-    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <title>노웨이(Knowway) | 빅데이터분석기사 필기 합격 마스터</title>
+  <meta name="description" content="기출 풀이부터 AI 개념 학습, 오답 복습, 합격 루틴까지. 빅데이터분석기사 필기 전문 스마트 학습 앱." />
 
-    <!-- Pretendard Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
-      rel="stylesheet"
-    />
+  <!-- PWA Manifest & Icons -->
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
 
-    <link rel="stylesheet" href="style.css" />
+  <!-- Pretendard Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    rel="stylesheet" />
 
-    <!-- KaTeX for Beautiful Math Formula Rendering -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous" />
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="style.css" />
 
-    <!-- Game/Animation Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Game/Animation Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    <script>
-      // 빠른 테마 적용 (깜빡임 방지)
-      const savedTheme = localStorage.getItem("theme") || "light";
-      document.documentElement.setAttribute("data-theme", savedTheme);
-    </script>
-  </head>
-  <body>
-    <!-- 모바일 메뉴 오버레이 (삭제됨) -->
+  <script>
+    // 빠른 테마 적용 (깜빡임 방지)
+    const savedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  </script>
+</head>
 
-    <!-- 상단 네비게이션 바 (Knowway Style) -->
-    <header class="topbar blur-glass">
-      <div class="topbar-left">
+<body>
+  <!-- 모바일 메뉴 오버레이 (삭제됨) -->
 
-        <a href="#" class="brand-lockup" id="brandLogoBtn">
-          <span class="brand-badge">K</span>
-          <span class="brand-name">KNOWWAY</span>
-          <span class="brand-sub">빅분기</span>
-        </a>
-      </div>
+  <!-- 상단 네비게이션 바 (Knowway Style) -->
+  <header class="topbar blur-glass">
+    <div class="topbar-left">
 
-      <!-- 데스크탑 메인 탭바 (5개 핵심 탭) -->
-      <nav class="desktop-nav-tabs">
-        <button class="main-nav-btn active" data-nav="home">
-          <span class="nav-tab-icon">🏠</span> 홈·루틴
-        </button>
-        <button class="main-nav-btn highlight-nav-btn" data-nav="mustknow">
-          <span class="nav-tab-icon">⭐</span> 무조건암기
-        </button>
-        <button class="main-nav-btn" data-nav="notes">
-          <span class="nav-tab-icon">📚</span> 핵심노트
-        </button>
-        <button class="main-nav-btn" data-nav="practice">
-          <span class="nav-tab-icon">📝</span> 스마트기출
-        </button>
-        <button class="main-nav-btn" data-nav="wrong">
-          <span class="nav-tab-icon">📕</span> 오답탈출
-        </button>
-      </nav>
-
-      <div class="topbar-actions">
-        <button id="openCalcToolTopBtn" class="theme-toggle-btn calc-topbar-btn" title="3초 실전 공식 빠른 계산기" aria-label="3초 실전 공식 빠른 계산기">
-          <span class="theme-toggle-icon">🧮</span>
-          <span class="theme-label">공식 계산기</span>
-        </button>
-
-        <button id="themeToggleBtn" class="theme-toggle-btn" title="다크/라이트모드 전환" aria-label="다크/라이트모드 전환">
-          <span class="theme-toggle-icon">
-            <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-            <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-          </span>
-          <span class="theme-label" id="themeLabelText">다크모드</span>
-        </button>
-      </div>
-    </header>
-
-    <div class="layout" id="mainLayout">
-
-
-      <!-- 메인 컨텐츠 뷰 컨테이너 -->
-      <main class="main-content" id="mainContent">
-        <div class="content-wrapper">
-
-          <!-- ============================================== -->
-          <!-- VIEW 1: 🏠 합격 루틴 홈 대시보드 (Knowway Hub) -->
-          <!-- ============================================== -->
-          <div id="home-view" class="view-section">
-            <!-- Hero Banner -->
-            <div class="knowway-hero">
-              <div class="hero-tag">
-                <span class="pulse-dot"></span> 합격으로 가는 가장 선명한 길
-              </div>
-              <h1 class="hero-main-title">
-                빅데이터분석기사<br />
-                <span class="highlight-text">합격 루틴 마스터</span>
-              </h1>
-              <p class="hero-desc">
-                기출 풀이부터 AI 핵심 개념, 선지 변형 OX 훈련, 계산 공식 마스터까지. 단번에 60점 넘는 필기 합격 루틴!
-              </p>
-              
-              <!-- Primary Call-to-Action for Immediate Engagement -->
-              <div class="hero-primary-cta" style="margin-top: 24px; padding-bottom: 12px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-                <button id="heroStartPracticeBtn" class="button button-brand hero-massive-btn" style="flex:1; min-width:240px; max-width: 320px; justify-content: center; font-size: 16px; padding: 15px 20px; box-shadow: 0 4px 16px rgba(0, 122, 255, 0.3); border-radius: 14px; font-weight: 750; color: #FFFFFF;">
-                  ⚡ 스마트 기출 풀기
-                </button>
-                <button id="heroStartMustKnowBtn" class="button hero-massive-btn" style="flex:1; min-width:240px; max-width: 320px; justify-content: center; font-size: 16px; padding: 15px 20px; background: linear-gradient(135deg, #FF9500, #FF2D55); border: none; box-shadow: 0 4px 16px rgba(255, 149, 0, 0.35); border-radius: 14px; font-weight: 750; color: #FFFFFF;">
-                  ⭐ 과목별 무조건 암기 족보
-                </button>
-              </div>
-
-              <!-- Resume Banner (최근 풀던 학습 즉시 이어하기) -->
-              <div id="resumeBanner" class="resume-banner">
-                <div class="resume-info">
-                  <span class="resume-badge">⚡ 최근 학습 이어하기</span>
-                  <div id="resumeTitle" class="resume-title">11회 기출 실전 모의고사 풀이 중</div>
-                  <div id="resumeDetail" class="resume-detail">24번 문항까지 풀이 완료 (진행률 30%)</div>
-                </div>
-                <button id="resumeActionBtn" class="button button-brand">
-                  이어서 풀기 ➔
-                </button>
-              </div>
-            </div>
-
-            <!-- Routine Dashboard Cards Grid -->
-            <div class="routine-grid">
-
-              <!-- 무조건 암기 족보 퀵 배너 카드 -->
-              <div class="routine-card mustknow-hero-card" id="homeMustKnowBannerCard" style="cursor:pointer; background: linear-gradient(135deg, rgba(255,149,0,0.12), rgba(255,45,85,0.08)); border: 1px solid rgba(255,149,0,0.3);">
-                <div class="card-header-mini">
-                  <span class="mini-icon">⭐</span>
-                  <span class="card-label" style="color:var(--brand-accent, #FF9500); font-weight:800;">과목별 무조건 암기 족보</span>
-                  <button class="link-pill-btn" data-nav="mustknow" style="background: rgba(255,149,0,0.2); color:#FF9500;">족보 보기 ➔</button>
-                </div>
-                <div style="margin-top: 10px;">
-                  <h4 style="font-size: 16px; font-weight: 800; margin: 0 0 6px 0;">시험 전 1초 암기 & 필수 이해 35제</h4>
-                  <p style="font-size: 13px; color: var(--text-muted); margin: 0;">두문자 암기(공표연내, 선독등정비), 6대 공식, 오답 Trap, 블라인드 셀프 테스트</p>
-                </div>
-              </div>
-
-              <!-- Cumulative Stats Card -->
-              <div class="routine-card stats-overview-card">
-                <div class="card-header-mini">
-                  <span class="mini-icon">🏆</span>
-                  <span class="card-label">누적 학습 마스터</span>
-                  <button class="link-pill-btn" data-nav="stats">전체 분석 ➔</button>
-                </div>
-                <div class="stats-mini-grid">
-                  <div class="mini-stat-col">
-                    <span class="mini-stat-val" id="homeTotalSolved">0</span>
-                    <span class="mini-stat-lbl">푼 문제수</span>
-                  </div>
-                  <div class="mini-stat-col">
-                    <span class="mini-stat-val" id="homeAccuracy">0%</span>
-                    <span class="mini-stat-lbl">평균 정답률</span>
-                  </div>
-                  <div class="mini-stat-col">
-                    <span class="mini-stat-val" id="homeWrongCount">0</span>
-                    <span class="mini-stat-lbl">오답 노트</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Subject Performance Quick Bar -->
-            <div class="section-card subject-overview-section">
-              <div class="section-card-header">
-                <div>
-                  <h3 class="section-card-title">📊 과목별 성취도 & 과락 위험 진단</h3>
-                  <p class="section-card-sub">빅분기 합격 기준: 전 과목 평균 60점 이상 & 매 과목 40점 이상(과락 방지)</p>
-                </div>
-              </div>
-              <div id="homeSubjectBars" class="home-subject-bars"></div>
-            </div>
-          </div>
-
-
-          <!-- ============================================== -->
-          <!-- VIEW: ⭐ 과목별 무조건 암기 족보 (Must-Know Deck) -->
-          <!-- ============================================== -->
-          <div id="must-know-view" class="view-section hidden">
-            <!-- 족보 헤더 및 과목별 암기율 대시보드 -->
-            <div class="mustknow-header-card blur-glass">
-              <div class="mustknow-header-top">
-                <div class="mustknow-title-group">
-                  <div class="mustknow-badge-row">
-                    <span class="badge-tag mk-badge-accent">
-                      ⭐ 과목별 무조건 암기 & 이해 족보
-                    </span>
-                    <span class="notes-hero-badge compact-badge">
-                      <span class="pulse-dot"></span> 1~4과목 필수 A급 35제 마스터
-                    </span>
-                  </div>
-                  <h2 class="mustknow-main-title">시험 전 무조건 외워야 하는 과목별 핵심 족보</h2>
-                  <p class="mustknow-sub-desc">
-                    두문자 암기법(공표연내, 선독등정비), 6대 공식, 혼동하기 쉬운 오답 Trap, 블라인드 셀프 테스트까지 한곳에 모았습니다.
-                  </p>
-                </div>
-
-                <div class="mustknow-progress-box">
-                  <div class="mk-progress-header">
-                    <span class="mk-progress-label">전체 암기 달성률</span>
-                    <span class="mk-progress-pct" id="mustKnowOverallPercent">0%</span>
-                  </div>
-                  <div class="notes-progress-track">
-                    <div id="mustKnowProgressBar" class="notes-progress-fill mk-progress-fill" style="width: 0%;"></div>
-                  </div>
-                  <div class="mk-progress-sub-count">
-                    <span id="mustKnowMasteredCount">0</span> / <span id="mustKnowTotalCount">35</span>개 암기 완료
-                  </div>
-                </div>
-              </div>
-
-              <!-- 과목별 탭 바 -->
-              <div class="notes-subject-tabs compact-tabs" id="mustKnowSubjectTabs">
-                <button class="notes-sub-tab active" data-mk-subject="all">
-                  <span class="sub-tab-icon">🌐</span> 전체 족보 (<span id="mkTabCountAll">35</span>)
-                </button>
-                <button class="notes-sub-tab" data-mk-subject="1">
-                  <span class="sub-tab-icon">1️⃣</span> 1과목 기획 (<span id="mkTabCount1">8</span>)
-                </button>
-                <button class="notes-sub-tab" data-mk-subject="2">
-                  <span class="sub-tab-icon">2️⃣</span> 2과목 탐색 (<span id="mkTabCount2">9</span>)
-                </button>
-                <button class="notes-sub-tab" data-mk-subject="3">
-                  <span class="sub-tab-icon">3️⃣</span> 3과목 모델링 (<span id="mkTabCount3">10</span>)
-                </button>
-                <button class="notes-sub-tab" data-mk-subject="4">
-                  <span class="sub-tab-icon">4️⃣</span> 4과목 결과해석 (<span id="mkTabCount4">8</span>)
-                </button>
-              </div>
-
-              <!-- 족보 전용 컨트롤 툴바 (검색, 블라인드 모드, 미암기 필터, 인쇄) -->
-              <div class="notes-control-toolbar compact-toolbar">
-                <div class="notes-inline-search compact-search">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  </svg>
-                  <input type="text" id="mustKnowSearchInput" placeholder="암기 족보 키워드/공식 검색... (예: 공표연내, 혼동행렬, 라쏘)" />
-                  <button id="clearMustKnowSearch" class="notes-search-clear hidden">✕</button>
-                </div>
-
-                <div class="notes-tool-group compact-tool-group">
-                  <button id="btnToggleBlindMode" class="notes-tool-btn highlight-tool-btn" title="핵심 키워드 가림판 모드 (클릭하여 정답 확인)">
-                    <span class="tool-icon">🙈</span> <span id="blindModeBtnText">가림판 모드 OFF</span>
-                  </button>
-                  <button id="btnFilterUnmasteredMk" class="notes-tool-btn" title="아직 암기하지 않은 족보만 모아보기">
-                    <span class="tool-icon">📌</span> <span id="filterUnmasteredMkText">미암기만</span>
-                  </button>
-                  <button id="btnToggleAllMkCards" class="notes-tool-btn" title="모든 족보 카드 접기/펼치기">
-                    <span class="tool-icon">↕️</span> <span id="toggleAllMkText">전체 펼치기</span>
-                  </button>
-                  <button id="btnPrintMustKnow" class="notes-tool-btn" title="시험장 지참용 A4 족보 인쇄/PDF 저장">
-                    <span class="tool-icon">🖨️</span> 족보 인쇄
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- 족보 카드 리스트 컨테이너 -->
-            <div id="mustKnowCardsContainer" class="must-know-cards-container">
-              <!-- JS 동적 주입 -->
-            </div>
-          </div>
-
-
-          <!-- ============================================== -->
-          <!-- VIEW 2: 📚 전과목 핵심 요약노트 (Concept Notes) -->
-          <!-- ============================================== -->
-          <div id="notes-view" class="view-section hidden">
-            <!-- 요약노트 헤더 & 진도율 대시보드 카드 (컴팩트 1줄 스타일) -->
-            <div class="notes-header-card compact-notes-header">
-              <div class="notes-header-top compact-header-top">
-                <div class="notes-header-title-group">
-                  <h2 class="notes-main-title compact-title">📚 핵심 요약노트</h2>
-                  <span class="notes-hero-badge compact-badge">
-                    <span class="pulse-dot"></span> 1~4과목 + 12회 기출
-                  </span>
-                </div>
-                
-                <div class="notes-progress-stat-inline">
-                  <span class="stat-progress-lbl">마스터율</span>
-                  <span class="stat-progress-val" id="progressPercent">0%</span>
-                </div>
-              </div>
-
-              <!-- 진도율 프로그레스 바 -->
-              <div class="notes-progress-track compact-track">
-                <div id="progressBar" class="notes-progress-fill" style="width: 0%;"></div>
-              </div>
-
-              <!-- 모바일/태블릿/PC 반응형 과목 퀵 네비게이션 탭바 -->
-              <div class="notes-subject-tabs compact-tabs" id="notesSubjectTabs">
-                <button class="notes-sub-tab active" data-subject="all">
-                  <span class="sub-tab-icon">🌐</span> 전체
-                </button>
-                <button class="notes-sub-tab" data-subject="1">
-                  <span class="sub-tab-icon">1️⃣</span> 1과목 기획
-                </button>
-                <button class="notes-sub-tab" data-subject="2">
-                  <span class="sub-tab-icon">2️⃣</span> 2과목 탐색
-                </button>
-                <button class="notes-sub-tab" data-subject="3">
-                  <span class="sub-tab-icon">3️⃣</span> 3과목 모델링
-                </button>
-                <button class="notes-sub-tab" data-subject="4">
-                  <span class="sub-tab-icon">4️⃣</span> 4과목 결과해석
-                </button>
-                <button class="notes-sub-tab highlight-tab" data-subject="5">
-                  <span class="sub-tab-icon">🔥</span> 12회 기출특강
-                </button>
-              </div>
-
-              <!-- 학습 편의 통합 툴바 (검색 + 목차 + 핵심 필터) -->
-              <div class="notes-control-toolbar compact-toolbar">
-                <div class="notes-inline-search compact-search">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  </svg>
-                  <input type="text" id="notesInlineSearchInput" placeholder="개념 및 목차 통합 검색... (Ctrl/⌘+K)" />
-                  <button id="clearNotesInlineSearch" class="notes-search-clear hidden">✕</button>
-                </div>
-
-                <div class="notes-tool-group compact-tool-group">
-                  <button id="btnToggleToc" class="notes-tool-btn toc-trigger-btn" title="전체 학습 목차 열기">
-                    <span class="tool-icon">📑</span> 목차
-                  </button>
-                  <button id="btnToggleAllCards" class="notes-tool-btn" title="모든 개념 카드 접기/펼치기">
-                    <span class="tool-icon">↕️</span> <span id="toggleAllText">전체 펼치기</span>
-                  </button>
-                  <button id="btnFilterUnlearned" class="notes-tool-btn" title="미학습 개념만 모아보기">
-                    <span class="tool-icon">📌</span> 미학습만
-                  </button>
-                  <button id="btnFilterBookmarked" class="notes-tool-btn" title="북마크한 개념만 모아보기">
-                    <span class="tool-icon">⭐</span> 북마크만
-                  </button>
-                  <button id="btnFilterWeakness" class="notes-tool-btn" title="오답 2회 이상 약점 개념만 모아보기">
-                    <span class="tool-icon">🔴</span> 약점 집중
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- 📑 빠른 목차 팝업 드로어 모달 (화면 낭비 제거) -->
-            <div id="notesTocOverlay" class="notes-toc-overlay hidden">
-              <div class="notes-toc-drawer blur-glass">
-                <div class="toc-header">
-                  <div style="display: flex; align-items: center; gap: 8px;">
-                    <span class="badge-dot"></span>
-                    <h3>학습 목차 리스트</h3>
-                  </div>
-                  <button id="closeTocDrawerBtn" class="toc-mobile-toggle-btn" aria-label="목차 닫기">
-                    <span>✕</span> 닫기
-                  </button>
-                </div>
-                <div id="searchStatus" class="search-status hidden"></div>
-                <nav id="nav-container" class="nav-scroll"></nav>
-              </div>
-            </div>
-
-            <!-- 요약노트 본문 컨테이너 -->
-            <div id="content" class="notes-cards-container">
-              <div class="loading-spinner">
-                <svg class="spinner" viewBox="0 0 50 50">
-                  <circle class="path" cx="25" cy="25" r="20" fill="none" stroke="currentColor" stroke-width="5"></circle>
-                </svg>
-                <p>요약노트를 불러오는 중입니다...</p>
-              </div>
-            </div>
-          </div>
-
-
-          <!-- ============================================== -->
-          <!-- VIEW 3: 📝 스마트 기출문제 & CBT (Practice & Mock) -->
-          <!-- ============================================== -->
-          <div id="quiz-content" class="view-section hidden">
-            <!-- 연습 모드 헤더 (컴팩트 1줄 헤더 + 퀵 팩 스크롤바 + 통합 검색/필터) -->
-            <div id="practice-header" class="practice-header-compact">
-              <div class="practice-header-top">
-                <div class="practice-title-group">
-                  <h2 class="practice-title-text">⚡ 스마트 기출·변형 문제 풀이</h2>
-                  <span class="practice-count-badge">총 <strong id="practiceTotalCount">727</strong>문항 실전 문제은행</span>
-                </div>
-              </div>
-
-              <!-- 💎 프리미엄 테마 팩 (1줄 가로 스크롤 칩 바) -->
-              <div class="premium-packs-scroll-bar">
-                <button id="btnAgradePass" class="p-pack-chip brand active">⭐ A급 필수 (300)</button>
-                <button id="btn12thExamPack" class="p-pack-chip danger">🔥 12회 기출 (87)</button>
-                <button id="btn11thExamPack" class="p-pack-chip warning">🏆 11회 기출 (80)</button>
-                <button id="btn10thExamPack" class="p-pack-chip success">🎯 10회 기출 (80)</button>
-                <button id="btnCalcPack" class="p-pack-chip purple">🧮 계산 공략 (156)</button>
-                <button id="target13thQuizBtn" class="p-pack-chip indigo">🔮 13회 예상 (20)</button>
-                <button id="termStatQuizBtn" class="p-pack-chip teal">🔄 용어·통계 (20)</button>
-                <button id="btnBookmarkedOnly" class="p-pack-chip dark">📌 내 북마크</button>
-              </div>
-
-              <!-- 💎 고급 검색바 (Spotlight Style) -->
-              <div class="premium-search-container">
-                <div class="premium-search-box">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <circle cx="11" cy="11" r="8"></circle>
-                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                  </svg>
-                  <input type="text" id="keywordSearch" class="premium-search-input" placeholder="키워드 검색 (예: 혼동행렬, 릿지, p-value)" />
-                  <button id="searchQuizBtn" class="search-submit-btn">검색</button>
-                </div>
-              </div>
-
-              <!-- 💎 필터 칩 (과목, 회차, 유형, 중요도) -->
-              <div class="premium-filters-wrapper" id="premiumFiltersWrapper">
-                <button id="toggleMobileFiltersBtn" class="mobile-filter-toggle-btn" aria-label="필터 접기/펼치기">
-                  <span>⚙️ 상세 필터 설정 (과목/회차/유형)</span>
-                  <span id="filterToggleIcon">▲ 접기</span>
-                </button>
-                <div class="filter-group">
-                  <span class="filter-label">과목:</span>
-                  <div class="filter-chip-bar" id="subjectFilterChips">
-                    <button class="f-chip active" data-sub="all">전체 과목</button>
-                    <button class="f-chip" data-sub="1">1과목 분석기획</button>
-                    <button class="f-chip" data-sub="2">2과목 데이터탐색</button>
-                    <button class="f-chip" data-sub="3">3과목 데이터모델링</button>
-                    <button class="f-chip" data-sub="4">4과목 결과해석</button>
-                  </div>
-                </div>
-
-                <div class="filter-group">
-                  <span class="filter-label">기출회차:</span>
-                  <div class="filter-chip-bar" id="roundFilterChips">
-                    <button class="f-chip active" data-round="all">전체 회차</button>
-                    <button class="f-chip" data-round="12">12회 (2026.03)</button>
-                    <button class="f-chip" data-round="11">11회 (2025.10)</button>
-                    <button class="f-chip" data-round="10">10회 (2025.06)</button>
-                    <button class="f-chip" data-round="4">4회 (2022.04)</button>
-                    <button class="f-chip" data-round="practice">단원별 연습</button>
-                    <button class="f-chip" data-round="mock">실전 모의고사</button>
-                  </div>
-                </div>
-
-                <div class="filter-group">
-                  <span class="filter-label">학습유형:</span>
-                  <div class="filter-chip-bar" id="typeFilterChips">
-                    <button class="f-chip active" data-type="all">전체 유형</button>
-                    <button class="f-chip" data-type="calc">🧮 계산 공식형</button>
-                    <button class="f-chip" data-type="gradeA">⭐ A급 필수</button>
-                    <button class="f-chip" data-type="bookmark">📌 내 북마크</button>
-                  </div>
-                </div>
-
-                <div class="filter-group">
-                  <span class="filter-label">중요도:</span>
-                  <div class="filter-chip-bar" id="importanceFilterChips">
-                    <button class="f-chip active" data-imp="all">모든 등급</button>
-                    <button class="f-chip" data-imp="A">A급 (필수)</button>
-                    <button class="f-chip" data-imp="B">B급 (핵심)</button>
-                    <button class="f-chip" data-imp="C">C급 (심화)</button>
-                  </div>
-                </div>
-
-                <div class="filter-actions">
-                  <span class="quiz-match-count">총 <strong id="matchedQuizCount" class="brand-text">0</strong>문제</span>
-                  <button id="resetFilterBtn" class="action-btn-sm" title="필터 초기화">🔄 전체 해제</button>
-                  <button id="shuffleQuizBtn" class="action-btn-sm" title="순서 섞기">🎲 무작위 섞기</button>
-                </div>
-              </div>
-            </div>
-
-            <div id="quiz-toolbar" class="quiz-toolbar"></div>
-            <div id="quiz-score" class="quiz-score"></div>
-            <div id="quiz-container"></div>
-          </div>
-
-
-          <!-- ============================================== -->
-          <!-- VIEW 4: 📕 스마트 오답노트 & 탈출 (Wrong Notes) -->
-          <!-- ============================================== -->
-          <div id="wrong-view" class="view-section hidden">
-            <!-- 오답노트 헤더 (1줄 컴팩트 헤더 + 인라인 통계 칩 + 다시풀기 CTA) -->
-            <div class="wrong-header-compact">
-              <div class="wrong-header-top">
-                <div class="wrong-title-group">
-                  <h2 class="wrong-title-text">📕 스마트 오답노트 & 약점 탈출</h2>
-                  <div class="wrong-stat-pills">
-                    <span class="ws-pill danger">오답 <strong id="wrongTotalCount">0</strong></span>
-                    <span class="ws-pill success">마스터 <strong id="wrongMasteredCount">0</strong></span>
-                    <span class="ws-pill brand">북마크 <strong id="wrongBookmarkCount">0</strong></span>
-                  </div>
-                </div>
-
-                <div class="wrong-actions-group">
-                  <button id="retryAllWrongBtn" class="action-btn-primary">
-                    ⚡ 오답 전체 다시 풀기
-                  </button>
-                </div>
-              </div>
-
-              <!-- 오답 필터 탭 (1줄 가로 스크롤 칩 바) -->
-              <div class="wrong-filters-scroll-bar">
-                <button class="wrong-filter-btn wrong-filter-chip active" data-filter="all">전체 오답 (<span id="wfAllCount">0</span>)</button>
-                <button class="wrong-filter-btn wrong-filter-chip warning" data-filter="high">2회 이상 틀림 ⚠️ (<span id="wfHighCount">0</span>)</button>
-                <button class="wrong-filter-btn wrong-filter-chip brand" data-filter="bookmarks">⭐ 북마크 문항 (<span id="wfBookCount">0</span>)</button>
-                <button class="wrong-filter-btn wrong-filter-chip" data-filter="sub1">1과목</button>
-                <button class="wrong-filter-btn wrong-filter-chip" data-filter="sub2">2과목</button>
-                <button class="wrong-filter-btn wrong-filter-chip" data-filter="sub3">3과목</button>
-                <button class="wrong-filter-btn wrong-filter-chip" data-filter="sub4">4과목</button>
-              </div>
-            </div>
-
-            <!-- 오답 문제 카드 리스트 컨테이너 -->
-            <div id="wrongListContainer" class="wrong-list-container"></div>
-          </div>
-
-          <!-- ============================================== -->
-          <!-- VIEW 5: 📊 전체 분석 대시보드 (Stats View) -->
-          <!-- ============================================== -->
-          <div id="stats-view" class="view-section hidden">
-            <div class="knowway-hero" style="min-height: auto; padding: 32px 0 24px;">
-              <div class="hero-tag" style="background: rgba(48,209,88,0.15); color: var(--success);">
-                📊 실력 심층 분석
-              </div>
-              <h2 class="hero-main-title" style="font-size: clamp(28px, 4vw, 42px);">
-                전체 분석 대시보드
-              </h2>
-              <p class="hero-desc">
-                과목별 정답률 통계를 한눈에 확인하고 취약한 부분을 전략적으로 집중 공략하세요.
-              </p>
-            </div>
-
-            <!-- 과목별 정답률 바 차트 -->
-            <div class="section-card">
-              <div class="section-card-header">
-                <h3 class="section-card-title">과목별 상세 정답률 분석</h3>
-              </div>
-              <div id="statsSubjectGrid" class="stats-bars-wrapper" style="margin-top: 16px;">
-                 <!-- JS로 차트 주입 -->
-              </div>
-            </div>
-
-            <!-- 빅분기 CBT 실전 모의고사 뷰어용 종합 통계 텍스트 -->
-            <div class="section-card">
-              <div class="section-card-header">
-                <h3 class="section-card-title">누적 학습 마일스톤</h3>
-              </div>
-              <div class="stats-milestone-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 16px;">
-                <div class="stat-mile-card" style="padding: 16px; background: var(--bg-secondary); border-radius: 12px; text-align: center;">
-                  <div id="statTotSolved" style="font-size: 28px; font-weight: 800; color: var(--text-color);">0</div>
-                  <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">총 풀이 문항 수</div>
-                </div>
-                <div class="stat-mile-card" style="padding: 16px; background: var(--bg-secondary); border-radius: 12px; text-align: center;">
-                  <div id="statTotAcc" style="font-size: 28px; font-weight: 800; color: var(--text-color);">0%</div>
-                  <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">평균 정답률</div>
-                </div>
-                <div class="stat-mile-card" style="padding: 16px; background: var(--bg-secondary); border-radius: 12px; text-align: center;">
-                  <div id="statTotMaster" style="font-size: 28px; font-weight: 800; color: var(--text-color);">0</div>
-                  <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">오답 탈출 성공</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 데이터 관리 (백업/복원/초기화) -->
-            <div class="section-card">
-              <div class="section-card-header">
-                <h3 class="section-card-title">데이터 보안 및 설정 관리</h3>
-                <p class="section-card-sub">소중한 학습 데이터를 잃지 않게 안전하게 로컬 기기(PC/스마트폰)에 백업하고 복원하세요.</p>
-              </div>
-              <div class="data-actions-row" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px;">
-                <button id="btnExportData" class="button button-light">⬇️ 데이터 백업 다운로드 (.json)</button>
-                <input type="file" id="fileImportData" accept=".json" style="display:none;" />
-                <label for="fileImportData" class="button button-light" style="display:inline-block; margin:0; cursor:pointer;">⬆️ 백업된 데이터 불러오기</label>
-                <button id="btnResetData" class="button" style="background: rgba(255, 59, 48, 0.1); color: var(--danger); border-color: transparent;">🗑️ 모든 기록 리셋</button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </main>
+      <a href="#" class="brand-lockup" id="brandLogoBtn">
+        <span class="brand-badge">K</span>
+        <span class="brand-name">KNOWWAY</span>
+        <span class="brand-sub">빅분기</span>
+      </a>
     </div>
 
-    <!-- ============================================== -->
-    <!-- MODAL 2: ⚡ 선지 OX 벼락치기 훈련 모달 (New) -->
-    <!-- ============================================== -->
-    <!-- Floating Sprint Timer -->
-    <div id="sprintTimerOverlay" class="hidden" style="position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: rgba(9, 9, 9, 0.9); color: #F3FA05; padding: 12px 24px; border-radius: 99px; font-size: 24px; font-weight: 900; z-index: 1050; border: 2px solid #F3FA05; box-shadow: 0 8px 32px rgba(243, 250, 5, 0.3); backdrop-filter: blur(10px); transition: all 0.2s;">
-      ⏱️ 05:00
-    </div>
-
-    <div id="oxTrainerModal" class="modal-overlay hidden">
-      <div class="modal-card blur-glass ox-trainer-modal-card">
-        <div class="modal-header">
-          <div class="modal-title-group">
-            <span class="brand-badge-pill">⚡ OX TRAINER</span>
-            <h2>선지 OX 벼락치기 훈련</h2>
-          </div>
-          <button id="closeOxModalBtn" class="icon-btn">✕</button>
-        </div>
-
-        <div class="modal-body ox-trainer-body">
-          <div class="ox-progress-bar-row">
-            <span>진행률: <strong id="oxProgressText">1 / 20</strong></span>
-            <span>연속 정답: <strong id="oxStreakText" style="color:#FF9500;">🔥 0</strong></span>
-          </div>
-
-          <div class="ox-question-card" id="oxQuestionCard">
-            <div class="ox-subject-tag" id="oxSubjectTag">1과목 · 분석 기획</div>
-            <div class="ox-statement-text" id="oxStatementText">
-              선지 명제가 이곳에 표시됩니다.
-            </div>
-          </div>
-
-          <div class="ox-buttons-row">
-            <button class="ox-btn-circle ox-true-btn" id="oxBtnTrue">
-              <span class="ox-symbol">⭕</span>
-              <span class="ox-btn-lbl">O (옳음)</span>
-            </button>
-            <button class="ox-btn-circle ox-false-btn" id="oxBtnFalse">
-              <span class="ox-symbol">❌</span>
-              <span class="ox-btn-lbl">X (틀림)</span>
-            </button>
-          </div>
-
-          <div class="ox-feedback-box hidden" id="oxFeedbackBox">
-            <div class="ox-feedback-title" id="oxFeedbackTitle">✓ 정답입니다!</div>
-            <div class="ox-feedback-desc" id="oxFeedbackDesc">해설 내용이 표시됩니다.</div>
-            <button class="button button-brand w-full" id="oxNextBtn" style="margin-top: 12px;">
-              다음 선지 풀기 (Space / Enter) ➔
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ============================================== -->
-    <!-- MODAL 3: 📄 단권화 파이널 치트시트 모달 (New) -->
-    <!-- ============================================== -->
-    <div id="cheatSheetModal" class="modal-overlay hidden">
-      <div class="modal-card blur-glass cheat-sheet-modal-card">
-        <div class="modal-header">
-          <div class="modal-title-group">
-            <span class="brand-badge-pill">📄 CHEAT SHEET</span>
-            <h2>시험장 30분 전 파이널 치트시트</h2>
-          </div>
-          <div style="display: flex; gap: 8px;">
-            <button id="printCheatSheetBtn" class="button button-brand" style="min-height: 36px; padding: 0 14px; font-size: 13px;">
-              🖨️ 인쇄 / PDF 저장
-            </button>
-            <button id="closeCheatSheetBtn" class="icon-btn">✕</button>
-          </div>
-        </div>
-
-        <div class="modal-body cheat-sheet-body" id="cheatSheetContent">
-          <!-- JS generated compact cheat sheet sections -->
-        </div>
-
-        <div class="modal-footer">
-          <button id="closeCheatSheetModalBtn" class="button button-light">닫기</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ============================================== -->
-    <!-- MODAL 4: 🧮 3초 실전 공식 빠른 계산기 모달 (New) -->
-    <!-- ============================================== -->
-    <div id="calcToolModal" class="modal-overlay hidden">
-      <div class="modal-card blur-glass calc-tool-modal-card" style="max-width: 650px; width: 92%;">
-        <div class="modal-header">
-          <div class="modal-title-group">
-            <span class="brand-badge-pill">🧮 3초 공식 검증기</span>
-            <h2>빅분기 실전 공식 빠른 계산기</h2>
-          </div>
-          <button id="closeCalcToolBtn" class="icon-btn">✕</button>
-        </div>
-
-        <div class="modal-body" style="padding: 20px;">
-          <!-- 계산기 탭 -->
-          <div class="concept-modal-tabs" style="margin-bottom: 16px;">
-            <button id="calcTabMatrix" class="concept-tab active">📊 혼동행렬 (P/R/F1)</button>
-            <button id="calcTabIqr" class="concept-tab">📦 IQR 이상치</button>
-            <button id="calcTabZscore" class="concept-tab">📈 Z-Score 표준화</button>
-            <button id="calcTabR2" class="concept-tab">📐 결정계수 (R²)</button>
-          </div>
-
-          <!-- P1: 혼동행렬 계산기 -->
-          <div id="calcPaneMatrix" class="calc-pane">
-            <p class="section-card-sub" style="margin-bottom: 12px;">혼동행렬(Confusion Matrix) 수치를 입력하면 정밀도, 재현율, F1-Score를 실시간 자동 계산합니다.</p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
-              <div>
-                <label style="font-size:12px; font-weight:700;">TP (진양성 - 예측T / 실제T)</label>
-                <input type="number" id="calcInputTP" value="80" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
-              </div>
-              <div>
-                <label style="font-size:12px; font-weight:700;">FP (위양성 - 예측T / 실제F)</label>
-                <input type="number" id="calcInputFP" value="20" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
-              </div>
-              <div>
-                <label style="font-size:12px; font-weight:700;">FN (위음성 - 예측F / 실제T)</label>
-                <input type="number" id="calcInputFN" value="10" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
-              </div>
-              <div>
-                <label style="font-size:12px; font-weight:700;">TN (진음성 - 예측F / 실제F)</label>
-                <input type="number" id="calcInputTN" value="90" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
-              </div>
-            </div>
-
-            <div id="calcMatrixResult" style="padding:14px; background:var(--bg-secondary); border-radius:12px; line-height:1.6; font-size:14px;">
-              <!-- JS auto filled -->
-            </div>
-          </div>
-
-          <!-- P2: IQR 이상치 계산기 -->
-          <div id="calcPaneIqr" class="calc-pane hidden">
-            <p class="section-card-sub" style="margin-bottom: 12px;">Q1(25%)과 Q3(75%)를 입력하여 박스플롯 이상치 울타리(Whisker) 경계값을 계산합니다.</p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
-              <div>
-                <label style="font-size:12px; font-weight:700;">Q1 (제1사분위수)</label>
-                <input type="number" id="calcInputQ1" value="20" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
-              </div>
-              <div>
-                <label style="font-size:12px; font-weight:700;">Q3 (제3사분위수)</label>
-                <input type="number" id="calcInputQ3" value="60" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
-              </div>
-            </div>
-            <div id="calcIqrResult" style="padding:14px; background:var(--bg-secondary); border-radius:12px; line-height:1.6; font-size:14px;"></div>
-          </div>
-
-          <!-- P3: Z-Score 계산기 -->
-          <div id="calcPaneZscore" class="calc-pane hidden">
-            <p class="section-card-sub" style="margin-bottom: 12px;">측정값(X), 평균(μ), 표준편차(σ)를 입력하여 Z-Score(표준점수)를 구합니다.</p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 16px;">
-              <div>
-                <label style="font-size:12px; font-weight:700;">측정값 (X)</label>
-                <input type="number" id="calcInputX" value="85" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
-              </div>
-              <div>
-                <label style="font-size:12px; font-weight:700;">평균 (μ)</label>
-                <input type="number" id="calcInputMu" value="70" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
-              </div>
-              <div>
-                <label style="font-size:12px; font-weight:700;">표준편차 (σ)</label>
-                <input type="number" id="calcInputSigma" value="10" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
-              </div>
-            </div>
-            <div id="calcZscoreResult" style="padding:14px; background:var(--bg-secondary); border-radius:12px; line-height:1.6; font-size:14px;"></div>
-          </div>
-
-          <!-- P4: R2 결정계수 계산기 -->
-          <div id="calcPaneR2" class="calc-pane hidden">
-            <p class="section-card-sub" style="margin-bottom: 12px;">잔차제곱합(SSE)과 총제곱합(SST) 또는 설명제곱합(SSR)을 입력하여 R²를 계산합니다.</p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
-              <div>
-                <label style="font-size:12px; font-weight:700;">SSE (잔차제곱합)</label>
-                <input type="number" id="calcInputSSE" value="20" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
-              </div>
-              <div>
-                <label style="font-size:12px; font-weight:700;">SST (총제곱합)</label>
-                <input type="number" id="calcInputSST" value="100" style="width:100%; padding:8px 12px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-color);" />
-              </div>
-            </div>
-            <div id="calcR2Result" style="padding:14px; background:var(--bg-secondary); border-radius:12px; line-height:1.6; font-size:14px;"></div>
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button id="closeCalcToolModalBtn" class="button button-light">닫기</button>
-        </div>
-      </div>
-    </div>
-
-
-
-    <!-- ============================================== -->
-    <!-- MODAL 6: 📖 개념 요약 팝업 미리보기 모달 -->
-    <!-- ============================================== -->
-    <div id="conceptModal" class="modal-overlay hidden">
-      <div class="modal-card blur-glass concept-preview-modal">
-        <div class="modal-header">
-          <div class="modal-title-group">
-            <span class="badge-tag">핵심 개념 요약</span>
-            <h2 id="conceptModalTitle">개념 제목</h2>
-          </div>
-          <button id="closeConceptBtn" class="icon-btn">✕</button>
-        </div>
-
-        <div class="concept-modal-tabs">
-          <button id="tabConceptNote" class="concept-tab active">📖 핵심 요약노트</button>
-          <button id="tabConceptQuiz" class="concept-tab">📝 관련 기출문제 (<span id="conceptRelatedCount">0</span>)</button>
-        </div>
-
-        <div class="modal-body">
-          <div id="conceptModalBodyNote" class="concept-modal-pane"></div>
-          <div id="conceptModalBodyQuiz" class="concept-modal-pane hidden"></div>
-        </div>
-        <div class="modal-footer">
-          <button id="practiceConceptBtn" class="button button-brand">🎯 이 개념 문제만 풀기</button>
-          <button id="jumpToFullNoteBtn" class="button button-light">전체 요약노트 위치로 이동 ↗</button>
-          <button id="closeConceptModalBtn" class="button button-light">닫기</button>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- 모바일 하단 네비게이션 바 (Knowway Style 5 Tabs) -->
-    <!-- ============================================== -->
-    <nav class="bottom-nav blur-glass">
-      <button class="bottom-nav-item active" data-nav="home">
-        <span class="nav-icon">🏠</span>
-        <span class="nav-label">홈·루틴</span>
+    <!-- 데스크탑 메인 탭바 (5개 핵심 탭) -->
+    <nav class="desktop-nav-tabs">
+      <button class="main-nav-btn active" data-nav="home">
+        <span class="nav-tab-icon">🏠</span> 홈·루틴
       </button>
-      <button class="bottom-nav-item" data-nav="mustknow">
-        <span class="nav-icon">⭐</span>
-        <span class="nav-label">필수암기</span>
+      <button class="main-nav-btn highlight-tab-brand" data-nav="tutor">
+        <span class="nav-tab-icon">🎯</span> 1:1 AI 튜터
       </button>
-      <button class="bottom-nav-item" data-nav="notes">
-        <span class="nav-icon">📚</span>
-        <span class="nav-label">요약노트</span>
+      <button class="main-nav-btn" data-nav="notes">
+        <span class="nav-tab-icon">📚</span> 핵심노트
       </button>
-      <button class="bottom-nav-item" data-nav="practice">
-        <span class="nav-icon">📝</span>
-        <span class="nav-label">스마트기출</span>
+      <button class="main-nav-btn" data-nav="practice">
+        <span class="nav-tab-icon">📝</span> 스마트기출
       </button>
-      <button class="bottom-nav-item" data-nav="wrong">
-        <span class="nav-icon">📕</span>
-        <span class="nav-label">오답탈출</span>
+      <button class="main-nav-btn" data-nav="wrong">
+        <span class="nav-tab-icon">📕</span> 오답탈출
       </button>
     </nav>
 
-    <!-- 맨 위로 가기 버튼 -->
-    <button id="toTop" class="to-top-btn blur-glass" aria-label="맨 위로 가기">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-        <line x1="12" y1="19" x2="12" y2="5"></line>
-        <polyline points="5 12 12 5 19 12"></polyline>
-      </svg>
-    </button>
+    <div class="topbar-actions">
 
-    <!-- Data Scripts (CORS Bypass) -->
-    <script src="must_know_data.js"></script>
-    <script src="data.js"></script>
-    <script src="cbt_bank.js"></script>
-    
-    <!-- Main Application File -->
-    <script src="app.js"></script>
-  </body>
+      <button id="themeToggleBtn" class="theme-toggle-btn" title="다크/라이트모드 전환" aria-label="다크/라이트모드 전환">
+        <span class="theme-toggle-icon">
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </span>
+        <span class="theme-label">다크모드</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="layout" id="mainLayout">
+
+
+    <!-- 메인 컨텐츠 뷰 컨테이너 -->
+    <main class="main-content" id="mainContent">
+      <div class="content-wrapper">
+
+        <!-- ============================================== -->
+        <!-- VIEW 1: 🏠 합격 루틴 홈 대시보드 (Knowway Hub) -->
+        <!-- ============================================== -->
+        <div id="home-view" class="view-section">
+          <!-- Hero Banner -->
+          <div class="knowway-hero">
+            <div class="hero-tag">
+              <span class="pulse-dot"></span> 합격으로 가는 가장 선명한 길
+            </div>
+            <h1 class="hero-main-title">
+              빅데이터분석기사<br />
+              <span class="highlight-text">합격 루틴 마스터</span>
+            </h1>
+            <p class="hero-desc">
+              기출 풀이부터 AI 핵심 개념, 선지 변형 OX 훈련, 계산 공식 마스터까지. 단번에 60점 넘는 필기 합격 루틴!
+            </p>
+
+            <!-- [NEW] Primary Call-to-Action for Immediate Engagement -->
+            <div class="hero-primary-cta" style="margin-top: 24px; padding-bottom: 12px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+              <button id="heroStartTutorBtn" class="button button-brand hero-massive-btn" data-nav="tutor"
+                style="flex: 1; min-width: 260px; max-width: 380px; justify-content: center; font-size: 16px; padding: 16px 20px; background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%); box-shadow: 0 4px 20px rgba(88, 86, 214, 0.4); border-radius: 14px; font-weight: 750; color: #FFFFFF;">
+                🎯 1:1 개념비교 AI 튜터 훈련소 ➔
+              </button>
+              <button id="heroStartPracticeBtn" class="button button-light" data-nav="practice"
+                style="flex: 1; min-width: 220px; max-width: 320px; justify-content: center; font-size: 15px; padding: 16px 20px; border-radius: 14px; font-weight: 700;">
+                ⚡ 스마트 기출 모의고사 풀기
+              </button>
+            </div>
+
+            <!-- Resume Banner (최근 풀던 학습 즉시 이어하기) -->
+            <div id="resumeBanner" class="resume-banner">
+              <div class="resume-info">
+                <span class="resume-badge">⚡ 최근 학습 이어하기</span>
+                <div id="resumeTitle" class="resume-title">11회 기출 실전 모의고사 풀이 중</div>
+                <div id="resumeDetail" class="resume-detail">24번 문항까지 풀이 완료 (진행률 30%)</div>
+              </div>
+              <button id="resumeActionBtn" class="button button-brand">
+                이어서 풀기 ➔
+              </button>
+            </div>
+          </div>
+
+          <!-- Routine Dashboard Cards Grid -->
+          <div class="routine-grid">
+
+
+            <!-- Cumulative Stats Card -->
+            <div class="routine-card stats-overview-card">
+              <div class="card-header-mini">
+                <span class="mini-icon">🏆</span>
+                <span class="card-label">누적 학습 마스터</span>
+                <button class="link-pill-btn" data-nav="stats">전체 분석 ➔</button>
+              </div>
+              <div class="stats-mini-grid">
+                <div class="mini-stat-col">
+                  <span class="mini-stat-val" id="homeTotalSolved">0</span>
+                  <span class="mini-stat-lbl">푼 문제수</span>
+                </div>
+                <div class="mini-stat-col">
+                  <span class="mini-stat-val" id="homeAccuracy">0%</span>
+                  <span class="mini-stat-lbl">평균 정답률</span>
+                </div>
+                <div class="mini-stat-col">
+                  <span class="mini-stat-val" id="homeWrongCount">0</span>
+                  <span class="mini-stat-lbl">오답 노트</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============================================== -->
+          <!-- ⏱️ 최신 역순 기출 정복 로드맵 타임라인 (New) -->
+          <!-- ============================================== -->
+
+
+
+
+          <!-- Subject Performance Quick Bar -->
+          <div class="section-card subject-overview-section">
+            <div class="section-card-header">
+              <div>
+                <h3 class="section-card-title">📊 과목별 성취도 & 과락 위험 진단</h3>
+                <p class="section-card-sub">빅분기 합격 기준: 전 과목 평균 60점 이상 & 매 과목 40점 이상(과락 방지)</p>
+              </div>
+            </div>
+            <div id="homeSubjectBars" class="home-subject-bars"></div>
+          </div>
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- VIEW 2: 📚 전과목 핵심 요약노트 (Concept Notes) -->
+        <!-- ============================================== -->
+        <div id="notes-view" class="view-section hidden">
+          <!-- 요약노트 헤더 & 진도율 대시보드 카드 (컴팩트 1줄 스타일) -->
+          <div class="notes-header-card compact-notes-header">
+            <div class="notes-header-top compact-header-top">
+              <div class="notes-header-title-group">
+                <h2 class="notes-main-title compact-title">📚 핵심 요약노트</h2>
+                <span class="notes-hero-badge compact-badge">
+                  <span class="pulse-dot"></span> 1~4과목 + 12회 기출
+                </span>
+              </div>
+
+              <div class="notes-progress-stat-inline">
+                <span class="stat-progress-lbl">마스터율</span>
+                <span class="stat-progress-val" id="progressPercent">0%</span>
+              </div>
+            </div>
+
+            <!-- 진도율 프로그레스 바 -->
+            <div class="notes-progress-track compact-track">
+              <div id="progressBar" class="notes-progress-fill" style="width: 0%;"></div>
+            </div>
+
+            <!-- 모바일/태블릿/PC 반응형 과목 퀵 네비게이션 탭바 -->
+            <div class="notes-subject-tabs compact-tabs" id="notesSubjectTabs">
+              <button class="notes-sub-tab active" data-subject="all">
+                <span class="sub-tab-icon">🌐</span> 전체
+              </button>
+              <button class="notes-sub-tab" data-subject="1">
+                <span class="sub-tab-icon">1️⃣</span> 1과목 기획
+              </button>
+              <button class="notes-sub-tab" data-subject="2">
+                <span class="sub-tab-icon">2️⃣</span> 2과목 탐색
+              </button>
+              <button class="notes-sub-tab" data-subject="3">
+                <span class="sub-tab-icon">3️⃣</span> 3과목 모델링
+              </button>
+              <button class="notes-sub-tab" data-subject="4">
+                <span class="sub-tab-icon">4️⃣</span> 4과목 결과해석
+              </button>
+              <button class="notes-sub-tab highlight-tab" data-subject="5">
+                <span class="sub-tab-icon">🔥</span> 12회 기출특강
+              </button>
+            </div>
+
+            <!-- 학습 편의 통합 툴바 (검색 + 목차 + 핵심 필터) -->
+            <div class="notes-control-toolbar compact-toolbar">
+              <div class="notes-inline-search compact-search">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="notesInlineSearchInput" placeholder="개념 및 목차 통합 검색... (Ctrl/⌘+K)" />
+                <button id="clearNotesInlineSearch" class="notes-search-clear hidden">✕</button>
+              </div>
+
+              <div class="notes-tool-group compact-tool-group">
+                <button id="btnToggleToc" class="notes-tool-btn toc-trigger-btn" title="전체 학습 목차 열기">
+                  <span class="tool-icon">📑</span> 목차
+                </button>
+                <button id="btnToggleAllCards" class="notes-tool-btn" title="모든 개념 카드 접기/펼치기">
+                  <span class="tool-icon">↕️</span> <span id="toggleAllText">전체 펼치기</span>
+                </button>
+                <button id="btnFilterUnlearned" class="notes-tool-btn" title="미학습 개념만 모아보기">
+                  <span class="tool-icon">📌</span> 미학습만
+                </button>
+                <button id="btnFilterBookmarked" class="notes-tool-btn" title="북마크한 개념만 모아보기">
+                  <span class="tool-icon">⭐</span> 북마크만
+                </button>
+                <button id="btnFilterWeakness" class="notes-tool-btn" title="오답 2회 이상 약점 개념만 모아보기">
+                  <span class="tool-icon">🔴</span> 약점 집중
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 📑 빠른 목차 팝업 드로어 모달 (화면 낭비 제거) -->
+          <div id="notesTocOverlay" class="notes-toc-overlay hidden">
+            <div class="notes-toc-drawer blur-glass">
+              <div class="toc-header">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="badge-dot"></span>
+                  <h3>학습 목차 리스트</h3>
+                </div>
+                <button id="closeTocDrawerBtn" class="toc-mobile-toggle-btn" aria-label="목차 닫기">
+                  <span>✕</span> 닫기
+                </button>
+              </div>
+              <div id="searchStatus" class="search-status hidden"></div>
+              <nav id="nav-container" class="nav-scroll"></nav>
+            </div>
+          </div>
+
+          <!-- 요약노트 본문 컨테이너 -->
+          <div id="content" class="notes-cards-container">
+            <div class="loading-spinner">
+              <svg class="spinner" viewBox="0 0 50 50">
+                <circle class="path" cx="25" cy="25" r="20" fill="none" stroke="currentColor" stroke-width="5"></circle>
+              </svg>
+              <p>요약노트를 불러오는 중입니다...</p>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- VIEW 3: 📝 스마트 기출문제 & CBT (Practice & Mock) -->
+        <!-- ============================================== -->
+        <div id="quiz-content" class="view-section hidden">
+          <!-- 연습 모드 헤더 (컴팩트 1줄 헤더 + 퀵 팩 스크롤바 + 통합 검색/필터) -->
+          <div id="practice-header" class="practice-header-compact">
+            <div class="practice-header-top">
+              <div class="practice-title-group">
+                <h2 class="practice-title-text">⚡ 스마트 기출·변형 문제 풀이</h2>
+                <span class="practice-count-badge">총 <strong id="practiceTotalCount">727</strong>문항 실전 문제은행</span>
+              </div>
+            </div>
+
+            <!-- 💎 프리미엄 테마 팩 (1줄 가로 스크롤 칩 바) -->
+            <div class="premium-packs-scroll-bar">
+              <button id="btnAgradePass" class="p-pack-chip brand active">⭐ A급 필수 (400+)</button>
+              <button id="btn9thExamPack" class="p-pack-chip danger">🔥 9회 기출 복원 (50)</button>
+              <button id="btn8thExamPack" class="p-pack-chip warning">🏆 8회 기출 복원 (50)</button>
+              <button id="btn12thExamPack" class="p-pack-chip purple">⚡ 12회 기출 (87)</button>
+              <button id="btn11thExamPack" class="p-pack-chip success">🎯 11회 기출 (80)</button>
+              <button id="btn10thExamPack" class="p-pack-chip indigo">📘 10회 기출 (80)</button>
+              <button id="btnCalcPack" class="p-pack-chip teal">🧮 계산 공략 (156)</button>
+              <button id="target13thQuizBtn" class="p-pack-chip dark">🔮 13회 적중 예상</button>
+              <button id="btnBookmarkedOnly" class="p-pack-chip dark">📌 내 북마크</button>
+            </div>
+
+            <!-- 💎 고급 검색바 (Spotlight Style) -->
+            <div class="premium-search-container">
+              <div class="premium-search-box">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                  stroke-linecap="round" stroke-linejoin="round" class="search-icon-svg">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <input type="text" id="quizSearchInput" placeholder="문제 키워드, 개념명, 공식 검색 (예: 경사하강법, F1-Score, VIF, 오즈비)..."
+                  autocomplete="off" />
+                <button id="clearSearchBtn" class="clear-search-btn hidden" aria-label="검색어 지우기">✕</button>
+                <span class="search-kbd-hint">Ctrl + K</span>
+              </div>
+            </div>
+
+            <!-- 💎 필터 칩 (과목, 회차, 유형, 중요도) -->
+            <div class="premium-filters-wrapper" id="premiumFiltersWrapper">
+              <button id="toggleMobileFiltersBtn" class="mobile-filter-toggle-btn" aria-label="필터 접기/펼치기">
+                <span>⚙️ 상세 필터 설정 (과목/회차/유형)</span>
+                <span id="filterToggleIcon">▲ 접기</span>
+              </button>
+              <div class="filter-group">
+                <span class="filter-label">과목:</span>
+                <div class="filter-chip-bar" id="subjectFilterChips">
+                  <button class="f-chip active" data-sub="all">전체 과목</button>
+                  <button class="f-chip" data-sub="1">1과목 분석기획</button>
+                  <button class="f-chip" data-sub="2">2과목 데이터탐색</button>
+                  <button class="f-chip" data-sub="3">3과목 데이터모델링</button>
+                  <button class="f-chip" data-sub="4">4과목 결과해석</button>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <span class="filter-label">기출회차:</span>
+                <div class="filter-chip-bar" id="roundFilterChips">
+                  <button class="f-chip active" data-round="all">전체 회차</button>
+                  <button class="f-chip" data-round="9">🔥 9회 기출 복원</button>
+                  <button class="f-chip" data-round="8">🏆 8회 기출 복원</button>
+                  <button class="f-chip" data-round="12">12회 (2026.03)</button>
+                  <button class="f-chip" data-round="11">11회 (2025.10)</button>
+                  <button class="f-chip" data-round="10">10회 (2025.06)</button>
+                  <button class="f-chip" data-round="4">4회 (2022.04)</button>
+                  <button class="f-chip" data-round="practice">단원별 연습</button>
+                  <button class="f-chip" data-round="mock">실전 모의고사</button>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <span class="filter-label">학습유형:</span>
+                <div class="filter-chip-bar" id="typeFilterChips">
+                  <button class="f-chip active" data-type="all">전체 유형</button>
+                  <button class="f-chip" data-type="calc">🧮 계산 공식형</button>
+                  <button class="f-chip" data-type="gradeA">⭐ A급 필수</button>
+                  <button class="f-chip" data-type="bookmark">📌 내 북마크</button>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <span class="filter-label">중요도:</span>
+                <div class="filter-chip-bar" id="importanceFilterChips">
+                  <button class="f-chip active" data-imp="all">모든 등급</button>
+                  <button class="f-chip" data-imp="A">A급 (필수)</button>
+                  <button class="f-chip" data-imp="B">B급 (핵심)</button>
+                  <button class="f-chip" data-imp="C">C급 (심화)</button>
+                </div>
+              </div>
+
+              <div class="filter-actions">
+                <span class="quiz-match-count">총 <strong id="matchedQuizCount" class="brand-text">0</strong>문제</span>
+                <button id="resetFilterBtn" class="action-btn-sm" title="필터 초기화">🔄 전체 해제</button>
+                <button id="shuffleQuizBtn" class="action-btn-sm" title="순서 섞기">🎲 무작위 섞기</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="quiz-toolbar" class="quiz-toolbar"></div>
+          <div id="quiz-score" class="quiz-score"></div>
+          <div id="quiz-container"></div>
+        </div>
+
+
+        <!-- ============================================== -->
+        <!-- VIEW 4: 📕 스마트 오답노트 & 탈출 (Wrong Notes) -->
+        <!-- ============================================== -->
+        <div id="wrong-view" class="view-section hidden">
+          <!-- 오답노트 헤더 (1줄 컴팩트 헤더 + 인라인 통계 칩 + 다시풀기 CTA) -->
+          <div class="wrong-header-compact">
+            <div class="wrong-header-top">
+              <div class="wrong-title-group">
+                <h2 class="wrong-title-text">📕 스마트 오답노트 & 약점 탈출</h2>
+                <div class="wrong-stat-pills">
+                  <span class="ws-pill danger">오답 <strong id="wrongTotalCount">0</strong></span>
+                  <span class="ws-pill success">마스터 <strong id="wrongMasteredCount">0</strong></span>
+                  <span class="ws-pill brand">북마크 <strong id="wrongBookmarkCount">0</strong></span>
+                </div>
+              </div>
+
+              <div class="wrong-actions-group">
+                <button id="retryAllWrongBtn" class="action-btn-primary">
+                  ⚡ 오답 전체 다시 풀기
+                </button>
+              </div>
+            </div>
+
+            <!-- 오답 필터 탭 (1줄 가로 스크롤 칩 바) -->
+            <div class="wrong-filters-scroll-bar">
+              <button class="wrong-filter-btn wrong-filter-chip active" data-filter="all">전체 오답 (<span
+                  id="wfAllCount">0</span>)</button>
+              <button class="wrong-filter-btn wrong-filter-chip warning" data-filter="high">2회 이상 틀림 ⚠️ (<span
+                  id="wfHighCount">0</span>)</button>
+              <button class="wrong-filter-btn wrong-filter-chip brand" data-filter="bookmarks">⭐ 북마크 문항 (<span
+                  id="wfBookCount">0</span>)</button>
+              <button class="wrong-filter-btn wrong-filter-chip" data-filter="sub1">1과목</button>
+              <button class="wrong-filter-btn wrong-filter-chip" data-filter="sub2">2과목</button>
+              <button class="wrong-filter-btn wrong-filter-chip" data-filter="sub3">3과목</button>
+              <button class="wrong-filter-btn wrong-filter-chip" data-filter="sub4">4과목</button>
+            </div>
+          </div>
+
+          <!-- 오답 문제 카드 리스트 컨테이너 -->
+          <div id="wrongListContainer" class="wrong-list-container"></div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- VIEW 5: 📊 전체 분석 대시보드 (Stats View) -->
+        <!-- ============================================== -->
+        <div id="stats-view" class="view-section hidden">
+          <div class="knowway-hero" style="min-height: auto; padding: 32px 0 24px;">
+            <div class="hero-tag" style="background: rgba(48,209,88,0.15); color: var(--success);">
+              📊 실력 심층 분석
+            </div>
+            <h2 class="hero-main-title" style="font-size: clamp(28px, 4vw, 42px);">
+              전체 분석 대시보드
+            </h2>
+            <p class="hero-desc">
+              과목별 정답률 통계를 한눈에 확인하고 취약한 부분을 전략적으로 집중 공략하세요.
+            </p>
+          </div>
+
+          <!-- 과목별 정답률 바 차트 -->
+          <div class="section-card">
+            <div class="section-card-header">
+              <h3 class="section-card-title">과목별 상세 정답률 분석</h3>
+            </div>
+            <div id="statsSubjectGrid" class="stats-bars-wrapper" style="margin-top: 16px;">
+              <!-- JS로 차트 주입 -->
+            </div>
+          </div>
+
+          <!-- 빅분기 CBT 실전 모의고사 뷰어용 종합 통계 텍스트 -->
+          <div class="section-card">
+            <div class="section-card-header">
+              <h3 class="section-card-title">누적 학습 마일스톤</h3>
+            </div>
+            <div class="stats-milestone-grid"
+              style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 16px;">
+              <div class="stat-mile-card"
+                style="padding: 16px; background: var(--bg-secondary); border-radius: 12px; text-align: center;">
+                <div id="statTotSolved" style="font-size: 28px; font-weight: 800; color: var(--text-color);">0</div>
+                <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">총 풀이 문항 수</div>
+              </div>
+              <div class="stat-mile-card"
+                style="padding: 16px; background: var(--bg-secondary); border-radius: 12px; text-align: center;">
+                <div id="statTotAcc" style="font-size: 28px; font-weight: 800; color: var(--text-color);">0%</div>
+                <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">평균 정답률</div>
+              </div>
+              <div class="stat-mile-card"
+                style="padding: 16px; background: var(--bg-secondary); border-radius: 12px; text-align: center;">
+                <div id="statTotMaster" style="font-size: 28px; font-weight: 800; color: var(--text-color);">0</div>
+                <div style="font-size: 13px; color: var(--muted); margin-top: 8px;">오답 탈출 성공</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 데이터 관리 (백업/복원/초기화) -->
+          <div class="section-card">
+            <div class="section-card-header">
+              <h3 class="section-card-title">데이터 보안 및 설정 관리</h3>
+              <p class="section-card-sub">소중한 학습 데이터를 잃지 않게 안전하게 로컬 기기(PC/스마트폰)에 백업하고 복원하세요.</p>
+            </div>
+            <div class="data-actions-row" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px;">
+              <button id="btnExportData" class="button button-light">⬇️ 데이터 백업 다운로드 (.json)</button>
+              <input type="file" id="fileImportData" accept=".json" style="display:none;" />
+              <label for="fileImportData" class="button button-light"
+                style="display:inline-block; margin:0; cursor:pointer;">⬆️ 백업된 데이터 불러오기</label>
+              <button id="btnResetData" class="button"
+                style="background: rgba(255, 59, 48, 0.1); color: var(--danger); border-color: transparent;">🗑️ 모든 기록
+                리셋</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================== -->
+        <!-- VIEW 6: 🎯 1:1 AI 튜터 & 개념비교 훈련소 (Tutor View) -->
+        <!-- ============================================== -->
+        <div id="tutor-view" class="view-section hidden">
+          <!-- Tutor View Top Header -->
+          <div class="tutor-top-header">
+            <div class="tutor-title-group">
+              <div class="hero-tag" style="background: rgba(0, 122, 255, 0.12); color: var(--brand); font-weight: 700;">
+                🎯 1:1 빅데이터분석기사 전문 AI 코칭 훈련소
+              </div>
+              <h1 class="tutor-main-heading">
+                개념비교 & 3초 함정킬러 <span class="highlight-text">1:1 AI 튜터</span>
+              </h1>
+              <p class="tutor-sub-heading">
+                "개념 이해 ➔ 2열 비교 ➔ 암기법 ➔ 함정 선지 ➔ 문제 풀이 ➔ AI 이해도 Level 분석"
+              </p>
+            </div>
+
+            <!-- Mode Navigation Tabs -->
+            <div class="tutor-mode-tabs-bar">
+              <button class="tutor-mode-tab active" data-tutor-mode="train">
+                <span class="m-icon">🎯</span> 1:1 맞춤 훈련
+              </button>
+              <button class="tutor-mode-tab" data-tutor-mode="speed">
+                <span class="m-icon">⚡</span> 3초 판단 스피드
+              </button>
+              <button class="tutor-mode-tab" data-tutor-mode="review">
+                <span class="m-icon">🔄</span> 누적 믹스 복습
+              </button>
+              <button class="tutor-mode-tab" data-tutor-mode="wrong">
+                <span class="m-icon">📕</span> AI 오답노트
+              </button>
+            </div>
+          </div>
+
+          <!-- 16-Stage Horizontal Interactive Roadmap Timeline -->
+          <div class="tutor-timeline-container">
+            <div class="timeline-scroll-bar" id="tutorStageTimeline"></div>
+          </div>
+
+          <!-- Main Content Panes -->
+          <div id="tutorPane-train" class="tutor-pane"></div>
+          <div id="tutorPane-speed" class="tutor-pane hidden"></div>
+          <div id="tutorPane-review" class="tutor-pane hidden"></div>
+          <div id="tutorPane-wrong" class="tutor-pane hidden"></div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL 2: ⚡ 선지 OX 벼락치기 훈련 모달 (New) -->
+  <!-- ============================================== -->
+  <!-- Floating Sprint Timer -->
+  <div id="sprintTimerOverlay" class="hidden"
+    style="position: fixed; top: 80px; left: 50%; transform: translateX(-50%); background: rgba(9, 9, 9, 0.9); color: #F3FA05; padding: 12px 24px; border-radius: 99px; font-size: 24px; font-weight: 900; z-index: 1050; border: 2px solid #F3FA05; box-shadow: 0 8px 32px rgba(243, 250, 5, 0.3); backdrop-filter: blur(10px); transition: all 0.2s;">
+    ⏱️ 05:00
+  </div>
+
+  <div id="oxTrainerModal" class="modal-overlay hidden">
+    <div class="modal-card blur-glass ox-trainer-modal-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="brand-badge-pill">⚡ OX TRAINER</span>
+          <h2>선지 OX 벼락치기 훈련</h2>
+        </div>
+        <button id="closeOxModalBtn" class="icon-btn">✕</button>
+      </div>
+
+      <div class="modal-body ox-trainer-body">
+        <div class="ox-progress-bar-row">
+          <span>진행률: <strong id="oxProgressText">1 / 20</strong></span>
+          <span>연속 정답: <strong id="oxStreakText" style="color:#FF9500;">🔥 0</strong></span>
+        </div>
+
+        <div class="ox-question-card" id="oxQuestionCard">
+          <div class="ox-subject-tag" id="oxSubjectTag">1과목 · 분석 기획</div>
+          <div class="ox-statement-text" id="oxStatementText">
+            선지 명제가 이곳에 표시됩니다.
+          </div>
+        </div>
+
+        <div class="ox-buttons-row">
+          <button class="ox-btn-circle ox-true-btn" id="oxBtnTrue">
+            <span class="ox-symbol">⭕</span>
+            <span class="ox-btn-lbl">O (옳음)</span>
+          </button>
+          <button class="ox-btn-circle ox-false-btn" id="oxBtnFalse">
+            <span class="ox-symbol">❌</span>
+            <span class="ox-btn-lbl">X (틀림)</span>
+          </button>
+        </div>
+
+        <div class="ox-feedback-box hidden" id="oxFeedbackBox">
+          <div class="ox-feedback-title" id="oxFeedbackTitle">✓ 정답입니다!</div>
+          <div class="ox-feedback-desc" id="oxFeedbackDesc">해설 내용이 표시됩니다.</div>
+          <button class="button button-brand w-full" id="oxNextBtn" style="margin-top: 12px;">
+            다음 선지 풀기 (Space / Enter) ➔
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL 3: 📄 단권화 파이널 치트시트 모달 (New) -->
+  <!-- ============================================== -->
+  <div id="cheatSheetModal" class="modal-overlay hidden">
+    <div class="modal-card blur-glass cheat-sheet-modal-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="brand-badge-pill">📄 CHEAT SHEET</span>
+          <h2>시험장 30분 전 파이널 치트시트</h2>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button id="printCheatSheetBtn" class="button button-brand"
+            style="min-height: 36px; padding: 0 14px; font-size: 13px;">
+            🖨️ 인쇄 / PDF 저장
+          </button>
+          <button id="closeCheatSheetBtn" class="icon-btn">✕</button>
+        </div>
+      </div>
+
+      <div class="modal-body cheat-sheet-body" id="cheatSheetContent">
+        <!-- JS generated compact cheat sheet sections -->
+      </div>
+
+      <div class="modal-footer">
+        <button id="closeCheatSheetModalBtn" class="button button-light">닫기</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- ============================================== -->
+  <!-- MODAL 6: 📖 개념 요약 팝업 미리보기 모달 -->
+  <!-- ============================================== -->
+  <div id="conceptModal" class="modal-overlay hidden">
+    <div class="modal-card blur-glass concept-preview-modal">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="badge-tag">핵심 개념 요약</span>
+          <h2 id="conceptModalTitle">개념 제목</h2>
+        </div>
+        <button id="closeConceptBtn" class="icon-btn">✕</button>
+      </div>
+
+      <div class="concept-modal-tabs">
+        <button id="tabConceptNote" class="concept-tab active">📖 핵심 요약노트</button>
+        <button id="tabConceptQuiz" class="concept-tab">📝 관련 기출문제 (<span id="conceptRelatedCount">0</span>)</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="conceptModalBodyNote" class="concept-modal-pane"></div>
+        <div id="conceptModalBodyQuiz" class="concept-modal-pane hidden"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="practiceConceptBtn" class="button button-brand">🎯 이 개념 문제만 풀기</button>
+        <button id="jumpToFullNoteBtn" class="button button-light">전체 요약노트 위치로 이동 ↗</button>
+        <button id="closeConceptModalBtn" class="button button-light">닫기</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 모바일 하단 네비게이션 바 (Knowway Style 5 Tabs) -->
+  <!-- ============================================== -->
+  <nav class="bottom-nav blur-glass">
+    <button class="bottom-nav-item active" data-nav="home">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">홈·루틴</span>
+    </button>
+    <button class="bottom-nav-item" data-nav="tutor">
+      <span class="nav-icon">🎯</span>
+      <span class="nav-label">AI튜터</span>
+    </button>
+    <button class="bottom-nav-item" data-nav="notes">
+      <span class="nav-icon">📚</span>
+      <span class="nav-label">요약노트</span>
+    </button>
+    <button class="bottom-nav-item" data-nav="practice">
+      <span class="nav-icon">📝</span>
+      <span class="nav-label">스마트기출</span>
+    </button>
+    <button class="bottom-nav-item" data-nav="wrong">
+      <span class="nav-icon">📕</span>
+      <span class="nav-label">오답탈출</span>
+    </button>
+  </nav>
+
+  <!-- 맨 위로 가기 버튼 -->
+  <button id="toTop" class="to-top-btn blur-glass" aria-label="맨 위로 가기">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round">
+      <line x1="12" y1="19" x2="12" y2="5"></line>
+      <polyline points="5 12 12 5 19 12"></polyline>
+    </svg>
+  </button>
+
+  <!-- Data Scripts (CORS Bypass) -->
+  <script src="data.js"></script>
+  <script src="cbt_bank.js"></script>
+  <script src="tutor_data.js"></script>
+  <script src="tutor.js"></script>
+
+  <!-- Main Application File -->
+  <script src="app.js"></script>
+</body>
+
 </html>
