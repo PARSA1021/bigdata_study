@@ -2227,28 +2227,29 @@ textarea {
 /* OMR Drawer Removed */
 
 /* =========================================================
-   Mobile Bottom Navigation Bar
+   Mobile Bottom Navigation Bar (Docked Edge-to-Edge)
    ========================================================= */
 
 .bottom-nav {
   display: none;
   position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 32px);
-  max-width: 440px;
-  height: 68px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: calc(56px + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
   background: var(--glass-bg);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-pill);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-top: 1px solid var(--line);
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
   z-index: 1000;
-  padding: 0 16px;
+  padding-left: 4px;
+  padding-right: 4px;
   justify-content: space-around;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .bottom-nav-item {
@@ -2257,36 +2258,48 @@ textarea {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 2px;
   height: 100%;
-  color: var(--text-muted);
-  transition: all var(--transition);
+  color: var(--text-dim);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 4px 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .bottom-nav-item .nav-icon {
   font-size: 19px;
+  line-height: 1;
+  margin-bottom: 2px;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .bottom-nav-item .nav-label {
-  font-size: 11px;
-  font-weight: 800;
+  font-size: 10.5px;
+  font-weight: 750;
   letter-spacing: -0.02em;
+  white-space: nowrap;
 }
 
 .bottom-nav-item.active {
-  color: var(--text-color);
+  color: var(--brand);
+}
+
+.bottom-nav-item.active .nav-icon {
+  transform: scale(1.15) translateY(-1.5px);
 }
 
 .bottom-nav-item.active .nav-label {
-  color: #090909;
-  background: var(--brand);
-  padding: 1px 6px;
-  border-radius: var(--radius-pill);
+  font-weight: 900;
+  color: var(--brand);
+  background: transparent;
 }
 
 [data-theme="dark"] .bottom-nav-item.active .nav-label {
-  background: var(--brand);
-  color: #090909;
+  background: transparent;
+  color: var(--brand);
 }
 
 /* To Top Button */
@@ -3013,25 +3026,25 @@ tr:nth-child(even) {
   .bottom-nav {
     display: flex;
     position: fixed;
-    bottom: calc(14px + env(safe-area-inset-bottom));
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 24px);
-    max-width: 420px;
-    height: 64px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: calc(56px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
     background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-pill);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-top: 1px solid var(--line);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
     z-index: 1000;
-    padding: 0 8px;
+    padding-left: 4px;
+    padding-right: 4px;
     justify-content: space-around;
     align-items: center;
-    touch-action: manipulation;
-    user-select: none;
-    -webkit-user-select: none;
+    box-sizing: border-box;
+    border-radius: 0;
+    transform: none;
   }
 
   .bottom-nav-item:active {
@@ -9366,6 +9379,540 @@ tr:nth-child(even) {
   color: #60A5FA;
   background: rgba(96, 165, 250, 0.15);
 }
+
+/* =========================================================
+   📱 COMPREHENSIVE RESPONSIVE DESIGN SYSTEM (PC, TABLET, MOBILE)
+   - Zero horizontal overflow
+   - Smooth touch scrolling & safe area insets
+   - Adaptive topbar, bottom navigation, and modal drawers
+   ========================================================= */
+
+/* --- 1. Global Overflow & KaTeX / Table Touch Safety --- */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+.katex-display {
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 6px 0;
+}
+
+.katex {
+  max-width: 100%;
+  word-break: break-word;
+}
+
+.table-responsive,
+.comparison-table-wrapper,
+.tutor-comparison-table {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* --- 2. Mobile Bottom Navigation (Knowway 5 Tabs) --- */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: calc(58px + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-top: 1px solid var(--line);
+  display: none; /* hidden on PC desktop */
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.16s ease;
+  padding: 4px 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-nav-item .nav-icon {
+  font-size: 20px;
+  line-height: 1;
+  margin-bottom: 2px;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.bottom-nav-item .nav-label {
+  font-size: 10.5px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.bottom-nav-item.active {
+  color: var(--brand);
+}
+
+.bottom-nav-item.active .nav-icon {
+  transform: scale(1.16) translateY(-2px);
+}
+
+.bottom-nav-item.active .nav-label {
+  font-weight: 900;
+  color: var(--brand);
+}
+
+/* --- 3. To-Top Floating Button Adaptive Placement --- */
+.to-top-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--glass-surface);
+  border: 1.5px solid var(--line-bold);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  z-index: 990;
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+
+.to-top-btn.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.to-top-btn:hover {
+  border-color: var(--brand);
+  transform: translateY(-2px) scale(1.06);
+  box-shadow: var(--shadow-lift);
+}
+
+/* --- 4. Button Text Responsive Visibility --- */
+.btn-text-full {
+  display: inline;
+}
+
+.btn-text-mobile {
+  display: none;
+}
+
+/* =========================================================
+   💻 DESKTOP & LARGE SCREENS (>= 1024px)
+   ========================================================= */
+@media (min-width: 1024px) {
+  .desktop-nav-tabs {
+    display: flex;
+  }
+  .bottom-nav {
+    display: none !important;
+  }
+}
+
+/* =========================================================
+   📱 TABLET VIEW (768px ~ 1023px)
+   ========================================================= */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .topbar {
+    padding: 0 14px;
+  }
+
+  .desktop-nav-tabs {
+    gap: 4px;
+    padding: 3px;
+  }
+
+  .main-nav-btn {
+    padding: 5px 9px;
+    font-size: 12px;
+  }
+
+  .topbar-actions {
+    gap: 5px;
+  }
+
+  .topbar-calc-btn,
+  .topbar-flash-btn {
+    padding: 5px 9px;
+    font-size: 12px;
+  }
+
+  .home-grid,
+  .stats-grid,
+  .exam-timeline-grid,
+  .subject-radar-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .omr-drawer {
+    width: 360px;
+  }
+
+  .modal-card {
+    max-width: 700px;
+    width: 90%;
+  }
+
+  .quiz-loop-buttons-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* =========================================================
+   📲 MOBILE VIEW (<= 767px)
+   ========================================================= */
+@media (max-width: 767px) {
+  :root {
+    --topbar-height: 52px;
+  }
+
+  body {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .btn-text-full {
+    display: none !important;
+  }
+
+  .btn-text-mobile {
+    display: inline !important;
+  }
+
+  /* Topbar Mobile Adaptation - Edge to Edge, No Overflow */
+  .topbar {
+    height: var(--topbar-height);
+    padding: 0 8px;
+    width: 100vw;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .desktop-nav-tabs {
+    display: none !important;
+  }
+
+  .bottom-nav {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100vw !important;
+    max-width: 100% !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    height: calc(56px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .brand-lockup {
+    font-size: 15px;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .brand-badge {
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
+    border-radius: 6px;
+  }
+
+  .brand-name {
+    font-size: 15px;
+  }
+
+  .brand-sub {
+    display: none !important;
+  }
+
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .topbar-dday-pill {
+    padding: 4px 6px;
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  .topbar-dday-pill .streak-text,
+  .topbar-dday-pill .pill-divider {
+    display: none !important;
+  }
+
+  .topbar-calc-btn {
+    padding: 5px 8px;
+    font-size: 11.5px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    border-radius: 99px;
+  }
+
+  .topbar-flash-btn {
+    padding: 5px 8px;
+    font-size: 11.5px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    border-radius: 99px;
+    line-height: 1.2;
+  }
+
+  .theme-toggle-btn {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    padding: 0;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle-btn .theme-label {
+    display: none !important;
+  }
+
+  /* Layout & Container Padding */
+  .layout,
+  .main-content,
+  .practice-view,
+  .home-view,
+  .notes-view,
+  .wrong-view,
+  .stats-view {
+    padding: 12px 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Grid Stack to Single Column */
+  .home-grid,
+  .stats-grid,
+  .exam-timeline-grid,
+  .subject-radar-grid,
+  .tutor-grid,
+  .tutor-action-grid,
+  .stats-subject-breakdown-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* Quiz Card Mobile Optimizations */
+  .quiz-card {
+    padding: 16px 14px !important;
+    border-radius: 14px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .quiz-card-header {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .quiz-main-prompt {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+
+  .quiz-box-prompt {
+    padding: 12px 12px !important;
+    margin: 10px 0 !important;
+    font-size: 13px !important;
+  }
+
+  .quiz-options-list {
+    gap: 8px !important;
+  }
+
+  .quiz-option {
+    padding: 12px 12px !important;
+    font-size: 13.5px !important;
+    min-height: 48px !important;
+  }
+
+  .opt-eliminate-btn {
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 13px !important;
+  }
+
+  /* Active 3-Step Learning Loop Grid */
+  .quiz-loop-buttons-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+
+  .loop-action-btn {
+    padding: 10px 8px !important;
+    font-size: 12px !important;
+    min-height: 42px !important;
+  }
+
+  /* OMR Drawer Mobile Bottom-Sheet */
+  .omr-drawer {
+    top: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 80vh !important;
+    max-height: 85vh !important;
+    border-radius: 20px 20px 0 0 !important;
+    border-left: none !important;
+    border-top: 2px solid var(--brand) !important;
+    transform: translateY(100%);
+  }
+
+  .omr-drawer:not(.hidden) {
+    transform: translateY(0) !important;
+  }
+
+  /* Modals Mobile Bottom-Sheet / Responsive Card */
+  .modal-card,
+  .calc-modal-card,
+  .dday-modal-card,
+  .exam-flash-modal-card,
+  .concept-modal-card {
+    width: 95% !important;
+    max-width: 95% !important;
+    max-height: 88vh !important;
+    margin: auto !important;
+    border-radius: 18px !important;
+    padding: 0 !important;
+  }
+
+  .modal-header {
+    padding: 14px 16px !important;
+  }
+
+  .modal-body {
+    padding: 14px 16px !important;
+  }
+
+  .modal-footer {
+    padding: 12px 16px !important;
+  }
+
+  /* Floating To-Top Button Mobile Offset */
+  .to-top-btn {
+    bottom: calc(66px + env(safe-area-inset-bottom)) !important;
+    right: 14px !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
+
+/* =========================================================
+   📱 SMALL PHONE VIEW (<= 480px)
+   ========================================================= */
+@media (max-width: 480px) {
+  .topbar {
+    padding: 0 6px;
+  }
+
+  .brand-lockup {
+    font-size: 14px;
+    gap: 3px;
+  }
+
+  .brand-badge {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+
+  .brand-name {
+    font-size: 14px;
+  }
+
+  .topbar-actions {
+    gap: 3px;
+  }
+
+  .topbar-calc-btn {
+    padding: 4px 6px;
+    font-size: 11px;
+  }
+
+  .topbar-flash-btn {
+    padding: 4px 6px;
+    font-size: 11px;
+  }
+
+  .quiz-option {
+    font-size: 13px !important;
+    padding: 10px 10px !important;
+  }
+
+  .option-num {
+    width: 22px !important;
+    height: 22px !important;
+    font-size: 11px !important;
+    margin-right: 6px !important;
+  }
+
+  .quiz-explanation-box {
+    padding: 12px 12px !important;
+    font-size: 12.8px !important;
+  }
+
+  .strike-status-box {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .compact-header-top {
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .notes-header-title-group {
+    gap: 6px;
+  }
+
+  .compact-title {
+    font-size: 17px !important;
+  }
+
+  .notes-progress-stat-inline {
+    margin-left: auto;
+  }
+}
+
+
+
 
 
 
