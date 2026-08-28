@@ -1581,7 +1581,29 @@ const THREE_SEC_CHEATS = [
   { keyword: "A를 샀을 때 B도 구매할 조건부 확률 P(B|A)", concept: "신뢰도 (Confidence)", stage: 14, hint: "P(A∩B) / P(A)" },
   { keyword: "시계열의 평균과 분산이 시간에 따라 일정한 성질", concept: "정상성 (Stationarity)", stage: 4, hint: "차분/로그로 변환" },
   { keyword: "게임 이론 Shapley Value 기반 대역적/국소적 XAI 설명 기법", concept: "SHAP", stage: 10, hint: "공리 만족 기여도" },
-  { keyword: "국소 영역 선형 대리 모델로 개별 예측 설명하는 XAI", concept: "LIME", stage: 10, hint: "Local Surrogate" }
+  { keyword: "국소 영역 선형 대리 모델로 개별 예측 설명하는 XAI", concept: "LIME", stage: 10, hint: "Local Surrogate" },
+
+  // --- 🔥 [12회 기출 복원 최신 키워드 전용 치트] ---
+  { keyword: "하둡 분산 대용량 로그 수집 및 HDFS 저장 에코시스템", concept: "척와 (Chukwa) / 플럼 (Flume)", stage: 1, hint: "분산 로그 수집기" },
+  { keyword: "RDBMS와 하둡 간 정형 데이터 상호 임포트/익스포트", concept: "스쿱 (Sqoop: SQL to Hadoop)", stage: 1, hint: "정형 DB 연동" },
+  { keyword: "HDFS 네임노드 장애 시 전체 클러스터 중단", concept: "단일 장애점 (SPOF)", stage: 1, hint: "NameNode 메타데이터 관리" },
+  { keyword: "여러 데이터셋을 공통 키(Key) 기준으로 분산 병합", concept: "맵리듀스 조인(Join) 패턴", stage: 1, hint: "Map-side/Reduce-side Join" },
+  { keyword: "JSON/BSON 문서 저장 및 오토 샤딩 지원 NoSQL", concept: "MongoDB (Document Store)", stage: 1, hint: "문서 기반 NoSQL" },
+  { keyword: "개인의 금융/거래 신용 정보 규제 및 데이터 3법의 한 축", concept: "신용정보법", stage: 1, hint: "개인정보보호법+정보통신망법+신용정보법" },
+  { keyword: "확률변수의 비대칭성을 나타내는 3차 중심 적률", concept: "왜도 (Skewness)", stage: 3, hint: "1차=평균, 2차=분산, 3차=왜도, 4차=첨도" },
+  { keyword: "서로 독립인 두 확률변수 X₁+X₂의 표준편차", concept: "루트2 * 시그마 (√2 * σ)", stage: 3, hint: "합의 분산은 2σ²" },
+  { keyword: "정방행렬(Square Matrix)에 대해서만 분해 가능 (SVD와 차이)", concept: "고윳값 분해 (Eigen Decomposition)", stage: 5, hint: "PCA 분산-공분산 행렬 분해" },
+  { keyword: "1~6 주사위 굴리기 이산균등분포 분산 (n²-1)/12", concept: "35 / 12 (약 2.917)", stage: 3, hint: "평균은 3.5" },
+  { keyword: "비정규 데이터를 정규화하여 Shapiro-Wilk p-value 증가 유도", concept: "박스-콕스 (Box-Cox) 변환", stage: 3, hint: "λ 거듭제곱 모수 변환" },
+  { keyword: "정규성 없는 두 독립 집단의 순위(Rank) 합 비교 비모수 검정", concept: "맨-휘트니 U 검정 (Wilcoxon Rank-Sum)", stage: 4, hint: "독립표본 t검정의 비모수 대안" },
+  { keyword: "동일 집단의 처리 전/후(Pre/Post) 짝지은 평균 차이 검정", concept: "대응표본 t-검정 (Paired t-test)", stage: 4, hint: "12회 최다 빈출" },
+  { keyword: "불균형 데이터에서 재현율(Recall)에 2배 가중치를 두는 지표", concept: "F2-Score (F-beta, β=2)", stage: 4, hint: "암진단/화재감지 특화" },
+  { keyword: "오차가 0.2일 때 평균제곱오차 (0.04 / 2)", concept: "MSE = 0.02", stage: 4, hint: "오차 제곱 평균" },
+  { keyword: "임계값(Threshold)의 전 범위 변화에 따른 TPR vs FPR 궤적", concept: "ROC 곡선 (ROC Curve)", stage: 4, hint: "고정 임계값 X" },
+  { keyword: "다차원 시각화 중 데이터 증가 시 선 겹침(Overplotting) 한계", concept: "평행좌표 그래프 (Parallel Coordinates)", stage: 14, hint: "선 겹침 군집 파악 곤란" },
+  { keyword: "정보의 직관적이고 정확한 전달이 본질 (그래픽 자체 치중 X)", concept: "인포그래픽 (Infographics)", stage: 14, hint: "사용자 인지 부하 감소" },
+  { keyword: "연속형(양적) 데이터 구간별 빈도 (막대 사이 간격 없음)", concept: "히스토그램 (Histogram)", stage: 14, hint: "범주형은 막대그래프" },
+  { keyword: "두 변수 상관관계 파악 용이하나 시간적 흐름/추세 파악 불가", concept: "산점도 (Scatter Plot)", stage: 14, hint: "시간 순서 미반영" }
 ];
 
 window.TUTOR_CURRICULUM = TUTOR_CURRICULUM;

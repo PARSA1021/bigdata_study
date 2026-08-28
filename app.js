@@ -1335,7 +1335,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function loadMockPreset(preset) {
     currentPreset = preset;
     let selected = [];
-    if (preset === "11th") {
+    if (preset === "12th") {
+      selected = allQuizzes.filter(q => q.id && q.id.startsWith("Q12_"));
+      if (selected.length === 0) selected = allQuizzes.slice(0, 80);
+    } else if (preset === "11th") {
       selected = allQuizzes.filter(q => q.id && q.id.startsWith("Q11_"));
       if (selected.length === 0) selected = allQuizzes.slice(0, 80);
     } else if (preset === "10th") {
