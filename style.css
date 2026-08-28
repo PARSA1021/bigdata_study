@@ -8535,6 +8535,841 @@ tr:nth-child(even) {
   }
 }
 
+/* =========================================================
+   TOPBAR WIDGETS (D-Day Streak Pill & 3-Sec Calculator Btn)
+   ========================================================= */
+.topbar-dday-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: var(--surface);
+  border: 1.5px solid var(--line-bold);
+  border-radius: var(--radius-pill);
+  font-size: 12.5px;
+  font-weight: 850;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: var(--shadow-sm);
+}
+
+.topbar-dday-pill:hover {
+  border-color: var(--brand);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.18);
+}
+
+.topbar-dday-pill .dday-fire {
+  font-size: 14px;
+}
+
+.topbar-dday-pill .streak-text {
+  color: #FF9500;
+  font-weight: 900;
+}
+
+.topbar-dday-pill .pill-divider {
+  color: var(--text-dim);
+}
+
+.topbar-dday-pill .dday-text {
+  color: var(--brand);
+  font-weight: 900;
+}
+
+.topbar-calc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(0, 122, 255, 0.08);
+  color: var(--brand);
+  border: 1.5px solid rgba(0, 122, 255, 0.25);
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 850;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.topbar-calc-btn:hover {
+  background: var(--brand);
+  color: #FFFFFF;
+  border-color: var(--brand);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 122, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .topbar-calc-btn span {
+    font-size: 12px;
+  }
+}
+
+/* =========================================================
+   🧮 3-SECOND FORMULA CALCULATOR MODAL
+   ========================================================= */
+.calc-tool-modal-card {
+  max-width: 720px;
+  width: 95%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.calc-tool-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 10px 20px;
+  background: var(--paper-subtle);
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+}
+
+.calc-tab-btn {
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 850;
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.calc-tab-btn:hover {
+  color: var(--text-color);
+  background: var(--surface-hover);
+}
+
+.calc-tab-btn.active {
+  background: var(--surface);
+  color: var(--brand);
+  box-shadow: var(--shadow-sm);
+  border: 1.5px solid var(--line-bold);
+}
+
+.calc-tool-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+}
+
+.calc-section-intro {
+  margin-bottom: 16px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.calc-matrix-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.matrix-cell {
+  background: var(--surface);
+  border: 1.5px solid var(--line-bold);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+
+.matrix-cell label {
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.matrix-cell input {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--text-color);
+  background: var(--paper-subtle);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-family: inherit;
+}
+
+.matrix-cell input:focus {
+  outline: none;
+  border-color: var(--brand);
+  background: var(--surface);
+}
+
+/* =========================================================
+   📋 CBT OMR DRAWER & MARKING SHEET
+   ========================================================= */
+.omr-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 1040;
+  transition: opacity 0.25s ease;
+}
+
+.omr-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 360px;
+  max-width: 90vw;
+  background: var(--surface);
+  border-left: 2px solid var(--line-bold);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.2);
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.omr-drawer.hidden {
+  transform: translateX(100%);
+  display: flex !important;
+  pointer-events: none;
+}
+
+.omr-header {
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1.5px solid var(--line);
+  background: var(--paper-subtle);
+}
+
+.omr-header-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.omr-badge {
+  font-size: 11.5px;
+  font-weight: 850;
+  padding: 2px 8px;
+  background: var(--brand);
+  color: #FFFFFF;
+  border-radius: var(--radius-pill);
+}
+
+.omr-stats-summary {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+
+.omr-stat-pill {
+  flex: 1;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  font-size: 12px;
+  font-weight: 750;
+  text-align: center;
+}
+
+.omr-stat-pill.brand strong {
+  color: var(--brand);
+}
+
+.omr-stat-pill.warning strong {
+  color: #D97706;
+}
+
+.omr-grid-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.omr-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--paper-subtle);
+  border: 1px solid var(--line);
+  transition: all 0.15s ease;
+}
+
+.omr-row:hover {
+  background: var(--surface-hover);
+  border-color: var(--line-bold);
+}
+
+.omr-row.solved {
+  border-color: var(--brand);
+  background: rgba(0, 122, 255, 0.04);
+}
+
+.omr-row.flagged {
+  border-color: #F59E0B;
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.omr-row-label {
+  font-size: 13px;
+  font-weight: 850;
+  min-width: 44px;
+}
+
+.omr-row.flagged .omr-row-label {
+  color: #B45309;
+}
+
+.omr-options-circles {
+  display: flex;
+  gap: 8px;
+}
+
+.omr-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid var(--line-bold);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+
+.omr-circle:hover {
+  border-color: var(--brand);
+  transform: scale(1.1);
+}
+
+.omr-circle.marked {
+  background: var(--brand);
+  color: #FFFFFF;
+  border-color: var(--brand);
+  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.35);
+  transform: scale(1.08);
+}
+
+.omr-footer {
+  padding: 14px 16px;
+  border-top: 1.5px solid var(--line);
+  background: var(--paper-subtle);
+}
+
+/* =========================================================
+   ❌ OPTION ELIMINATION (선지 소거법) & STRIKETHROUGH
+   ========================================================= */
+.quiz-option-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.quiz-option-wrapper .quiz-option {
+  flex: 1;
+}
+
+.quiz-option.eliminated {
+  text-decoration: line-through;
+  opacity: 0.42;
+  filter: grayscale(0.85);
+  background: var(--paper-subtle) !important;
+  border-color: var(--line) !important;
+}
+
+.quiz-option.eliminated span {
+  opacity: 0.6;
+}
+
+.opt-eliminate-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--line-bold);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 850;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.opt-eliminate-btn:hover {
+  background: rgba(255, 59, 48, 0.1);
+  color: var(--danger);
+  border-color: var(--danger);
+  transform: scale(1.08);
+}
+
+.opt-eliminate-btn.active {
+  background: rgba(255, 59, 48, 0.15);
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+/* =========================================================
+   ⚡ 3-STEP ACTIVE LEARNING LOOP BUTTONS GRID
+   ========================================================= */
+.quiz-loop-actions-box {
+  margin: 14px 0;
+  padding: 12px 14px;
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--line-bold);
+  border-radius: var(--radius-md);
+}
+
+.quiz-loop-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.quiz-loop-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 900;
+  color: var(--text-color);
+}
+
+.quiz-loop-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.loop-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 850;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.25, 1, 0.5, 1);
+  white-space: nowrap;
+}
+
+.loop-action-btn:hover {
+  transform: translateY(-1.5px);
+  box-shadow: var(--shadow-sm);
+}
+
+.loop-action-btn.btn-retry:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  background: rgba(0, 122, 255, 0.06);
+}
+
+.loop-action-btn.btn-drill:hover {
+  border-color: #AF52DE;
+  color: #AF52DE;
+  background: rgba(175, 82, 222, 0.06);
+}
+
+.loop-action-btn.btn-theory:hover {
+  border-color: #34C759;
+  color: #34C759;
+  background: rgba(52, 199, 89, 0.06);
+}
+
+.loop-action-btn.btn-tutor:hover {
+  border-color: #FF9500;
+  color: #FF9500;
+  background: rgba(255, 149, 0, 0.06);
+}
+
+@media (max-width: 600px) {
+  .quiz-loop-buttons-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* =========================================================
+   🔴 WEAKNESS HIGHLIGHT & CARD BADGES
+   ========================================================= */
+.card-weakness {
+  border-left: 4px solid var(--danger) !important;
+}
+
+.badge-weakness {
+  font-size: 11px;
+  font-weight: 850;
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: rgba(255, 59, 48, 0.15);
+  color: var(--danger);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* =========================================================
+   🏷️ QUESTION PREFIX BADGES & TRAP KEYWORD HIGHLIGHTS
+   ========================================================= */
+.q-prefix-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 11.5px;
+  font-weight: 850;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.q-prefix-brand {
+  background: rgba(0, 122, 255, 0.12);
+  color: var(--brand);
+}
+
+.q-prefix-amber {
+  background: rgba(255, 149, 0, 0.15);
+  color: #D97706;
+}
+
+.q-prefix-purple {
+  background: rgba(175, 82, 222, 0.15);
+  color: #9333EA;
+}
+
+.q-prefix-blue {
+  background: rgba(37, 99, 235, 0.15);
+  color: #2563EB;
+}
+
+.q-num-label {
+  color: var(--brand);
+  font-weight: 900;
+  font-size: 1.08em;
+  margin-right: 4px;
+}
+
+.badge-trap-danger {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: rgba(255, 59, 48, 0.14);
+  color: #DC2626;
+  font-weight: 900;
+  border: 1px solid rgba(255, 59, 48, 0.35);
+  margin: 0 3px;
+  font-size: 0.95em;
+  letter-spacing: -0.02em;
+}
+
+.badge-trap-safe {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: rgba(52, 199, 89, 0.14);
+  color: #15803D;
+  font-weight: 900;
+  border: 1px solid rgba(52, 199, 89, 0.35);
+  margin: 0 3px;
+  font-size: 0.95em;
+}
+
+[data-theme="dark"] .badge-trap-danger {
+  background: rgba(255, 69, 58, 0.22);
+  color: #FF6961;
+  border-color: rgba(255, 69, 58, 0.45);
+}
+
+[data-theme="dark"] .badge-trap-safe {
+  background: rgba(48, 209, 88, 0.22);
+  color: #4ADE80;
+  border-color: rgba(48, 209, 88, 0.45);
+}
+
+/* =========================================================
+   📦 EXAMINER SCENARIO & <보기> PROMPT BOX
+   ========================================================= */
+.quiz-box-prompt {
+  margin: 12px 0 14px 0;
+  padding: 14px 16px;
+  background: var(--paper-subtle);
+  border: 1.5px solid var(--line-bold);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.quiz-box-prompt-title {
+  font-size: 12px;
+  font-weight: 900;
+  color: var(--brand);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.quiz-box-prompt-body {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.quiz-box-bullet-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.quiz-box-bullet-item .bullet-dot {
+  color: var(--brand);
+  font-size: 12px;
+  margin-top: 1px;
+}
+
+.quiz-box-line {
+  font-family: inherit;
+  word-break: break-word;
+}
+
+/* =========================================================
+   🏆 PASS RADAR 40-POINT & 60-POINT BENCHMARK GUIDES
+   ========================================================= */
+.s-radar-guide {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  z-index: 2;
+}
+
+.s-radar-guide.fail-line {
+  background: rgba(255, 59, 48, 0.7);
+  border-left: 1px dashed #FF3B30;
+}
+
+.s-radar-guide.pass-line {
+  background: rgba(52, 199, 89, 0.8);
+  border-left: 1px dashed #34C759;
+}
+
+.s-radar-benchmarks {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  font-size: 10px;
+  color: var(--text-dim);
+  font-weight: 750;
+  margin-top: 3px;
+  padding: 0 2px;
+}
+
+.benchmark-pin {
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 10.5px;
+  font-weight: 850;
+}
+
+.benchmark-pin.fail {
+  color: var(--danger);
+}
+
+.benchmark-pin.pass {
+  color: var(--success);
+}
+
+/* =========================================================
+   📕 2-STRIKE MASTERY PROGRESS INDICATOR IN WRONG NOTES
+   ========================================================= */
+.strike-status-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--paper-subtle);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+}
+
+.strike-dot-track {
+  display: flex;
+  gap: 5px;
+}
+
+.strike-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--line-bold);
+  background: var(--surface);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.strike-dot.filled {
+  background: #34C759;
+  border-color: #34C759;
+  box-shadow: 0 0 8px rgba(52, 199, 89, 0.5);
+  transform: scale(1.15);
+}
+
+.strike-text {
+  font-size: 12px;
+  font-weight: 850;
+  color: var(--text-muted);
+}
+
+.strike-text.half {
+  color: #D97706;
+}
+
+.strike-text.mastered {
+  color: var(--success);
+}
+
+/* =========================================================
+   ⚡ EXAM HALL 10-MIN FLASH CHEATSHEET & KILLER TRAPS
+   ========================================================= */
+.flash-item-card {
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.flash-item-card:hover {
+  border-color: var(--brand);
+  transform: translateY(-1.5px);
+  box-shadow: var(--shadow-md);
+}
+
+.flash-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line-subtle);
+  flex-wrap: wrap;
+}
+
+.flash-item-title {
+  font-size: 15px;
+  font-weight: 900;
+  color: var(--text-color);
+  letter-spacing: -0.01em;
+}
+
+.flash-killer-tag {
+  font-size: 11px;
+  font-weight: 850;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 59, 48, 0.12);
+  color: #DC2626;
+  white-space: nowrap;
+}
+
+.flash-subject-tag {
+  font-size: 11px;
+  font-weight: 850;
+  padding: 2px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.flash-subject-tag.sub-1 {
+  background: rgba(0, 122, 255, 0.12);
+  color: #0284C7;
+}
+
+.flash-subject-tag.sub-2 {
+  background: rgba(175, 82, 222, 0.12);
+  color: #9333EA;
+}
+
+.flash-subject-tag.sub-3 {
+  background: rgba(255, 149, 0, 0.12);
+  color: #D97706;
+}
+
+.flash-subject-tag.sub-4 {
+  background: rgba(52, 199, 89, 0.12);
+  color: #16A34A;
+}
+
+.flash-item-body {
+  font-size: 13.8px;
+  line-height: 1.68;
+  color: var(--text-muted);
+}
+
+.flash-item-body .point-hl {
+  font-weight: 850;
+  color: var(--brand);
+  background: rgba(0, 122, 255, 0.08);
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.flash-item-body .trap-hl {
+  font-weight: 850;
+  color: #DC2626;
+  background: rgba(255, 59, 48, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+[data-theme="dark"] .flash-item-body .trap-hl {
+  color: #FF6961;
+  background: rgba(255, 69, 58, 0.2);
+}
+
+[data-theme="dark"] .flash-item-body .point-hl {
+  color: #60A5FA;
+  background: rgba(96, 165, 250, 0.15);
+}
+
+
+
+
 
 
 

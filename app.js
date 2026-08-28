@@ -349,9 +349,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateGlobalReactivity() {
     updateHabitUI();
     if (currentNav === "home") {
-      renderHome();
+      updateHabitUI();
     } else if (currentNav === "stats") {
-      renderStats();
+      renderStatsDashboard();
     }
   }
 
@@ -643,16 +643,24 @@ document.addEventListener("DOMContentLoaded", () => {
       html += `
         <div class="subject-radar-card ${isDanger ? 'danger' : ''}">
           <div class="s-radar-header">
-            <span>${SUBJECT_NAMES[s]}</span>
+            <span style="font-weight: 850;">${SUBJECT_NAMES[s]}</span>
             <span class="s-radar-tag ${isDanger ? 'danger' : (rate >= 60 ? 'safe' : '')}">
-              ${isDanger ? '🚨 과락위험' : (rate >= 60 ? '🟢 안전권' : '🟡 보완필요')} (${rate}점)
+              ${isDanger ? '🚨 과락위험' : (rate >= 60 ? '🟢 합격권' : '🟡 보완필요')} (${rate}점)
             </span>
           </div>
-          <div class="s-radar-track">
-            <div class="s-radar-fill ${isDanger ? 'danger' : 'safe'}" style="width: ${rate}%;"></div>
+          <div class="s-radar-track" style="position: relative;">
+            <div class="s-radar-fill ${isDanger ? 'danger' : (rate >= 60 ? 'safe' : '')}" style="width: ${rate}%;"></div>
+            <div class="s-radar-guide fail-line" style="left: 40%;" title="과락 기준선 (40점)"></div>
+            <div class="s-radar-guide pass-line" style="left: 60%;" title="합격 기준선 (60점)"></div>
           </div>
-          <div class="s-radar-footer">
-            <span>${stat.solved}문항 풀이</span>
+          <div class="s-radar-benchmarks">
+            <span>0</span>
+            <span class="benchmark-pin fail" style="left: 40%;">40점 과락선</span>
+            <span class="benchmark-pin pass" style="left: 60%;">60점 합격선</span>
+            <span>100</span>
+          </div>
+          <div class="s-radar-footer" style="margin-top: 10px;">
+            <span style="font-size: 12px; color: var(--text-muted); font-weight: 750;">풀이: ${stat.solved}문항 (정답 ${stat.correct})</span>
             <button class="s-radar-drill-btn" data-subject="${s}">🎯 이 과목 집중 훈련 ➔</button>
           </div>
         </div>
@@ -830,24 +838,26 @@ document.addEventListener("DOMContentLoaded", () => {
   function findMatchingTutorStage(quiz) {
     if (!quiz) return 1;
     const text = ((quiz.chapter || "") + " " + (quiz.question || "") + " " + (quiz.explanation || "")).toLowerCase();
-    if (text.includes("표본") || text.includes("샘플링") || text.includes("층화") || text.includes("군집추출") || text.includes("계통")) return 1;
-    if (text.includes("결측") || text.includes("이상치") || text.includes("iqr") || text.includes("outlier")) return 2;
-    if (text.includes("스케일") || text.includes("정규화") || text.includes("표준화") || text.includes("z-score") || text.includes("min-max")) return 3;
-    if (text.includes("가설") || text.includes("p-value") || text.includes("t-검정") || text.includes("1종 오류") || text.includes("2종 오류") || text.includes("유의수준") || text.includes("귀무가설")) return 4;
-    if (text.includes("상관") || text.includes("차원축소") || text.includes("pca") || text.includes("주성분") || text.includes("요인분석")) return 5;
-    if (text.includes("회귀") || text.includes("결정계수") || text.includes("다중공선성") || text.includes("vif") || text.includes("잔차")) return 6;
-    if (text.includes("로지스틱") || text.includes("오즈비") || text.includes("로짓") || text.includes("odds")) return 7;
-    if (text.includes("의사결정나무") || text.includes("지니") || text.includes("엔트로피") || text.includes("cart") || text.includes("c4.5") || text.includes("가지치기")) return 8;
-    if (text.includes("앙상블") || text.includes("배깅") || text.includes("부스팅") || text.includes("랜덤포레스트") || text.includes("xgboost") || text.includes("lightgbm")) return 9;
+    if (text.includes("transformer") || text.includes("트랜스포머") || text.includes("attention") || text.includes("어텐션") || text.includes("bert") || text.includes("gpt")) return 16;
+    if (text.includes("딥러닝") || text.includes("cnn") || text.includes("rnn") || text.includes("lstm") || text.includes("활성화함수") || text.includes("옵티마이저") || text.includes("adam") || text.includes("relu") || text.includes("드롭아웃") || text.includes("풀링")) return 15;
+    if (text.includes("연관") || text.includes("apriori") || text.includes("지지도") || text.includes("신뢰도") || text.includes("향상도") || text.includes("장바구니")) return 14;
+    if (text.includes("불균형") || text.includes("smote") || text.includes("오버샘플링") || text.includes("언더샘플링") || text.includes("토멕")) return 13;
+    if (text.includes("변수선택") || text.includes("filter") || text.includes("wrapper") || text.includes("embedded") || text.includes("전진선택") || text.includes("후진제거")) return 12;
+    if (text.includes("군집") || text.includes("k-means") || text.includes("dbscan") || text.includes("실루엣") || text.includes("계층적") || text.includes("와드") || text.includes("som")) return 11;
     if (text.includes("svm") || text.includes("서포트벡터") || text.includes("마진") || text.includes("초평면") || text.includes("커널")) return 10;
-    if (text.includes("딥러닝") || text.includes("cnn") || text.includes("rnn") || text.includes("transformer") || text.includes("활성화함수") || text.includes("경사하강")) return 11;
-    if (text.includes("k-means") || text.includes("군집분석") || text.includes("실루엣") || text.includes("계층적") || text.includes("dbscan")) return 12;
-    if (text.includes("혼동행렬") || text.includes("정밀도") || text.includes("재현율") || text.includes("f1") || text.includes("roc") || text.includes("auc") || text.includes("특이도")) return 13;
-    if (text.includes("시각화") || text.includes("박스플롯") || text.includes("히트맵") || text.includes("산점도") || text.includes("공간분석")) return 14;
-    if (text.includes("비식별") || text.includes("거버넌스") || text.includes("가명") || text.includes("익명") || text.includes("crisp-dm") || text.includes("kdd") || text.includes("빅데이터 정의")) return 15;
-    if (quiz.subject === 1) return 15;
-    if (quiz.subject === 2) return 1;
-    if (quiz.subject === 3) return 8;
+    if (text.includes("의사결정나무") || text.includes("지니") || text.includes("엔트로피") || text.includes("cart") || text.includes("c4.5") || text.includes("가지치기") || text.includes("앙상블") || text.includes("배깅") || text.includes("부스팅") || text.includes("랜덤포레스트") || text.includes("xgboost") || text.includes("lightgbm")) return 9;
+    if (text.includes("로지스틱") || text.includes("오즈비") || text.includes("로짓") || text.includes("odds") || text.includes("소프트맥스") || text.includes("sigmoid")) return 8;
+    if (text.includes("라쏘") || text.includes("lasso") || text.includes("릿지") || text.includes("ridge") || text.includes("엘라스틱넷") || text.includes("l1") || text.includes("l2")) return 7;
+    if (text.includes("회귀") || text.includes("결정계수") || text.includes("다중공선성") || text.includes("vif") || text.includes("잔차") || text.includes("더빈")) return 6;
+    if (text.includes("상관") || text.includes("차원축소") || text.includes("pca") || text.includes("주성분") || text.includes("요인분석") || text.includes("피어슨") || text.includes("스피어만")) return 5;
+    if (text.includes("가설") || text.includes("p-value") || text.includes("t-검정") || text.includes("1종 오류") || text.includes("2종 오류") || text.includes("유의수준") || text.includes("귀무가설") || text.includes("anova") || text.includes("분산분석") || text.includes("카이제곱")) return 4;
+    if (text.includes("스케일") || text.includes("정규화") || text.includes("표준화") || text.includes("z-score") || text.includes("min-max") || text.includes("왜도") || text.includes("첨도") || text.includes("box-cox")) return 3;
+    if (text.includes("결측") || text.includes("이상치") || text.includes("iqr") || text.includes("outlier") || text.includes("비식별") || text.includes("익명") || text.includes("가명") || text.includes("k-익명") || text.includes("l-다양") || text.includes("t-근접")) return 2;
+    if (text.includes("표본") || text.includes("샘플링") || text.includes("층화") || text.includes("군집추출") || text.includes("계통") || text.includes("단순무작위") || text.includes("crisp-dm") || text.includes("kdd") || text.includes("거버넌스")) return 1;
+
+    if (quiz.subject === 1) return 1;
+    if (quiz.subject === 2) return 3;
+    if (quiz.subject === 3) return 9;
     if (quiz.subject === 4) return 13;
     return 1;
   }
@@ -1018,6 +1028,7 @@ document.addEventListener("DOMContentLoaded", () => {
         html += renderQuizCardHTML(quiz, index + 1);
       });
       quizContainer.innerHTML = html;
+      renderMathFormulas(quizContainer);
       return;
     }
 
@@ -1041,6 +1052,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       quizContainer.innerHTML = html;
+      renderMathFormulas(quizContainer);
       setupInfiniteScrollObserver();
     }
   }
@@ -1073,6 +1085,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     tempDiv.innerHTML = html;
+    renderMathFormulas(tempDiv);
     while (tempDiv.firstChild) {
       quizContainer.appendChild(tempDiv.firstChild);
     }
@@ -1596,6 +1609,50 @@ document.addEventListener("DOMContentLoaded", () => {
     renderReverseRoadmap();
   }
 
+  function renderReverseRoadmap() {
+    if (!examTimelineGrid) return;
+    const presets = [
+      { id: "12th", title: "12회 기출 복원", date: "2026.03", count: 87, tag: "최신 출제" },
+      { id: "11th", title: "11회 실전 기출", date: "2025.10", count: 80, tag: "실전 모의" },
+      { id: "10th", title: "10회 실전 기출", date: "2025.06", count: 80, tag: "핵심 기출" },
+      { id: "9th", title: "9회 기출 복원", date: "2024.11", count: 50, tag: "단골 복원" },
+      { id: "8th", title: "8회 기출 복원", date: "2024.04", count: 50, tag: "유형 분석" },
+      { id: "4th", title: "4회 실전 기출", date: "2022.04", count: 80, tag: "기초 탄탄" }
+    ];
+
+    let passedCount = 0;
+    let html = "";
+
+    presets.forEach(p => {
+      const rec = mockRecords[p.id] || { bestScore: 0, lastScore: 0, passed: false, solvedCount: 0 };
+      if (rec.passed) passedCount++;
+
+      html += `
+        <div class="timeline-exam-card ${rec.passed ? 'passed' : ''}" data-preset="${p.id}" style="cursor:pointer;">
+          <div class="t-exam-top">
+            <span class="t-exam-tag">${p.tag}</span>
+            <span class="t-exam-score ${rec.bestScore >= 60 ? 'pass' : (rec.bestScore > 0 ? 'fail' : '')}">
+              ${rec.bestScore > 0 ? `${rec.bestScore}점` : '미응시'}
+            </span>
+          </div>
+          <h4 class="t-exam-title">${p.title}</h4>
+          <div class="t-exam-meta">${p.date} 시행 · ${p.count}문항</div>
+          <div class="t-exam-status-bar">
+            <span class="t-status-text">${rec.passed ? '🎉 60점 합격 완료' : (rec.bestScore > 0 ? '🔄 재응시 권장' : '⚡ 실전 풀기')}</span>
+            <span class="t-status-arrow">➔</span>
+          </div>
+        </div>
+      `;
+    });
+
+    examTimelineGrid.innerHTML = html;
+
+    if (roadmapMasteryRate) {
+      const pct = Math.round((passedCount / presets.length) * 100);
+      roadmapMasteryRate.textContent = `${pct}% (${passedCount}/${presets.length}회차)`;
+    }
+  }
+
 
   // ==========================================
   // 11. OX SPEED TRAINER ENGINE
@@ -1825,6 +1882,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 ${bookmarks.has(quiz.id) ? '★' : '☆'}
               </span>
             </div>
+          </div>
+
+          <!-- 2-Strike Mastery Status Indicator Bar -->
+          <div class="strike-status-box">
+            <div class="strike-dot-track">
+              <span class="strike-dot ${qStat.correctStreak >= 1 ? 'filled' : ''}"></span>
+              <span class="strike-dot ${qStat.correctStreak >= 2 ? 'filled' : ''}"></span>
+            </div>
+            <span class="strike-text ${qStat.mastered ? 'mastered' : (qStat.correctStreak === 1 ? 'half' : '')}">
+              ${qStat.mastered ? '🎉 2회 연속 정답 (마스터 완료!)' : (qStat.correctStreak === 1 ? '🔥 1/2 정답 (1번 더 맞히면 졸업!)' : '⚪ 0/2 (2회 연속 정답 시 마스터 졸업)')}
+            </span>
           </div>
 
           <div class="quiz-question-text">
@@ -2518,11 +2586,42 @@ document.addEventListener("DOMContentLoaded", () => {
     if (resumeActionBtn) {
       resumeActionBtn.addEventListener("click", () => {
         if (habitData.lastSession && habitData.lastSession.mode === "mock") {
-          switchNav("mock");
+          switchNav("practice");
+          btnModeExam?.click();
         } else {
           switchNav("practice");
         }
       });
+    }
+
+    // Mock Exam & OMR Triggers
+    if (openOmrBtn) {
+      openOmrBtn.addEventListener("click", () => toggleOmr());
+    }
+    if (closeOmrBtn) {
+      closeOmrBtn.addEventListener("click", () => toggleOmr(false));
+    }
+    if (omrOverlay) {
+      omrOverlay.addEventListener("click", () => toggleOmr(false));
+    }
+    if (omrSubmitBtn) {
+      omrSubmitBtn.addEventListener("click", submitMockExam);
+    }
+    if (submitExamBtn) {
+      submitExamBtn.addEventListener("click", submitMockExam);
+    }
+
+    if (mockPreset11th) {
+      mockPreset11th.addEventListener("click", () => loadMockPreset("11th"));
+    }
+    if (mockPreset10th) {
+      mockPreset10th.addEventListener("click", () => loadMockPreset("10th"));
+    }
+    if (mockPreset4th) {
+      mockPreset4th.addEventListener("click", () => loadMockPreset("4th"));
+    }
+    if (mockPresetRandom) {
+      mockPresetRandom.addEventListener("click", () => loadMockPreset("random"));
     }
 
     // OX Trainer Modal Events
@@ -3716,6 +3815,21 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2200);
   }
 
+  function renderMathFormulas(rootEl) {
+    if (!rootEl) return;
+    if (typeof window.renderMathInElement === "function") {
+      try {
+        window.renderMathInElement(rootEl, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false
+        });
+      } catch (e) { }
+    }
+  }
+
   function escapeHTML(str) {
     if (!str || typeof str !== "string") return "";
     return str
@@ -3728,58 +3842,90 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function highlightTrapKeywords(str) {
     if (!str || typeof str !== "string") return str;
-    const resArr = [];
-    const keywords = [
-      { text: "적절하지 않은", cls: "keyword-danger" },
-      { text: "아닌 것은", cls: "keyword-danger" },
-      { text: "틀린 것은", cls: "keyword-danger" },
-      { text: "거리가 먼", cls: "keyword-danger" },
-      { text: "옳지 않은", cls: "keyword-danger" },
-      { text: "가장 먼", cls: "keyword-danger" },
-      { text: "틀리게", cls: "keyword-danger" },
 
-      { text: "적절한 것은", cls: "keyword-safe" },
-      { text: "옳은 것은", cls: "keyword-safe" },
-      { text: "맞는 것은", cls: "keyword-safe" },
-      { text: "가장 올바른", cls: "keyword-safe" }
+    const dangerKeywords = [
+      "적절하지 않은", "아닌 것은", "틀린 것은", "거리가 먼", "옳지 않은",
+      "가장 먼", "틀리게", "부적절한", "포함되지 않는", "해당하지 않는", "잘못된 것은", "옳지 못한"
+    ];
+
+    const safeKeywords = [
+      "가장 적절한", "적절한 것은", "가장 옳은", "옳은 것은", "맞는 것은", "올바른 것은", "가장 알맞은", "올바르게"
     ];
 
     let processed = str;
-    // VERY simplistic string search/highlight, assuming keywords are not part of HTML tags
-    keywords.forEach(kw => {
-      const re = new RegExp(kw.text, 'g');
-      processed = processed.replace(re, `<strong class="${kw.cls}">${kw.text}</strong>`);
+
+    dangerKeywords.forEach(kw => {
+      if (processed.includes(kw)) {
+        const re = new RegExp(kw, 'g');
+        processed = processed.replace(re, `<span class="badge-trap-danger">🚨 ${kw}</span>`);
+      }
     });
+
+    safeKeywords.forEach(kw => {
+      if (processed.includes(kw)) {
+        const re = new RegExp(kw, 'g');
+        processed = processed.replace(re, `<span class="badge-trap-safe">✓ ${kw}</span>`);
+      }
+    });
+
     return processed;
   }
 
   function formatQuestionText(text, displayNum) {
     if (!text || typeof text !== "string") return "";
 
-    const boxRegex = /(<보기>|\[보기\]|【보기】|<혼동행렬>|\[혼동행렬\]|<표>|\[표\]|<사례>|\[사례\])([\s\S]*)/i;
-    const boxMatch = text.match(boxRegex);
+    let raw = text.trim();
+    let prefixTagHTML = "";
 
-    const numPrefix = displayNum ? `<strong style="color: var(--primary-accent); margin-right: 6px;">Q${displayNum}.</strong>` : "";
+    // Extract prefix tag like [빈출 기출], [최신 기출 변형], [12회 복원], etc.
+    const tagMatch = raw.match(/^\[([가-힣a-zA-Z0-9\s·]+)\]\s*/);
+    if (tagMatch) {
+      const tagText = tagMatch[1].trim();
+      let badgeClass = "q-prefix-brand";
+      if (tagText.includes("빈출") || tagText.includes("A급")) {
+        badgeClass = "q-prefix-amber";
+      } else if (tagText.includes("12회") || tagText.includes("11회") || tagText.includes("최신")) {
+        badgeClass = "q-prefix-purple";
+      } else if (tagText.includes("계산")) {
+        badgeClass = "q-prefix-blue";
+      }
+      prefixTagHTML = `<span class="q-prefix-badge ${badgeClass}">🏷️ ${escapeHTML(tagText)}</span> `;
+      raw = raw.substring(tagMatch[0].length).trim();
+    }
+
+    const boxRegex = /(<보기>|\[보기\]|【보기】|<혼동행렬>|\[혼동행렬\]|<표>|\[표\]|<사례>|\[사례\]|<조건>|\[조건\])([\s\S]*)/i;
+    const boxMatch = raw.match(boxRegex);
+
+    const numPrefix = displayNum ? `<strong class="q-num-label">Q${displayNum}.</strong> ` : "";
 
     if (boxMatch) {
-      const mainQuestion = text.substring(0, boxMatch.index).trim();
+      const mainQuestion = raw.substring(0, boxMatch.index).trim();
       const boxTag = boxMatch[1].replace(/[<\[【>\]】]/g, '');
       const boxContent = boxMatch[2].trim();
 
+      const formattedBoxLines = boxContent.split("\n").map(line => {
+        const trimmed = line.trim();
+        if (!trimmed) return "";
+        if (/^[ㄱ-ㅎ가-힣a-zA-Z0-9][\.\)\s]/.test(trimmed)) {
+          return `<div class="quiz-box-bullet-item"><span class="bullet-dot">▪</span><span>${escapeHTML(trimmed)}</span></div>`;
+        }
+        return `<div class="quiz-box-line">${escapeHTML(trimmed)}</div>`;
+      }).filter(Boolean).join("");
+
       return `
         <div class="quiz-main-prompt">
-          ${numPrefix}<span>${highlightTrapKeywords(escapeHTML(mainQuestion))}</span>
+          ${numPrefix}${prefixTagHTML}<span>${highlightTrapKeywords(escapeHTML(mainQuestion))}</span>
         </div>
         <div class="quiz-box-prompt">
           <div class="quiz-box-prompt-title">📌 [${escapeHTML(boxTag)}]</div>
-          <div class="quiz-box-prompt-body">${escapeHTML(boxContent)}</div>
+          <div class="quiz-box-prompt-body">${formattedBoxLines}</div>
         </div>
       `;
     }
 
     return `
       <div class="quiz-main-prompt">
-        ${numPrefix}<span>${highlightTrapKeywords(escapeHTML(text))}</span>
+        ${numPrefix}${prefixTagHTML}<span>${highlightTrapKeywords(escapeHTML(raw))}</span>
       </div>
     `;
   }
@@ -4126,114 +4272,366 @@ document.addEventListener("DOMContentLoaded", () => {
   // 16. EXAM HALL 10-MIN FLASH CHEATSHEET & PASS WEAPONS
   // ==========================================
   const FLASH_ITEMS = [
-    // 🎯 1초 킬러 함정 50선 (traps)
+    // 🎯 1초 킬러 단골 함정 50선 (traps: T1 ~ T50)
+    // --- 1과목: 빅데이터 기획 & 거버넌스 (T1 ~ T10) ---
     {
       id: "T1",
       category: "traps",
-      subject: 3,
-      title: "다중공선성 & VIF 판정 기준",
-      body: "설명변수 간 강한 상관관계로 회귀계수의 분산이 팽창하는 현상. <span class='point-hl'>VIF(분산팽창요인) ≥ 10</span>이면 다중공선성 존재로 판단. <span class='trap-hl'>해결책: 주성분분석(PCA)으로 차원 축소하거나 변수 제거, 릿지(L2) 규제 적용.</span>"
+      subject: 1,
+      title: "DIKW 피라미드 계층 역전 함정",
+      body: "• <span class='point-hl'>데이터</span>: 순수한 수치/기호 (예: 우유 2,000원)<br>• <span class='point-hl'>정보</span>: 데이터 간 관계/의미 도출 (예: A마트 우유가 더 싸다)<br>• <span class='point-hl'>지식</span>: 정보의 체화 및 행동 가이드 (예: A마트에서 우유를 사야겠다)<br>• <span class='point-hl'>지혜</span>: 창의적 통찰/아이디어 (예: 가격 차이를 활용한 할인앱 기획)<br><span class='trap-hl'>함정: 단순 가격 비교는 지식이 아닌 '정보(Information)'임!</span>"
     },
     {
       id: "T2",
       category: "traps",
-      subject: 3,
-      title: "의사결정나무 지니 불순도 vs 엔트로피",
-      body: "완전 순수 노드일 때 둘 다 <span class='point-hl'>0</span>. 이진 분류 시 최댓값은 <span class='point-hl'>지니 0.5</span>, <span class='point-hl'>엔트로피 1.0</span> (불확실성 최대). <span class='trap-hl'>함정: 지니 계수나 엔트로피는 값이 작을수록 순도가 높고 좋은 분기점임!</span>"
+      subject: 1,
+      title: "가명정보 vs 익명정보의 법적 지위",
+      body: "• <span class='point-hl'>가명정보</span>: 추가 정보 결합 없이는 식별 불가 ➔ 통계작성, 과학적 연구에 동의 없이 활용 가능 (<span class='trap-hl'>개인정보보호법 적용 대상</span>).<br>• <span class='point-hl'>익명정보</span>: 영구히 개인 식별 불가 ➔ <span class='point-hl'>개인정보보호법 적용 완전 제외</span>."
     },
     {
       id: "T3",
       category: "traps",
-      subject: 4,
-      title: "불균형 데이터 평가 지표: Accuracy의 함정",
-      body: "사기 탐지나 희귀병 진단 등 99:1 불균형 데이터에서는 무조건 정상으로만 예측해도 정확도 99%가 나옴. <span class='trap-hl'>정확도(Accuracy) 대신 반드시 F1-Score, ROC-AUC, 정밀도-재현율 곡선(PR-Curve)을 사용해야 함.</span>"
+      subject: 1,
+      title: "분석 기획의 4대 접근 유형 (What vs How)",
+      body: "• <span class='point-hl'>최적화 (Optimization)</span>: What(대상) O, How(방법) O<br>• <span class='point-hl'>솔루션 (Solution)</span>: What(대상) O, How(방법) X<br>• <span class='point-hl'>통찰 (Insight)</span>: What(대상) X, How(방법) O<br>• <span class='point-hl'>발견 (Discovery)</span>: What(대상) X, How(방법) X"
     },
     {
       id: "T4",
       category: "traps",
-      subject: 4,
-      title: "혼동행렬 FP vs FN의 치명성 구분",
-      body: "• <span class='point-hl'>FN(2종 오류)이 치명적</span>인 경우: 암 진단, 화재 감지, 불량품 검출 ➔ <span class='point-hl'>재현율(Recall)</span> 중시.<br>• <span class='point-hl'>FP(1종 오류)가 치명적</span>인 경우: 스팸 메일 분류, 유죄 판결 ➔ <span class='point-hl'>정밀도(Precision)</span> 중시."
+      subject: 1,
+      title: "개인정보 비식별 3형제 방어 공격",
+      body: "• <span class='point-hl'>K-익명성</span>: 동일 준식별자 레코드가 최소 K개 존재.<br>• <span class='point-hl'>L-다양성</span>: 민감정보가 최소 L개 이상 다양 ➔ <span class='point-hl'>동질성 공격, 배경지식 공격 방어</span>.<br>• <span class='point-hl'>T-근접성</span>: 민감정보 분포가 전체와 T 이하 차이 ➔ <span class='point-hl'>쏠림 공격, 왜곡 공격 방어</span>."
     },
     {
       id: "T5",
       category: "traps",
-      subject: 4,
-      title: "ROC 곡선의 X축과 Y축",
-      body: "• <span class='point-hl'>X축: 1 - 특이도 (FPR: 위양성률)</span><br>• <span class='point-hl'>Y축: 민감도 (TPR = Recall: 재현율)</span><br><span class='trap-hl'>함정: X축이 특이도(Specificity)가 아니라 '1 - 특이도'임을 묻는 문제가 단골 출제됨!</span>"
+      subject: 1,
+      title: "CRISP-DM vs KDD 분석 방법론 절차",
+      body: "• <span class='point-hl'>CRISP-DM (6단계)</span>: 업무 이해 ➔ 데이터 이해 ➔ 데이터 준비 ➔ 모델링 ➔ 평가 ➔ 전개.<br>• <span class='point-hl'>KDD (5단계)</span>: 데이터셋 선택 ➔ 전처리 ➔ 변환 ➔ 데이터마이닝 ➔ 해석/평가.<br><span class='trap-hl'>함정: CRISP-DM의 '데이터 준비'와 '모델링'은 피드백 루프를 가짐!</span>"
     },
     {
       id: "T6",
       category: "traps",
-      subject: 3,
-      title: "배깅(Bagging) vs 부스팅(Boosting)의 핵심 차이",
-      body: "• <span class='point-hl'>배깅 (랜덤포레스트)</span>: 독립적 병렬 학습 + 복원추출(부트스트랩) ➔ <span class='point-hl'>분산(Variance) 감소</span> (과적합 완화).<br>• <span class='point-hl'>부스팅 (XGBoost, LightGBM)</span>: 오차에 가중치를 부여하는 순차 학습 ➔ <span class='point-hl'>편향(Bias) 감소</span> (성능 극대화)."
+      subject: 1,
+      title: "데이터 거버넌스 구성 3대 요소",
+      body: "• <span class='point-hl'>조직 (Organization)</span>: 전담 부서 및 데이터 관리자(Data Steward)<br>• <span class='point-hl'>프로세스 (Process)</span>: 데이터 생명주기 관리 및 표준화 절차<br>• <span class='point-hl'>시스템/기술 (Technology)</span>: 메타데이터 관리, 마스터 데이터 관리(MDM)"
     },
     {
       id: "T7",
       category: "traps",
-      subject: 3,
-      title: "L1 규제 (Lasso) vs L2 규제 (Ridge)",
-      body: "• <span class='point-hl'>L1 라쏘(가중치 절댓값합)</span>: 불필요한 계수를 완전 <span class='point-hl'>0</span>으로 만들어 <span class='point-hl'>변수 선택 효과</span>.<br>• <span class='point-hl'>L2 릿지(가중치 제곱합)</span>: 계수를 0에 가깝게 축소하며 다중공선성 완화 (변수를 0으로 만들지는 않음)."
+      subject: 1,
+      title: "하향식(Top-Down) vs 상향식(Bottom-Up) 기획",
+      body: "• <span class='point-hl'>하향식</span>: 문제가 주어지고 답을 찾는 방식 (문제 탐색 ➔ 정의 ➔ 해결방안 도출 ➔ 타당성 검토).<br>• <span class='point-hl'>상향식</span>: 데이터를 탐색하며 숨겨진 가치를 발굴하는 방식.<br><span class='trap-hl'>디자인 씽킹: 상향식 발산(Divergence) + 하향식 수렴(Convergence)의 반복 결합!</span>"
     },
     {
       id: "T8",
       category: "traps",
-      subject: 2,
-      title: "가설검정 p-value의 기각 규칙",
-      body: "• <span class='point-hl'>p-value < 유의수준(α=0.05)</span> ➔ 귀무가설 기각(Reject H0), 대립가설 채택 (통계적으로 유의미한 차이 있음).<br>• <span class='trap-hl'>p-value ≥ α</span> ➔ 귀무가설 기각 실패(H0 채택)."
+      subject: 1,
+      title: "빅데이터 3V + 2V 구분",
+      body: "• 초기 3V: <span class='point-hl'>규모(Volume), 속도(Velocity), 다양성(Variety)</span><br>• 확장 5V: <span class='point-hl'>+ 가치(Value), 정확성/신뢰성(Veracity)</span><br><span class='trap-hl'>함정: 가트너 초기 정의 3V에 Value나 Veracity가 들어간 보기는 오답!</span>"
     },
     {
       id: "T9",
       category: "traps",
       subject: 1,
-      title: "k-익명성, l-다양성, t-근접성 차이",
-      body: "• <span class='point-hl'>k-익명성</span>: 동일 준식별자 레코드가 최소 k개 존재.<br>• <span class='point-hl'>l-다양성</span>: 민감정보가 최소 l개 이상 다양해야 함 (동질성 공격, 배경지식 공격 방어).<br>• <span class='point-hl'>t-근접성</span>: 민감정보 분포가 전체 분포와 t 이하 차이 (쏠림 공격, 왜곡 공격 방어)."
+      title: "분석 마스터 플랜 우선순위 도출 기준",
+      body: "• <span class='point-hl'>전략적 중요도 (시급성)</span>: 전략적 타당성, 비즈니스 효과 (ROI)<br>• <span class='point-hl'>실행 용이성 (난이도)</span>: 데이터 획득성, 기술적 성숙도, 분석 비용<br><span class='trap-hl'>시급성 높고 난이도 낮은 과제 ➔ 최우선(1순위) 추진!</span>"
     },
     {
       id: "T10",
       category: "traps",
-      subject: 2,
-      title: "결측치 유형 3가지 구분",
-      body: "• <span class='point-hl'>MCAR(완전 무작위)</span>: 결측이 다른 변수와 무관 (삭제해도 편향 없음).<br>• <span class='point-hl'>MAR(무작위)</span>: 결측이 다른 관측 변수와 연관됨.<br>• <span class='trap-hl'>MNAR(비무작위)</span>: 결측된 이유 자체가 해당 변수의 값과 직접 연관 (고소득자의 소득 미응답 등). 삭제 시 심각한 편향 발생."
+      subject: 1,
+      title: "데이터 성숙도(CMMI 기반) 5단계",
+      body: "1단계(도입) ➔ 2단계(활용) ➔ 3단계(확산) ➔ 4단계(최적화) ➔ 5단계(지속개선). 부서 간 데이터가 공유되고 표준화되는 단계는 <span class='point-hl'>3단계(확산)</span>."
     },
+
+    // --- 2과목: 빅데이터 탐색 & 통계 분석 (T11 ~ T23) ---
     {
       id: "T11",
       category: "traps",
-      subject: 3,
-      title: "DBSCAN 군집분석의 핵심 특징",
-      body: "밀도 기반 군집화로 <span class='point-hl'>사전에 군집 수(k)를 지정할 필요 없음</span>. 기하학적이고 비선형적인 모양의 군집 탐색 가능. <span class='point-hl'>노이즈(이상치)를 스스로 분리</span>함. (핵심 하이퍼파라미터: Eps 반경, minPts 최소 점 수)."
+      subject: 2,
+      title: "결측치 3대 메커니즘 (MCAR vs MAR vs MNAR)",
+      body: "• <span class='point-hl'>MCAR (완전 무작위)</span>: 결측이 다른 모든 변수 및 값과 무관 (삭제해도 편향 없음).<br>• <span class='point-hl'>MAR (무작위)</span>: 결측이 다른 관측 변수와 연관됨.<br>• <span class='trap-hl'>MNAR (비무작위)</span>: 결측된 이유 자체가 해당 변수의 값과 연관 (고소득자의 소득 미응답). 삭제 시 극심한 편향 발생."
     },
     {
       id: "T12",
       category: "traps",
-      subject: 3,
-      title: "서포트벡터머신 (SVM)과 마진(Margin)",
-      body: "클래스 간의 <span class='point-hl'>마진(Margin)을 최대화</span>하는 결정 초평면(Hyperplane)을 탐색. 결정 경계 근처에 위치한 서포트 벡터(Support Vector)들만 모델 구성에 영향을 미침. 비선형 문제는 <span class='point-hl'>커널 트릭(RBF, Polynomial 등)</span>으로 고차원 매핑."
+      subject: 2,
+      title: "IQR(사분위수 범위) 이상치 판정 경계",
+      body: "• <span class='point-hl'>IQR = Q3 - Q1</span><br>• <span class='point-hl'>하한: Q1 - 1.5 × IQR</span><br>• <span class='point-hl'>상한: Q3 + 1.5 × IQR</span><br><span class='trap-hl'>함정: 중앙값(Q2)에 1.5 IQR을 더하거나 빼는 공식은 단골 오답!</span>"
     },
     {
       id: "T13",
       category: "traps",
       subject: 2,
-      title: "IQR(사분위수 범위) 기반 이상치 판별 공식",
-      body: "• <span class='point-hl'>IQR = Q3 - Q1</span><br>• <span class='point-hl'>정상 범위: [Q1 - 1.5×IQR, Q3 + 1.5×IQR]</span><br><span class='trap-hl'>하한 미만 또는 상한 초과 값은 이상치(Outlier)로 분류.</span>"
+      title: "Z-Score 표준화와 3-시그마 법칙",
+      body: "• <span class='point-hl'>z = (X - μ) / σ</span> (평균 0, 분산 1 변환)<br>• 정규분포에서 <span class='point-hl'>|z| ≥ 3</span>인 데이터는 약 0.3% 확률에 해당하므로 이상치로 판별.<br><span class='trap-hl'>Min-Max는 이상치에 극도로 취약하나, Z-Score는 이상치 탐지에 효과적.</span>"
     },
     {
       id: "T14",
       category: "traps",
-      subject: 4,
-      title: "실루엣 계수(Silhouette Coefficient) 판정",
-      body: "군집 분석의 응집도와 분리도를 평가하는 지표. <span class='point-hl'>-1에서 1 사이</span>의 값을 가짐. <span class='point-hl'>1에 가까울수록 군집화가 매우 잘 됨</span>, <span class='trap-hl'>-1에 가까우면 잘못된 군집에 할당됨(오분류)</span>."
+      subject: 2,
+      title: "왜도(Skewness)와 평균·중앙값·최빈값 대소관계",
+      body: "• <span class='point-hl'>우측 꼬리 (Positive Skew, 왜도 > 0)</span>: <span class='point-hl'>평균 > 중앙값 > 최빈값</span><br>• <span class='point-hl'>좌측 꼬리 (Negative Skew, 왜도 < 0)</span>: <span class='point-hl'>최빈값 > 중앙값 > 평균</span><br><span class='trap-hl'>정규분포: 평균 = 중앙값 = 최빈값 (왜도 = 0, 첨도 = 3)</span>"
     },
     {
       id: "T15",
       category: "traps",
       subject: 2,
-      title: "피어슨 vs 스피어만 상관계수",
-      body: "• <span class='point-hl'>피어슨(Pearson)</span>: 연속형 정규분포 데이터 간 <span class='point-hl'>선형적 관계</span> 측정 (이상치에 민감).<br>• <span class='point-hl'>스피어만(Spearman)</span>: 서열 척도(순위) 데이터 간 <span class='point-hl'>단조적 관계</span> 측정 (비모수적, 이상치에 덜 민감)."
+      title: "가설검정 p-value와 기각역 판정 규칙",
+      body: "• <span class='point-hl'>p-value < 유의수준(α=0.05)</span> ➔ <span class='point-hl'>귀무가설(H₀) 기각</span>, 대립가설(H₁) 채택 (통계적 유의차 있음).<br>• <span class='trap-hl'>p-value ≥ α</span> ➔ 귀무가설 기각 불가 (H₀ 유지)."
+    },
+    {
+      id: "T16",
+      category: "traps",
+      subject: 2,
+      title: "1종 오류(α) vs 2종 오류(β)와 검정력(1-β)",
+      body: "• <span class='point-hl'>1종 오류 (α)</span>: 귀무가설이 참인데 잘못 기각한 위양성 (<span class='trap-hl'>더 치명적</span>).<br>• <span class='point-hl'>2종 오류 (β)</span>: 대립가설이 참인데 귀무가설을 채택한 위음성.<br>• <span class='point-hl'>검정력 (Power = 1 - β)</span>: 대립가설이 참일 때 올바르게 귀무가설을 기각할 확률."
+    },
+    {
+      id: "T17",
+      category: "traps",
+      subject: 2,
+      title: "피어슨 vs 스피어만 vs 켄달 상관계수",
+      body: "• <span class='point-hl'>피어슨(Pearson)</span>: 모수적, 연속형 변수 간 <span class='point-hl'>선형적 관계</span> (이상치에 민감).<br>• <span class='point-hl'>스피어만(Spearman)</span>: 비모수적, 순위 척도 간 <span class='point-hl'>단조적 관계</span> (이상치에 로버스트).<br>• <span class='point-hl'>켄달(Kendall)</span>: 순위 쌍(Concordant/Discordant)의 일치 비율."
+    },
+    {
+      id: "T18",
+      category: "traps",
+      subject: 2,
+      title: "중심극한정리(CLT)의 진짜 의미",
+      body: "모집단의 분포 형태와 상관없이, 표본 크기($n \\ge 30$)가 충분히 크면 <span class='point-hl'>'표본 평균(Sample Mean)들의 분포'가 정규분포에 근사</span>함.<br><span class='trap-hl'>함정: 원 데이터나 모집단 자체가 정규분포로 바뀌는 것이 아님!</span>"
+    },
+    {
+      id: "T19",
+      category: "traps",
+      subject: 2,
+      title: "표본추출 4대 확률표본추출법 구분",
+      body: "• <span class='point-hl'>단순무작위</span>: 난수표/제비뽑기로 무작위 추출.<br>• <span class='point-hl'>계통추출</span>: 첫 번째만 무작위 선정 후 k번째 간격마다 추출.<br>• <span class='point-hl'>층화추출</span>: <span class='point-hl'>집단 내 동질, 집단 간 이질</span> (학년별, 성별 비율 배분).<br>• <span class='point-hl'>군집추출</span>: <span class='point-hl'>집단 내 이질, 집단 간 동질</span> (학급/동 전체 조사)."
+    },
+    {
+      id: "T20",
+      category: "traps",
+      subject: 2,
+      title: "주성분분석(PCA)의 본질과 축의 직교성",
+      body: "서로 상관관계가 있는 변수들을 결합하여 <span class='point-hl'>서로 독립(직교)인 새로운 주성분</span>으로 축소.<br>• 제1주성분이 분산(정보량)을 가장 많이 설명.<br>• 주성분 간 상관계수는 <span class='point-hl'>0</span>.<br><span class='trap-hl'>차원의 저주와 다중공선성 문제를 동시에 해결!</span>"
+    },
+    {
+      id: "T21",
+      category: "traps",
+      subject: 2,
+      title: "다중공선성 진단 VIF 공식",
+      body: "• <span class='point-hl'>VIF = 1 / (1 - R²)</span><br>• <span class='point-hl'>VIF ≥ 10</span>이면 다중공선성 존재로 판단.<br>💡 해결책: 상관성 높은 변수 제거, PCA 차원축소, 릿지(L2) 회귀 적용."
+    },
+    {
+      id: "T22",
+      category: "traps",
+      subject: 2,
+      title: "차원축소 t-SNE vs PCA",
+      body: "• <span class='point-hl'>PCA</span>: 선형적 전역 구조 보존, 주성분 간 직교, 모델링 전처리에 주로 활용.<br>• <span class='point-hl'>t-SNE</span>: 비선형적 국소 구조(거리) 보존, <span class='point-hl'>2~3차원 고차원 시각화 전용</span> (새로운 데이터 변환 적용 불가)."
+    },
+    {
+      id: "T23",
+      category: "traps",
+      subject: 2,
+      title: "정규성 검정 3대 방법",
+      body: "• 시각적: <span class='point-hl'>Q-Q Plot</span> (점들이 대각선 45도 직선에 정렬되면 정규성 만족).<br>• 통계적: <span class='point-hl'>Shapiro-Wilk 검정 (소표본), Kolmogorov-Smirnov 검정 (대표본)</span>.<br><span class='trap-hl'>정규성 검정의 귀무가설(H₀): '데이터가 정규분포를 따른다' (p > 0.05여야 정규분포 인정).</span>"
     },
 
-    // 📐 10초 암산 계산 공식 12선 (formulas)
+    // --- 3과목: 빅데이터 모델링 & 머신러닝 (T24 ~ T38) ---
+    {
+      id: "T24",
+      category: "traps",
+      subject: 3,
+      title: "L1 Lasso vs L2 Ridge 규제의 본질 차이",
+      body: "• <span class='point-hl'>L1 라쏘 (Lasso)</span>: 가중치 절댓값 합 페널티 ➔ 불필요한 계수를 <span class='point-hl'>정확히 0</span>으로 만들어 <span class='point-hl'>변수 선택(Feature Selection)</span> 수행.<br>• <span class='point-hl'>L2 릿지 (Ridge)</span>: 가중치 제곱합 페널티 ➔ 계수를 0에 가깝게 축소하되 0으로 만들지는 않음 (다중공선성 완화)."
+    },
+    {
+      id: "T25",
+      category: "traps",
+      subject: 3,
+      title: "배깅(Bagging) vs 부스팅(Boosting)의 오류 감소",
+      body: "• <span class='point-hl'>배깅 (랜덤포레스트)</span>: 복원추출 병렬 학습 ➔ <span class='point-hl'>분산(Variance) 감소</span> (과적합 완화).<br>• <span class='point-hl'>부스팅 (XGBoost, LightGBM)</span>: 오차에 가중치 순차 학습 ➔ <span class='point-hl'>편향(Bias) 감소</span> (성능 극대화, 이상치에 민감)."
+    },
+    {
+      id: "T26",
+      category: "traps",
+      subject: 3,
+      title: "로지스틱 회귀분석 계수 해석과 오즈비(Odds Ratio)",
+      body: "• 로짓 변환: $\\ln(\\text{Odds}) = \\beta_0 + \\beta_1 X$<br>• 독립변수 $X$가 1단위 증가할 때 성공 오즈(Odds)는 <span class='point-hl'>$e^{\\beta_1}$배</span> 증가함.<br><span class='trap-hl'>함정: 계수 $\\beta_1$배 증가가 아니라 'e의 $\\beta_1$제곱' 배 증가임!</span>"
+    },
+    {
+      id: "T27",
+      category: "traps",
+      subject: 3,
+      title: "의사결정나무 분할 알고리즘 매칭",
+      body: "• <span class='point-hl'>CART</span>: 지니지수 (Gini Index), 분산 감소량<br>• <span class='point-hl'>C4.5 / C5.0</span>: 엔트로피, 정보획득률 (Information Gain Ratio)<br>• <span class='point-hl'>CHAID</span>: 카이제곱 통계량, F-검정"
+    },
+    {
+      id: "T28",
+      category: "traps",
+      subject: 3,
+      title: "의사결정나무 가지치기(Pruning)의 목적",
+      body: "모든 훈련 데이터를 완벽하게 분류하면 트리가 과도하게 깊어져 <span class='trap-hl'>과적합(Overfitting)</span>이 발생함.<br>➔ 사전에 최대 깊이를 제한하거나 사후에 불필요한 마디를 제거(가지치기)하여 <span class='point-hl'>일반화 성능(Generalization)</span>을 극대화."
+    },
+    {
+      id: "T29",
+      category: "traps",
+      subject: 3,
+      title: "SVM의 C값과 Gamma 하이퍼파라미터",
+      body: "• <span class='point-hl'>C (Cost)</span>: 클수록 이상치 불허(하드마진 ➔ 과적합), 작을수록 소프트마진(과소적합).<br>• <span class='point-hl'>Gamma (RBF 커널)</span>: 클수록 결정 경계가 복잡/굴곡(과적합), 작을수록 단순(과소적합)."
+    },
+    {
+      id: "T30",
+      category: "traps",
+      subject: 3,
+      title: "DBSCAN 군집분석 vs K-means",
+      body: "• <span class='point-hl'>DBSCAN</span>: 밀도 기반, <span class='point-hl'>군집 수(k) 사전 지정 불필요</span>, 기하학적 형태 군집화 가능, 노이즈(이상치) 자동 분리.<br>• <span class='point-hl'>K-means</span>: 거리 기반, 군집 수(k) 지정 필수, 이상치에 취약, 볼록한 구형 군집 가정."
+    },
+    {
+      id: "T31",
+      category: "traps",
+      subject: 3,
+      title: "계층적 군집분석의 거리 측정법 4가지",
+      body: "• <span class='point-hl'>단일연결법</span>: 군집 간 최단거리 (사슬효과 발생 위험).<br>• <span class='point-hl'>완전연결법</span>: 군집 간 최장거리 (콤팩트한 군집).<br>• <span class='point-hl'>평균연결법</span>: 모든 쌍의 평균 거리.<br>• <span class='point-hl'>와드연결법 (Ward)</span>: 군집 내 <span class='point-hl'>오차제곱합(SSE)의 증가량을 최소화</span>하는 방향으로 병합."
+    },
+    {
+      id: "T32",
+      category: "traps",
+      subject: 3,
+      title: "인공신경망 활성화 함수 (Sigmoid vs ReLU vs Softmax)",
+      body: "• <span class='point-hl'>Sigmoid</span>: 출력값 0~1. 은닉층이 깊어지면 <span class='trap-hl'>기울기 소실(Vanishing Gradient)</span> 발생.<br>• <span class='point-hl'>ReLU</span>: $\\max(0, x)$. 양수 영역 기울기 1로 기울기 소실 해결 (가장 대중적).<br>• <span class='point-hl'>Softmax</span>: 다중 분류 출력층, 모든 출력값의 합이 <span class='point-hl'>1.0</span>인 확률값으로 변환."
+    },
+    {
+      id: "T33",
+      category: "traps",
+      subject: 3,
+      title: "딥러닝 과적합 방지 4대 핵심 기법",
+      body: "1. <span class='point-hl'>드롭아웃 (Dropout)</span>: 학습 시 뉴런을 무작위로 비활성화.<br>2. <span class='point-hl'>조기 종료 (Early Stopping)</span>: 검증 손실이 증가하기 시작할 때 학습 중단.<br>3. <span class='point-hl'>가중치 감쇠 (Weight Decay)</span>: 가중치 L1/L2 페널티 부과.<br>4. <span class='point-hl'>배치 정규화 (Batch Normalization)</span>: 레이어 입력 분포를 정규화하여 학습 안정화."
+    },
+    {
+      id: "T34",
+      category: "traps",
+      subject: 3,
+      title: "CNN 풀링(Pooling) 레이어의 본질",
+      body: "• <span class='point-hl'>Max Pooling / Avg Pooling</span>: 특성 맵의 크기를 줄여 연산량 감소 및 평행이동 불변성 확보.<br><span class='trap-hl'>함정: 풀링 계층은 가중치(학습 파라미터)가 전혀 없음!</span>"
+    },
+    {
+      id: "T35",
+      category: "traps",
+      subject: 3,
+      title: "RNN의 장기의존성 문제와 LSTM 게이트 3개",
+      body: "기본 RNN은 시퀀스가 길면 기울기 소실 발생 ➔ LSTM은 Cell State와 3개 게이트로 장기 기억 해결:<br>• <span class='point-hl'>Forget Gate</span>: 과거 정보 버릴 비율 결정.<br>• <span class='point-hl'>Input Gate</span>: 현재 새 정보 저장 비율 결정.<br>• <span class='point-hl'>Output Gate</span>: 최종 출력값 결정."
+    },
+    {
+      id: "T36",
+      category: "traps",
+      subject: 3,
+      title: "자가조직지도(SOM)의 비지도 경쟁 학습",
+      body: "신경망 기반 비지도 학습. 경쟁층에서 입력 벡터와 가장 가까운 <span class='point-hl'>승자 뉴런(BMU)</span> 하나만 선택하는 <span class='point-hl'>승자 독식(Winner-Takes-All)</span> 방식으로 고차원 데이터를 2차원 위상 격자로 압축."
+    },
+    {
+      id: "T37",
+      category: "traps",
+      subject: 3,
+      title: "앙상블 보팅(Voting)의 하드 vs 소프트",
+      body: "• <span class='point-hl'>하드 보팅 (Hard)</span>: 다수결 원칙 (가장 많은 표를 받은 클래스 선택).<br>• <span class='point-hl'>소프트 보팅 (Soft)</span>: 각 모델이 예측한 클래스별 <span class='point-hl'>확률의 평균</span>이 가장 높은 클래스 선택 (일반적으로 성능 우수)."
+    },
+    {
+      id: "T38",
+      category: "traps",
+      subject: 3,
+      title: "랜덤포레스트의 Out-of-Bag (OOB) 검증",
+      body: "부트스트랩(복원추출) 수행 시 전체 데이터의 약 <span class='point-hl'>63.2%</span>만 추출되고 <span class='point-hl'>36.8%는 비추출(OOB)</span>로 남음 ➔ 별도의 검증 데이터셋 없이 OOB로 모델의 일반화 성능 자체 검증 가능."
+    },
+
+    // --- 4과목: 빅데이터 결과해석 & 평가 (T39 ~ T50) ---
+    {
+      id: "T39",
+      category: "traps",
+      subject: 4,
+      title: "정밀도(Precision) vs 재현율(Recall) 트레이드오프",
+      body: "분류 임계값(Threshold)을 낮추면:<br>➔ Positive 예측이 많아져 <span class='point-hl'>재현율(Recall) 상승, 정밀도(Precision) 하락</span>.<br>• <span class='point-hl'>암 진단, 화재 감지</span>: 재현율(Recall) 최우선 (FN 최소화).<br>• <span class='point-hl'>스팸 메일, 유죄 판결</span>: 정밀도(Precision) 최우선 (FP 최소화)."
+    },
+    {
+      id: "T40",
+      category: "traps",
+      subject: 4,
+      title: "ROC 곡선의 X축과 Y축 & AUC 면적",
+      body: "• <span class='point-hl'>X축: 1 - 특이도 (FPR = FP / (TN + FP))</span><br>• <span class='point-hl'>Y축: 민감도/재현율 (TPR = TP / (TP + FN))</span><br>• 대각선 $AUC = 0.5$ (무작위 찍기), $1.0$에 가까울수록 완벽한 모델."
+    },
+    {
+      id: "T41",
+      category: "traps",
+      subject: 4,
+      title: "향상도 곡선 (Lift Chart)의 기준선 1.0",
+      body: "• $Lift = \\text{해당 등급의 반응률} / \\text{전체 반응률}$<br>• <span class='point-hl'>Lift > 1</span>: 모델을 적용하여 타겟 마케팅 시 무작위 추출 대비 우수한 성과.<br>• $Lift = 1$: 무작위 추출과 동일."
+    },
+    {
+      id: "T42",
+      category: "traps",
+      subject: 4,
+      title: "회귀 평가 지표 4가지 구분 (MSE vs RMSE vs MAE vs MAPE)",
+      body: "• <span class='point-hl'>MSE / RMSE</span>: 오차 제곱 ➔ <span class='trap-hl'>큰 이상치에 민감하게 페널티 부과</span>.<br>• <span class='point-hl'>MAE</span>: 오차 절댓값 ➔ 이상치에 덜 민감(로버스트).<br>• <span class='point-hl'>MAPE</span>: 백분율 오차율 ➔ 직관적 비교 가능하나 0 분모 에러 주의."
+    },
+    {
+      id: "T43",
+      category: "traps",
+      subject: 4,
+      title: "실루엣 계수(Silhouette)의 값 범위와 의미",
+      body: "• 값 범위: <span class='point-hl'>-1 ≤ s(i) ≤ +1</span><br>• <span class='point-hl'>+1에 근접</span>: 군집 내 응집도 높고 타 군집과 분리도 최상.<br>• <span class='trap-hl'>-1에 근접</span>: 데이터가 완전히 엉뚱한 군집에 할당됨(오분류)."
+    },
+    {
+      id: "T44",
+      category: "traps",
+      subject: 4,
+      title: "층화 K-Fold (Stratified K-Fold)의 필수 적용처",
+      body: "타겟 클래스 불균형(예: 정상 95%, 사기 5%)이 심할 때, 각 Fold마다 <span class='point-hl'>원본 타겟 클래스의 비율을 동일하게 유지</span>하며 분할하는 필수 교차검증 기법."
+    },
+    {
+      id: "T45",
+      category: "traps",
+      subject: 4,
+      title: "불균형 데이터 오버샘플링 SMOTE 원리",
+      body: "소수 클래스 데이터를 단순히 복제하는 것이 아니라, <span class='point-hl'>K-최근접 이웃(KNN) 간의 선분 위에 가상의 새로운 소수 클래스 데이터를 생성(보간)</span>하여 과적합을 방지하는 알고리즘."
+    },
+    {
+      id: "T46",
+      category: "traps",
+      subject: 4,
+      title: "연관성 분석(Apriori) 3대 평가 지표",
+      body: "• <span class='point-hl'>지지도 (Support)</span>: $P(A \\cap B)$ (전체 중 A, B 동시 구매 비율)<br>• <span class='point-hl'>신뢰도 (Confidence)</span>: $P(B|A) = P(A \\cap B) / P(A)$ (A 샀을 때 B도 살 확률)<br>• <span class='point-hl'>향상도 (Lift)</span>: $P(A \\cap B) / [P(A)P(B)]$ (1보다 커야 양의 상관관계)"
+    },
+    {
+      id: "T47",
+      category: "traps",
+      subject: 4,
+      title: "설명 가능한 AI (XAI)의 SHAP vs LIME",
+      body: "• <span class='point-hl'>SHAP</span>: 게임이론의 Shapley Value 기반, 대역적(Global) 및 국소적(Local) 특성 기여도 모두 측정 (공리 만족).<br>• <span class='point-hl'>LIME</span>: 예측 대상 주변에 국소 대리 모형(선형 모델)을 만들어 국소적(Local)으로 설명."
+    },
+    {
+      id: "T48",
+      category: "traps",
+      subject: 4,
+      title: "데이터 시각화 차트 매칭 함정",
+      body: "• <span class='point-hl'>시계열 추세</span>: 꺾은선 그래프 (Line Chart)<br>• <span class='point-hl'>전체 대비 구성 비율</span>: 파이/도넛 차트, 트리맵<br>• <span class='point-hl'>분포 및 이상치</span>: 박스플롯 (Box Plot), 히스토그램<br>• <span class='point-hl'>두 연속형 변수 간 관계</span>: 산점도 (Scatter Plot)"
+    },
+    {
+      id: "T49",
+      category: "traps",
+      subject: 4,
+      title: "회귀모형 잔차분석 3대 플롯",
+      body: "• <span class='point-hl'>잔차 vs 예측값 플롯</span>: 잔차가 0을 중심으로 무작위 분포해야 선형성 및 등분산성 만족.<br>• <span class='point-hl'>Q-Q Plot</span>: 점들이 직선에 정렬되어야 잔차의 정규성 만족.<br>• <span class='point-hl'>Cook's Distance</span>: 1 이상이면 회귀모형을 크게 왜곡하는 영향점(Influential Point)."
+    },
+    {
+      id: "T50",
+      category: "traps",
+      subject: 4,
+      title: "과적합(Overfitting) vs 과소적합(Underfitting) 진단",
+      body: "• <span class='point-hl'>과적합 (High Variance)</span>: 훈련 오차는 매우 낮으나 검증 오차가 급증 ➔ 드롭아웃, L1/L2 규제, 데이터 증강으로 해결.<br>• <span class='point-hl'>과소적합 (High Bias)</span>: 훈련 오차와 검증 오차 둘 다 높음 ➔ 모델 복잡도 증가, 특성 추가로 해결."
+    },
+
+    // 📐 10초 암산 계산 공식 12선 (formulas: F1 ~ F12)
     {
       id: "F1",
       category: "formulas",
@@ -4319,7 +4717,7 @@ document.addEventListener("DOMContentLoaded", () => {
       body: "• <span class='point-hl'>유클리드</span>: `d = √[(x1-x2)² + (y1-y2)²]` (직선 최단거리)<br>• <span class='point-hl'>맨해튼</span>: `d = |x1-x2| + |y1-y2|` (격자 블록 이동거리)"
     },
 
-    // ⭐ 과목별 A급 급소 (agrade)
+    // ⭐ 과목별 A급 급소 10선 (agrade: A1 ~ A10)
     {
       id: "A1",
       category: "agrade",
@@ -4354,6 +4752,41 @@ document.addEventListener("DOMContentLoaded", () => {
       subject: 4,
       title: "4과목: k-fold 교차검증 & 부트스트랩",
       body: "• <span class='point-hl'>K-Fold</span>: 데이터를 k개로 분할하여 k-1개로 학습, 1개로 검증을 k번 반복 후 평균.<br>• <span class='point-hl'>부트스트랩(Bootstrap)</span>: 중복을 허용하는 복원추출. 원 데이터의 약 63.2%가 추출되고 36.8%는 비추출(Out-of-Bag, OOB 데이터)로 남아 자체 검증에 활용됨."
+    },
+    {
+      id: "A6",
+      category: "agrade",
+      subject: 1,
+      title: "1과목: 데이터 조직 구조 3가지 (집중 vs 기능 vs 분산)",
+      body: "• <span class='point-hl'>집중형</span>: 전사 분석 전담조직이 전사 과제 총괄 (중복 배제, 현업 업무와 이원화 우려).<br>• <span class='point-hl'>기능형</span>: 각 현업 부서별로 분석 수행 (현업 특화, 전사적 표준화 및 시너지 부족).<br>• <span class='point-hl'>분산형</span>: 전담조직 인력을 각 현업 부서에 배치하여 협업 (우선순위 조율, 가장 균형적)."
+    },
+    {
+      id: "A7",
+      category: "agrade",
+      subject: 2,
+      title: "2과목: 분산분석(ANOVA)과 F-검정",
+      body: "3개 이상 집단 간의 <span class='point-hl'>평균 차이 유의성</span> 검정. <span class='point-hl'>$F = \\text{집단 간 분산 (MSB)} / \\text{집단 내 분산 (MSW)}$</span>. F값이 클수록(p < 0.05) 적어도 한 집단의 평균이 유의미하게 다름."
+    },
+    {
+      id: "A8",
+      category: "agrade",
+      subject: 3,
+      title: "3과목: 앙상블 Stacking (스태킹) 모델링",
+      body: "서로 다른 기본 모델들(Base Models)의 예측 결과를 <span class='point-hl'>새로운 메타 학습 데이터(Meta Features)로 생성</span>한 후, 메타 모델(Meta Learner)을 통해 최종 예측을 수행하는 고성능 앙상블 기법."
+    },
+    {
+      id: "A9",
+      category: "agrade",
+      subject: 4,
+      title: "4과목: 이항분포 ➔ 정규분포 근사 조건",
+      body: "이항분포 $B(n, p)$에서 시행 횟수 $n$이 충분히 크고 <span class='point-hl'>$np \\ge 5$ 이고 $n(1-p) \\ge 5$</span>를 만족할 때, 평균 $np$, 분산 $np(1-p)$인 정규분포 $N(np, np(1-p))$에 근사함."
+    },
+    {
+      id: "A10",
+      category: "agrade",
+      subject: 4,
+      title: "4과목: 카이제곱(Chi-Square) 독립성 검정",
+      body: "두 범주형 변수 간의 연관성/독립성 검정. $\\chi^2 = \\sum \\frac{(O - E)^2}{E}$ ($O$: 관측빈도, $E$: 기대빈도). $\\chi^2$ 통계량이 크면(p < 0.05) 두 변수는 서로 독립이 아니라 <span class='point-hl'>유의미한 연관성이 있음</span>."
     }
   ];
 
@@ -4461,10 +4894,16 @@ document.addEventListener("DOMContentLoaded", () => {
     let html = "";
     items.forEach((item, idx) => {
       const catLabel = item.category === "traps" ? "🎯 단골 함정" : item.category === "formulas" ? "📐 계산 공식" : "⭐ A급 급소";
+      const subName = SUBJECT_NAMES[item.subject] || `${item.subject}과목`;
+      let subClass = `sub-${item.subject}`;
+
       html += `
         <div class="flash-item-card">
           <div class="flash-item-header">
-            <span class="flash-item-title">${idx + 1}. ${escapeHTML(item.title)}</span>
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+              <span class="flash-subject-tag ${subClass}">${subName}</span>
+              <span class="flash-item-title">${idx + 1}. ${escapeHTML(item.title)}</span>
+            </div>
             <span class="flash-killer-tag">${catLabel}</span>
           </div>
           <div class="flash-item-body">
@@ -4474,6 +4913,7 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     });
     flashBody.innerHTML = html;
+    renderMathFormulas(flashBody);
   }
 
   function setupSpeedHotkeys() {
@@ -4615,7 +5055,7 @@ document.addEventListener("DOMContentLoaded", () => {
         scheduleSave();
         updateHabitUI();
         updatePracticeHud();
-        renderWrongNotes();
+        renderWrongNotesView("all");
         closeModal();
         showToast(`📕 오답노트 기록(${resetCount}문항)이 초기화되었습니다. 새로운 오답을 수집할 준비가 되었습니다!`);
       });
@@ -4639,7 +5079,7 @@ document.addEventListener("DOMContentLoaded", () => {
           updateHabitUI();
           renderQuizzes(true);
           updatePracticeHud();
-          renderWrongNotes();
+          renderWrongNotesView("all");
           closeModal();
           showToast("🗑️ 전체 풀이 기록이 완전히 초기화되었습니다. 새로운 N회독을 응원합니다!");
         }
