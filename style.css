@@ -10040,3 +10040,35 @@ html, body {
   font-size: 13.5px !important;
   padding: 10px 20px !important;
 }
+
+
+/* =========================================================
+   🚀 USER-CENTRIC ULTRA-EFFICIENT STUDY UPGRADES
+   ========================================================= */
+.hud-jump-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12.5px;
+  font-weight: 750;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  background: var(--surface);
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.hud-jump-btn:active {
+  transform: scale(0.96);
+}
+
+.correct-answer-reason {
+  background: rgba(52, 199, 89, 0.08);
+  border-left: 3px solid var(--success);
+  padding: 8px 12px;
+  border-radius: 4px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-color);
+}
