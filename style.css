@@ -10072,3 +10072,299 @@ html, body {
   font-size: 13px;
   color: var(--text-color);
 }
+
+
+/* =========================================================
+   💻 PC / LAPTOP ULTRA-PRODUCTIVITY DESKTOP SUITE (>= 1024px)
+   ========================================================= */
+
+/* 1. 대화면 컨테이너 폭 확장 (최적 가독성) */
+@media (min-width: 1200px) {
+  .content-wrapper {
+    max-width: 1320px !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  .content-wrapper {
+    max-width: 1400px !important;
+  }
+}
+
+/* 2. 요약노트 데스크탑 좌우 2열 분할 레이아웃 */
+.notes-desktop-split-layout {
+  display: block;
+  width: 100%;
+}
+
+.notes-desktop-sidebar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .notes-desktop-split-layout {
+    display: grid !important;
+    grid-template-columns: 280px 1fr !important;
+    gap: 24px !important;
+    align-items: start !important;
+  }
+
+  .notes-desktop-sidebar {
+    display: block !important;
+    position: sticky !important;
+    top: calc(var(--topbar-height, 60px) + 20px) !important;
+    max-height: calc(100vh - var(--topbar-height, 60px) - 40px) !important;
+    background: var(--surface) !important;
+    border: 1.5px solid var(--border-color) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 16px !important;
+    overflow-y: auto !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+  }
+
+  .notes-sidebar-header {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .toc-trigger-btn {
+    display: none !important; /* PC에서는 좌측에 상시 표시되므로 팝업 버튼 숨김 */
+  }
+
+  .notes-cards-main-column {
+    min-width: 0;
+  }
+}
+
+/* 3. PC 전용 상시 단축키 안내 헬퍼 바 */
+.desktop-hotkey-bar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .desktop-hotkey-bar {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    background: rgba(18, 18, 20, 0.85) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 999px !important;
+    padding: 8px 20px !important;
+    gap: 12px !important;
+    align-items: center !important;
+    z-index: 100 !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25) !important;
+    color: #FFFFFF !important;
+    pointer-events: none !important;
+  }
+
+  [data-theme="light"] .desktop-hotkey-bar {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12) !important;
+    color: #1C1C1E !important;
+  }
+
+  .hotkey-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 750;
+  }
+
+  .hotkey-item kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 11px;
+    font-weight: 850;
+    font-family: monospace;
+    line-height: 1.3;
+    border-radius: 4px;
+    background: rgba(0, 122, 255, 0.2);
+    color: var(--brand);
+    border: 1px solid rgba(0, 122, 255, 0.4);
+  }
+
+  [data-theme="light"] .hotkey-item kbd {
+    background: rgba(0, 122, 255, 0.12);
+    color: var(--brand);
+    border-color: rgba(0, 122, 255, 0.25);
+  }
+
+  .hotkey-divider {
+    width: 1px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  [data-theme="light"] .hotkey-divider {
+    background: rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* 4. 데스크탑 문제 카드 풀이 시각적 포커스 효과 */
+@media (min-width: 1024px) {
+  .quiz-card:hover {
+    border-color: rgba(0, 122, 255, 0.35) !important;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .quiz-option {
+    cursor: pointer !important;
+  }
+}
+
+
+/* =========================================================
+   📱 MOBILE ULTRA-SMART PHONE OPTIMIZATION SUITE (<= 767px)
+   ========================================================= */
+
+/* 1. 모바일 300ms 터치 딜레이 및 회색 플래시 원천 제거 (즉시 반응성) */
+button,
+a,
+input,
+select,
+.quiz-option,
+.opt-eliminate-btn,
+.bottom-nav-item,
+.notes-sub-tab,
+.f-chip,
+.p-pack-chip,
+.card-header,
+.tutor-mode-tab,
+.tutor-timeline-chip {
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+@media (max-width: 767px) {
+  /* 2. 안전 영역(Safe Area) 및 하단 탭바 겹침 방지 */
+  body {
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 16px)) !important;
+  }
+
+  /* 3. 모바일 하단 네비게이션 바 프리미엄 디자인 */
+  .bottom-nav {
+    height: calc(58px + env(safe-area-inset-bottom, 12px)) !important;
+    padding-bottom: env(safe-area-inset-bottom, 12px) !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-top: 1px solid var(--border-color) !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05) !important;
+    z-index: 1000 !important;
+  }
+
+  [data-theme="dark"] .bottom-nav {
+    background: rgba(18, 18, 20, 0.92) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .bottom-nav-item {
+    padding: 6px 0 !important;
+    transition: transform 0.15s ease, color 0.15s ease !important;
+  }
+
+  .bottom-nav-item:active {
+    transform: scale(0.92) !important;
+  }
+
+  .bottom-nav-item.active {
+    color: var(--brand) !important;
+  }
+
+  .bottom-nav-item.active .nav-icon {
+    transform: translateY(-2px) scale(1.1) !important;
+  }
+
+  .bottom-nav-item.active .nav-label {
+    font-weight: 850 !important;
+    color: var(--brand) !important;
+  }
+
+  /* 4. 모바일 문제 풀이 Sticky HUD 슬림화 */
+  .practice-sticky-hud {
+    padding: 6px 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .hud-stats-group {
+    gap: 4px !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .hud-stat-badge {
+    padding: 3px 6px !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
+  }
+
+  .hud-controls-group {
+    gap: 4px !important;
+  }
+
+  /* 5. 모바일 선지 터치 타겟 (엄지손가락 최적 크기 50px) */
+  .quiz-option {
+    padding: 13px 14px !important;
+    min-height: 50px !important;
+    font-size: 14.5px !important;
+    line-height: 1.5 !important;
+    border-radius: 12px !important;
+  }
+
+  .quiz-option:active {
+    transform: scale(0.985) !important;
+    background-color: var(--bg-hover) !important;
+  }
+
+  /* 6. 모바일 요약노트 표 가로 스크롤 보호 */
+  .concept-block table,
+  .comparison-table,
+  .confusion-table,
+  .tutor-table {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-radius: 8px !important;
+  }
+
+  /* 7. 모바일 가로 스크롤 칩바 부드러운 스크롤 */
+  .premium-packs-scroll-bar,
+  .notes-subject-tabs,
+  .wrong-filters-scroll-bar,
+  .tutor-mode-tabs-bar,
+  .timeline-scroll-bar {
+    display: flex !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-snap-type: x proximity !important;
+    padding-bottom: 4px !important;
+  }
+
+  .premium-packs-scroll-bar::-webkit-scrollbar,
+  .notes-subject-tabs::-webkit-scrollbar,
+  .wrong-filters-scroll-bar::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  /* 8. 모바일 상단 Topbar 가로 오버플로우 방지 */
+  .topbar {
+    padding: 0 10px !important;
+    height: 52px !important;
+  }
+
+  .brand-lockup {
+    font-size: 15px !important;
+  }
+}
