@@ -283,7 +283,7 @@ textarea {
   color: var(--text-color);
   font-size: 13px;
   font-weight: 700;
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
 }
 
 .btn-small:hover {
@@ -302,7 +302,7 @@ textarea {
   border: 1.5px solid var(--line);
   background: var(--surface);
   color: var(--text-color);
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
 }
 
 .icon-btn:hover {
@@ -425,7 +425,7 @@ textarea {
   font-size: 13px;
   font-weight: 800;
   color: var(--text-muted);
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
 }
 
 .main-nav-btn:hover {
@@ -503,7 +503,7 @@ textarea {
   font-weight: 850;
   cursor: pointer;
   box-shadow: var(--shadow-sm);
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
   user-select: none;
 }
 
@@ -575,7 +575,7 @@ textarea {
   font-weight: 900;
   padding: 3px 8px;
   border-radius: var(--radius-pill);
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
 }
 
 .theme-mode-badge.light-badge {
@@ -912,7 +912,7 @@ textarea {
   flex-direction: column;
   justify-content: space-between;
   cursor: pointer;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), color 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
@@ -1048,7 +1048,7 @@ textarea {
   background: var(--paper-subtle);
   border: 1px solid var(--line);
   color: var(--text-muted);
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
 }
 
 .edit-pill-btn:hover,
@@ -1195,7 +1195,7 @@ textarea {
   font-weight: 700;
   color: var(--text-muted);
   border: none;
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
@@ -1328,7 +1328,7 @@ textarea {
   color: var(--paper);
   font-size: 13px;
   font-weight: 800;
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
 }
 
 .preset-pill:hover,
@@ -1535,7 +1535,7 @@ textarea {
   font-weight: 500;
   text-align: left;
   line-height: 1.55;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   position: relative;
   overflow: hidden;
 }
@@ -1902,7 +1902,7 @@ textarea {
   z-index: 1500;
   opacity: 0;
   pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .knowway-toast.show {
@@ -2037,7 +2037,7 @@ textarea {
   color: var(--text-color);
   white-space: nowrap;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   flex-shrink: 0;
 }
 
@@ -2190,7 +2190,7 @@ textarea {
   border: 1.5px solid var(--line);
   font-size: 12px;
   font-weight: 800;
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
 }
 
 .ai-prompt-chip:hover {
@@ -2264,7 +2264,7 @@ textarea {
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
   padding: 4px 0;
   -webkit-tap-highlight-color: transparent;
 }
@@ -2320,7 +2320,7 @@ textarea {
   z-index: 900;
   opacity: 0;
   visibility: hidden;
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
 }
 
 .to-top-btn.visible {
@@ -2638,7 +2638,7 @@ tr:nth-child(even) {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
   cursor: pointer;
 }
 
@@ -2831,7 +2831,7 @@ tr:nth-child(even) {
   justify-content: center;
   gap: 4px;
   cursor: pointer;
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition), background-color var(--transition), border-color var(--transition), box-shadow var(--transition), color var(--transition);
   user-select: none;
 }
 
@@ -3521,7 +3521,7 @@ tr:nth-child(even) {
   border: 1px solid rgba(139, 92, 246, 0.3);
   border-radius: var(--radius-lg);
   box-shadow: 0 4px 15px rgba(139, 92, 246, 0.08);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
   flex-wrap: wrap;
   gap: 12px;
 }
@@ -3571,7 +3571,7 @@ tr:nth-child(even) {
   font-size: 14px;
   box-shadow: 0 4px 12px rgba(109, 40, 217, 0.3);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
 .premium-concept-cta .view-concept-btn:hover {
@@ -3617,7 +3617,7 @@ tr:nth-child(even) {
 .concept-modal-tabs .concept-tab {
   color: var(--text-muted);
   font-weight: 700;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
 .concept-modal-tabs .concept-tab.active {
@@ -3910,7 +3910,7 @@ tr:nth-child(even) {
   color: var(--text-muted);
   white-space: nowrap;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   flex-shrink: 0;
 }
 
@@ -3980,7 +3980,7 @@ tr:nth-child(even) {
   font-weight: 800;
   color: var(--text-color);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
 .notes-tool-btn:hover {
@@ -4174,7 +4174,7 @@ tr:nth-child(even) {
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .learn-check-btn:hover {
@@ -4219,7 +4219,7 @@ tr:nth-child(even) {
   justify-content: center;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   color: var(--text-muted);
 }
 
@@ -4359,7 +4359,7 @@ tr:nth-child(even) {
   padding: 14px 16px;
   margin-top: 18px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   position: relative;
 }
 
@@ -4621,7 +4621,7 @@ tr:nth-child(even) {
   color: var(--text-color);
   white-space: nowrap;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   flex-shrink: 0;
 }
 
@@ -4753,7 +4753,7 @@ tr:nth-child(even) {
   color: var(--text-color);
   white-space: nowrap;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0;
 }
 
@@ -4850,7 +4850,7 @@ tr:nth-child(even) {
   color: var(--text-muted);
   white-space: nowrap;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   flex-shrink: 0;
 }
 
@@ -5058,7 +5058,7 @@ tr:nth-child(even) {
   line-height: 1.55;
   text-align: left;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   word-break: keep-all;
 }
 
@@ -5585,7 +5585,7 @@ tr:nth-child(even) {
 }
 
 .pack-chip-btn {
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
 .pack-chip-btn:hover {
@@ -5716,7 +5716,7 @@ tr:nth-child(even) {
   border: 1px solid var(--line-strong);
   border-radius: 14px;
   padding: 6px 12px 6px 16px;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   box-shadow: var(--shadow-sm);
 }
 
@@ -5751,7 +5751,7 @@ tr:nth-child(even) {
   border-radius: 10px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
 .search-submit-btn:hover {
@@ -5801,7 +5801,7 @@ tr:nth-child(even) {
   font-weight: 600;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -5845,7 +5845,7 @@ tr:nth-child(even) {
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: transform 0.2s, opacity 0.2s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s, color 0.2s;
 }
 
 .action-btn-sm:hover {
@@ -5906,7 +5906,7 @@ tr:nth-child(even) {
   border-radius: var(--radius-sm);
   border: 1px solid var(--line);
   background: var(--paper-subtle);
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
 .choice-trap-item.correct-trap {
@@ -6019,7 +6019,7 @@ tr:nth-child(even) {
   background: var(--surface);
   color: var(--text-color);
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s cubic-bezier(0.25, 1, 0.5, 1), color 0.2s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .timeline-chip:hover {
@@ -6496,7 +6496,7 @@ tr:nth-child(even) {
   font-weight: 600;
   text-align: left;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   line-height: 1.5;
 }
 
@@ -7229,7 +7229,7 @@ tr:nth-child(even) {
   padding: 12px 18px;
   margin-bottom: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
 .hud-top-row {
@@ -7258,7 +7258,7 @@ tr:nth-child(even) {
   background: var(--paper-subtle);
   color: var(--text-color);
   border: 1px solid var(--line);
-  transition: all 0.15s ease;
+  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
 }
 
 .hud-stat-badge.brand {
@@ -7303,7 +7303,7 @@ tr:nth-child(even) {
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s cubic-bezier(0.25, 1, 0.5, 1), color 0.2s cubic-bezier(0.25, 1, 0.5, 1);
   user-select: none;
 }
 
@@ -7330,7 +7330,7 @@ tr:nth-child(even) {
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
   user-select: none;
 }
 
@@ -7383,7 +7383,7 @@ tr:nth-child(even) {
   font-size: 13.5px;
   font-weight: 850;
   cursor: pointer;
-  transition: all 0.18s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.18s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.18s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.18s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.18s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.18s cubic-bezier(0.25, 1, 0.5, 1), color 0.18s cubic-bezier(0.25, 1, 0.5, 1);
   user-select: none;
   touch-action: manipulation;
 }
@@ -7459,7 +7459,7 @@ tr:nth-child(even) {
   font-weight: 800;
   cursor: pointer;
   border: 1.5px solid transparent;
-  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s cubic-bezier(0.25, 1, 0.5, 1), color 0.2s cubic-bezier(0.25, 1, 0.5, 1);
   text-align: center;
   user-select: none;
   touch-action: manipulation;
@@ -7568,7 +7568,7 @@ tr:nth-child(even) {
   color: #FFFFFF;
   cursor: pointer;
   float: right;
-  transition: all 0.15s ease;
+  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
 }
 .quiz-memo-save-btn:hover {
   background: var(--brand-hover);
@@ -7939,7 +7939,7 @@ tr:nth-child(even) {
   background: rgba(255, 59, 48, 0.1);
   color: var(--danger);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   user-select: none;
 }
 .topbar-flash-btn:hover {
@@ -7987,7 +7987,7 @@ tr:nth-child(even) {
   border-radius: var(--radius-pill);
   font-size: 13px;
   font-weight: 900;
-  transition: all 0.25s ease;
+  transition: transform 0.25s ease, opacity 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
 }
 
 .pass-verdict-badge .verdict-dot {
@@ -8100,7 +8100,7 @@ tr:nth-child(even) {
   border: 1.5px solid var(--line);
   border-radius: var(--radius-md);
   padding: 14px 16px;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
 .subject-radar-card:hover {
@@ -8195,7 +8195,7 @@ tr:nth-child(even) {
   background: var(--paper-subtle);
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   user-select: none;
 }
 
@@ -8204,7 +8204,7 @@ tr:nth-child(even) {
   height: 6px;
   border-radius: 50%;
   background: var(--text-dim);
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
 .hud-auto-advance-btn.active {
@@ -8299,7 +8299,7 @@ tr:nth-child(even) {
   color: var(--text-muted);
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
 .flash-tab-btn.active {
@@ -8322,7 +8322,7 @@ tr:nth-child(even) {
   border: 1.5px solid var(--line);
   border-radius: var(--radius-md);
   padding: 14px 16px;
-  transition: all 0.15s ease;
+  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
 }
 
 .flash-item-card:hover {
@@ -8398,7 +8398,7 @@ tr:nth-child(even) {
   background: var(--paper-subtle);
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   user-select: none;
 }
 
@@ -8444,7 +8444,7 @@ tr:nth-child(even) {
   background: var(--surface);
   border: 1.5px solid var(--line);
   border-radius: var(--radius-md);
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
 .reset-option-card:hover {
@@ -8563,7 +8563,7 @@ tr:nth-child(even) {
   font-weight: 850;
   color: var(--text-color);
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.2s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.2s cubic-bezier(0.25, 1, 0.5, 1), color 0.2s cubic-bezier(0.25, 1, 0.5, 1);
   box-shadow: var(--shadow-sm);
 }
 
@@ -8603,7 +8603,7 @@ tr:nth-child(even) {
   font-size: 13px;
   font-weight: 850;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   white-space: nowrap;
 }
 
@@ -8649,7 +8649,7 @@ tr:nth-child(even) {
   border-radius: var(--radius-sm);
   background: transparent;
   white-space: nowrap;
-  transition: all 0.15s ease;
+  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
 }
 
 .calc-tab-btn:hover {
@@ -8818,7 +8818,7 @@ tr:nth-child(even) {
   border-radius: 8px;
   background: var(--paper-subtle);
   border: 1px solid var(--line);
-  transition: all 0.15s ease;
+  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
 }
 
 .omr-row:hover {
@@ -8864,7 +8864,7 @@ tr:nth-child(even) {
   font-weight: 900;
   color: var(--text-color);
   cursor: pointer;
-  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.15s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
   user-select: none;
 }
 
@@ -8926,7 +8926,7 @@ tr:nth-child(even) {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
   flex-shrink: 0;
 }
 
@@ -8989,7 +8989,7 @@ tr:nth-child(even) {
   border: 1.5px solid var(--line);
   color: var(--text-color);
   cursor: pointer;
-  transition: all 0.18s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.18s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.18s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.18s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.18s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.18s cubic-bezier(0.25, 1, 0.5, 1), color 0.18s cubic-bezier(0.25, 1, 0.5, 1);
   white-space: nowrap;
 }
 
@@ -9247,7 +9247,7 @@ tr:nth-child(even) {
   border-radius: 50%;
   border: 2px solid var(--line-bold);
   background: var(--surface);
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .strike-dot.filled {
@@ -9281,7 +9281,7 @@ tr:nth-child(even) {
   padding: 16px 18px;
   margin-bottom: 14px;
   box-shadow: var(--shadow-sm);
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
 .flash-item-card:hover {
@@ -9445,7 +9445,7 @@ html, body {
   border: none;
   color: var(--text-dim);
   cursor: pointer;
-  transition: all 0.16s ease;
+  transition: transform 0.16s ease, opacity 0.16s ease, background-color 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, color 0.16s ease;
   padding: 4px 0;
   -webkit-tap-highlight-color: transparent;
 }
@@ -9493,7 +9493,7 @@ html, body {
   box-shadow: var(--shadow-md);
   cursor: pointer;
   z-index: 990;
-  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   opacity: 0;
   pointer-events: none;
   transform: translateY(10px);
@@ -9919,4 +9919,124 @@ html, body {
 
 
 
-
+
+
+/* =========================================================
+   ⚡ KNOWWAY HIGH-PERFORMANCE GPU ACCELERATION & ZERO-LAG ENGINE
+   ========================================================= */
+.quiz-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 320px;
+}
+
+.card.collapsed {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 65px;
+}
+
+.flash-item-card,
+.wrong-card,
+.pillar-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 150px;
+}
+
+.topbar,
+.bottom-nav,
+.practice-sticky-hud,
+.to-top-btn {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.notes-container,
+.quiz-list-container,
+.wrong-list-container {
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/* =========================================================
+   🎯 FOCUS MODE: 개념 학습 및 문제 풀이 초몰입 디자인 시스템
+   ========================================================= */
+
+/* 1. 산만한 깜빡임 제거 (눈의 피로도 최소화) */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+@keyframes pulseWeakness {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* 2. 문제 풀이 뷰 여백 최적화 (지문이 한눈에 들어오도록 상단 HUD 컴팩트화) */
+.practice-sticky-hud {
+  padding: 8px 16px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+}
+
+.practice-title-group {
+  margin-bottom: 4px !important;
+}
+
+/* 3. 문제 카드 가독성 극대화 (시각적 피로 감소 & 선명한 타이포그래피) */
+.quiz-card {
+  padding: 24px 28px !important;
+  margin-bottom: 20px !important;
+  border: 1.5px solid var(--border-color) !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03) !important;
+}
+
+.quiz-question-text {
+  font-size: 16.5px !important;
+  line-height: 1.7 !important;
+  font-weight: 750 !important;
+  color: var(--text-color) !important;
+  margin-bottom: 20px !important;
+}
+
+/* 4. 선지 선택 영역 터치감 및 가독성 향상 */
+.quiz-option {
+  padding: 13px 18px !important;
+  margin-bottom: 10px !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  border-radius: var(--radius-md) !important;
+  border: 1.5px solid var(--border-color) !important;
+}
+
+.quiz-option:hover {
+  border-color: var(--brand) !important;
+  background-color: var(--bg-hover) !important;
+}
+
+/* 5. 요약노트 개념 카드 가독성 향상 */
+.concept-block-h4 {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: var(--brand-dark) !important;
+  margin: 18px 0 10px 0 !important;
+}
+
+.concept-block-ul li {
+  font-size: 14.5px !important;
+  line-height: 1.7 !important;
+  margin-bottom: 8px !important;
+}
+
+.concept-block-note {
+  padding: 14px 18px !important;
+  font-size: 14px !important;
+  line-height: 1.65 !important;
+  border-radius: var(--radius-md) !important;
+}
+
+/* 6. 토스트 알림이 문제를 가리지 않도록 위치 및 지속시간 정돈 */
+.knowway-toast {
+  pointer-events: none !important;
+  bottom: 80px !important;
+  font-size: 13.5px !important;
+  padding: 10px 20px !important;
+}

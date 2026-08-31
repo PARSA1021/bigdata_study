@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "빅데이터분석기사 실전 기출 복원 모의고사",
+    "title": "빅데이터분석기사 실전 기출 복원 모의고사 & 취약점 킬러 문제은행 (완벽 마스터판)",
     "version": "2026.12 (12회 기출 복원 완벽 반영)",
     "generatedFrom": "빅데이터 분석기사 역대 기출문제(12회~1회) 완벽 분석 및 복원",
-    "totalQuestions": 907,
-    "lastUpdated": "2026-08-28T00:55:57.903Z"
+    "totalQuestions": 941,
+    "lastUpdated": "2026-08-31T05:08:05.157Z"
   },
   "questions": [
     {
@@ -17502,7 +17502,7 @@
       "examinerTip": "데이터 전처리(스케일링, 결측치 대체 등)는 반드시 훈련/테스트 셋 분할 이후 훈련셋 기준으로만 진행해야 데이터 누출이 없음을 묻는 문제가 단골입니다."
     },
     {
-      "id": "Q12053",
+      "id": "Q12053_kernel",
       "subject": 3,
       "chapter": "초평면과 커널 트릭",
       "sectionId": "s3-4",
@@ -24119,6 +24119,890 @@
       ],
       "memorizationPoint": "Train 오차 감소 vs Val 오차 급증 ➔ 과적합 (Overfitting)",
       "examinerTip": "💡 12회 기출 핵심: 과적합 방지 4대 기법(드롭아웃, 조기종료, 가중치 규제 L1/L2, 데이터 증강)을 함께 숙지하세요."
+    },
+    {
+      "id": "Q_WEAK_101",
+      "subject": 1,
+      "chapter": "데이터분석 계획",
+      "sectionId": "s1-3",
+      "cardId": "c1-21",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 확인] 통계적 추정에서 바람직한 추정량이 갖추어야 할 4대 성질 중, '표본의 크기 n이 무한히 커짐에 따라 추정량이 참 모수에 확률적으로 수렴하는 성질'을 무엇이라 하는가?",
+      "choices": [
+        "불편성 (Unbiasedness)",
+        "효율성 (Efficiency)",
+        "일치성 (Consistency)",
+        "충족성 (Sufficiency)"
+      ],
+      "answer": 2,
+      "explanation": "표본의 크기 n이 증가함에 따라 추정량이 모수에 수렴하는 성질은 '일치성(Consistency)'입니다.\n\n💡 4대 성질 3초 암기:\n- 불편성: 기댓값 = 모수 (E(θ̂) = θ)\n- 효율성: 최소 분산 (불편추정량 중 분산 최소)\n- 일치성: n이 커질수록 모수에 수렴\n- 충족성: 모수에 대한 모든 정보를 포함",
+      "whyWrong": [
+        "불편성은 추정량의 기댓값이 참 모수와 같아지는 성질(편향=0)입니다.",
+        "효율성은 불편추정량들 중 분산이 가장 작은 성질입니다.",
+        "정답",
+        "충족성은 표본이 모수에 대해 가질 수 있는 모든 정보를 포함하는 성질입니다."
+      ],
+      "memorizationPoint": "n이 무한히 커질 때 모수에 수렴 ➔ 일치성(Consistency)!",
+      "examinerTip": "💡 출제위원 함정: '기댓값이 모수와 같다'는 불편성, '분산이 가장 작다'는 효율성, '표본 크기 증가 시 수렴'은 일치성으로 세 개념의 핵심 키워드를 반드시 짝지어 외워야 합니다."
+    },
+    {
+      "id": "Q_WEAK_102",
+      "subject": 1,
+      "chapter": "데이터분석 계획",
+      "sectionId": "s1-3",
+      "cardId": "c1-21",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "[개념 비교] 모수 θ에 대한 추정량 θ̂의 평균제곱오차(MSE)에 대한 설명으로 가장 옳은 것은?",
+      "choices": [
+        "MSE(θ̂)는 추정량의 분산과 편향의 단순 합으로 계산된다.",
+        "추정량 θ̂이 불편추정량인 경우, MSE는 추정량의 분산과 완전히 동일하다.",
+        "편향(Bias)이 0인 추정량은 언제나 MSE가 가장 작은 효율적 추정량이다.",
+        "MSE는 분산의 제곱과 편향의 제곱의 곱으로 계산된다."
+      ],
+      "answer": 1,
+      "explanation": "평균제곱오차 공식은 MSE(θ̂) = Var(θ̂) + [Bias(θ̂)]² 입니다. 따라서 추정량이 불편추정량(Bias = 0)인 경우 편향 제곱 항이 0이 되므로 MSE는 추정량의 분산 Var(θ̂)과 정확히 일치합니다.",
+      "whyWrong": [
+        "MSE는 분산과 '편향의 제곱'의 합입니다. 단순 합이 아닙니다.",
+        "정답",
+        "편향이 0이라도 분산이 매우 크면 MSE가 커질 수 있으므로 언제나 최소 MSE를 갖는 것은 아닙니다.",
+        "MSE는 분산 + 편향² (합의 형태)입니다."
+      ],
+      "memorizationPoint": "MSE = 분산 + 편향² (불편추정량이면 편향=0이므로 MSE = 분산)!",
+      "examinerTip": "💡 출제위원 함정: MSE 수식에서 편향이 '제곱'되는 점과 불편추정량일 때 MSE = Var가 된다는 관계를 묻는 문제가 단골입니다."
+    },
+    {
+      "id": "Q_WEAK_103",
+      "subject": 1,
+      "chapter": "데이터 수집 및 저장 계획",
+      "sectionId": "s1-4",
+      "cardId": "c1-22",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[상황 판단] 다변량 데이터에서 변수들 간의 상관관계(공분산)와 측정 단위의 척도 차이를 모두 고려하여 데이터 간의 통계적 거리를 계산하고자 한다. 가장 적절한 거리 척도는?",
+      "choices": [
+        "유클리드 거리 (Euclidean Distance)",
+        "맨하탄 거리 (Manhattan Distance)",
+        "마할라노비스 거리 (Mahalanobis Distance)",
+        "체비셰프 거리 (Chebyshev Distance)"
+      ],
+      "answer": 2,
+      "explanation": "변수 간의 상관관계(공분산 행렬의 역행렬)와 각 변수의 분산을 동시에 고려하여 계산하는 거리는 '마할라노비스 거리(Mahalanobis Distance)'입니다.",
+      "whyWrong": [
+        "유클리드 거리는 최단 직선 거리로, 변수 간 상관관계를 전혀 고려하지 못합니다.",
+        "맨하탄 거리는 격자 도로망 거리로 상관관계를 고려하지 않습니다.",
+        "정답",
+        "체비셰프 거리는 좌표 성분 차이 중 최댓값을 취하는 거리입니다."
+      ],
+      "memorizationPoint": "변수 간 상관관계(공분산) 고려 ➔ 무조건 마할라노비스 거리!",
+      "examinerTip": "💡 출제위원 함정: '표준화 거리'는 분산(척도)만 보정하고 상관관계는 반영하지 못하지만, '마할라노비스 거리'는 공분산 역행렬을 곱해 상관관계까지 완벽히 보정합니다."
+    },
+    {
+      "id": "Q_WEAK_104",
+      "subject": 1,
+      "chapter": "데이터 수집 및 저장 계획",
+      "sectionId": "s1-4",
+      "cardId": "c1-22",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "[상황 판단] 두 문서의 단어 빈도 벡터를 비교하여 문서 간 유사도를 분석하려 한다. 문서의 길이(단어 수)에 영향을 받지 않고 오직 두 벡터 사이의 사잇각(방향성)만을 고려하는 거리 척도는?",
+      "choices": [
+        "코사인 거리 (Cosine Distance)",
+        "자카드 거리 (Jaccard Distance)",
+        "맨하탄 거리 (Manhattan Distance)",
+        "민코우스키 거리 (Minkowski Distance)"
+      ],
+      "answer": 0,
+      "explanation": "벡터의 크기(길이)와 상관없이 사잇각(방향)만을 측정하는 거리는 코사인 거리(1 - Cosine Similarity)입니다. 텍스트 및 문서 유사도 분석의 표준입니다.",
+      "whyWrong": [
+        "정답",
+        "자카드 거리는 두 집합 간의 교집합/합집합 비율로 이진 속성 비교에 쓰입니다.",
+        "맨하탄 거리는 좌표 절댓값 차의 합입니다.",
+        "민코우스키 거리는 L1, L2 거리를 일반화한 거리입니다."
+      ],
+      "memorizationPoint": "문서 유사도 / 사잇각(방향) 비교 ➔ 코사인 거리!",
+      "examinerTip": "💡 출제위원 함정: 문서 길이에 왜곡되지 않는 사잇각 측정은 코사인 거리, 키워드의 유무(0/1) 집합 비교는 자카드 거리입니다."
+    },
+    {
+      "id": "Q_WEAK_105",
+      "subject": 1,
+      "chapter": "데이터 수집 및 저장 계획",
+      "sectionId": "s1-4",
+      "cardId": "c1-22",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 확인] 고객 A가 구매한 상품 집합 {사과, 바나나, 우유}와 고객 B가 구매한 상품 집합 {바나나, 우유, 빵, 치즈} 사이의 유사도를 측정하기 위해 자카드 유사도(Jaccard Similarity)를 계산한 결과로 옳은 것은?",
+      "choices": [
+        "0.2 (1/5)",
+        "0.4 (2/5)",
+        "0.5 (2/4)",
+        "0.6 (3/5)"
+      ],
+      "answer": 1,
+      "explanation": "자카드 유사도 = |A ∩ B| / |A ∪ B| 입니다.\n- 교집합 A ∩ B = {바나나, 우유} ➔ 원소 수 2개\n- 합집합 A ∪ B = {사과, 바나나, 우유, 빵, 치즈} ➔ 원소 수 5개\n따라서 자카드 유사도는 2 / 5 = 0.4 (40%) 입니다.",
+      "whyWrong": [
+        "교집합 원소는 2개이므로 1/5이 아닙니다.",
+        "정답",
+        "합집합 원소 수가 4개가 아니라 5개입니다.",
+        "교집합 원소 수가 3개가 아닙니다."
+      ],
+      "memorizationPoint": "자카드 유사도 = 교집합 크기 / 합집합 크기 (Jaccard = 2/5 = 0.4)!",
+      "examinerTip": "💡 출제위원 함정: '자카드 유사도'를 묻는지, '자카드 거리(1 - 유사도)'를 묻는지 발문을 끝까지 확인해야 합니다. 거리라면 1 - 0.4 = 0.6이 정답이 됩니다."
+    },
+    {
+      "id": "Q_WEAK_201",
+      "subject": 2,
+      "chapter": "통계기법 이해",
+      "sectionId": "s2-6",
+      "cardId": "c2-20",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 비교] 표본추출 기법 중 층화표본추출(Stratified Sampling)과 군집(집락)표본추출(Cluster Sampling)의 집단 구성 특성에 대한 설명으로 가장 옳은 것은?",
+      "choices": [
+        "층화추출은 집단 내 이질적, 집단 간 동질적이어야 효과적이다.",
+        "군집추출은 집단 내 동질적, 집단 간 이질적이어야 효과적이다.",
+        "층화추출은 집단 내 동질적·집단 간 이질적이며, 군집추출은 집단 내 이질적·집단 간 동질적이다.",
+        "두 기법 모두 집단 내 동질적, 집단 간 동질적인 구성을 전제로 한다."
+      ],
+      "answer": 2,
+      "explanation": "층화추출은 비슷한 대상끼리 묶어 층을 만든 뒤 각 층에서 뽑으므로 '집단 내 동질, 집단 간 이질'입니다. 반면 군집추출은 군집 자체가 모집단의 축소판이어야 하므로 '집단 내 이질, 집단 간 동질'입니다.",
+      "whyWrong": [
+        "층화추출은 집단 내 동질, 집단 간 이질입니다.",
+        "군집추출은 집단 내 이질, 집단 간 동질입니다.",
+        "정답",
+        "두 기법은 집단 내/간 특성이 완전히 정반대 구조를 갖습니다."
+      ],
+      "memorizationPoint": "층화: 집단 내 동질, 집단 간 이질 / 집락: 집단 내 이질, 집단 간 동질!",
+      "examinerTip": "💡 출제위원 함정: '각 층에서 뽑는다 ➔ 층화', '군집 자체를 통째로 뽑는다 ➔ 집락'으로 행위와 집단 내부 성격을 연결해야 헷갈리지 않습니다."
+    },
+    {
+      "id": "Q_WEAK_202",
+      "subject": 2,
+      "chapter": "통계기법 이해",
+      "sectionId": "s2-6",
+      "cardId": "c2-20",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "[함정 선지] 계통표본추출(Systematic Sampling)에 대한 설명 중 가장 옳지 않은 것은?",
+      "choices": [
+        "모집단 크기 N을 표본 크기 n으로 나눈 간격 k(=N/n)를 계산하여 추출한다.",
+        "첫 번째 표본은 1과 k 사이에서 무작위로 선정하고, 이후 매 k번째 원소를 추출한다.",
+        "단순무작위추출에 비해 표본 추출 과정이 간편하고 시간과 비용이 절약된다.",
+        "모집단 목록에 일정한 주기성(Periodicity)이 존재하더라도 표본의 무작위성이 유지되므로 편향이 발생하지 않는다."
+      ],
+      "answer": 3,
+      "explanation": "계통추출법의 가장 치명적인 결함은 '모집단 목록에 주기성(예: 7일 주기, 주말 등)이 존재할 경우 특정 패턴의 원소만 반복 추출되어 심각한 표본 편향이 발생한다'는 점입니다.",
+      "whyWrong": [
+        "옳은 설명입니다. 추출 간격 k = N/n 입니다.",
+        "옳은 설명입니다. 첫 번째 원소만 랜덤으로 정하고 이후 일정한 간격 k를 더해갑니다.",
+        "옳은 설명입니다. 난수표를 매번 볼 필요가 없어 간편합니다.",
+        "정답 (주기성이 존재하면 심각한 편향이 발생함)"
+      ],
+      "memorizationPoint": "계통추출의 치명적 약점 ➔ 모집단 주기성 존재 시 편향 발생!",
+      "examinerTip": "💡 출제위원 함정: 계통추출 문제에서 '주기성이 있어도 대표성이 보장된다'는 선지는 100% 오답(함정)입니다."
+    },
+    {
+      "id": "Q_WEAK_203",
+      "subject": 2,
+      "chapter": "데이터 결측값 및 이상값 처리",
+      "sectionId": "s2-2",
+      "cardId": "c2-8",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[상황 판단] 설문조사 데이터에서 '월 소득' 항목의 결측치를 분석한 결과, '연령대'나 '직업' 등 다른 관측된 변수와는 상관관계가 있었지만, 실제 결측된 소득 금액 자체의 크기 때문에 누락된 것은 아니었다. 이 결측 메커니즘은?",
+      "choices": [
+        "MCAR (완전 무작위 결측)",
+        "MAR (무작위 결측)",
+        "MNAR (비무작위 결측)",
+        "MICE (다중 대치 결측)"
+      ],
+      "answer": 1,
+      "explanation": "결측 발생 여부가 '다른 관측된 변수(연령, 직업)'와는 관련이 있으나, 결측된 '자기 자신의 값(소득)'과는 무관한 경우는 'MAR(무작위 결측, Missing At Random)'입니다.",
+      "whyWrong": [
+        "MCAR은 어떤 변수와도 상관없이 순수 우연에 의해 발생한 결측입니다.",
+        "정답",
+        "MNAR은 고소득자가 자신의 소득 공개를 꺼려 누락하는 것처럼 '자기 자신의 값' 때문에 결측이 발생하는 경우입니다.",
+        "MICE는 결측 메커니즘이 아니라 다중 대치 분석 기법입니다."
+      ],
+      "memorizationPoint": "다른 변수와 관련 O + 자기 자신 값과 무관 ➔ MAR (무작위 결측)!",
+      "examinerTip": "💡 출제위원 함정: MCAR(아무 이유 없음) vs MAR(다른 관측 변수 때문) vs MNAR(자기 자신의 값 때문)의 3단계 키워드를 반드시 기억하세요."
+    },
+    {
+      "id": "Q_WEAK_204",
+      "subject": 2,
+      "chapter": "데이터 결측값 및 이상값 처리",
+      "sectionId": "s2-2",
+      "cardId": "c2-8",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 비교] 결측값 대치 기법 중 'Hot Deck 대치법'과 'Cold Deck 대치법'의 차이로 가장 옳은 것은?",
+      "choices": [
+        "Hot Deck은 결측치가 있는 행을 완전히 삭제하고, Cold Deck은 평균값으로 대치한다.",
+        "Hot Deck은 현재 동일한 데이터셋 내에서 유사한 관측치를 찾아 대치하고, Cold Deck은 외부나 과거 데이터셋의 관측치로 대치한다.",
+        "Hot Deck은 정규분포를 따를 때 사용하고, Cold Deck은 비모수 분포일 때 사용한다.",
+        "Hot Deck은 연속형 변수에만 사용하고, Cold Deck은 범주형 변수에만 사용한다."
+      ],
+      "answer": 1,
+      "explanation": "Hot Deck은 '현재 연구 중인 동일 데이터셋'의 유사 관측치로부터 값을 가져와 대치하고, Cold Deck은 '외부 데이터베이스나 과거 조사'의 관측치로부터 값을 가져와 대치합니다.",
+      "whyWrong": [
+        "행 삭제는 Listwise 삭제법, 평균값 대치는 Mean Imputation입니다.",
+        "정답",
+        "정규성 여부와 무관한 데이터 출처 기반 대치법입니다.",
+        "두 기법 모두 연속형 및 범주형 변수에 활용 가능합니다."
+      ],
+      "memorizationPoint": "Hot Deck = 현재 데이터셋에서 / Cold Deck = 외부/과거 데이터셋에서!",
+      "examinerTip": "💡 출제위원 함정: Hot(따끈따끈한 현재 데이터) vs Cold(이전에 식어버린 과거/외부 데이터)의 비유로 외우면 절대 잊지 않습니다."
+    },
+    {
+      "id": "Q_WEAK_205",
+      "subject": 2,
+      "chapter": "분석 변수 처리",
+      "sectionId": "s2-3",
+      "cardId": "c2-12",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 비교] 차원 축소 기법인 PCA(주성분 분석)와 LDA(선형 판별 분석)의 차이점에 대한 설명으로 가장 옳은 것은?",
+      "choices": [
+        "PCA는 지도학습이고, LDA는 비지도학습 차원축소 기법이다.",
+        "PCA는 데이터의 분산(정보량)을 최대화하는 축을 찾고, LDA는 클래스 간 분산 최대화 및 클래스 내 분산 최소화를 목표로 한다.",
+        "PCA는 비선형 변환을 수행하고, LDA는 항상 선형 직교 변환만 수행한다.",
+        "PCA는 분류 모델에만 사용 가능하고, LDA는 회귀 모델에만 사용 가능하다."
+      ],
+      "answer": 1,
+      "explanation": "PCA는 타깃 라벨 없이 분산을 최대화하는 비지도학습 기법이며, LDA는 타깃 라벨을 활용하여 클래스 간 분산을 최대화하고 클래스 내 분산을 최소화하여 클래스 분리도를 극대화하는 지도학습 기법입니다.",
+      "whyWrong": [
+        "PCA가 비지도학습이고, LDA가 지도학습입니다.",
+        "정답",
+        "기본 PCA와 LDA는 모두 선형 변환 기법입니다.",
+        "PCA는 회귀/분류 전처리 모두에 쓰이며 LDA는 주로 분류 목적의 지도 차원축소에 쓰입니다."
+      ],
+      "memorizationPoint": "PCA = 분산 최대화 (비지도) / LDA = 클래스 분리도 최대화 (지도)!",
+      "examinerTip": "💡 출제위원 함정: PCA와 LDA를 바꾼 선지(PCA가 지도학습이라는 거짓 선지)가 시험에서 가장 빈번하게 나오는 오답 패턴입니다."
+    },
+    {
+      "id": "Q_WEAK_206",
+      "subject": 2,
+      "chapter": "분석 변수 처리",
+      "sectionId": "s2-3",
+      "cardId": "c2-12",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "[개념 비교] 고차원 데이터의 비선형 차원축소 및 시각화 기법인 t-SNE와 UMAP에 대한 설명으로 옳지 않은 것은?",
+      "choices": [
+        "t-SNE는 t-분포 확률을 활용하여 고차원 데이터의 국소적(Local) 이웃 구조를 2D/3D로 보존하는 데 탁월하다.",
+        "t-SNE는 데이터 간의 전역적(Global) 기하학 구조를 완벽하게 보존하므로 군집 간의 상대적 거리를 정확하게 해석할 수 있다.",
+        "UMAP은 위상수학(Topology) 및 리만 기하학 기반의 매니폴드 학습 기법이다.",
+        "UMAP은 t-SNE에 비해 연산 속도가 대폭 빠르며, 국소적 구조뿐만 아니라 전역적 구조도 상대적으로 더 잘 보존한다."
+      ],
+      "answer": 1,
+      "explanation": "t-SNE는 가까운 이웃 간의 '국소적(Local) 구조'는 매우 잘 보존하지만, 멀리 떨어진 군집 간의 '전역적(Global) 구조'는 왜곡될 수 있어 군집 간 실제 거리를 해석하는 데 한계가 있습니다. 이를 개선한 것이 UMAP입니다.",
+      "whyWrong": [
+        "옳은 설명입니다. t-SNE의 핵심 장점입니다.",
+        "정답 (전역적 구조 보존에 한계가 있음)",
+        "옳은 설명입니다. UMAP은 퍼지 단순 집합 및 위상수학 기반입니다.",
+        "옳은 설명입니다. UMAP은 t-SNE보다 훨씬 빠르고 전역 구조를 잘 보존합니다."
+      ],
+      "memorizationPoint": "t-SNE = 국소 이웃 보존 (전역 구조 한계) / UMAP = 국소+전역 보존 & 고속!",
+      "examinerTip": "💡 출제위원 함정: 't-SNE가 전역적 구조를 완벽히 보존한다'는 명제는 전형적인 오답입니다."
+    },
+    {
+      "id": "Q_WEAK_301",
+      "subject": 3,
+      "chapter": "통계적 분석 / 모델링",
+      "sectionId": "s2-6",
+      "cardId": "c2-22",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 확인] 통계적 가설검정에서 '실제로는 귀무가설(H₀)이 참임에도 불구하고, 귀무가설을 잘못 기각하는 오류'와 그 오류를 범할 최대 허용 확률을 올바르게 짝지은 것은?",
+      "choices": [
+        "제1종 오류 (Type I Error) - 유의수준 α",
+        "제1종 오류 (Type I Error) - 검정력 (1 - β)",
+        "제2종 오류 (Type II Error) - 유의확률 β",
+        "제2종 오류 (Type II Error) - 유의수준 α"
+      ],
+      "answer": 0,
+      "explanation": "실제 H₀가 참인데 기각하는 오류는 '제1종 오류(Type I Error)'이며, 이 오류의 최대 허용 확률을 '유의수준(Significance Level, α)'이라고 합니다.",
+      "whyWrong": [
+        "정답",
+        "1 - β는 대립가설이 참일 때 H₀를 올바르게 기각하는 검정력(Power)입니다.",
+        "제2종 오류는 H₀가 거짓인데 기각하지 못하는 오류이며 확률은 β입니다.",
+        "유의수준 α는 제1종 오류의 상한선입니다."
+      ],
+      "memorizationPoint": "H₀ 참인데 기각 ➔ 제1종 오류(α) / H₀ 거짓인데 채택 ➔ 제2종 오류(β)!",
+      "examinerTip": "💡 출제위원 함정: 무죄인 사람에게 유죄를 선고하는 것 = 제1종 오류(위양성), 유죄인 범인을 무죄로 풀어주는 것 = 제2종 오류(위음성)입니다."
+    },
+    {
+      "id": "Q_WEAK_302",
+      "subject": 3,
+      "chapter": "통계적 분석 / 모델링",
+      "sectionId": "s2-6",
+      "cardId": "c2-22",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "[상황 판단] 동일한 20명의 고혈압 환자를 대상으로 신약 복용 전과 복용 후의 혈압을 측정하였다. 복용 전후의 혈압 차이 데이터가 정규성 검정(Shapiro-Wilk) 결과 정규분포를 따르지 않는 것(p < 0.05)으로 나타났다. 신약의 혈압 강하 효과를 검정하기 위해 가장 적절한 통계 검정법은?",
+      "choices": [
+        "독립표본 t-검정 (Two-sample t-test)",
+        "대응표본 t-검정 (Paired t-test)",
+        "맨-휘트니 U 검정 (Mann-Whitney U Test)",
+        "윌콕슨 부호순위 검정 (Wilcoxon Signed-Rank Test)"
+      ],
+      "answer": 3,
+      "explanation": "1) '동일한 환자의 전후 비교'이므로 대응표본(Paired) 상황입니다.\n2) '정규성을 만족하지 못함(비정규)'이므로 비모수 검정을 사용해야 합니다.\n➔ 대응 2집단 + 비모수 검정 = '윌콕슨 부호순위 검정(Wilcoxon Signed-Rank Test)'입니다.",
+      "whyWrong": [
+        "독립표본 t는 '서로 다른 두 집단'의 정규분포 상황에 쓰입니다.",
+        "대응표본 t는 '정규성을 만족할 때' 쓰이는 모수 검정입니다.",
+        "맨-휘트니 U 검정은 '서로 다른 독립된 두 집단'의 비모수 검정입니다.",
+        "정답"
+      ],
+      "memorizationPoint": "동일 대상 전후(대응) + 비정규 ➔ 윌콕슨 부호순위 검정!",
+      "examinerTip": "💡 출제위원 함정: 독립표본 비모수 = 맨-휘트니 U, 대응표본 비모수 = 윌콕슨 부호순위. 이 짝을 뒤바꾼 오답이 시험의 최고 빈출 함정입니다."
+    },
+    {
+      "id": "Q_WEAK_303",
+      "subject": 3,
+      "chapter": "통계적 분석 / 모델링",
+      "sectionId": "s2-6",
+      "cardId": "c2-22",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "[상황 판단] 3개 지역(서울, 부산, 대구) 지점의 고객 만족도 점수를 비교하려 한다. 데이터가 정규분포를 따르지 않아 비모수 검정을 적용하고자 할 때, 가장 적절한 검정 방법은?",
+      "choices": [
+        "일원배치 분산분석 (One-way ANOVA)",
+        "크루스칼-왈리스 검정 (Kruskal-Wallis Test)",
+        "프리드만 검정 (Friedman Test)",
+        "카이제곱 독립성 검정 (Chi-Square Test)"
+      ],
+      "answer": 1,
+      "explanation": "서로 다른 3개 이상 독립 집단의 평균 차이를 비교할 때 정규성을 만족하지 못하는 비모수 검정은 '크루스칼-왈리스 검정(Kruskal-Wallis Test)'입니다. (One-Way ANOVA의 비모수 대안)",
+      "whyWrong": [
+        "One-way ANOVA는 정규성을 만족할 때 사용하는 모수 검정입니다.",
+        "정답",
+        "프리드만 검정은 3개 이상의 '대응/반복측정' 집단에 대한 비모수 검정입니다.",
+        "카이제곱 검정은 범주형 변수 간의 연관성 검정에 쓰입니다."
+      ],
+      "memorizationPoint": "독립 3집단 이상 + 비정규 ➔ 크루스칼-왈리스(Kruskal-Wallis)!",
+      "examinerTip": "💡 출제위원 함정: 독립 3집단 비모수 = 크루스칼-왈리스 / 대응 3집단(반복측정) 비모수 = 프리드만 검정입니다."
+    },
+    {
+      "id": "Q_WEAK_304",
+      "subject": 3,
+      "chapter": "회귀분석 종류 및 가정",
+      "sectionId": "s3-1",
+      "cardId": "c3-1",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 확인] 선형 회귀분석의 오차항(잔차)에 대한 기본 가정 중 '오차항들 간에 서로 상관되어 있지 않고 독립적이어야 한다'는 가정을 진단하는 데 가장 적절한 통계량은?",
+      "choices": [
+        "샤피로-윌크 (Shapiro-Wilk) 통계량",
+        "더빈-왓슨 (Durbin-Watson) 통계량",
+        "레빈 (Levene) 통계량",
+        "분산팽창계수 (VIF)"
+      ],
+      "answer": 1,
+      "explanation": "잔차의 '독립성(자기상관 부재)'을 검정하는 통계량은 더빈-왓슨(Durbin-Watson) 통계량입니다. 값이 2에 가까울수록 자기상관이 없고 독립적입니다.",
+      "whyWrong": [
+        "샤피로-윌크는 잔차의 '정규성'을 검정합니다.",
+        "정답",
+        "레빈 통계량은 집단 간 '등분산성'을 검정합니다.",
+        "VIF는 독립변수 간 '다중공선성'을 진단합니다."
+      ],
+      "memorizationPoint": "잔차의 독립성 검정 ➔ 더빈-왓슨(Durbin-Watson, 2에 가까우면 독립)!",
+      "examinerTip": "💡 출제위원 함정: 정규성=Shapiro/Q-Q, 등분산성=Levene, 독립성=Durbin-Watson, 다중공선성=VIF의 진단 도구 매칭을 완벽히 암기해야 합니다."
+    },
+    {
+      "id": "Q_WEAK_305",
+      "subject": 3,
+      "chapter": "회귀 모형 구축 및 다중공선성",
+      "sectionId": "s3-2",
+      "cardId": "c3-1",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 비교] 과적합(Overfitting)을 방지하기 위한 정규화 회귀 모형 중, '손실함수에 가중치 절댓값의 합(L1 규제)을 추가하여 중요도가 낮은 변수의 회귀계수를 완전히 0으로 만들어 변수 선택 효과를 내는 기법'은?",
+      "choices": [
+        "릿지 회귀 (Ridge Regression)",
+        "라쏘 회귀 (Lasso Regression)",
+        "로지스틱 회귀 (Logistic Regression)",
+        "주성분 회귀 (Principal Component Regression)"
+      ],
+      "answer": 1,
+      "explanation": "가중치의 절댓값 합(L1 패널티)을 적용하여 일부 회귀계수를 정확히 0으로 만들어 자동 변수 선택(Feature Selection)을 수행하는 모델은 '라쏘(Lasso) 회귀'입니다.",
+      "whyWrong": [
+        "릿지는 가중치 제곱합(L2 규제)을 적용하여 계수를 0에 가깝게 줄일 뿐 0으로 만들지는 못합니다.",
+        "정답",
+        "로지스틱 회귀는 이진 분류 모델입니다.",
+        "주성분 회귀는 PCA 변환 후 회귀분석을 수행하는 기법입니다."
+      ],
+      "memorizationPoint": "L1 규제 + 계수 0 생성 + 변수 선택 ➔ 라쏘(Lasso)!",
+      "examinerTip": "💡 출제위원 함정: '계수를 0에 가깝게 축소(다중공선성 완화)'는 릿지(L2), '일부 계수를 완전히 0으로 만들어 변수 선택'은 라쏘(L1)입니다."
+    },
+    {
+      "id": "Q_WEAK_306",
+      "subject": 3,
+      "chapter": "의사결정나무 및 분류 모델",
+      "sectionId": "s3-4",
+      "cardId": "c3-4",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 확인] 의사결정나무(Decision Tree)의 분류 알고리즘과 노드 분할 기준(불순도 지표)의 연결이 옳지 않은 것은?",
+      "choices": [
+        "CART (분류 나무) - 지니 계수 (Gini Index)",
+        "CHAID (분류 나무) - 카이제곱 통계량의 유의확률 (p-value)",
+        "C4.5 / C5.0 - 정보이득비 (Information Gain Ratio)",
+        "CHAID (회귀 나무) - 지니 계수 (Gini Index)"
+      ],
+      "answer": 3,
+      "explanation": "CHAID의 회귀나무는 'ANOVA F-통계량(F-검정)'을 노드 분할 기준으로 사용합니다. 지니 계수는 CART 분류나무의 기준입니다.",
+      "whyWrong": [
+        "옳은 연결입니다. CART 분류 = 지니 계수.",
+        "옳은 연결입니다. CHAID 분류 = 카이제곱 통계량.",
+        "옳은 연결입니다. C4.5 = 엔트로피 기반 정보이득비.",
+        "정답 (CHAID 회귀나무는 ANOVA F-통계량을 사용함)"
+      ],
+      "memorizationPoint": "분류: CHAID 카이제곱 / CART 지니 / C4.5 엔트로피(정보이득비)!",
+      "examinerTip": "💡 출제위원 함정: 회귀나무 분할 기준에서 CART는 '분산 감소량', CHAID는 'ANOVA F-통계량'을 사용한다는 점도 킬러 문제로 자주 나옵니다."
+    },
+    {
+      "id": "Q_WEAK_307",
+      "subject": 3,
+      "chapter": "의사결정나무 및 분류 모델",
+      "sectionId": "s3-4",
+      "cardId": "c3-4",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "[개념 비교] 의사결정나무의 과적합(Overfitting)을 방지하기 위한 기법 중 '정지규칙(Stopping Rule)'과 '가지치기(Pruning)'에 대한 설명으로 가장 옳은 것은?",
+      "choices": [
+        "정지규칙은 나무를 끝까지 성장시킨 후 불필요한 마디를 제거하는 기법이다.",
+        "가지치기는 나무가 일정 깊이에 도달하면 더 이상 성장하지 못하도록 사전에 막는 기법이다.",
+        "정지규칙은 최대 깊이나 최소 샘플 수 등을 기준으로 성장을 사전에 중단시키는 것이고, 가지치기는 성장 완료 후 하위 마디를 사후에 제거하는 것이다.",
+        "가지치기를 적용하면 모델의 편향이 급격히 증가하여 훈련 데이터의 정확도가 무조건 100%가 된다."
+      ],
+      "answer": 2,
+      "explanation": "정지규칙은 조건 만족 시 성장을 사전에 멈추는 규칙(Pre-pruning)이고, 가지치기는 다 자란 나무에서 검증 데이터 기반으로 일반화 성능을 저해하는 가지를 사후에 잘라내는 기법(Post-pruning)입니다.",
+      "whyWrong": [
+        "성장 후 제거하는 것은 가지치기입니다.",
+        "사전에 성장을 막는 것은 정지규칙입니다.",
+        "정답",
+        "가지치기는 과적합을 줄여 일반화 성능을 높이며, 훈련 데이터 정확도는 다소 감소합니다."
+      ],
+      "memorizationPoint": "정지규칙 = 사전에 성장 중단 / 가지치기 = 다 자란 후 사후 제거!",
+      "examinerTip": "💡 출제위원 함정: 정지규칙(사전)과 가지치기(사후)의 시점 차이를 뒤바꾸는 문제가 자주 출제됩니다."
+    },
+    {
+      "id": "Q_WEAK_308",
+      "subject": 3,
+      "chapter": "비정형 데이터 분석 및 앙상블·비모수 통계",
+      "sectionId": "s3-12",
+      "cardId": "c5-9",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 비교] 앙상블 학습 기법인 배깅(Bagging)과 부스팅(Boosting)의 핵심 차이점으로 가장 옳은 것은?",
+      "choices": [
+        "배깅은 순차적으로 학습하고, 부스팅은 병렬적으로 독립 학습한다.",
+        "배깅은 모델의 편향(Bias)을 줄이는 데 주력하고, 부스팅은 모델의 분산(Variance)을 줄이는 데 주력한다.",
+        "배깅은 복원추출을 통해 생성된 데이터로 개별 모델을 병렬 학습시켜 분산을 줄이고, 부스팅은 이전 모델의 오차를 반영하여 순차 학습함으로써 편향을 줄인다.",
+        "배깅의 대표 모델은 XGBoost이고, 부스팅의 대표 모델은 Random Forest이다."
+      ],
+      "answer": 2,
+      "explanation": "배깅(Bagging)은 부트스트랩 병렬 학습으로 분산(Variance)을 감소시키고, 부스팅(Boosting)은 오차 가중치 기반 순차 학습으로 편향(Bias)을 감소시킵니다.",
+      "whyWrong": [
+        "배깅이 병렬 학습, 부스팅이 순차 학습입니다.",
+        "배깅이 분산 감소, 부스팅이 편향 감소입니다.",
+        "정답",
+        "Random Forest가 배깅, XGBoost/LightGBM이 부스팅입니다."
+      ],
+      "memorizationPoint": "배깅 = 병렬(Parallel) & 분산 감소 / 부스팅 = 순차(Sequential) & 편향 감소!",
+      "examinerTip": "💡 출제위원 함정: 배깅(병렬/분산)과 부스팅(순차/편향)의 매칭을 서로 엇갈리게 만든 선지가 단골 오답 선지입니다."
+    },
+    {
+      "id": "Q_WEAK_309",
+      "subject": 3,
+      "chapter": "비정형 데이터 분석 및 앙상블·비모수 통계",
+      "sectionId": "s3-12",
+      "cardId": "c5-9",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 확인] 여러 다양한 기본 분류 모델(Base Models)들의 예측 결과를 새로운 훈련 데이터(Meta Feature)로 구성하여, 이를 상위 메타 모델(Meta Learner)이 다시 학습하여 최종 결과를 도출하는 앙상블 기법은?",
+      "choices": [
+        "하드 보팅 (Hard Voting)",
+        "소프트 보팅 (Soft Voting)",
+        "랜덤 포레스트 (Random Forest)",
+        "스태킹 (Stacking)"
+      ],
+      "answer": 3,
+      "explanation": "개별 모델들의 예측 결과를 새로운 특징(Feature)으로 만들어 메타 모델이 이를 다시 학습하는 방식은 '스태킹(Stacking)' 앙상블 기법입니다.",
+      "whyWrong": [
+        "하드 보팅은 단순히 다수결 투표로 결정합니다.",
+        "소프트 보팅은 확률값들의 평균을 냅니다.",
+        "랜덤 포레스트는 배깅에 특성 무작위 선택을 더한 기법입니다.",
+        "정답"
+      ],
+      "memorizationPoint": "모델들의 예측값을 메타 모델이 다시 학습 ➔ 스태킹(Stacking)!",
+      "examinerTip": "💡 출제위원 함정: 여러 모델의 결과를 단순 투표/평균하면 보팅, 메타 모델을 두어 2단계로 재학습하면 스태킹입니다."
+    },
+    {
+      "id": "Q_WEAK_310",
+      "subject": 3,
+      "chapter": "최신 딥러닝 및 최적화",
+      "sectionId": "s3-13",
+      "cardId": "c3-13-2",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 비교] 자연어 처리를 위한 트랜스포머 기반 언어 모델인 BERT와 GPT에 대한 설명으로 옳은 것은?",
+      "choices": [
+        "BERT는 트랜스포머의 디코더(Decoder) 구조를 사용하고, GPT는 인코더(Encoder) 구조를 사용한다.",
+        "BERT는 양방향(Bidirectional) 문맥을 참조하여 문장 분류나 빈칸 채우기(MLM)에 강하고, GPT는 단방향(Autoregressive)으로 다음 단어를 생성하는 데 강하다.",
+        "BERT는 텍스트 생성 작업에 최적화되어 있고, GPT는 문장 이해 및 개체명 인식에만 사용된다.",
+        "두 모델 모두 RNN의 순차적 은닉 상태 전달 방식을 기본 구조로 채택하고 있다."
+      ],
+      "answer": 1,
+      "explanation": "BERT는 트랜스포머 인코더 기반으로 양방향 문맥을 학습(MLM)하여 자연어 이해(NLU)에 최적화되어 있으며, GPT는 디코더 기반으로 단방향 다음 토큰 예측을 통해 자연어 생성(NLG)에 최적화되어 있습니다.",
+      "whyWrong": [
+        "BERT가 인코더, GPT가 디코더 기반입니다.",
+        "정답",
+        "BERT가 이해(NLU), GPT가 생성(NLG)에 특화되어 있습니다.",
+        "두 모델 모두 RNN이 아닌 셀프 어텐션(Self-Attention) 기반의 트랜스포머 구조입니다."
+      ],
+      "memorizationPoint": "BERT = 인코더 + 양방향 + 빈칸(이해) / GPT = 디코더 + 단방향 + 다음단어(생성)!",
+      "examinerTip": "💡 출제위원 함정: BERT(양방향/인코더) vs GPT(단방향/디코더)의 구조적 차이는 최근 빅분기 3·4과목 신유형의 대표 킬러입니다."
+    },
+    {
+      "id": "Q_WEAK_401",
+      "subject": 4,
+      "chapter": "분석모형 평가 및 진단",
+      "sectionId": "s4-1",
+      "cardId": "c4-2",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 비교] 군집 분석의 성능 평가 및 군집 수 결정 기법인 엘보우 기법(Elbow Method)과 실루엣 계수(Silhouette Coefficient)에 대한 설명으로 옳은 것은?",
+      "choices": [
+        "엘보우 기법은 군집 간 분리도를 측정하고, 실루엣 계수는 오차제곱합의 감소율만 본다.",
+        "엘보우 기법은 군집 수 k 증가에 따른 군집 내 오차제곱합(SSE)의 감소 폭이 둔화되는 지점으로 군집 수를 결정하고, 실루엣 계수는 군집 내 응집도와 군집 간 분리도를 종합 평가한다.",
+        "실루엣 계수는 0에서 1 사이의 값만 가지며, 0.1 이하일 때 군집화가 완벽하다고 판단한다.",
+        "엘보우 기법에서 SSE 그래프의 기울기가 가장 가파르게 떨어지는 지점이 최적의 군집 수이다."
+      ],
+      "answer": 1,
+      "explanation": "엘보우 기법은 군집 내 오차제곱합(SSE/WCSS)이 꺾이는 팔꿈치 지점으로 최적의 k를 결정하며, 실루엣 계수는 군집 내 응집도 a(i)와 인접 군집 분리도 b(i)를 이용해 -1 ~ +1 사이에서 군집 품질을 평가합니다.",
+      "whyWrong": [
+        "반대로 설명되었습니다. 엘보우가 오차제곱합, 실루엣이 응집도/분리도를 봅니다.",
+        "정답",
+        "실루엣 계수의 범위는 -1 ~ +1이며, 1에 가까울수록(0.5 이상 권장) 우수합니다.",
+        "가장 가파른 지점이 아니라 감소 폭이 완만해지며 꺾이는 '팔꿈치(Elbow)' 지점이 최적 k입니다."
+      ],
+      "memorizationPoint": "Elbow = 군집 수 k 결정(SSE 꺾임) / Silhouette = 군집 품질 평가(-1~+1)!",
+      "examinerTip": "💡 출제위원 함정: 'Elbow는 군집 품질 평가 지표이고 Silhouette은 k를 결정하지 못한다'와 같이 역할을 혼동하게 만드는 보기에 주의하세요."
+    },
+    {
+      "id": "Q_WEAK_402",
+      "subject": 4,
+      "chapter": "분석모형 평가 및 진단",
+      "sectionId": "s4-1",
+      "cardId": "c4-1",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "[상황 판단] 희귀 질환(암) 환자를 진단하는 AI 모델을 구축하였다. 실제 암에 걸린 환자를 놓치지 않고 최대한 양성으로 찾아내는 것이 가장 중요한 목표일 때, 모형 평가 시 최우선으로 고려해야 하는 평가지표는?",
+      "choices": [
+        "정확도 (Accuracy)",
+        "정밀도 (Precision)",
+        "재현율 (Recall / Sensitivity)",
+        "특이도 (Specificity)"
+      ],
+      "answer": 2,
+      "explanation": "실제 Positive(암 환자) 중 모델이 올바르게 Positive로 감지한 비율은 '재현율(Recall / 민감도)'입니다. 암 환자를 음성으로 오판(FN)하여 치료 기회를 놓치는 비용이 치명적일 때는 재현율이 최우선입니다.",
+      "whyWrong": [
+        "데이터 불균형 상황에서 정확도는 다수 클래스만 맞춰도 높게 왜곡됩니다.",
+        "정밀도는 모델이 양성이라 한 것 중 진짜 양성 비율로, 스팸 메일 차단 등에 적합합니다.",
+        "정답",
+        "특이도는 실제 음성(정상인) 중 음성으로 예측한 비율입니다."
+      ],
+      "memorizationPoint": "암 진단 누락 방지 / 사기 탐지 ➔ 재현율(Recall, FN 최소화) 최우선!",
+      "examinerTip": "💡 출제위원 함정: 스팸 메일(오탐 시 중요한 메일 유실) = 정밀도(Precision) 중시 / 암 진단 및 금융 사기(미탐 시 치명적) = 재현율(Recall) 중시입니다."
+    },
+    {
+      "id": "Q_WEAK_207",
+      "subject": 2,
+      "chapter": "분석 변수 처리",
+      "sectionId": "s2-3",
+      "cardId": "c2-12",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "[개념 비교] 주성분 분석(PCA)과 요인 분석(Factor Analysis)의 공통점과 차이점으로 옳지 않은 것은?",
+      "choices": [
+        "두 기법 모두 수많은 변수를 소수의 새로운 변수로 축소하는 기법이다.",
+        "PCA는 원래 변수들의 전체 분산(총변량)을 최대한 보존하는 선형 결합 축을 찾는다.",
+        "요인 분석은 관측된 변수들 간의 상관관계를 바탕으로 배후에 존재하는 잠재 요인(Latent Factor)을 도출한다.",
+        "PCA는 변수들 간의 공통분산만을 고려하지만, 요인 분석은 고유분산까지 포함한 전체 분산을 모두 보존한다."
+      ],
+      "answer": 3,
+      "explanation": "PCA는 원래 변수들의 '전체 분산(총분산 = 공통분산 + 고유분산 + 오차분산)'을 최대한 보존하는 축을 찾는 반면, 요인 분석은 변수들 간의 상관성을 유발하는 '공통분산(Common Variance)'만을 대상으로 잠재 요인을 추출합니다. (보기 ④는 두 개념의 분산 고려 대상이 정반대로 서술되었습니다)",
+      "whyWrong": [
+        "옳은 설명입니다. 둘 다 차원 축소 기법입니다.",
+        "옳은 설명입니다. PCA의 목적은 총분산 보존입니다.",
+        "옳은 설명입니다. 요인 분석은 잠재 요인 추출이 목적입니다.",
+        "정답 (PCA가 전체 분산, 요인 분석이 공통분산만을 분석 대상으로 함)"
+      ],
+      "memorizationPoint": "PCA = 전체 분산 보존 (주성분 축) / 요인분석 = 공통분산 기반 (잠재요인)!",
+      "examinerTip": "💡 출제위원 함정: 'PCA가 잠재 요인을 찾는다'거나 '요인분석이 전체 분산을 보존한다'는 서술은 시험의 1급 함정입니다."
+    },
+    {
+      "id": "Q_WEAK_106",
+      "subject": 1,
+      "chapter": "데이터분석 계획",
+      "sectionId": "s3-10",
+      "cardId": "c3-12",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[상황 판단] 어떤 정상 시계열 데이터의 표본 자기상관함수(ACF)를 계산한 결과 시차 1에서만 유의미한 양의 상관을 보이고 시차 2 이후 급격히 0으로 절단(Cut-off)되었으며, 편자기상관함수(PACF)는 시차가 증가함에 따라 지수적으로 감소하는 패턴을 보였다. 가장 적합한 시계열 모형은?",
+      "choices": [
+        "AR(1) 모형",
+        "MA(1) 모형",
+        "ARMA(1, 1) 모형",
+        "ARIMA(1, 1, 0) 모형"
+      ],
+      "answer": 1,
+      "explanation": "1) 자기상관함수(ACF)가 '시차 1 이후 절단(0으로 급감)'\n2) 편자기상관함수(PACF)가 '지수적 감소(점진적 감쇠)'\n➔ ACF가 q차에서 절단되는 모형은 '이동평균 모형 MA(q)'이므로, 시차 1 절단인 **MA(1)** 모형이 적합합니다.",
+      "whyWrong": [
+        "AR(1)은 PACF가 시차 1 이후 절단되고 ACF가 지수적으로 감소합니다.",
+        "정답",
+        "ARMA(1,1)은 ACF와 PACF가 모두 점진적으로 감쇠합니다.",
+        "ARIMA(1,1,0)은 1차 차분이 필요한 비정상 시계열에 대한 AR(1) 모형입니다."
+      ],
+      "memorizationPoint": "ACF q차 절단 ➔ MA(q) / PACF p차 절단 ➔ AR(p)!",
+      "examinerTip": "💡 출제위원 함정: 'MA ➔ ACF 절단', 'AR ➔ PACF 절단' 공식을 거꾸로 외우지 않도록 AR-PAC(알팍), MA-AC(마악)으로 확실하게 묶어두세요."
+    },
+    {
+      "id": "Q_WEAK_107",
+      "subject": 1,
+      "chapter": "데이터분석 계획",
+      "sectionId": "s3-10",
+      "cardId": "c3-12",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 확인] ARIMA(p, d, q) 모형에 대한 설명 중 매개변수 d의 의미로 가장 옳은 것은?",
+      "choices": [
+        "자기회귀(AR) 모형의 시차 차수",
+        "이동평균(MA) 모형의 시차 차수",
+        "비정상 시계열을 정상 시계열로 변환하기 위해 적용한 차분(Differencing) 횟수",
+        "계절성(Seasonality) 주기의 길이"
+      ],
+      "answer": 2,
+      "explanation": "ARIMA(p, d, q)에서:\n- p: 자기회귀(AR) 차수\n- d: 정상화에 필요한 차분(Differencing) 횟수\n- q: 이동평균(MA) 차수\n따라서 d는 차분 횟수를 의미합니다.",
+      "whyWrong": [
+        "AR 차수는 p입니다.",
+        "MA 차수는 q입니다.",
+        "정답",
+        "계절성 주기는 계절 ARIMA(SARIMA)의 s 매개변수입니다."
+      ],
+      "memorizationPoint": "ARIMA(p, d, q) ➔ p: AR차수, d: 차분횟수, q: MA차수!",
+      "examinerTip": "💡 출제위원 함정: d=0이면 ARIMA(p,0,q)는 정상 시계열을 다루는 ARMA(p,q) 모형과 완전히 같아집니다."
+    },
+    {
+      "id": "Q_WEAK_311",
+      "subject": 3,
+      "chapter": "통계적 분석 / 모델링",
+      "sectionId": "s2-6",
+      "cardId": "c2-22",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[상황 판단] 정규분포를 따르는 모집단에서 표본의 크기가 n = 15(소표본)이고 모분산(σ²)을 알지 못할 때, 모평균 μ에 대한 가설검정을 수행하고자 한다. 어떤 통계적 검정 방법을 사용해야 하는가?",
+      "choices": [
+        "Z-검정 (Z-Test)",
+        "t-검정 (t-Test, 자유도 df = 14)",
+        "카이제곱 적합도 검정 (Chi-Square Test)",
+        "F-검정 (F-Test)"
+      ],
+      "answer": 1,
+      "explanation": "모분산(σ²)을 모르고 소표본(n < 30)이며 정규분포를 따를 때는 표본표준편차 s를 사용하는 't-검정(자유도 df = n - 1 = 14)'을 수행해야 합니다.",
+      "whyWrong": [
+        "Z-검정은 모분산(σ²)을 알고 있거나 대표본(n ≥ 30)일 때 사용합니다.",
+        "정답",
+        "카이제곱 적합도 검정은 범주형 변수의 빈도 적합도를 검정합니다.",
+        "F-검정은 두 집단의 분산 비교나 분산분석(ANOVA)에 쓰입니다."
+      ],
+      "memorizationPoint": "모분산 모름 + 소표본 ➔ t-검정 (자유도 df = n - 1)!",
+      "examinerTip": "💡 출제위원 함정: 모분산을 알면 Z-검정, 모르면 t-검정입니다. 이때 t분포의 자유도는 반드시 n - 1 입니다."
+    },
+    {
+      "id": "Q_WEAK_312",
+      "subject": 3,
+      "chapter": "회귀 모형 구축 및 다중공선성",
+      "sectionId": "s3-2",
+      "cardId": "c3-1",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "[개념 확인] 다중회귀분석에서 설명변수 간의 다중공선성(Multicollinearity)을 진단하는 지표 중, 결정계수 R_j²와의 관계 및 판정 기준으로 옳은 것은?",
+      "choices": [
+        "VIF = 1 - R_j² 이며, VIF가 0에 가까울수록 다중공선성이 심각하다.",
+        "VIF = 1 / (1 - R_j²) 이며, 일반적으로 VIF가 10 이상이면 심각한 다중공선성이 존재한다고 판단한다.",
+        "공차한계(Tolerance) = 1 / (1 - R_j²) 이며, 공차한계가 10 이상일 때 다중공선성이 의심된다.",
+        "VIF는 항상 0과 1 사이의 값만 가지며, 0.5 이상일 때 다중공선성이 있다고 본다."
+      ],
+      "answer": 1,
+      "explanation": "분산팽창계수(VIF)는 VIF = 1 / (1 - R_j²) = 1 / Tolerance 로 정의되며, 일반적으로 VIF ≥ 10 (또는 공차한계 Tolerance < 0.1)일 때 심각한 다중공선성이 존재한다고 진단합니다.",
+      "whyWrong": [
+        "1 - R_j²는 공차한계(Tolerance)입니다.",
+        "정답",
+        "공차한계는 1 - R_j² 이며 0.1 미만일 때 문제가 됩니다.",
+        "VIF는 1 이상의 값을 가집니다."
+      ],
+      "memorizationPoint": "VIF = 1 / (1 - R²) ➔ VIF ≥ 10 이면 다중공선성 심각!",
+      "examinerTip": "💡 출제위원 함정: VIF와 Tolerance(공차한계)는 서로 역수 관계(VIF = 1 / Tolerance)입니다."
+    },
+    {
+      "id": "Q_WEAK_403",
+      "subject": 4,
+      "chapter": "분석모형 평가 및 진단",
+      "sectionId": "s4-1",
+      "cardId": "c4-1",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 확인] 이진 분류 모델의 성능을 시각화하는 ROC(Receiver Operating Characteristic) 곡선에 대한 설명으로 옳은 것은?",
+      "choices": [
+        "가로축(X축)은 민감도(TPR)이고, 세로축(Y축)은 특이도(TNR)이다.",
+        "가로축(X축)은 1 - 특이도(FPR, 위양성률)이고, 세로축(Y축)은 재현율/민감도(TPR, 진양성률)이다.",
+        "완전 무작위 추측(Random Guess) 모델의 ROC 곡선 아래 면적(AUC)은 0이다.",
+        "ROC 곡선이 우하향 직선에 가까울수록 모델의 성능이 우수함을 의미한다."
+      ],
+      "answer": 1,
+      "explanation": "ROC 곡선은 가로축에 1 - 특이도(FPR = FP / (TN + FP)), 세로축에 재현율(TPR = TP / (TP + FN))을 배치하여 그린 곡선입니다. 좌상단(0, 1)에 바짝 붙을수록 우수하며 AUC 면적이 1에 가까워집니다.",
+      "whyWrong": [
+        "X축은 1 - 특이도(FPR), Y축은 민감도(TPR)입니다.",
+        "정답",
+        "무작위 추측 모델의 AUC는 0.5입니다.",
+        "좌상향으로 볼록하여 좌측 상단 모서리에 가까울수록 우수합니다."
+      ],
+      "memorizationPoint": "ROC Curve ➔ X축: 1 - 특이도(FPR) / Y축: 재현율(TPR), AUC=1 완벽!",
+      "examinerTip": "💡 출제위원 함정: 무작위 동전 던지기의 AUC = 0.5, 완벽한 분류기 = 1.0 입니다. 0이 아닙니다."
+    },
+    {
+      "id": "Q_WEAK_404",
+      "subject": 4,
+      "chapter": "분석모형 평가 및 진단",
+      "sectionId": "s4-1",
+      "cardId": "c4-1",
+      "difficulty": "hard",
+      "questionType": "multiple-choice",
+      "question": "[상황 판단] 금융 거래 이상 감지(Fraud Detection) 데이터셋에서 사기 거래(Positive) 비율이 전체의 0.1%에 불과한 극단적인 클래스 불균형이 존재한다. 이때 ROC-AUC 지표의 맹점을 극복하고 소수 클래스에 대한 모델의 성능을 가장 정밀하게 평가할 수 있는 곡선 지표는?",
+      "choices": [
+        "ROC 곡선 (ROC Curve)",
+        "정밀도-재현율 곡선 (PR Curve / Precision-Recall Curve)",
+        "누적 반응 곡선 (Cumulative Response Curve)",
+        "학습 곡선 (Learning Curve)"
+      ],
+      "answer": 1,
+      "explanation": "Positive 샘플이 극도로 적은 불균형 데이터에서는 Negative(정상) 샘플이 너무 많아 FPR이 왜곡되어 ROC-AUC가 과대평가될 수 있습니다. 이때는 음성 샘플의 영향을 배제하고 정밀도와 재현율 간의 상충관계를 보여주는 'PR 곡선(Precision-Recall Curve)' 및 PR-AUC를 사용하는 것이 훨씬 효과적입니다.",
+      "whyWrong": [
+        "ROC 곡선은 다수 클래스(TN)의 영향으로 불균형 데이터에서 성능이 과대평가되는 한계가 있습니다.",
+        "정답",
+        "누적 반응 곡선은 마케팅 리프트 분석에 주로 쓰입니다.",
+        "학습 곡선은 훈련/검증 데이터 크기에 따른 과적합 여부를 봅니다."
+      ],
+      "memorizationPoint": "극단적 불균형 데이터 ➔ ROC보다 PR Curve(정밀도-재현율 곡선) 사용!",
+      "examinerTip": "💡 출제위원 함정: '불균형 데이터에서도 항상 ROC 곡선이 PR 곡선보다 우수하다'는 보기는 대표적인 오답입니다."
+    },
+    {
+      "id": "Q_WEAK_405",
+      "subject": 4,
+      "chapter": "분석모형 개선",
+      "sectionId": "s5-1",
+      "cardId": "c5-5",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 비교] 설명 가능한 인공지능(XAI) 기법 중 SHAP과 LIME에 대한 설명으로 가장 옳은 것은?",
+      "choices": [
+        "LIME은 게임이론의 샤플리 값(Shapley Value)에 기반하여 전역적 공정성을 보장한다.",
+        "SHAP은 게임이론(Shapley Value)에 기반하여 각 특성의 기여도를 산출하며 효율성, 대칭성 등의 공리적 특성을 만족한다.",
+        "LIME은 딥러닝 모델에만 적용 가능하고 트리 모델에는 적용할 수 없다.",
+        "SHAP은 오직 국소적(Local) 설명만 제공하며 전역적(Global) 피처 중요도는 제공하지 못한다."
+      ],
+      "answer": 1,
+      "explanation": "SHAP(SHapley Additive exPlanations)은 게임이론의 '샤플리 값(Shapley Value)'을 기반으로 하여 각 입력 변수의 기여도를 수학적 공리(효율성, 대칭성, 더미, 가법성)를 만족하며 계산합니다.",
+      "whyWrong": [
+        "샤플리 값 기반은 SHAP입니다.",
+        "정답",
+        "LIME은 모델 불가지론(Model-Agnostic)으로 어떤 블랙박스 모델에도 적용 가능합니다.",
+        "SHAP은 개별 데이터에 대한 국소적 설명과 전체 데이터셋에 대한 전역적 중요도를 모두 제공합니다."
+      ],
+      "memorizationPoint": "SHAP = 게임이론 샤플리 값(Shapley Value) 기반 기여도!",
+      "examinerTip": "💡 출제위원 함정: LIME은 '국소적 대리 모델(Local Surrogate)'을 적합하는 방식이고, SHAP은 '게임이론 샤플리 값' 기반입니다."
+    },
+    {
+      "id": "Q_WEAK_406",
+      "subject": 3,
+      "chapter": "분석모형 설계",
+      "sectionId": "s4-1",
+      "cardId": "c4-992",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 비교] 데이터셋 크기가 N인 표본에 대해 LOOCV(Leave-One-Out Cross Validation)와 K-Fold 교차검증을 비교한 설명으로 옳은 것은?",
+      "choices": [
+        "LOOCV는 K = N인 K-Fold 교차검증의 특수한 경우로, 1개의 관측치만 검증 데이터로 사용하고 N번 반복한다.",
+        "LOOCV는 K-Fold에 비해 모델 학습 횟수가 적어 대용량 데이터에 가장 빠르게 수행된다.",
+        "K-Fold 교차검증은 항상 데이터셋을 복원추출하여 분할한다.",
+        "LOOCV는 검증 데이터셋의 크기가 크므로 추정치의 분산이 매우 작다."
+      ],
+      "answer": 0,
+      "explanation": "LOOCV는 전체 N개의 데이터 중 단 1개만 검증용으로 빼두고 나머지 N-1개로 학습하는 과정을 N번 반복하는 기법으로, K = N인 K-Fold 교차검증과 동일합니다. 편향은 극소화되지만 N번 학습해야 하므로 대용량 데이터에서는 연산 비용이 매우 큽니다.",
+      "whyWrong": [
+        "정답",
+        "LOOCV는 모델을 N번이나 학습시켜야 하므로 대용량 데이터에서 극도로 느립니다.",
+        "K-Fold는 비복원 분할을 수행합니다. 복원추출은 부트스트랩입니다.",
+        "LOOCV는 검증 데이터 크기가 1개에 불과합니다."
+      ],
+      "memorizationPoint": "LOOCV = K-Fold에서 K = N인 경우 (1개씩 N번 검증, 연산량 큼)!",
+      "examinerTip": "💡 출제위원 함정: LOOCV는 '편향(Bias)은 매우 작지만', '모델 학습 횟수가 N회로 연산 비용이 막대하다'는 점을 묻는 문제가 핵심입니다."
+    },
+    {
+      "id": "Q_WEAK_313",
+      "subject": 3,
+      "chapter": "인공신경망 및 다층 퍼셉트론",
+      "sectionId": "s3-5",
+      "cardId": "c3-13-2",
+      "difficulty": "medium",
+      "questionType": "multiple-choice",
+      "question": "[개념 확인] 딥러닝 역전파 최적화 알고리즘 중, '이전 기울기의 관성(Momentum)을 유지하는 1차 모멘텀과 기울기 제곱의 지수이동평균을 이용해 학습률을 조절하는 RMSProp의 2차 모멘텀을 결합한 최적화 알고리즘'은?",
+      "choices": [
+        "AdaGrad",
+        "Adam (Adaptive Moment Estimation)",
+        "NAG (Nesterov Accelerated Gradient)",
+        "경사하강법 (Batch Gradient Descent)"
+      ],
+      "answer": 1,
+      "explanation": "Momentum(방향성/관성)과 RMSProp(적응적 보폭 조절)의 장점을 결합하여 가장 널리 사용되는 표준 옵티마이저는 'Adam(Adaptive Moment Estimation)'입니다.",
+      "whyWrong": [
+        "AdaGrad는 과거의 모든 기울기 제곱을 누적하여 학습 후반부에 학습이 멈추는 한계가 있습니다.",
+        "정답",
+        "NAG는 모멘텀 방향으로 미리 이동한 지점에서 기울기를 계산하는 기법입니다.",
+        "기본 경사하강법은 고정된 학습률을 사용합니다."
+      ],
+      "memorizationPoint": "Adam = Momentum(관성 방향) + RMSProp(적응적 보폭) 결합!",
+      "examinerTip": "💡 출제위원 함정: 옵티마이저 발전 계보: SGD ➔ Momentum ➔ AdaGrad ➔ RMSProp ➔ Adam 의 순서와 핵심 원리를 매칭해야 합니다."
+    },
+    {
+      "id": "Q_WEAK_108",
+      "subject": 1,
+      "chapter": "데이터분석 계획",
+      "sectionId": "s2-2",
+      "cardId": "c2-10",
+      "difficulty": "easy",
+      "questionType": "multiple-choice",
+      "question": "[개념 확인] 데이터에 극단적인 이상치(Outlier)가 포함되어 있을 때, 이상치에 영향을 가장 크게 받아 왜곡되는 통계량과 가장 영향을 적게 받는 강건한(Robust) 통계량을 올바르게 짝지은 것은?",
+      "choices": [
+        "영향을 크게 받음: 중앙값(Median) - 영향을 적게 받음: 산술평균(Mean)",
+        "영향을 크게 받음: 산술평균(Mean) - 영향을 적게 받음: 중앙값(Median) 및 사분위범위(IQR)",
+        "영향을 크게 받음: 사분위범위(IQR) - 영향을 적게 받음: 표준편차(Standard Deviation)",
+        "영향을 크게 받음: 최빈값(Mode) - 영향을 적게 받음: 분산(Variance)"
+      ],
+      "answer": 1,
+      "explanation": "산술평균과 표준편차/분산은 모든 데이터 값을 더해 계산하므로 이상치에 매우 취약하여 크게 왜곡됩니다. 반면, 순위 기반의 '중앙값(Median)'과 '사분위범위(IQR = Q3 - Q1)'는 이상치에 영향을 거의 받지 않는 강건한(Robust) 통계량입니다.",
+      "whyWrong": [
+        "산술평균이 영향을 크게 받고 중앙값이 영향을 적게 받습니다.",
+        "정답",
+        "표준편차가 영향을 크게 받고 IQR은 영향을 적게 받습니다.",
+        "분산이 영향을 크게 받습니다."
+      ],
+      "memorizationPoint": "이상치에 취약: 평균·표준편차 / 이상치에 로버스트(강건): 중앙값·IQR!",
+      "examinerTip": "💡 출제위원 함정: IQR = Q3 - Q1 이며 이상치 판정 경계는 [Q1 - 1.5×IQR, Q3 + 1.5×IQR] 입니다."
     }
   ]
 }

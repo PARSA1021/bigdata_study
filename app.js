@@ -919,9 +919,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function applyQuizFilter() {
+    const kw = quizFilter.keyword ? quizFilter.keyword.toLowerCase() : "";
+    const reqSub = quizFilter.subject && quizFilter.subject !== "all" ? parseInt(quizFilter.subject, 10) : null;
+
     workingQuizzes = allQuizzes.filter(q => {
       if (quizFilter.conceptCardId && q.cardId !== quizFilter.conceptCardId) return false;
-      if (quizFilter.subject && quizFilter.subject !== "all" && q.subject !== parseInt(quizFilter.subject, 10)) return false;
+      if (reqSub !== null && q.subject !== reqSub) return false;
 
       // Difficulty
       if (quizFilter.difficulty && quizFilter.difficulty !== "all") {
@@ -932,38 +935,35 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // Importance
-      if (quizFilter.importance && quizFilter.importance !== "all" && getImportanceGrade(q) !== quizFilter.importance) return false;
+      // Importance (Cached)
+      if (quizFilter.importance && quizFilter.importance !== "all" && q._importance !== quizFilter.importance) return false;
 
-      // Round Filter (12, 11, 10, 9, 8, 4, practice, mock)
+      // Round Filter (Cached)
       if (quizFilter.round && quizFilter.round !== "all") {
-        const qRound = getQuestionRound(q);
         if (quizFilter.round === "4") {
-          if (qRound !== "4" && qRound !== "5" && qRound !== "6" && qRound !== "7") return false;
+          if (q._round !== "4" && q._round !== "5" && q._round !== "6" && q._round !== "7") return false;
         } else {
-          if (qRound !== quizFilter.round) return false;
+          if (q._round !== quizFilter.round) return false;
         }
       }
 
-      // Type Filter
+      // Type Filter (Cached)
       if (quizFilter.type && quizFilter.type !== "all") {
-        if (quizFilter.type === "calc" && !isCalcQuestion(q)) return false;
-        if (quizFilter.type === "gradeA" && getImportanceGrade(q) !== "A") return false;
+        if (quizFilter.type === "calc" && !q._isCalc) return false;
+        if (quizFilter.type === "gradeA" && q._importance !== "A") return false;
         if (quizFilter.type === "bookmark" && !bookmarks.has(q.id)) return false;
       }
 
-      if (quizFilter.calcOnly && !isCalcQuestion(q)) return false;
+      if (quizFilter.calcOnly && !q._isCalc) return false;
       if (quizFilter.bookmarkedOnly && !bookmarks.has(q.id)) return false;
-      if (quizFilter.is12thOnly && getQuestionRound(q) !== "12") return false;
-      if (quizFilter.is11thOnly && getQuestionRound(q) !== "11") return false;
-      if (quizFilter.is10thOnly && getQuestionRound(q) !== "10") return false;
-      if (quizFilter.tag && quizFilter.tag !== "all" && !q.question.includes(`[${quizFilter.tag}]`)) return false;
+      if (quizFilter.is12thOnly && q._round !== "12") return false;
+      if (quizFilter.is11thOnly && q._round !== "11") return false;
+      if (quizFilter.is10thOnly && q._round !== "10") return false;
+      if (quizFilter.tag && quizFilter.tag !== "all" && !q.question.includes("[" + quizFilter.tag + "]")) return false;
 
-      if (quizFilter.keyword) {
-        const kw = quizFilter.keyword.toLowerCase();
-        const text = (q.question + " " + (q.explanation || "") + " " + (q.chapter || "") + " " + (q.choices || []).join(" ")).toLowerCase();
-        if (!text.includes(kw)) return false;
-      }
+      // Search Keyword (Cached lowercase string search - 0ms instant)
+      if (kw && q._searchStr && !q._searchStr.includes(kw)) return false;
+
       return true;
     });
   }
@@ -2027,6 +2027,7 @@ document.addEventListener("DOMContentLoaded", () => {
       noteData.sections.forEach(sec => {
         if (sec.cards) {
           sec.cards.forEach(card => {
+            card._searchStr = ((card.title || "") + " " + (card.content || "")).toLowerCase();
             cardMap.set(card.id, card);
           });
         }
@@ -2034,6 +2035,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     allQuizzes.forEach(q => {
+      // ⚡ 고성능 최적화: 매 필터/검색 시 30,000+ 정규식/문자열 할당 제거를 위한 사전 캐싱
+      q._round = getQuestionRound(q);
+      q._isCalc = isCalcQuestion(q);
+      q._importance = getImportanceGrade(q);
+      q._searchStr = ((q.question || "") + " " + (q.explanation || "") + " " + (q.chapter || "") + " " + (q.choices || []).join(" ")).toLowerCase();
+
       if (q.cardId) {
         if (!cardToQuizMap.has(q.cardId)) cardToQuizMap.set(q.cardId, []);
         cardToQuizMap.get(q.cardId).push(q);
@@ -2680,7 +2687,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupPracticeHeaderEvents();
 
     // Notes Search with Debounce
-    const debouncedNotesSearch = debounce((val) => handleNotesSearch(val), 120);
+    const debouncedNotesSearch = debounce((val) => handleNotesSearch(val), 180);
     if (searchInput) {
       searchInput.addEventListener("input", e => {
         debouncedNotesSearch(e.target.value);
@@ -3028,7 +3035,7 @@ document.addEventListener("DOMContentLoaded", () => {
       updateMatchCount();
     };
 
-    const debouncedQuizSearch = debounce(val => executeSearch(val), 150);
+    const debouncedQuizSearch = debounce(val => executeSearch(val), 180);
 
     if (kwInput) {
       kwInput.addEventListener("input", e => debouncedQuizSearch(e.target.value));
@@ -3214,7 +3221,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const inlineSearch = document.getElementById("notesInlineSearchInput");
     const clearInlineSearch = document.getElementById("clearNotesInlineSearch");
     if (inlineSearch) {
-      const debouncedInline = debounce(val => handleNotesSearch(val), 100);
+      const debouncedInline = debounce(val => handleNotesSearch(val), 180);
       inlineSearch.addEventListener("input", e => debouncedInline(e.target.value));
     }
     if (clearInlineSearch && inlineSearch) {
@@ -3814,17 +3821,20 @@ document.addEventListener("DOMContentLoaded", () => {
     toast.textContent = msg;
     toast.classList.add("show");
     setTimeout(() => {
-      toast.classList.remove("show");
-    }, 2200);
+        toast.classList.remove("show");
+        setTimeout(() => toast.remove(), 250);
+      }, 1800);
   }
 
   function renderMathFormulas(rootEl) {
     if (!rootEl) return;
     if (typeof window.renderMathInElement === "function") {
+      // ⚡ 고속 바이패스: 수식 기호($)가 없는 경우 무거운 전체 DOM 트리 순회를 즉시 스킵
+      if (rootEl.textContent && !rootEl.textContent.includes("$")) return;
       try {
         window.renderMathInElement(rootEl, {
           delimiters: [
-            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: true },
             { left: "$", right: "$", display: false }
           ],
           throwOnError: false
