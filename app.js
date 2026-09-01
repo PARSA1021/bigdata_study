@@ -268,6 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let sprintInterval = null;
   let sprintSeconds = 300;
   let isSprintMode = false;
+  let currentWrongFilter = "all";
 
   const oxTrainerModal = document.getElementById("oxTrainerModal");
   const closeOxModalBtn = document.getElementById("closeOxModalBtn");
@@ -544,7 +545,6 @@ document.addEventListener("DOMContentLoaded", () => {
         qStat.correctStreak = (qStat.correctStreak || 0) + 1;
         if (qStat.correctStreak >= 2) {
           qStat.mastered = true;
-          qStat.wrongCount = 0;
           showToast(`🎉 [오답 졸업!] 2회 연속 정답으로 문제가 완전히 마스터되었습니다!`);
         } else {
           showToast(`👍 [1회 정답!] 1번 더 맞히면 오답노트에서 완전히 '졸업'됩니다! (1/2)`);
@@ -1819,30 +1819,70 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // 13. WRONG NOTES VIEW & MASTER
   // ==========================================
-  function renderWrongNotesView(filter = "all") {
-    if (!wrongListContainer) return;
-
-    const wrongQuizzes = allQuizzes.filter(quiz => {
+  function updateWrongHeaderCounts() {
+    const allTracked = allQuizzes.filter(quiz => {
       const qStat = cumulativeStats.quizzes[quiz.id];
-      return qStat && qStat.wrongCount > 0;
+      return qStat && (qStat.wrongCount > 0 || qStat.hasWrong || qStat.mastered);
     });
 
-    const activeWrong = wrongQuizzes.filter(q => !cumulativeStats.quizzes[q.id].mastered);
-    const mastered = wrongQuizzes.filter(q => cumulativeStats.quizzes[q.id].mastered);
-    const bookmarkedWrong = wrongQuizzes.filter(q => bookmarks.has(q.id));
-    const highRisk = wrongQuizzes.filter(q => cumulativeStats.quizzes[q.id].wrongCount >= 2 && !cumulativeStats.quizzes[q.id].mastered);
+    const activeWrong = allTracked.filter(q => !cumulativeStats.quizzes[q.id]?.mastered);
+    const mastered = allTracked.filter(q => cumulativeStats.quizzes[q.id]?.mastered);
+    const bookmarkedWrong = allTracked.filter(q => bookmarks.has(q.id));
+    const highRisk = activeWrong.filter(q => (cumulativeStats.quizzes[q.id]?.wrongCount || 0) >= 2);
+    const gichulWrong = activeWrong.filter(q => q._isGichul);
+
+    const sub1 = activeWrong.filter(q => q.subject === 1);
+    const sub2 = activeWrong.filter(q => q.subject === 2);
+    const sub3 = activeWrong.filter(q => q.subject === 3);
+    const sub4 = activeWrong.filter(q => q.subject === 4);
 
     if (wrongTotalCount) wrongTotalCount.textContent = activeWrong.length;
     if (wrongMasteredCount) wrongMasteredCount.textContent = mastered.length;
     if (wrongBookmarkCount) wrongBookmarkCount.textContent = bookmarkedWrong.length;
 
-    if (wfAllCount) wfAllCount.textContent = activeWrong.length;
-    if (wfHighCount) wfHighCount.textContent = highRisk.length;
-    if (wfBookCount) wfBookCount.textContent = bookmarkedWrong.length;
+    const wfAllEl = document.getElementById("wfAllCount");
+    const wfGichulEl = document.getElementById("wfGichulCount");
+    const wfHighEl = document.getElementById("wfHighCount");
+    const wfMasteredTabEl = document.getElementById("wfMasteredTabCount");
+    const wfBookEl = document.getElementById("wfBookCount");
+    const wfSub1El = document.getElementById("wfSub1Count");
+    const wfSub2El = document.getElementById("wfSub2Count");
+    const wfSub3El = document.getElementById("wfSub3Count");
+    const wfSub4El = document.getElementById("wfSub4Count");
+
+    if (wfAllEl) wfAllEl.textContent = activeWrong.length;
+    if (wfGichulEl) wfGichulEl.textContent = gichulWrong.length;
+    if (wfHighEl) wfHighEl.textContent = highRisk.length;
+    if (wfMasteredTabEl) wfMasteredTabEl.textContent = mastered.length;
+    if (wfBookEl) wfBookEl.textContent = bookmarkedWrong.length;
+    if (wfSub1El) wfSub1El.textContent = sub1.length;
+    if (wfSub2El) wfSub2El.textContent = sub2.length;
+    if (wfSub3El) wfSub3El.textContent = sub3.length;
+    if (wfSub4El) wfSub4El.textContent = sub4.length;
+  }
+
+  function renderWrongNotesView(filter = "all") {
+    if (!wrongListContainer) return;
+    currentWrongFilter = filter;
+
+    updateWrongHeaderCounts();
+
+    const allTracked = allQuizzes.filter(quiz => {
+      const qStat = cumulativeStats.quizzes[quiz.id];
+      return qStat && (qStat.wrongCount > 0 || qStat.hasWrong || qStat.mastered);
+    });
+
+    const activeWrong = allTracked.filter(q => !cumulativeStats.quizzes[q.id]?.mastered);
+    const mastered = allTracked.filter(q => cumulativeStats.quizzes[q.id]?.mastered);
+    const bookmarkedWrong = allTracked.filter(q => bookmarks.has(q.id));
+    const highRisk = activeWrong.filter(q => (cumulativeStats.quizzes[q.id]?.wrongCount || 0) >= 2);
+    const gichulWrong = activeWrong.filter(q => q._isGichul);
 
     let displayList = [];
     if (filter === "all") displayList = activeWrong;
+    else if (filter === "gichul") displayList = gichulWrong;
     else if (filter === "high") displayList = highRisk;
+    else if (filter === "mastered") displayList = mastered;
     else if (filter === "bookmarks") displayList = bookmarkedWrong;
     else if (filter === "sub1") displayList = activeWrong.filter(q => q.subject === 1);
     else if (filter === "sub2") displayList = activeWrong.filter(q => q.subject === 2);
@@ -1850,38 +1890,73 @@ document.addEventListener("DOMContentLoaded", () => {
     else if (filter === "sub4") displayList = activeWrong.filter(q => q.subject === 4);
 
     if (displayList.length === 0) {
+      let emptyMsg = "해당 조건의 오답 문항이 없습니다. 기출문제를 풀며 실력을 계속 점검해보세요.";
+      let emptyTitle = "오답 탈출 완료!";
+      let emptyIcon = "🎉";
+
+      if (filter === "mastered") {
+        emptyTitle = "마스터 졸업 문항 없음";
+        emptyMsg = "오답 문제를 2회 연속 정답으로 맞히면 '마스터 완료'로 이곳에 기록됩니다.";
+        emptyIcon = "🏆";
+      } else if (filter === "gichul") {
+        emptyTitle = "기출 오답 없음";
+        emptyMsg = "틀린 기출문제가 없습니다. 실전 기출문제를 풀며 실력을 점검해 보세요!";
+        emptyIcon = "👑";
+      } else if (filter === "high") {
+        emptyTitle = "2회 이상 고위험 오답 없음";
+        emptyMsg = "2회 이상 누적된 고위험 오답이 없습니다. 훌륭합니다!";
+        emptyIcon = "🛡️";
+      }
+
       wrongListContainer.innerHTML = `
         <div style="text-align: center; padding: 60px 20px; background: var(--surface); border-radius: var(--radius-lg); border: 1.5px solid var(--line);">
-          <div style="font-size: 40px; margin-bottom: 12px;">🎉</div>
-          <h3 style="font-size: 18px; font-weight: 950; margin-bottom: 8px;">오답 탈출 완료!</h3>
-          <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">
-            해당 조건의 오답 문항이 없습니다. 기출문제를 풀며 실력을 계속 점검해보세요.
+          <div style="font-size: 42px; margin-bottom: 12px;">${emptyIcon}</div>
+          <h3 style="font-size: 18px; font-weight: 950; margin-bottom: 8px;">${emptyTitle}</h3>
+          <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; max-width: 460px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+            ${emptyMsg}
           </p>
-          <button class="button button-brand" data-nav="practice">
-            📝 새로운 기출문제 풀러가기
-          </button>
+          <div style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+            <button class="button button-brand" data-nav="practice">
+              📝 새로운 기출문제 풀러가기 ➔
+            </button>
+          </div>
         </div>
       `;
       return;
     }
 
     let html = "";
-    displayList.forEach((quiz) => {
-      const qStat = cumulativeStats.quizzes[quiz.id] || { wrongCount: 1, mastered: false };
+    displayList.forEach((quiz, idx) => {
+      const qStat = cumulativeStats.quizzes[quiz.id] || { wrongCount: 1, mastered: false, correctStreak: 0 };
       const memo = quizMemos[quiz.id] || "";
+      const isRealGichul = quiz._isGichul || isGichulQuestion(quiz);
+      const isMastered = !!qStat.mastered;
+      const streak = qStat.correctStreak || 0;
+
+      let gichulBadgeHTML = "";
+      if (isRealGichul) {
+        const rLabel = quiz._round === "12" ? "👑 12회 최신 기출" :
+                       quiz._round === "11" ? "👑 11회 실전 기출" :
+                       quiz._round === "10" ? "👑 10회 실전 기출" :
+                       quiz._round === "9" ? "👑 9회 기출 복원" :
+                       quiz._round === "8" ? "👑 8회 기출 복원" :
+                       quiz._round === "4" ? "👑 4회 실전 기출" : "👑 단원별 빈출 기출";
+        gichulBadgeHTML = `<span class="quiz-tag-badge gichul-badge">${rLabel}</span>`;
+      }
 
       html += `
-        <div class="quiz-card" id="wrong-card-${quiz.id}" data-id="${quiz.id}" style="border-left: 5px solid ${qStat.wrongCount >= 2 ? 'var(--danger)' : '#F59E0B'};">
+        <div class="quiz-card wrong-note-card ${isMastered ? 'mastered-card' : ''}" id="wrong-card-${quiz.id}" data-id="${quiz.id}" style="border-left: 5px solid ${isMastered ? 'var(--success)' : (qStat.wrongCount >= 2 ? 'var(--danger)' : '#F59E0B')};">
           <div class="quiz-card-header">
             <div class="quiz-badges-group">
               <span class="quiz-subject-badge">${SUBJECT_NAMES[quiz.subject]}</span>
-              <span class="badge-tag" style="background: ${qStat.wrongCount >= 2 ? 'var(--danger-bg)' : '#FEF3C7'}; color: ${qStat.wrongCount >= 2 ? 'var(--danger)' : '#B45309'}; border:none;">
-                ⚠️ ${qStat.wrongCount}회 오답
+              ${gichulBadgeHTML}
+              <span class="badge-tag" style="background: ${qStat.wrongCount >= 2 ? 'rgba(239, 68, 68, 0.12)' : 'rgba(245, 158, 11, 0.12)'}; color: ${qStat.wrongCount >= 2 ? 'var(--danger)' : '#B45309'}; border:none; font-weight:850;">
+                ⚠️ ${qStat.wrongCount || 1}회 오답
               </span>
-              ${qStat.mastered ? '<span class="badge-tag" style="background:var(--success-bg); color:var(--success); border:none;">✓ 마스터 완료</span>' : ''}
+              ${isMastered ? '<span class="badge-tag" style="background:rgba(52, 199, 89, 0.15); color:var(--success); border:none; font-weight:850;">✓ 2회 연속 정답 (마스터 졸업)</span>' : ''}
             </div>
             <div class="quiz-actions-top">
-              <span class="bookmark-star-btn ${bookmarks.has(quiz.id) ? 'bookmarked' : ''}" data-id="${quiz.id}">
+              <span class="bookmark-star-btn ${bookmarks.has(quiz.id) ? 'bookmarked' : ''}" data-id="${quiz.id}" title="북마크 저장">
                 ${bookmarks.has(quiz.id) ? '★' : '☆'}
               </span>
             </div>
@@ -1890,16 +1965,16 @@ document.addEventListener("DOMContentLoaded", () => {
           <!-- 2-Strike Mastery Status Indicator Bar -->
           <div class="strike-status-box">
             <div class="strike-dot-track">
-              <span class="strike-dot ${qStat.correctStreak >= 1 ? 'filled' : ''}"></span>
-              <span class="strike-dot ${qStat.correctStreak >= 2 ? 'filled' : ''}"></span>
+              <span class="strike-dot ${streak >= 1 ? 'filled' : ''}"></span>
+              <span class="strike-dot ${streak >= 2 || isMastered ? 'filled' : ''}"></span>
             </div>
-            <span class="strike-text ${qStat.mastered ? 'mastered' : (qStat.correctStreak === 1 ? 'half' : '')}">
-              ${qStat.mastered ? '🎉 2회 연속 정답 (마스터 완료!)' : (qStat.correctStreak === 1 ? '🔥 1/2 정답 (1번 더 맞히면 졸업!)' : '⚪ 0/2 (2회 연속 정답 시 마스터 졸업)')}
+            <span class="strike-text ${isMastered ? 'mastered' : (streak === 1 ? 'half' : '')}">
+              ${isMastered ? '🎉 2회 연속 정답 (마스터 완료!)' : (streak === 1 ? '🔥 1/2 정답 (1번 더 맞히면 졸업!)' : '⚪ 0/2 (2회 연속 정답 시 마스터 졸업)')}
             </span>
           </div>
 
           <div class="quiz-question-text">
-            ${formatQuestionText(quiz.question)}
+            ${formatQuestionText(quiz.question, idx + 1)}
           </div>
 
           <div class="quiz-options-list">
@@ -1911,70 +1986,86 @@ document.addEventListener("DOMContentLoaded", () => {
             `).join("")}
           </div>
 
-          <div style="margin-top: 10px; text-align: right;">
-            <button class="button button-sm button-light toggle-wrong-explain-btn" style="font-size: 12px; font-weight: 800; border-radius: var(--radius-pill);">
-              💡 해설 및 출제 트랩 보기
+          <!-- Wrong Card Interactive Action Bar -->
+          <div class="wrong-card-action-bar" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px;">
+            <button class="button button-sm button-light btn-retry-wrong-card" data-id="${quiz.id}" title="선지 선택을 초기화하고 다시 풉니다" style="font-weight: 800; border-radius: var(--radius-pill);">
+              <span>🔄</span> <span>다시 풀기</span>
             </button>
+            <button class="button button-sm button-light toggle-wrong-explain-btn" style="font-weight: 800; border-radius: var(--radius-pill);">
+              <span>💡</span> <span>해설 & 출제 트랩 보기</span>
+            </button>
+            ${quiz.cardId ? `
+              <button class="button button-sm button-light view-concept-btn" data-card="${quiz.cardId}" title="관련 요약노트 보기" style="font-weight: 800; border-radius: var(--radius-pill);">
+                <span>📖</span> <span>핵심요약</span>
+              </button>
+            ` : ""}
+            <button class="button button-sm button-light view-tutor-btn" data-subject="${quiz.subject}" title="1:1 AI 튜터에게 질문하기" style="font-weight: 800; border-radius: var(--radius-pill);">
+              <span>🎯</span> <span>AI 튜터</span>
+            </button>
+            ${isMastered ? `
+              <button class="button button-sm button-light btn-unmaster-wrong" data-id="${quiz.id}" title="오답노트에 다시 담아 복습합니다" style="font-weight: 800; border-radius: var(--radius-pill); color: #B45309;">
+                <span>↩️</span> <span>오답노트 복귀</span>
+              </button>
+            ` : ""}
           </div>
 
-          <div class="quiz-explanation-box" style="display: none; margin-top: 12px;">
+          <!-- Structured Explanation Box -->
+          <div class="quiz-explanation-box" style="display: none; margin-top: 14px;">
             <div class="quiz-explanation-text">
-              ${escapeHTML(quiz.explanation || "")}
+              ${formatExplanationText(quiz.explanation || "")}
             </div>
 
+            ${(quiz.whyWrong && quiz.whyWrong[quiz.answer] && quiz.whyWrong[quiz.answer].trim() !== "") ? `
+              <div class="correct-answer-reason" style="margin-top: 12px; padding: 10px 14px; background: rgba(52, 199, 89, 0.06); border-radius: var(--radius-sm); border: 1px solid rgba(52, 199, 89, 0.3);">
+                <strong>${quiz.answer + 1}번 보기가 정답인 이유:</strong> ${escapeHTML(quiz.whyWrong[quiz.answer])}
+              </div>
+            ` : ""}
+
             ${quiz.memorizationPoint ? `
-              <div class="keypoint-card">
-                <div class="keypoint-card-header">
+              <div class="keypoint-card" style="margin-top: 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--brand); border-radius: var(--radius-sm);">
+                <div class="keypoint-card-header" style="font-weight: 850; font-size: 13px; color: var(--brand); margin-bottom: 4px;">
                   <span>🎯</span> <span>실제 기출 핵심 포인트 & 필수 암기</span>
                 </div>
-                <div class="keypoint-card-body">
+                <div class="keypoint-card-body" style="font-size: 13.5px; line-height: 1.6;">
                   ${escapeHTML(quiz.memorizationPoint)}
                 </div>
               </div>
             ` : ""}
 
             ${quiz.examinerTip ? `
-              <div class="examiner-tip-card">
-                <div class="examiner-tip-header">
+              <div class="examiner-tip-card" style="margin-top: 12px; padding: 12px 16px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid #F59E0B; border-radius: var(--radius-sm);">
+                <div class="examiner-tip-header" style="font-weight: 850; font-size: 13px; color: #D97706; margin-bottom: 4px;">
                   <span>💡</span> <span>출제위원의 비밀 꿀팁 & 함정 탈출법</span>
                 </div>
-                <div class="examiner-tip-body">
+                <div class="examiner-tip-body" style="font-size: 13.5px; line-height: 1.6;">
                   ${escapeHTML(quiz.examinerTip)}
                 </div>
               </div>
             ` : ""}
 
             ${quiz.whyWrong && quiz.whyWrong.length > 0 ? `
-              <div class="trap-breakdown-box">
-                <div class="trap-breakdown-title">
+              <div class="trap-breakdown-box" style="margin-top: 12px;">
+                <div class="trap-breakdown-title" style="font-size: 13px; font-weight: 850; color: var(--danger); margin-bottom: 6px;">
                   ⚠️ 보기별 오답 함정(Trap) 분석
                 </div>
-                <ul class="trap-item-list">
-                  ${quiz.whyWrong.map((why, wIdx) => {
-        if (wIdx === quiz.answer) return "";
-        return `<li><strong>${wIdx + 1}번 보기</strong>: ${escapeHTML(why)}</li>`;
-      }).join("")}
-                </ul>
-              </div>
-            ` : ""}
-
-            ${quiz.cardId ? `
-              <div class="premium-concept-cta">
-                <div class="cta-text">
-                  <span class="cta-icon">💡</span>
-                  <div class="cta-desc">
-                    <strong>관련 핵심 개념 요약노트</strong>
-                    <span>이 문제와 관련된 상세 이론을 확인하고 완벽히 마스터하세요!</span>
-                  </div>
+                <div class="choice-trap-box" style="display: flex; flex-direction: column; gap: 6px;">
+                  ${quiz.choices.map((choiceText, cIdx) => {
+                    const isTargetAns = cIdx === quiz.answer;
+                    const trapDesc = (quiz.optionTraps && quiz.optionTraps[cIdx]) || (quiz.whyWrong && quiz.whyWrong[cIdx]);
+                    return `
+                      <div class="choice-trap-item ${isTargetAns ? 'correct-trap' : 'wrong-trap'}" style="padding: 8px 12px; border-radius: var(--radius-sm); border: 1px solid ${isTargetAns ? 'var(--success)' : 'var(--line-bold)'}; background: ${isTargetAns ? 'rgba(52, 199, 89, 0.05)' : 'var(--paper-subtle)'}; font-size: 12.5px;">
+                        <span style="font-weight: 750; color: ${isTargetAns ? 'var(--success)' : 'var(--text-bold)'};">${cIdx + 1}번 선지: </span>
+                        <span>"${escapeHTML(choiceText)}"</span>
+                        ${trapDesc ? `<div style="margin-top: 2px; color: ${isTargetAns ? 'var(--success)' : 'var(--text-muted)'}; font-size: 12px;">👉 ${escapeHTML(trapDesc)}</div>` : ""}
+                      </div>
+                    `;
+                  }).join("")}
                 </div>
-                <button class="button button-brand view-concept-btn" data-card="${quiz.cardId}">
-                  📖 요약노트 보기 ↗
-                </button>
               </div>
             ` : ""}
 
             ${memo ? `
-              <div style="background: var(--paper); border: 1px dashed var(--line-bold); border-radius: var(--radius-sm); padding: 10px; margin-top: 10px; font-size: 12px; font-weight: 700;">
+              <div style="background: var(--paper); border: 1px dashed var(--line-bold); border-radius: var(--radius-sm); padding: 10px; margin-top: 12px; font-size: 12px; font-weight: 700;">
                 📝 <strong>내 암기 메모:</strong> ${escapeHTML(memo)}
               </div>
             ` : ""}
@@ -1984,6 +2075,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     wrongListContainer.innerHTML = html;
+    renderMathFormulas(wrongListContainer);
   }
 
 

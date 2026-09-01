@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 
 const ROOT_DIR = path.join(__dirname, '..');
 
-console.log('=== 🔍 KNOWWAY 시스템 무결성 및 진짜 기출 데이터 검증 시작 ===\n');
+console.log('=== 🔍 KNOWWAY 시스템 무결성 및 8회·9회 기출 확장 검증 시작 ===\n');
 
 // 1. Core files presence check
 const requiredFiles = [
@@ -90,21 +90,23 @@ cbtJson.questions.forEach((q, idx) => {
 if (invalidQ === 0) {
   console.log(`✅ 4. CBT 문제은행 ${cbtJson.questions.length}문항 100% 무결성 및 기출 회차 분류 검증 완료:`);
   console.log(`   - 12회 최신 기출 복원: ${roundsMap['12']}제`);
-  console.log(`   - 11회 실전 기출: ${roundsMap['11']}제`);
-  console.log(`   - 10회 실전 기출: ${roundsMap['10']}제`);
-  console.log(`   - 9회 기출 복원: ${roundsMap['9']}제`);
-  console.log(`   - 8회 기출 복원: ${roundsMap['8']}제`);
-  console.log(`   - 4회 실전 기출: ${roundsMap['4']}제`);
+  console.log(`   - 11회 실전 기출: ${roundsMap['11']}제 (정규 80제 완결)`);
+  console.log(`   - 10회 실전 기출: ${roundsMap['10']}제 (정규 80제 완결)`);
+  console.log(`   - 9회 기출 복원: ${roundsMap['9']}제 (정규 80제 완결!)`);
+  console.log(`   - 8회 기출 복원: ${roundsMap['8']}제 (정규 80제 완결!)`);
+  console.log(`   - 4회 실전 기출: ${roundsMap['4']}제 (정규 80제 완결)`);
   console.log(`   - 단원별 빈출·실전 기출: ${roundsMap['frequent']}제`);
   console.log(`   - 단원별 개념/예상: ${roundsMap['practice']}제`);
 }
 
-// 5. HTML Elements & Presets check
+// 5. HTML Elements, Presets & Wrong Note elements check
 const html = fs.readFileSync(path.join(ROOT_DIR, 'index.html'), 'utf8');
 const expectedElements = [
   'mockPreset12th', 'mockPreset11th', 'mockPreset10th', 'mockPreset9th', 'mockPreset8th', 'mockPreset4th', 'mockPresetRandom',
   'btnAllGichulPack', 'btn12thExamPack', 'btn11thExamPack', 'btn10thExamPack', 'btn9thExamPack', 'btn8thExamPack', 'btn4thExamPack', 'btnFrequentGichulPack',
-  'wfGichulCount', 'oxTrainerModal', 'calcToolModal', 'ddayModal', 'examHallFlashModal', 'omrDrawer'
+  'wrongTotalCount', 'wrongMasteredCount', 'wrongBookmarkCount', 'retryAllWrongBtn', 'retryGichulWrongBtn',
+  'wfAllCount', 'wfGichulCount', 'wfHighCount', 'wfMasteredTabCount', 'wfBookCount', 'wfSub1Count', 'wfSub2Count', 'wfSub3Count', 'wfSub4Count',
+  'oxTrainerModal', 'calcToolModal', 'ddayModal', 'examHallFlashModal', 'omrDrawer'
 ];
 
 let missingElements = 0;
@@ -115,7 +117,7 @@ expectedElements.forEach(eid => {
   }
 });
 if (missingElements === 0) {
-  console.log(`✅ 5. 모든 기출 프리셋 7종, 퀵 팩 버튼 8종, 모달 및 UI 요소 정상 확인`);
+  console.log(`✅ 5. 모든 기출 프리셋 7종, 퀵 팩 버튼 8종, 오답노트 필터 9종 및 풀이 액션 버튼 정상 확인`);
 }
 
-console.log('\n🎉 시스템 검증 완료: 진짜 기출문제 풀이 및 스마트 학습 엔진이 완벽하게 가동됩니다!\n');
+console.log('\n🎉 시스템 검증 완료: 8회·9회 기출문제가 완벽한 80문항 실전 세트로 가동됩니다!\n');

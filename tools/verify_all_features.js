@@ -4,7 +4,7 @@ const http = require('http');
 
 const ROOT_DIR = path.join(__dirname, '..');
 
-console.log('=== 🚀 진짜 기출문제 기능 통합 테스트 시작 ===\n');
+console.log('=== 🚀 8회·9회 기출 확장 및 전 회차 실전 모의고사 검증 시작 ===\n');
 
 // 1. Data load & round distribution verification
 global.window = {};
@@ -20,8 +20,8 @@ const roundExpected = {
   '12': 242,
   '11': 80,
   '10': 80,
-  '9': 50,
-  '8': 50,
+  '9': 80,
+  '8': 80,
   '4': 80,
   'frequent': 272,
   'practice': 87
@@ -39,16 +39,15 @@ for (const [r, expected] of Object.entries(roundExpected)) {
 }
 
 if (matchFailures === 0) {
-  console.log('✅ 회차별 문항 수 100% 일치 확인!\n');
+  console.log('✅ 8회·9회 포함 전 회차 문항 수 100% 일치 확인!\n');
 }
 
-// 2. Test 12th mock exam preset selection (20 questions per subject = 80 total)
-const mock12th = [];
-for (let s = 1; s <= 4; s++) {
-  const sQuizzes = cbt.questions.filter(q => q.round === "12" && q.subject === s);
-  mock12th.push(...sQuizzes.slice(0, 20));
-}
-console.log(`3. 12회 정규 80제 모의고사 구성: 총 ${mock12th.length}문항 (각 과목 20제씩 균등 분배: 1과목 ${mock12th.filter(q => q.subject===1).length}, 2과목 ${mock12th.filter(q => q.subject===2).length}, 3과목 ${mock12th.filter(q => q.subject===3).length}, 4과목 ${mock12th.filter(q => q.subject===4).length})`);
+// 2. Test 8th and 9th mock exam preset selection (20 questions per subject = 80 total)
+const testPresets = ['8', '9', '10', '11', '4'];
+testPresets.forEach(r => {
+  const rQuizzes = cbt.questions.filter(q => q.round === r);
+  console.log(`3. [${r}회 실전 모의고사] 총 ${rQuizzes.length}문항 (1과목 ${rQuizzes.filter(q => q.subject===1).length}제, 2과목 ${rQuizzes.filter(q => q.subject===2).length}제, 3과목 ${rQuizzes.filter(q => q.subject===3).length}제, 4과목 ${rQuizzes.filter(q => q.subject===4).length}제)`);
+});
 
 // 3. Test HTTP server responses
 const testUrls = ['/', '/index.html', '/style.css', '/app.js', '/cbt_bank.js', '/data.js', '/tutor.js', '/manifest.json'];
@@ -63,7 +62,7 @@ testUrls.forEach(urlPath => {
     }
     pending--;
     if (pending === 0) {
-      console.log('\n🎉 모든 기출문제 기능 및 웹 서버 통합 검증 통과!');
+      console.log('\n🎉 8회·9회 확장 및 실전 CBT 웹 서버 통합 검증 완벽 통과!');
       process.exit(0);
     }
   }).on('error', err => {
