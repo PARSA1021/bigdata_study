@@ -472,14 +472,17 @@
               </div>
             </div>
 
-            <!-- 💎 프리미엄 테마 팩 (1줄 가로 스크롤 칩 바) -->
+            <!-- 💎 프리미엄 테마 팩 (1줄 가로 스크롤 칩 바 - 진짜 기출 최우선 배치) -->
             <div class="premium-packs-scroll-bar">
-              <button id="btnAgradePass" class="p-pack-chip brand active">⭐ A급 필수 (400+)</button>
+              <button id="btnAllGichulPack" class="p-pack-chip gold active">👑 역대 진짜 기출 전체 (854)</button>
+              <button id="btn12thExamPack" class="p-pack-chip purple">⚡ 12회 최신 기출 (242)</button>
+              <button id="btn11thExamPack" class="p-pack-chip success">🎯 11회 실전 기출 (80)</button>
+              <button id="btn10thExamPack" class="p-pack-chip indigo">📘 10회 실전 기출 (80)</button>
               <button id="btn9thExamPack" class="p-pack-chip danger">🔥 9회 기출 복원 (50)</button>
               <button id="btn8thExamPack" class="p-pack-chip warning">🏆 8회 기출 복원 (50)</button>
-              <button id="btn12thExamPack" class="p-pack-chip purple">⚡ 12회 기출 (87)</button>
-              <button id="btn11thExamPack" class="p-pack-chip success">🎯 11회 기출 (80)</button>
-              <button id="btn10thExamPack" class="p-pack-chip indigo">📘 10회 기출 (80)</button>
+              <button id="btn4thExamPack" class="p-pack-chip brand">🌱 4회 실전 기출 (80)</button>
+              <button id="btnFrequentGichulPack" class="p-pack-chip orange">⭐ 단원별 빈출 기출 (272)</button>
+              <button id="btnAgradePass" class="p-pack-chip brand">⭐ A급 필수 (400+)</button>
               <button id="btnCalcPack" class="p-pack-chip teal">🧮 계산 공략 (156)</button>
               <button id="btnWrongRetryPack" class="p-pack-chip danger">📕 오답 집중 탈출</button>
               <button id="target13thQuizBtn" class="p-pack-chip dark">🔮 13회 적중 예상</button>
@@ -491,10 +494,13 @@
               <!-- CBT Round Selector Row -->
               <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px; flex-wrap: wrap;">
                 <span style="font-size: 12.5px; font-weight: 850; color: var(--text-muted);">🎯 모의고사 회차:</span>
-                <button id="mockPreset11th" class="btn-small active" style="font-weight: 850; border-radius: 99px; padding: 4px 12px;">11회 기출 모의 (80제)</button>
-                <button id="mockPreset10th" class="btn-small" style="font-weight: 850; border-radius: 99px; padding: 4px 12px;">10회 기출 모의 (80제)</button>
-                <button id="mockPreset4th" class="btn-small" style="font-weight: 850; border-radius: 99px; padding: 4px 12px;">4회 기출 모의 (80제)</button>
-                <button id="mockPresetRandom" class="btn-small" style="font-weight: 850; border-radius: 99px; padding: 4px 12px;">🔀 전과목 균등 무작위 80제</button>
+                <button id="mockPreset12th" class="btn-small active" style="font-weight: 850; border-radius: 99px; padding: 4px 12px;">🔥 12회 실전 모의 (80제)</button>
+                <button id="mockPreset11th" class="btn-small" style="font-weight: 850; border-radius: 99px; padding: 4px 12px;">🎯 11회 기출 모의 (80제)</button>
+                <button id="mockPreset10th" class="btn-small" style="font-weight: 850; border-radius: 99px; padding: 4px 12px;">📘 10회 기출 모의 (80제)</button>
+                <button id="mockPreset9th" class="btn-small" style="font-weight: 850; border-radius: 99px; padding: 4px 12px;">🔥 9회 복원 모의 (50제)</button>
+                <button id="mockPreset8th" class="btn-small" style="font-weight: 850; border-radius: 99px; padding: 4px 12px;">🏆 8회 복원 모의 (50제)</button>
+                <button id="mockPreset4th" class="btn-small" style="font-weight: 850; border-radius: 99px; padding: 4px 12px;">🌱 4회 기출 모의 (80제)</button>
+                <button id="mockPresetRandom" class="btn-small" style="font-weight: 850; border-radius: 99px; padding: 4px 12px;">🔀 역대 기출 균등 80제</button>
               </div>
 
               <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
@@ -552,15 +558,16 @@
               <div class="filter-group">
                 <span class="filter-label">기출회차:</span>
                 <div class="filter-chip-bar" id="roundFilterChips">
-                  <button class="f-chip active" data-round="all">전체 회차</button>
-                  <button class="f-chip" data-round="12">🔥 12회 (2026.04 최신 복원)</button>
-                  <button class="f-chip" data-round="11">11회 (2025.10)</button>
-                  <button class="f-chip" data-round="10">10회 (2025.06)</button>
-                  <button class="f-chip" data-round="9">9회 기출 복원</button>
-                  <button class="f-chip" data-round="8">8회 기출 복원</button>
-                  <button class="f-chip" data-round="4">4회 (2022.04)</button>
-                  <button class="f-chip" data-round="practice">단원별 연습</button>
-                  <button class="f-chip" data-round="mock">실전 모의고사</button>
+                  <button class="f-chip" data-round="all">전체 문제 (941)</button>
+                  <button class="f-chip active" data-round="gichul_all">👑 진짜 기출 전체 (854)</button>
+                  <button class="f-chip" data-round="12">🔥 12회 (242)</button>
+                  <button class="f-chip" data-round="11">🎯 11회 (80)</button>
+                  <button class="f-chip" data-round="10">📘 10회 (80)</button>
+                  <button class="f-chip" data-round="9">🏆 9회 복원 (50)</button>
+                  <button class="f-chip" data-round="8">⚡ 8회 복원 (50)</button>
+                  <button class="f-chip" data-round="4">🌱 4회 (80)</button>
+                  <button class="f-chip" data-round="frequent">⭐ 단원별 빈출 기출 (272)</button>
+                  <button class="f-chip" data-round="practice">📝 단원별 개념/예상 (87)</button>
                 </div>
               </div>
 
@@ -625,6 +632,8 @@
             <div class="wrong-filters-scroll-bar">
               <button class="wrong-filter-btn wrong-filter-chip active" data-filter="all">전체 오답 (<span
                   id="wfAllCount">0</span>)</button>
+              <button class="wrong-filter-btn wrong-filter-chip gold" data-filter="gichul">👑 기출 오답만 (<span
+                  id="wfGichulCount">0</span>)</button>
               <button class="wrong-filter-btn wrong-filter-chip warning" data-filter="high">2회 이상 틀림 ⚠️ (<span
                   id="wfHighCount">0</span>)</button>
               <button class="wrong-filter-btn wrong-filter-chip brand" data-filter="bookmarks">⭐ 북마크 문항 (<span
