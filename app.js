@@ -813,6 +813,13 @@ document.addEventListener("DOMContentLoaded", () => {
     return "mock";
   }
 
+  function isGichulQuestion(q) {
+    if (!q) return false;
+    if (typeof q.isGichul === "boolean") return q.isGichul;
+    const r = (q._round || getQuestionRound(q));
+    return r !== "practice" && r !== "mock_practice";
+  }
+
   function findMatchingConceptCardId(quiz) {
     if (!quiz) return null;
     if (quiz.cardId && cardMap.has(quiz.cardId)) return quiz.cardId;
@@ -1829,7 +1836,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const mastered = allTracked.filter(q => cumulativeStats.quizzes[q.id]?.mastered);
     const bookmarkedWrong = allTracked.filter(q => bookmarks.has(q.id));
     const highRisk = activeWrong.filter(q => (cumulativeStats.quizzes[q.id]?.wrongCount || 0) >= 2);
-    const gichulWrong = activeWrong.filter(q => q._isGichul);
+    const gichulWrong = activeWrong.filter(q => q._isGichul || isGichulQuestion(q));
 
     const sub1 = activeWrong.filter(q => q.subject === 1);
     const sub2 = activeWrong.filter(q => q.subject === 2);
@@ -1876,7 +1883,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const mastered = allTracked.filter(q => cumulativeStats.quizzes[q.id]?.mastered);
     const bookmarkedWrong = allTracked.filter(q => bookmarks.has(q.id));
     const highRisk = activeWrong.filter(q => (cumulativeStats.quizzes[q.id]?.wrongCount || 0) >= 2);
-    const gichulWrong = activeWrong.filter(q => q._isGichul);
+    const gichulWrong = activeWrong.filter(q => q._isGichul || isGichulQuestion(q));
 
     let displayList = [];
     if (filter === "all") displayList = activeWrong;
@@ -1927,6 +1934,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let html = "";
     displayList.forEach((quiz, idx) => {
+      try {
+
       const qStat = cumulativeStats.quizzes[quiz.id] || { wrongCount: 1, mastered: false, correctStreak: 0 };
       const memo = quizMemos[quiz.id] || "";
       const isRealGichul = quiz._isGichul || isGichulQuestion(quiz);
@@ -1935,12 +1944,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let gichulBadgeHTML = "";
       if (isRealGichul) {
-        const rLabel = quiz._round === "12" ? "👑 12회 최신 기출" :
-                       quiz._round === "11" ? "👑 11회 실전 기출" :
-                       quiz._round === "10" ? "👑 10회 실전 기출" :
-                       quiz._round === "9" ? "👑 9회 기출 복원" :
-                       quiz._round === "8" ? "👑 8회 기출 복원" :
-                       quiz._round === "4" ? "👑 4회 실전 기출" : "👑 단원별 빈출 기출";
+        const r = quiz._round || (typeof getQuestionRound === "function" ? getQuestionRound(quiz) : "gichul");
+        const rLabel = r === "12" ? "👑 12회 최신 기출" :
+                       r === "11" ? "👑 11회 실전 기출" :
+                       r === "10" ? "👑 10회 실전 기출" :
+                       r === "9" ? "👑 9회 기출 복원" :
+                       r === "8" ? "👑 8회 기출 복원" :
+                       r === "4" ? "👑 4회 실전 기출" : "👑 단원별 빈출 기출";
         gichulBadgeHTML = `<span class="quiz-tag-badge gichul-badge">${rLabel}</span>`;
       }
 
@@ -2072,6 +2082,10 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         </div>
       `;
+    
+      } catch (err) {
+        console.error("Failed to render wrong card for quiz:", quiz?.id, err);
+      }
     });
 
     wrongListContainer.innerHTML = html;
@@ -2129,6 +2143,7 @@ document.addEventListener("DOMContentLoaded", () => {
     allQuizzes.forEach(q => {
       // ⚡ 고성능 최적화: 매 필터/검색 시 30,000+ 정규식/문자열 할당 제거를 위한 사전 캐싱
       q._round = getQuestionRound(q);
+      q._isGichul = isGichulQuestion(q);
       q._isCalc = isCalcQuestion(q);
       q._importance = getImportanceGrade(q);
       q._searchStr = ((q.question || "") + " " + (q.explanation || "") + " " + (q.chapter || "") + " " + (q.choices || []).join(" ")).toLowerCase();
@@ -3568,8 +3583,62 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- DELEGATION 2: Wrong Notes Container ---
+  // --- DELEGATION 2: Wrong Notes Container & Filters ---
   function setupWrongContainerDelegation() {
+    // A. Wrong Filter Chip Bar Listeners
+    const wrongFilterBar = document.querySelector(".wrong-filters-scroll-bar");
+    if (wrongFilterBar) {
+      wrongFilterBar.addEventListener("click", e => {
+        const btn = e.target.closest(".wrong-filter-btn");
+        if (btn) {
+          const filter = btn.dataset.filter || "all";
+          wrongFilterBar.querySelectorAll(".wrong-filter-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+          renderWrongNotesView(filter);
+        }
+      });
+    }
+
+    // B. Retry All Wrong Button (Top Action)
+    const retryAllBtn = document.getElementById("retryAllWrongBtn");
+    if (retryAllBtn) {
+      retryAllBtn.addEventListener("click", () => {
+        const activeWrongQuizzes = allQuizzes.filter(q => {
+          const qStat = cumulativeStats.quizzes[q.id];
+          return qStat && qStat.wrongCount > 0 && !qStat.mastered;
+        });
+        if (activeWrongQuizzes.length === 0) {
+          showToast("🎉 현재 탈출하지 못한 오답 문항이 없습니다!");
+          return;
+        }
+        workingQuizzes = [...activeWrongQuizzes];
+        switchNav("practice");
+        renderQuizzes(true);
+        showToast(`⚡ [오답 집중 탈출 모드] ${activeWrongQuizzes.length}문항 풀이가 시작되었습니다!`);
+      });
+    }
+
+    // C. Retry Gichul Wrong Button (Top Action)
+    const retryGichulBtn = document.getElementById("retryGichulWrongBtn");
+    if (retryGichulBtn) {
+      retryGichulBtn.addEventListener("click", () => {
+        const gichulWrongQuizzes = allQuizzes.filter(q => {
+          const qStat = cumulativeStats.quizzes[q.id];
+          const isG = q._isGichul || isGichulQuestion(q);
+          return qStat && qStat.wrongCount > 0 && !qStat.mastered && isG;
+        });
+        if (gichulWrongQuizzes.length === 0) {
+          showToast("👑 현재 풀이 가능한 기출 오답 문항이 없습니다. 기출 모의고사를 풀어보세요!");
+          return;
+        }
+        workingQuizzes = [...gichulWrongQuizzes];
+        switchNav("practice");
+        renderQuizzes(true);
+        showToast(`👑 [기출 오답 풀기 모드] ${gichulWrongQuizzes.length}문항 풀이가 시작되었습니다!`);
+      });
+    }
+
+    // D. Wrong Card Events inside wrongListContainer
     if (!wrongListContainer) return;
     wrongListContainer.addEventListener("click", e => {
       // 0. Toggle Explanation button
@@ -3581,7 +3650,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (expBox) {
           const isHidden = expBox.style.display === "none";
           expBox.style.display = isHidden ? "block" : "none";
-          toggleExpBtn.textContent = isHidden ? "🙈 해설 접기" : "💡 해설 및 출제 트랩 보기";
+          toggleExpBtn.textContent = isHidden ? "🙈 해설 접기" : "💡 해설 & 출제 트랩 보기";
         }
         return;
       }
@@ -3600,35 +3669,73 @@ document.addEventListener("DOMContentLoaded", () => {
         const expBox = card.querySelector(".quiz-explanation-box");
         const toggleBtn = card.querySelector(".toggle-wrong-explain-btn");
 
+        if (!cumulativeStats.quizzes[quiz.id]) {
+          cumulativeStats.quizzes[quiz.id] = { solved: 0, correct: 0, wrongCount: 1, mastered: false, correctStreak: 0 };
+        }
+        const stat = cumulativeStats.quizzes[quiz.id];
+
         if (isCorrect) {
           optBtn.classList.add("correct");
           card.querySelectorAll(".quiz-option").forEach(b => b.disabled = true);
-          if (!cumulativeStats.quizzes[quiz.id]) {
-            cumulativeStats.quizzes[quiz.id] = { solved: 0, correct: 0, wrongCount: 1, mastered: false };
+          stat.correctStreak = (stat.correctStreak || 0) + 1;
+          if (stat.correctStreak >= 2) {
+            stat.mastered = true;
+            showToast("🏆 2회 연속 정답! '오답 마스터 졸업'을 달성했습니다!");
+            triggerConfetti();
+          } else {
+            showToast("🔥 1회 정답! 1번 더 맞히면 오답 마스터로 졸업합니다!");
           }
-          cumulativeStats.quizzes[quiz.id].mastered = true;
           scheduleSave();
           if (expBox) expBox.style.display = "block";
           if (toggleBtn) toggleBtn.textContent = "🙈 해설 접기";
-          showToast("🎉 정답입니다! '오답 탈출(마스터 완료)' 성공!");
-          triggerConfetti();
-          setTimeout(() => renderWrongNotesView("all"), 1200);
+          setTimeout(() => renderWrongNotesView(currentWrongFilter || "all"), 1100);
         } else {
           optBtn.classList.add("incorrect");
-          if (!cumulativeStats.quizzes[quiz.id]) {
-            cumulativeStats.quizzes[quiz.id] = { solved: 0, correct: 0, wrongCount: 1, mastered: false };
-          }
-          cumulativeStats.quizzes[quiz.id].wrongCount++;
-          cumulativeStats.quizzes[quiz.id].mastered = false;
+          stat.wrongCount = (stat.wrongCount || 0) + 1;
+          stat.correctStreak = 0;
+          stat.mastered = false;
           scheduleSave();
           if (expBox) expBox.style.display = "block";
           if (toggleBtn) toggleBtn.textContent = "🙈 해설 접기";
-          showToast("❌ 오답입니다! 아래 출제 트랩과 해설을 확인해 보세요.");
+          showToast("❌ 오답입니다! 출제 트랩과 핵심 요약을 확인해 보세요.");
         }
         return;
       }
 
-      // 2. Bookmark star
+      // 2. Retry single card (reset options)
+      const retryCardBtn = e.target.closest(".btn-retry-wrong-card");
+      if (retryCardBtn) {
+        const card = retryCardBtn.closest(".quiz-card");
+        if (card) {
+          card.querySelectorAll(".quiz-option").forEach(b => {
+            b.disabled = false;
+            b.classList.remove("correct", "incorrect");
+          });
+          const expBox = card.querySelector(".quiz-explanation-box");
+          if (expBox) expBox.style.display = "none";
+          const toggleBtn = card.querySelector(".toggle-wrong-explain-btn");
+          if (toggleBtn) toggleBtn.textContent = "💡 해설 & 출제 트랩 보기";
+          showToast("🔄 선지 선택이 초기화되었습니다. 다시 풀어보세요!");
+        }
+        return;
+      }
+
+      // 3. Unmaster card (restore to wrong notes)
+      const unmasterBtn = e.target.closest(".btn-unmaster-wrong");
+      if (unmasterBtn) {
+        const quizId = unmasterBtn.dataset.id;
+        if (quizId && cumulativeStats.quizzes[quizId]) {
+          cumulativeStats.quizzes[quizId].mastered = false;
+          cumulativeStats.quizzes[quizId].correctStreak = 0;
+          cumulativeStats.quizzes[quizId].wrongCount = 1;
+          scheduleSave();
+          renderWrongNotesView(currentWrongFilter || "all");
+          showToast("↩️ 해당 문제가 오답노트에 다시 등록되었습니다.");
+        }
+        return;
+      }
+
+      // 4. Bookmark star
       const star = e.target.closest(".bookmark-star-btn");
       if (star) {
         const quizId = star.dataset.id;
@@ -3636,11 +3743,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (bookmarks.has(quizId)) bookmarks.delete(quizId);
         else bookmarks.add(quizId);
         saveJSON(BOOKMARK_KEY, [...bookmarks]);
-        renderWrongNotesView("all");
+        renderWrongNotesView(currentWrongFilter || "all");
         return;
       }
 
-      // 3. View Concept
+      // 5. View Concept Modal
       const conceptBtn = e.target.closest(".view-concept-btn");
       if (conceptBtn) {
         const cardId = conceptBtn.dataset.card;
@@ -3648,7 +3755,14 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // 4. Navigation button
+      // 6. View Tutor
+      const tutorBtn = e.target.closest(".view-tutor-btn");
+      if (tutorBtn) {
+        switchNav("tutor");
+        return;
+      }
+
+      // 7. Navigation button
       const navBtn = e.target.closest("[data-nav]");
       if (navBtn) {
         const targetNav = navBtn.dataset.nav;
@@ -3656,24 +3770,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
     });
-
-    const retryAllBtn = document.getElementById("retryAllWrongBtn");
-    if (retryAllBtn) {
-      retryAllBtn.addEventListener("click", () => {
-        const activeWrongQuizzes = allQuizzes.filter(q => {
-          const qStat = cumulativeStats.quizzes[q.id];
-          return qStat && qStat.wrongCount > 0 && !qStat.mastered;
-        });
-        if (activeWrongQuizzes.length === 0) {
-          showToast("🎉 현재 탈출하지 못한 오답 문항이 없습니다!");
-          return;
-        }
-        workingQuizzes = [...activeWrongQuizzes];
-        switchNav("practice");
-        renderQuizzes(true);
-        showToast(`⚡ [오답 집중 탈출 모드] ${activeWrongQuizzes.length}문항 풀이가 시작되었습니다!`);
-      });
-    }
   }
 
   // --- DELEGATION 3: OMR Grid ---
@@ -3918,17 +4014,48 @@ document.addEventListener("DOMContentLoaded", () => {
       }, 1800);
   }
 
+  function normalizeMathSymbols(str) {
+    if (!str || typeof str !== "string") return "";
+    return str
+      .replace(/\$H_0\$|\$H0\$/g, "H₀")
+      .replace(/\$H_1\$|\$H1\$/g, "H₁")
+      .replace(/\$H_a\$|\$Ha\$/g, "Hₐ")
+      .replace(/\$\alpha\$|\$alpha\$/g, "α")
+      .replace(/\$\beta\$|\$beta\$/g, "β")
+      .replace(/\$\mu\$|\$mu\$/g, "μ")
+      .replace(/\$\sigma\^2\$|\$sigma\^2\$/g, "σ²")
+      .replace(/\$\sigma\$|\$sigma\$/g, "σ")
+      .replace(/\$\chi\^2\$|\$chi\^2\$/g, "χ²")
+      .replace(/\$R\^2\$|\$R2\$/g, "R²")
+      .replace(/\$R\^2_\{adj\}\$/g, "수정된 R²")
+      .replace(/\$Q_1\$|\$Q1\$/g, "Q₁")
+      .replace(/\$Q_2\$|\$Q2\$/g, "Q₂")
+      .replace(/\$Q_3\$|\$Q3\$/g, "Q₃")
+      .replace(/\$X_1\$/g, "X₁")
+      .replace(/\$X_2\$/g, "X₂")
+      .replace(/\$y_i\$/g, "yᵢ")
+      .replace(/\$F_1\$/g, "F₁")
+      .replace(/\$F_2\$/g, "F₂")
+      .replace(/\$F_\{0\.5\}\$/g, "F₀.₅")
+      .replace(/\$F_\\beta\$/g, "F_β")
+      .replace(/\$\epsilon\$|\$epsilon\$/g, "ε")
+      .replace(/\$A \\rightarrow B\$/g, "A → B")
+      .replace(/\$P\(X\)\$/g, "P(X)")
+      .replace(/\$Y = X\^2\$/g, "Y = X²")
+      .replace(/\$([a-zA-Z0-9])\$/g, "$1");
+  }
+
   function renderMathFormulas(rootEl) {
     if (!rootEl) return;
     if (typeof window.renderMathInElement === "function") {
-      // ⚡ 고속 바이패스: 수식 기호($)가 없는 경우 무거운 전체 DOM 트리 순회를 즉시 스킵
-      if (rootEl.textContent && !rootEl.textContent.includes("$")) return;
+      if (rootEl.textContent && !rootEl.textContent.includes("$") && !rootEl.textContent.includes("\\(")) return;
       try {
         window.renderMathInElement(rootEl, {
           delimiters: [
             { left: "$", right: "$", display: true },
-            { left: "$", right: "$", display: false }
+            { left: "\\(", right: "\\)", display: false }
           ],
+          output: "html",
           throwOnError: false
         });
       } catch (e) { }
@@ -4033,6 +4160,66 @@ document.addEventListener("DOMContentLoaded", () => {
         ${numPrefix}${prefixTagHTML}<span>${highlightTrapKeywords(escapeHTML(raw))}</span>
       </div>
     `;
+  }
+
+  function formatExplanationText(raw) {
+    if (!raw || typeof raw !== "string") return "";
+    const lines = raw.trim().split("\n");
+    const blocks = [];
+    let currentParagraph = [];
+
+    const flushParagraph = () => {
+      if (currentParagraph.length > 0) {
+        const text = currentParagraph.join(" ").trim();
+        if (text) {
+          blocks.push(`<p class="explain-p">${text}</p>`);
+        }
+        currentParagraph = [];
+      }
+    };
+
+    lines.forEach(line => {
+      const trimmed = line.trim();
+      if (!trimmed) {
+        flushParagraph();
+        return;
+      }
+
+      if (trimmed.startsWith("💡") || trimmed.startsWith("🚨") || trimmed.startsWith("📌") || trimmed.startsWith("⚠️")) {
+        flushParagraph();
+        let icon = trimmed.slice(0, 2);
+        let rest = trimmed.slice(2).trim();
+        let alertClass = trimmed.startsWith("🚨") || trimmed.startsWith("⚠️") ? "callout-danger" : "callout-brand";
+        blocks.push(`
+          <div class="explain-callout ${alertClass}">
+            <span class="callout-icon">${icon}</span>
+            <div class="callout-content">${escapeHTML(rest)}</div>
+          </div>
+        `);
+      } else if (trimmed.startsWith("- ") || trimmed.startsWith("• ") || trimmed.startsWith("* ")) {
+        flushParagraph();
+        blocks.push(`
+          <div class="explain-bullet">
+            <span class="bullet-dot">▪</span>
+            <span>${escapeHTML(trimmed.slice(2))}</span>
+          </div>
+        `);
+      } else if (/^[0-9]+[\.\)]\s/.test(trimmed)) {
+        flushParagraph();
+        const match = trimmed.match(/^([0-9]+[\.\)])\s*(.*)/);
+        blocks.push(`
+          <div class="explain-step-item">
+            <strong class="step-num">${escapeHTML(match[1])}</strong>
+            <span>${escapeHTML(match[2])}</span>
+          </div>
+        `);
+      } else {
+        currentParagraph.push(escapeHTML(trimmed));
+      }
+    });
+
+    flushParagraph();
+    return blocks.join("");
   }
 
   // ==========================================

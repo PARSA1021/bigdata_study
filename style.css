@@ -10738,3 +10738,30 @@ select,
   background: linear-gradient(135deg, rgba(52, 199, 89, 0.03) 0%, var(--surface) 100%);
   opacity: 0.95;
 }
+
+/* =========================================================
+   KaTeX Formula Display Optimization & Duplication Prevention
+   ========================================================= */
+.katex-mathml {
+  display: none !important;
+  visibility: hidden !important;
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+}
+
+.katex {
+  font: normal 1.02em/1.2 KaTeX_Main, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  text-indent: 0 !important;
+  display: inline-block !important;
+  vertical-align: baseline !important;
+}
+
+.katex .katex-html {
+  display: inline-block !important;
+  white-space: nowrap !important;
+}
