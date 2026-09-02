@@ -181,10 +181,10 @@
             <div class="pillar-card pillar-practice" id="heroStartPracticeBtn" data-nav="practice">
               <div class="pillar-top">
                 <div class="pillar-icon-box">📝</div>
-                <span class="pillar-badge brand">941문항</span>
+                <span class="pillar-badge brand">1,014문항</span>
               </div>
               <h3 class="pillar-title">스마트 기출 풀이</h3>
-              <p class="pillar-desc">최신 12~8회 복원 기출, A급 400제, 계산 공식형 집중 풀이</p>
+              <p class="pillar-desc">최신 12~4회 기출, 13회 적중·킬러, 계산 공식형 집중 풀이</p>
               <div class="pillar-footer">
                 <span class="pillar-link">기출 풀러 가기</span>
                 <span class="pillar-arrow">➔</span>
@@ -230,6 +230,112 @@
               <div class="pillar-footer">
                 <span class="pillar-link">오답 복습하기</span>
                 <span class="pillar-arrow">➔</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 🌟 TIER 2.5: 🎯 문제 유형별 1초 바로 풀기 허브 (Quick Category Launcher Hub) -->
+          <div class="section-card home-category-hub-section" style="margin-top: 16px;">
+            <div class="home-cat-hub-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 8px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="radar-icon-badge" style="background: rgba(0, 122, 255, 0.12); color: var(--brand); font-size: 18px; padding: 6px 10px; border-radius: 10px;">🎯</span>
+                <div>
+                  <h3 class="section-card-title">원하는 문제 유형 1초 바로 풀기</h3>
+                  <p class="section-card-sub">13회 적중 예상, 12회 기출 기반 킬러, 계산 공식형 등 원하는 카테고리를 골라 바로 풀어보세요.</p>
+                </div>
+              </div>
+              <button id="openCategoryNavModalHomeBtn" class="button button-light btn-small" style="font-weight: 850; border-radius: var(--radius-pill);">
+                🗂️ 카테고리 전체맵
+              </button>
+            </div>
+
+            <div class="home-type-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px;">
+              <!-- Type 1: 13회 적중 예상 -->
+              <div class="home-type-card type-card-predict" data-home-type="killer13th_predict" style="cursor: pointer;">
+                <div class="ht-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span class="ht-icon" style="font-size: 20px;">🔮</span>
+                  <span class="ht-badge purple" style="font-size: 11px; font-weight: 850; padding: 2px 8px; border-radius: 99px; background: rgba(175, 82, 222, 0.15); color: var(--purple);">13회 적중</span>
+                </div>
+                <div class="ht-title" style="font-weight: 900; font-size: 14.5px; margin-bottom: 4px;">13회 출제 예상문제</div>
+                <div class="ht-desc" style="font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px;">13회 시험 적중 핵심 키워드 & 60문항</div>
+                <div class="ht-meta" style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--purple);"><span>60제</span> <span>풀기 ➔</span></div>
+              </div>
+
+              <!-- Type 2: 12회 반영 13회 킬러 -->
+              <div class="home-type-card type-card-killer" data-home-type="killer13th_killer" style="cursor: pointer;">
+                <div class="ht-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span class="ht-icon" style="font-size: 20px;">⚡</span>
+                  <span class="ht-badge danger" style="font-size: 11px; font-weight: 850; padding: 2px 8px; border-radius: 99px; background: rgba(255, 59, 48, 0.15); color: var(--danger);">12회 기출반영 킬러</span>
+                </div>
+                <div class="ht-title" style="font-weight: 900; font-size: 14.5px; margin-bottom: 4px;">13회 킬러 변형 특훈</div>
+                <div class="ht-desc" style="font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px;">12회 신유형을 반영한 고난도 킬러 94문항</div>
+                <div class="ht-meta" style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--danger);"><span>94제</span> <span>풀기 ➔</span></div>
+              </div>
+
+              <!-- Type 3: 12회 최신 기출 -->
+              <div class="home-type-card type-card-12th" data-home-round="12" style="cursor: pointer;">
+                <div class="ht-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span class="ht-icon" style="font-size: 20px;">🔥</span>
+                  <span class="ht-badge brand" style="font-size: 11px; font-weight: 850; padding: 2px 8px; border-radius: 99px; background: rgba(0, 122, 255, 0.15); color: var(--brand);">최신 복원</span>
+                </div>
+                <div class="ht-title" style="font-weight: 900; font-size: 14.5px; margin-bottom: 4px;">12회 최신 기출 전체</div>
+                <div class="ht-desc" style="font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px;">가장 최근 시험 1~4과목 복원 기출 242문항</div>
+                <div class="ht-meta" style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--brand);"><span>242제</span> <span>풀기 ➔</span></div>
+              </div>
+
+              <!-- Type 4: 계산 공식형 -->
+              <div class="home-type-card type-card-calc" data-home-type="calc" style="cursor: pointer;">
+                <div class="ht-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span class="ht-icon" style="font-size: 20px;">🧮</span>
+                  <span class="ht-badge teal" style="font-size: 11px; font-weight: 850; padding: 2px 8px; border-radius: 99px; background: rgba(52, 199, 89, 0.15); color: #059669;">과락 방지</span>
+                </div>
+                <div class="ht-title" style="font-weight: 900; font-size: 14.5px; margin-bottom: 4px;">계산 공식 집중 공략</div>
+                <div class="ht-desc" style="font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px;">혼동행렬, F1, IQR, Z-Score, R², 오즈비 등</div>
+                <div class="ht-meta" style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: #059669;"><span>192제</span> <span>풀기 ➔</span></div>
+              </div>
+
+              <!-- Type 5: A급 60점 필수 -->
+              <div class="home-type-card type-card-gradeA" data-home-type="gradeA" style="cursor: pointer;">
+                <div class="ht-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span class="ht-icon" style="font-size: 20px;">⭐</span>
+                  <span class="ht-badge gold" style="font-size: 11px; font-weight: 850; padding: 2px 8px; border-radius: 99px; background: rgba(255, 149, 0, 0.15); color: #D97706;">60점 합격</span>
+                </div>
+                <div class="ht-title" style="font-weight: 900; font-size: 14.5px; margin-bottom: 4px;">A급 필수 기출 400제</div>
+                <div class="ht-desc" style="font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px;">시험에 무조건 나오는 단골 핵심 빈출 문제</div>
+                <div class="ht-meta" style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: #D97706;"><span>400제+</span> <span>풀기 ➔</span></div>
+              </div>
+
+              <!-- Type 6: 단골 함정 선지형 -->
+              <div class="home-type-card type-card-trap" data-home-type="trap" style="cursor: pointer;">
+                <div class="ht-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span class="ht-icon" style="font-size: 20px;">🚨</span>
+                  <span class="ht-badge orange" style="font-size: 11px; font-weight: 850; padding: 2px 8px; border-radius: 99px; background: rgba(245, 158, 11, 0.15); color: #B45309;">오답 방어</span>
+                </div>
+                <div class="ht-title" style="font-weight: 900; font-size: 14.5px; margin-bottom: 4px;">단골 함정 선지형</div>
+                <div class="ht-desc" style="font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px;">"옳지 않은 것은?" 출제자의 함정 낚시 대비</div>
+                <div class="ht-meta" style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: #B45309;"><span>225제</span> <span>풀기 ➔</span></div>
+              </div>
+
+              <!-- Type 7: 개념 비교·판별형 -->
+              <div class="home-type-card type-card-diff" data-home-type="diff" style="cursor: pointer;">
+                <div class="ht-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span class="ht-icon" style="font-size: 20px;">🎯</span>
+                  <span class="ht-badge indigo" style="font-size: 11px; font-weight: 850; padding: 2px 8px; border-radius: 99px; background: rgba(88, 86, 214, 0.15); color: #4F46E5;">개념 마스터</span>
+                </div>
+                <div class="ht-title" style="font-weight: 900; font-size: 14.5px; margin-bottom: 4px;">개념 비교·판별형</div>
+                <div class="ht-desc" style="font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px;">L1/L2, 배깅/부스팅, 가명/익명 1:1 판별</div>
+                <div class="ht-meta" style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: #4F46E5;"><span>429제</span> <span>풀기 ➔</span></div>
+              </div>
+
+              <!-- Type 8: 미풀이 새 문제만 -->
+              <div class="home-type-card type-card-unsolved" data-home-type="unsolved" style="cursor: pointer;">
+                <div class="ht-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span class="ht-icon" style="font-size: 20px;">⏳</span>
+                  <span class="ht-badge green" style="font-size: 11px; font-weight: 850; padding: 2px 8px; border-radius: 99px; background: rgba(52, 199, 89, 0.15); color: var(--success);">스마트 진행</span>
+                </div>
+                <div class="ht-title" style="font-weight: 900; font-size: 14.5px; margin-bottom: 4px;">안 푼 새 문제만 풀기</div>
+                <div class="ht-desc" style="font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 8px;">이미 푼 문제를 제외하고 새로운 문제만 정복</div>
+                <div class="ht-meta" style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 800; color: var(--success);"><span>새 문제 집중</span> <span>풀기 ➔</span></div>
               </div>
             </div>
           </div>
@@ -408,7 +514,12 @@
             <div class="practice-header-top">
               <div class="practice-title-group">
                 <h2 class="practice-title-text">⚡ 스마트 기출·변형 문제 풀이</h2>
-                <span class="practice-count-badge">총 <strong id="practiceTotalCount">941</strong>문항 실전 문제은행</span>
+                <span class="practice-count-badge">총 <strong id="practiceTotalCount">1,014</strong>문항 실전 문제은행</span>
+              </div>
+              <div class="practice-top-actions">
+                <button id="openCategoryNavModalBtn" class="button button-brand btn-small" title="전체 과목 및 세부 단원 브라우저 맵 열기" style="font-weight: 850; border-radius: var(--radius-pill);">
+                  🗂️ 카테고리 전체맵
+                </button>
               </div>
             </div>
 
@@ -472,21 +583,66 @@
               </div>
             </div>
 
-            <!-- 💎 프리미엄 테마 팩 (1줄 가로 스크롤 칩 바 - 진짜 기출 최우선 배치) -->
-            <div class="premium-packs-scroll-bar">
-              <button id="btnAllGichulPack" class="p-pack-chip gold active">👑 역대 진짜 기출 전체 (914)</button>
-              <button id="btn12thExamPack" class="p-pack-chip purple">⚡ 12회 최신 기출 (242)</button>
-              <button id="btn11thExamPack" class="p-pack-chip success">🎯 11회 실전 기출 (80)</button>
-              <button id="btn10thExamPack" class="p-pack-chip indigo">📘 10회 실전 기출 (80)</button>
-              <button id="btn9thExamPack" class="p-pack-chip danger">🔥 9회 기출 복원 (80)</button>
-              <button id="btn8thExamPack" class="p-pack-chip warning">🏆 8회 기출 복원 (80)</button>
-              <button id="btn4thExamPack" class="p-pack-chip brand">🌱 4회 실전 기출 (80)</button>
-              <button id="btnFrequentGichulPack" class="p-pack-chip orange">⭐ 단원별 빈출 기출 (272)</button>
-              <button id="btnAgradePass" class="p-pack-chip brand">⭐ A급 필수 (400+)</button>
-              <button id="btnCalcPack" class="p-pack-chip teal">🧮 계산 공략 (156)</button>
-              <button id="btnWrongRetryPack" class="p-pack-chip danger">📕 오답 집중 탈출</button>
-              <button id="target13thQuizBtn" class="p-pack-chip dark">🔮 13회 적중 예상</button>
-              <button id="btnBookmarkedOnly" class="p-pack-chip dark">📌 내 북마크</button>
+            <!-- 🌟 STEP 1: 과목 퀵 탭 바 (Subject Navigation Bar) -->
+            <div class="practice-subject-tabs-bar" id="practiceSubjectTabs">
+              <button class="p-sub-tab active" data-sub="all">
+                <span class="p-sub-icon">🌐</span> 전체 과목 (<span id="countSubAll">1014</span>)
+              </button>
+              <button class="p-sub-tab" data-sub="1">
+                <span class="p-sub-icon">1️⃣</span> 1과목 기획 (<span id="countSub1">246</span>)
+              </button>
+              <button class="p-sub-tab" data-sub="2">
+                <span class="p-sub-icon">2️⃣</span> 2과목 탐색 (<span id="countSub2">267</span>)
+              </button>
+              <button class="p-sub-tab" data-sub="3">
+                <span class="p-sub-icon">3️⃣</span> 3과목 모델링 (<span id="countSub3">261</span>)
+              </button>
+              <button class="p-sub-tab" data-sub="4">
+                <span class="p-sub-icon">4️⃣</span> 4과목 결과해석 (<span id="countSub4">240</span>)
+              </button>
+            </div>
+
+            <!-- 🌟 STEP 2: 동적 세부 단원(챕터) 칩 바 (Dynamic Chapter Filter Strip) -->
+            <div class="dynamic-chapter-bar-wrap" id="dynamicChapterBarWrap">
+              <div class="dynamic-chapter-label">
+                <span class="d-ch-icon">📑</span>
+                <span>세부 단원:</span>
+              </div>
+              <div class="dynamic-chapter-scroll" id="dynamicChapterChips">
+                <!-- JS에서 선택된 과목에 맞게 실시간 렌더링 -->
+              </div>
+            </div>
+
+            <!-- 🌟 STEP 3: 💎 프리미엄 테마 & 문제 유형 가로 스크롤 팩 바 -->
+            <div class="premium-packs-scroll-bar" id="premiumPacksBar">
+              <button id="btnAllGichulPack" class="p-pack-chip gold active" data-pack="all_gichul">👑 역대 기출 전체 (930+)</button>
+              <button id="btn13thPredictedPack" class="p-pack-chip purple" data-pack="predict13th">🔮 13회 적중 출제예상 (60)</button>
+              <button id="btn13thKillerPack" class="p-pack-chip danger" data-pack="killer13th">⚡ 13회 킬러 특훈 (94)</button>
+              <button id="btn12thExamPack" class="p-pack-chip brand" data-pack="exam12th">🔥 12회 최신 기출 (242)</button>
+              <button id="btnCalcPack" class="p-pack-chip teal" data-pack="calc">🧮 계산 공식 집중 (192)</button>
+              <button id="btnAgradePass" class="p-pack-chip gold" data-pack="gradeA">⭐ A급 60점 필수 (400+)</button>
+              <button id="btnTrapPack" class="p-pack-chip orange" data-pack="trap">🚨 단골 함정 선지형 (225)</button>
+              <button id="btnDiffPack" class="p-pack-chip indigo" data-pack="diff">🎯 개념 비교·판별형 (429)</button>
+              <button id="btnBoxPack" class="p-pack-chip brand" data-pack="box">📊 보기·표 박스형</button>
+              <button id="btn11thExamPack" class="p-pack-chip success" data-pack="exam11th">🎯 11회 기출 (80)</button>
+              <button id="btn10thExamPack" class="p-pack-chip indigo" data-pack="exam10th">📘 10회 기출 (80)</button>
+              <button id="btn9thExamPack" class="p-pack-chip danger" data-pack="exam9th">🔥 9회 기출 (80)</button>
+              <button id="btn8thExamPack" class="p-pack-chip warning" data-pack="exam8th">🏆 8회 기출 (80)</button>
+              <button id="btn4thExamPack" class="p-pack-chip brand" data-pack="exam4th">🌱 4회 기출 (80)</button>
+              <button id="btnFrequentGichulPack" class="p-pack-chip orange" data-pack="frequent">⭐ 단원별 빈출 (272)</button>
+              <button id="btnUnsolvedOnlyPack" class="p-pack-chip green" data-pack="unsolved">⏳ 안 푼 새 문제만</button>
+              <button id="btnWrongRetryPack" class="p-pack-chip danger" data-pack="wrong">📕 오답 집중 탈출</button>
+              <button id="btnBookmarkedOnly" class="p-pack-chip dark" data-pack="bookmark">📌 내 북마크</button>
+            </div>
+
+            <!-- 🌟 STEP 4: 실시간 활성 필터 태그 스트립 (Active Filters Strip) -->
+            <div class="active-filters-strip hidden" id="activeFiltersStrip">
+              <div class="active-filters-label">
+                <span class="af-icon">🎯</span>
+                <span>적용된 필터:</span>
+              </div>
+              <div class="active-tags-list" id="activeTagsList"></div>
+              <button id="clearAllFiltersBtn" class="clear-all-filters-btn" title="모든 필터 초기화">✕ 전체 해제</button>
             </div>
 
             <!-- 💎 실전 CBT 모의고사 전용 타이머 & OMR 컨트롤 바 -->
@@ -531,7 +687,7 @@
                   <circle cx="11" cy="11" r="8"></circle>
                   <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
-                <input type="text" id="quizSearchInput" placeholder="문제 키워드, 개념명, 공식 검색 (예: 경사하강법, F1-Score, VIF, 오즈비)..."
+                <input type="text" id="quizSearchInput" placeholder="문제 키워드, 개념명, 공식 검색 (예: 13회 킬러, 경사하강법, F1, VIF, 오즈비)..."
                   autocomplete="off" />
                 <button id="clearSearchBtn" class="clear-search-btn hidden" aria-label="검색어 지우기">✕</button>
                 <span class="search-kbd-hint">Ctrl + K</span>
@@ -539,35 +695,25 @@
             </div>
 
             <!-- 💎 필터 칩 (과목, 회차, 유형, 중요도) -->
-            <div class="premium-filters-wrapper" id="premiumFiltersWrapper">
-              <button id="toggleMobileFiltersBtn" class="mobile-filter-toggle-btn" aria-label="필터 접기/펼치기">
-                <span>⚙️ 상세 필터 설정 (과목/회차/유형)</span>
-                <span id="filterToggleIcon">▲ 접기</span>
+            <div class="premium-filters-wrapper collapsed" id="premiumFiltersWrapper">
+              <button id="toggleMobileFiltersBtn" class="mobile-filter-toggle-btn" aria-label="상세 필터 접기/펼치기">
+                <span>⚙️ 상세 맞춤 필터 설정 (과목 / 회차 / 유형 / 중요도 / 난이도)</span>
+                <span id="filterToggleIcon">▼ 펼치기</span>
               </button>
-              <div class="filter-group">
-                <span class="filter-label">과목:</span>
-                <div class="filter-chip-bar" id="subjectFilterChips">
-                  <button class="f-chip active" data-sub="all">전체 과목</button>
-                  <button class="f-chip" data-sub="1">1과목 분석기획</button>
-                  <button class="f-chip" data-sub="2">2과목 데이터탐색</button>
-                  <button class="f-chip" data-sub="3">3과목 데이터모델링</button>
-                  <button class="f-chip" data-sub="4">4과목 결과해석</button>
-                </div>
-              </div>
 
               <div class="filter-group">
                 <span class="filter-label">기출회차:</span>
                 <div class="filter-chip-bar" id="roundFilterChips">
-                  <button class="f-chip" data-round="all">전체 문제 (1001)</button>
-                  <button class="f-chip active" data-round="gichul_all">👑 진짜 기출 전체 (914)</button>
-                  <button class="f-chip" data-round="12">🔥 12회 (242)</button>
-                  <button class="f-chip" data-round="11">🎯 11회 (80)</button>
-                  <button class="f-chip" data-round="10">📘 10회 (80)</button>
-                  <button class="f-chip" data-round="9">🏆 9회 (80)</button>
-                  <button class="f-chip" data-round="8">⚡ 8회 (80)</button>
-                  <button class="f-chip" data-round="4">🌱 4회 (80)</button>
-                  <button class="f-chip" data-round="frequent">⭐ 단원별 빈출 기출 (272)</button>
-                  <button class="f-chip" data-round="practice">📝 단원별 개념/예상 (87)</button>
+                  <button class="f-chip" data-round="all">전체 회차</button>
+                  <button class="f-chip active" data-round="gichul_all">👑 진짜 기출 전체 (930+)</button>
+                  <button class="f-chip" data-round="12">🔥 12회 기출 (242)</button>
+                  <button class="f-chip" data-round="11">🎯 11회 기출 (80)</button>
+                  <button class="f-chip" data-round="10">📘 10회 기출 (80)</button>
+                  <button class="f-chip" data-round="9">🏆 9회 기출 (80)</button>
+                  <button class="f-chip" data-round="8">⚡ 8회 기출 (80)</button>
+                  <button class="f-chip" data-round="4">🌱 4회 기출 (80)</button>
+                  <button class="f-chip" data-round="frequent">⭐ 단원별 빈출 (272)</button>
+                  <button class="f-chip" data-round="practice">📝 단원별 개념/예상 (84)</button>
                 </div>
               </div>
 
@@ -575,8 +721,14 @@
                 <span class="filter-label">학습유형:</span>
                 <div class="filter-chip-bar" id="typeFilterChips">
                   <button class="f-chip active" data-type="all">전체 유형</button>
-                  <button class="f-chip" data-type="calc">🧮 계산 공식형</button>
-                  <button class="f-chip" data-type="gradeA">⭐ A급 필수</button>
+                  <button class="f-chip" data-type="killer13th_predict">🔮 13회 적중 예상 (60)</button>
+                  <button class="f-chip" data-type="killer13th_killer">⚡ 13회 킬러 특훈 (94)</button>
+                  <button class="f-chip" data-type="calc">🧮 계산 공식형 (192)</button>
+                  <button class="f-chip" data-type="gradeA">⭐ A급 60점 필수 (400+)</button>
+                  <button class="f-chip" data-type="trap">🚨 단골 함정 선지형 (225)</button>
+                  <button class="f-chip" data-type="diff">🎯 개념 비교·판별형 (429)</button>
+                  <button class="f-chip" data-type="box">📊 보기·표 박스형</button>
+                  <button class="f-chip" data-type="unsolved">⏳ 안 푼 문제만</button>
                   <button class="f-chip" data-type="bookmark">📌 내 북마크</button>
                 </div>
               </div>
@@ -588,6 +740,16 @@
                   <button class="f-chip" data-imp="A">A급 (필수)</button>
                   <button class="f-chip" data-imp="B">B급 (핵심)</button>
                   <button class="f-chip" data-imp="C">C급 (심화)</button>
+                </div>
+              </div>
+
+              <div class="filter-group">
+                <span class="filter-label">난이도:</span>
+                <div class="filter-chip-bar" id="difficultyFilterChips">
+                  <button class="f-chip active" data-diff="all">모든 난이도</button>
+                  <button class="f-chip" data-diff="easy">쉬움</button>
+                  <button class="f-chip" data-diff="medium">보통</button>
+                  <button class="f-chip" data-diff="hard">어려움</button>
                 </div>
               </div>
 
@@ -1157,7 +1319,6 @@
       </div>
     </div>
   </div>
-
   <!-- ============================================== -->
   <!-- MODAL 9: 📋 실전 CBT 80문항 OMR 답안지 드로어 & 오버레이 -->
   <!-- ============================================== -->
@@ -1189,8 +1350,86 @@
     </div>
   </div>
 
+  <!-- ============================================== -->
+  <!-- MODAL 10: 🗂️ 카테고리 & 세부 단원 브라우저 맵 모달 -->
+  <!-- ============================================== -->
+  <div id="categoryNavModal" class="modal-overlay hidden">
+    <div class="modal-card blur-glass category-nav-modal-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="brand-badge-pill" style="background: rgba(0, 122, 255, 0.15); color: var(--brand); font-weight: 850;">🗂️ CATEGORY NAVIGATOR</span>
+          <h2>빅데이터분석기사 전과목 카테고리 맵</h2>
+        </div>
+        <button id="closeCategoryNavBtn" class="icon-btn" aria-label="카테고리 맵 닫기">✕</button>
+      </div>
 
+      <div class="modal-body category-nav-body">
+        <p class="category-nav-intro">
+          풀고 싶은 과목, 세부 단원(챕터) 또는 핵심 문제 유형을 클릭하면 해당 문제 세트로 즉시 진입합니다.
+        </p>
 
+        <!-- 1. 핵심 문제 유형 퀵 바로가기 -->
+        <div class="cat-modal-section">
+          <div class="cat-modal-sec-title">🎯 핵심 테마 & 특수 문제 유형 (바로 풀기)</div>
+          <div class="cat-type-pills-grid">
+            <button class="cat-type-pill-btn" data-modal-type="killer13th_predict">
+              <span class="ctp-icon">🔮</span>
+              <span class="ctp-name">13회 적중 출제예상</span>
+              <span class="ctp-count">60제</span>
+            </button>
+            <button class="cat-type-pill-btn" data-modal-type="killer13th_killer">
+              <span class="ctp-icon">⚡</span>
+              <span class="ctp-name">12회 반영 13회 킬러 특훈</span>
+              <span class="ctp-count">94제</span>
+            </button>
+            <button class="cat-type-pill-btn" data-modal-round="12">
+              <span class="ctp-icon">🔥</span>
+              <span class="ctp-name">12회 최신 복원 기출</span>
+              <span class="ctp-count">242제</span>
+            </button>
+            <button class="cat-type-pill-btn" data-modal-type="calc">
+              <span class="ctp-icon">🧮</span>
+              <span class="ctp-name">계산 공식 집중 공략</span>
+              <span class="ctp-count">192제</span>
+            </button>
+            <button class="cat-type-pill-btn" data-modal-type="gradeA">
+              <span class="ctp-icon">⭐</span>
+              <span class="ctp-name">A급 60점 필수 빈출</span>
+              <span class="ctp-count">400제+</span>
+            </button>
+            <button class="cat-type-pill-btn" data-modal-type="trap">
+              <span class="ctp-icon">🚨</span>
+              <span class="ctp-name">단골 함정 선지형 (옳지 않은 것)</span>
+              <span class="ctp-count">225제</span>
+            </button>
+            <button class="cat-type-pill-btn" data-modal-type="diff">
+              <span class="ctp-icon">🎯</span>
+              <span class="ctp-name">헷갈리는 개념 비교·판별형</span>
+              <span class="ctp-count">429제</span>
+            </button>
+            <button class="cat-type-pill-btn" data-modal-type="unsolved">
+              <span class="ctp-icon">⏳</span>
+              <span class="ctp-name">안 푼 새 문제만 풀기</span>
+              <span class="ctp-count">스마트 진도</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. 1~4과목 세부 단원 브라우저 트리 -->
+        <div class="cat-modal-section" style="margin-top: 20px;">
+          <div class="cat-modal-sec-title">📚 1~4과목 세부 단원(챕터) 트리</div>
+          <div class="cat-subjects-grid" id="catModalSubjectsGrid">
+            <!-- JS에서 4개 과목별 챕터 카드 실시간 렌더링 -->
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 12px; color: var(--text-muted); font-weight: 700;">💡 단원을 클릭하면 해당 단원의 문제만 즉시 필터링됩니다.</span>
+        <button id="closeCategoryNavFooterBtn" class="button button-light">닫기</button>
+      </div>
+    </div>
+  </div>
 
   <!-- 모바일 하단 네비게이션 바 (Knowway Style 5 Tabs) -->
   <!-- ============================================== -->
