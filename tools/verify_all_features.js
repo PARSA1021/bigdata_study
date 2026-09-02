@@ -23,7 +23,7 @@ const roundExpected = {
   '9': 80,
   '8': 80,
   '4': 80,
-  'frequent': 272,
+  'frequent': 285,
   'practice': 87
 };
 
