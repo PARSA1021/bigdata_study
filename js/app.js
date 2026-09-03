@@ -159,7 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
     is11thOnly: false,
     is10thOnly: false,
     is13thPredictOnly: false,
-    is13thKillerOnly: false
+    is13thKillerOnly: false,
+    isVariantOnly: false
   };
   let practiceSolvedMap = new Map();
   let eliminatedOptionsMap = new Map(); // quizId -> Set of eliminated choice indices
@@ -470,6 +471,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function isCalcQuestion(quiz) {
     const text = (quiz.question + " " + (quiz.explanation || "") + " " + (quiz.choices || []).join(" ")).toLowerCase();
     return CALC_KEYWORDS.some(kw => text.includes(kw.toLowerCase()));
+  }
+
+  function isVariantQuestion(quiz) {
+    const text = ((quiz.question || "") + " " + (quiz.chapter || "") + " " + (quiz.exam || "") + " " + (quiz.explanation || "")).toLowerCase();
+    const qid = String(quiz.id || "");
+    return qid.includes("VAR") || text.includes("기출 변형") || text.includes("개념 변형") || text.includes("기출 개념 변형") || text.includes("기출변형") || text.includes("신유형") || (quiz.exam && quiz.exam.includes("변형"));
   }
 
   function is13thKillerQuestion(quiz) {
@@ -1011,6 +1018,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // 5. Type Filter (Cached)
       if (quizFilter.type && quizFilter.type !== "all") {
+        if (quizFilter.type === "variant" && !q._isVariant) return false;
         if (quizFilter.type === "killer13th_predict" && !q._isPredict13) return false;
         if (quizFilter.type === "killer13th_killer" && !q._isKiller13) return false;
         if (quizFilter.type === "calc" && !q._isCalc) return false;
@@ -1026,6 +1034,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // 6. Direct Flags
+      if (quizFilter.isVariantOnly && !q._isVariant) return false;
       if (quizFilter.is13thPredictOnly && !q._isPredict13) return false;
       if (quizFilter.is13thKillerOnly && !q._isKiller13) return false;
       if (quizFilter.calcOnly && !q._isCalc) return false;
@@ -2242,6 +2251,7 @@ document.addEventListener("DOMContentLoaded", () => {
       q._isCalc = isCalcQuestion(q);
       q._isKiller13 = is13thKillerQuestion(q);
       q._isPredict13 = is13thPredictedQuestion(q);
+      q._isVariant = isVariantQuestion(q);
       q._isDiff = isConceptDiffQuestion(q);
       q._isTrap = isTrapQuestion(q);
       q._isBox = isBoxQuestion(q);
@@ -2978,6 +2988,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const roundCounts = { all: allQuizzes.length, gichul_all: 0, 12: 0, 11: 0, 10: 0, 9: 0, 8: 0, 4: 0, frequent: 0, practice: 0, mock: 0 };
       const typeCounts = {
         all: allQuizzes.length,
+        variant: 0,
         killer13th_predict: 0,
         killer13th_killer: 0,
         calc: 0,
@@ -3000,6 +3011,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (q.exam && q.exam.includes("빈출")) roundCounts.frequent++;
         if (r === "practice" || String(q.id).startsWith("Q1") || String(q.id).startsWith("Q2") || String(q.id).startsWith("Q3") || String(q.id).startsWith("Q4")) roundCounts.practice++;
 
+        if (q._isVariant) typeCounts.variant++;
         if (q._isPredict13) typeCounts.killer13th_predict++;
         if (q._isKiller13) typeCounts.killer13th_killer++;
         if (q._isCalc) typeCounts.calc++;
@@ -3054,6 +3066,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.querySelectorAll("#typeFilterChips .f-chip").forEach(chip => {
         const t = chip.dataset.type;
         if (t === "all") chip.textContent = `전체 유형 (${allQuizzes.length})`;
+        else if (t === "variant") chip.textContent = `🔄 기출 개념 변형 (${typeCounts.variant})`;
         else if (t === "killer13th_predict") chip.textContent = `🔮 13회 적중 예상 (${typeCounts.killer13th_predict})`;
         else if (t === "killer13th_killer") chip.textContent = `⚡ 13회 킬러 특훈 (${typeCounts.killer13th_killer})`;
         else if (t === "calc") chip.textContent = `🧮 계산 공식형 (${typeCounts.calc})`;
@@ -3152,6 +3165,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Pack Bindings
     bindPackBtn("btnAllGichulPack", "👑 역대 기출 전체 팩이 로드되었습니다!", f => f.round = "gichul_all");
+    bindPackBtn("btnVariantPack", "🔄 기출 개념 변형 (신유형/역발상/시나리오) 특훈 팩이 로드되었습니다!", f => { f.type = "variant"; f.isVariantOnly = true; });
     bindPackBtn("btn13thPredictedPack", "🔮 13회 적중 출제예상 문제 팩이 로드되었습니다!", f => { f.type = "killer13th_predict"; f.is13thPredictOnly = true; });
     bindPackBtn("btn13thKillerPack", "⚡ 12회 기출 경향을 반영한 13회 킬러 특훈 팩이 로드되었습니다!", f => { f.type = "killer13th_killer"; f.is13thKillerOnly = true; });
     bindPackBtn("btn12thExamPack", "🔥 12회 최신 복원 기출 팩이 로드되었습니다!", f => f.round = "12");
@@ -3543,7 +3557,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Type
     if (quizFilter.type && quizFilter.type !== "all") {
       let tLabel = "유형";
-      if (quizFilter.type === "killer13th_predict") tLabel = "🔮 13회 적중 예상";
+      if (quizFilter.type === "variant") tLabel = "🔄 기출 개념 변형";
+      else if (quizFilter.type === "killer13th_predict") tLabel = "🔮 13회 적중 예상";
       else if (quizFilter.type === "killer13th_killer") tLabel = "⚡ 13회 킬러 특훈";
       else if (quizFilter.type === "calc") tLabel = "🧮 계산 공식";
       else if (quizFilter.type === "gradeA") tLabel = "⭐ A급 필수";

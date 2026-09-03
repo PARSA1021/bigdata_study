@@ -113,7 +113,7 @@ if (invalidQ === 0) {
 const html = fs.readFileSync(path.join(ROOT_DIR, 'index.html'), 'utf8');
 const expectedElements = [
   'mockPreset12th', 'mockPreset11th', 'mockPreset10th', 'mockPreset9th', 'mockPreset8th', 'mockPreset4th', 'mockPresetRandom',
-  'btnAllGichulPack', 'btn12thExamPack', 'btn11thExamPack', 'btn10thExamPack', 'btn9thExamPack', 'btn8thExamPack', 'btn4thExamPack', 'btnFrequentGichulPack',
+  'btnAllGichulPack', 'btnVariantPack', 'btn12thExamPack', 'btn11thExamPack', 'btn10thExamPack', 'btn9thExamPack', 'btn8thExamPack', 'btn4thExamPack', 'btnFrequentGichulPack',
   'wrongTotalCount', 'wrongMasteredCount', 'wrongBookmarkCount', 'retryAllWrongBtn', 'retryGichulWrongBtn',
   'wfAllCount', 'wfGichulCount', 'wfHighCount', 'wfMasteredTabCount', 'wfBookCount', 'wfSub1Count', 'wfSub2Count', 'wfSub3Count', 'wfSub4Count',
   'oxTrainerModal', 'calcToolModal', 'ddayModal', 'examHallFlashModal', 'omrDrawer'
