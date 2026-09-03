@@ -9,22 +9,27 @@
 
 ```text
 bigdata_study/
-├── icons/                        # PWA 앱 아이콘 (192px, 512px)
+├── css/                              # 스타일시트
+│   └── style.css                     # GPU 가속 및 반응형 제로-렉 디자인 시스템
+├── js/                               # 애플리케이션 코어 로직
+│   ├── app.js                        # 홈·루틴, 스마트기출 CBT, 요약노트, 오답탈출 핵심 엔진
+│   └── tutor.js                      # 1:1 대화형 AI 튜터 및 음성/스피드 드릴 엔진
+├── data/                             # 문제은행 및 학습 데이터베이스
+│   ├── cbt_bank.js / cbt_bank.json   # 1,014제 실전 기출 복원 문제은행 데이터 (12회~4회)
+│   ├── data.js / data.json           # 1~4과목 + 킬러 30개 섹션 핵심 요약노트 데이터
+│   └── tutor_data.js                 # AI 튜터 16단계 마스터 커리큘럼 데이터베이스
+├── icons/                            # PWA 앱 아이콘 (192px, 512px)
 │   ├── icon-192.png
 │   └── icon-512.png
-├── tools/                        # 개발 및 무결성 검증 유틸리티
-│   ├── server.js                 # 로컬 개발용 경량 웹 서버 (Node.js)
-│   └── validate_system.js        # 데이터 및 시스템 무결성 자동 검증기
-├── index.html                    # 메인 단일 페이지 웹 애플리케이션 (SPA)
-├── style.css                     # GPU 가속 및 반응형 제로-렉 디자인 시스템
-├── app.js                        # 홈·루틴, 스마트기출 CBT, 요약노트, 오답탈출 핵심 엔진
-├── tutor.js                      # 1:1 대화형 AI 튜터 및 음성/스피드 드릴 엔진
-├── tutor_data.js                 # AI 튜터 16단계 마스터 커리큘럼 데이터베이스
-├── data.js / data.json           # 1~4과목 + 킬러 30개 섹션 핵심 요약노트 데이터
-├── cbt_bank.js / cbt_bank.json   # 941제 실전 기출 복원 문제은행 데이터 (12회 최신 반영)
-├── manifest.json                 # PWA 웹앱 매니페스트
-├── sw.js                         # 고성능 오프라인 캐싱 서비스 워커 (v12-turbo)
-└── README.md                     # 프로젝트 문서
+├── tools/                            # 개발, 테스트 및 무결성 검증 유틸리티
+│   ├── server.js                     # 로컬 개발용 경량 웹 서버 (Node.js)
+│   ├── validate_system.js            # 데이터 및 시스템 무결성 자동 검증기
+│   ├── audit_system.js               # DOM 요소 및 선택자 종합 정밀 감사기
+│   └── test_e2e.js                   # 전 기능 및 모의고사 시뮬레이션 테스트
+├── index.html                        # 메인 단일 페이지 웹 애플리케이션 (SPA)
+├── manifest.json                     # PWA 웹앱 매니페스트
+├── sw.js                             # 고성능 오프라인 캐싱 서비스 워커 (v14-clean)
+└── README.md                         # 프로젝트 문서
 ```
 
 ---
@@ -67,7 +72,14 @@ node tools/server.js
 ```
 실행 후 브라우저에서 `http://localhost:3000/` 접속.
 
-### 시스템 무결성 검증
+### 시스템 무결성 검증 및 전 기능 테스트
 ```bash
+# 1. 파일 구조 및 데이터 무결성 검증
 node tools/validate_system.js
+
+# 2. 전 회차(12회~4회) 모의고사 및 AI 튜터 E2E 시뮬레이션
+node tools/test_e2e.js
+
+# 3. DOM 요소 및 기능 종합 정밀 감사
+node tools/audit_system.js
 ```

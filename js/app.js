@@ -188,16 +188,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // 3. DOM ELEMENTS
   // ==========================================
-  const mainNavButtons = document.querySelectorAll(".main-nav-btn, .sidebar-nav-item, .bottom-nav-item");
+  const mainNavButtons = document.querySelectorAll(".main-nav-btn, .bottom-nav-item");
   const brandLogoBtn = document.getElementById("brandLogoBtn");
   const topbarDdayPill = document.getElementById("topbarDdayPill");
   const topbarDdayText = document.getElementById("topbarDdayText");
   const topbarStreakCount = document.getElementById("topbarStreakCount");
-  const openCheatSheetTopBtn = document.getElementById("openCheatSheetTopBtn");
-  const menuBtn = document.getElementById("menuBtn");
-  const closeSidebarBtn = document.getElementById("closeSidebarBtn");
-  const sidebar = document.getElementById("sidebar");
-  const overlay = document.getElementById("overlay");
   const toTopBtn = document.getElementById("toTop");
 
   // Views
@@ -218,45 +213,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnResetData = document.getElementById("btnResetData");
 
   // Home view elements
-  const homeDdayCount = document.getElementById("homeDdayCount");
-  const homeDdayTarget = document.getElementById("homeDdayTarget");
-  const homeStreakNum = document.getElementById("homeStreakNum");
-  const homeStreakWeekDots = document.getElementById("homeStreakWeekDots");
-  const homeGoalRate = document.getElementById("homeGoalRate");
-  const homeTodaySolved = document.getElementById("homeTodaySolved");
-  const homeGoalProgressFill = document.getElementById("homeGoalProgressFill");
-  const homeGoalSubText = document.getElementById("homeGoalSubText");
   const homeTotalSolved = document.getElementById("homeTotalSolved");
   const homeAccuracy = document.getElementById("homeAccuracy");
   const homeWrongCount = document.getElementById("homeWrongCount");
-  const heatmapGrid = document.getElementById("heatmapGrid");
   const homeSubjectBars = document.getElementById("homeSubjectBars");
   const resumeBanner = document.getElementById("resumeBanner");
   const resumeTitle = document.getElementById("resumeTitle");
   const resumeDetail = document.getElementById("resumeDetail");
   const resumeActionBtn = document.getElementById("resumeActionBtn");
-  const editDdayBtn = document.getElementById("editDdayBtn");
   const examTimelineGrid = document.getElementById("examTimelineGrid");
   const roadmapMasteryRate = document.getElementById("roadmapMasteryRate");
-
-  // Quick Action Buttons in Home
-  const quickAgradePassBtn = document.getElementById("quickAgradePassBtn");
-  const quickOxTrainerBtn = document.getElementById("quickOxTrainerBtn");
-  const quickCalcPackBtn = document.getElementById("quickCalcPackBtn");
-  const quickCheatSheetBtn = document.getElementById("quickCheatSheetBtn");
 
   // Notes View Elements
   const navContainer = document.getElementById("nav-container");
   const contentEl = document.getElementById("content");
-  const searchInput = document.getElementById("searchInput");
-  const clearSearchBtn = document.getElementById("clearSearchBtn");
-  const searchStatusEl = document.getElementById("searchStatus");
   const progressBar = document.getElementById("progressBar");
   const progressPercent = document.getElementById("progressPercent");
 
   // Practice & Mock Elements
-  const tabPractice = document.getElementById("tabPractice");
-  const tabMockExam = document.getElementById("tabMockExam");
   const practiceHeader = document.getElementById("practice-header");
   const mockHeader = document.getElementById("mock-header");
   const quizToolbar = document.getElementById("quiz-toolbar");
@@ -265,23 +239,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const btnAgradePass = document.getElementById("btnAgradePass");
   const btnCalcPack = document.getElementById("btnCalcPack");
-  const target13thQuizBtn = document.getElementById("target13thQuizBtn");
-  const termStatQuizBtn = document.getElementById("termStatQuizBtn");
-
-  const subjectFilter = document.getElementById("subjectFilter");
-  const difficultyFilter = document.getElementById("difficultyFilter");
-  const importanceFilter = document.getElementById("importanceFilter");
-  const tagFilter = document.getElementById("tagFilter");
-  const keywordSearch = document.getElementById("keywordSearch");
-  const searchQuizBtn = document.getElementById("searchQuizBtn");
 
   // Mock exam elements
   const examTimer = document.getElementById("examTimer");
   const openOmrBtn = document.getElementById("openOmrBtn");
   const submitExamBtn = document.getElementById("submitExamBtn");
   const omrSolvedCount = document.getElementById("omrSolvedCount");
+  const mockPreset12th = document.getElementById("mockPreset12th");
   const mockPreset11th = document.getElementById("mockPreset11th");
   const mockPreset10th = document.getElementById("mockPreset10th");
+  const mockPreset9th = document.getElementById("mockPreset9th");
+  const mockPreset8th = document.getElementById("mockPreset8th");
   const mockPreset4th = document.getElementById("mockPreset4th");
   const mockPresetRandom = document.getElementById("mockPresetRandom");
 
@@ -299,14 +267,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const wrongMasteredCount = document.getElementById("wrongMasteredCount");
   const wrongBookmarkCount = document.getElementById("wrongBookmarkCount");
   const wfAllCount = document.getElementById("wfAllCount");
+  const wfGichulCount = document.getElementById("wfGichulCount");
   const wfHighCount = document.getElementById("wfHighCount");
+  const wfMasteredTabCount = document.getElementById("wfMasteredTabCount");
   const wfBookCount = document.getElementById("wfBookCount");
   const wrongListContainer = document.getElementById("wrongListContainer");
   const retryAllWrongBtn = document.getElementById("retryAllWrongBtn");
+  const retryGichulWrongBtn = document.getElementById("retryGichulWrongBtn");
 
   // Modals
   const sprintTimerOverlay = document.getElementById("sprintTimerOverlay");
-  const quickSprintModeBtn = document.getElementById("quickSprintModeBtn");
   let sprintInterval = null;
   let sprintSeconds = 300;
   let isSprintMode = false;
@@ -786,9 +756,6 @@ document.addEventListener("DOMContentLoaded", () => {
     [homeView, tutorView, notesView, quizContentView, wrongView, statsView].forEach(v => {
       if (v) v.classList.add("hidden");
     });
-
-    if (sidebar) sidebar.classList.remove("active");
-    if (overlay) overlay.classList.remove("active");
 
     window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -1459,21 +1426,24 @@ document.addEventListener("DOMContentLoaded", () => {
     currentPreset = preset;
     let selected = [];
     if (preset === "12th") {
-      selected = allQuizzes.filter(q => q.id && q.id.startsWith("Q12_"));
-      if (selected.length === 0) selected = allQuizzes.slice(0, 80);
+      for (let s = 1; s <= 4; s++) {
+        const sQuizzes = allQuizzes.filter(q => q.round === "12" && q.subject === s);
+        selected.push(...sQuizzes.slice(0, 20));
+      }
     } else if (preset === "11th") {
-      selected = allQuizzes.filter(q => q.id && q.id.startsWith("Q11_"));
-      if (selected.length === 0) selected = allQuizzes.slice(0, 80);
+      selected = allQuizzes.filter(q => q.round === "11");
     } else if (preset === "10th") {
-      selected = allQuizzes.filter(q => q.id && q.id.startsWith("Q10_"));
-      if (selected.length === 0) selected = allQuizzes.slice(80, 160);
+      selected = allQuizzes.filter(q => q.round === "10");
+    } else if (preset === "9th") {
+      selected = allQuizzes.filter(q => q.round === "9");
+    } else if (preset === "8th") {
+      selected = allQuizzes.filter(q => q.round === "8");
     } else if (preset === "4th") {
-      selected = allQuizzes.filter(q => q.id && q.id.startsWith("Q4_"));
-      if (selected.length === 0) selected = allQuizzes.slice(160, 240);
+      selected = allQuizzes.filter(q => q.round === "4");
     } else {
       selected = [];
       for (let s = 1; s <= 4; s++) {
-        const sQuizzes = allQuizzes.filter(q => q.subject === s);
+        const sQuizzes = allQuizzes.filter(q => q.isGichul && q.subject === s);
         selected.push(...shuffleArray(sQuizzes).slice(0, 20));
       }
     }
@@ -1484,13 +1454,22 @@ document.addEventListener("DOMContentLoaded", () => {
     mockFlaggedSet.clear();
     isMockSubmitted = false;
 
-    [mockPreset11th, mockPreset10th, mockPreset4th, mockPresetRandom].forEach(p => {
+    const presetButtons = {
+      "12th": mockPreset12th,
+      "11th": mockPreset11th,
+      "10th": mockPreset10th,
+      "9th": mockPreset9th,
+      "8th": mockPreset8th,
+      "4th": mockPreset4th,
+      "random": mockPresetRandom
+    };
+
+    Object.values(presetButtons).forEach(p => {
       if (p) p.classList.remove("active");
     });
-    if (preset === "11th" && mockPreset11th) mockPreset11th.classList.add("active");
-    if (preset === "10th" && mockPreset10th) mockPreset10th.classList.add("active");
-    if (preset === "4th" && mockPreset4th) mockPreset4th.classList.add("active");
-    if (preset === "random" && mockPresetRandom) mockPresetRandom.classList.add("active");
+    if (presetButtons[preset]) {
+      presetButtons[preset].classList.add("active");
+    }
 
     startExamTimer();
     renderQuizzes(true);
@@ -2713,9 +2692,8 @@ document.addEventListener("DOMContentLoaded", () => {
             m.style.display = "none";
           }
         });
-        const omrModal = document.getElementById("omrModal");
-        if (omrModal && omrModal.classList.contains("active")) {
-          omrModal.classList.remove("active");
+        if (omrDrawer && omrDrawer.classList.contains("open")) {
+          toggleOmr(false);
         }
         document.body.style.overflow = "";
         return;
@@ -2740,20 +2718,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Mobile Collapsible TOC Toggle
-    const toggleTocBtn = document.getElementById("toggleMobileTocBtn");
-    const notesTocContainer = document.getElementById("notesTocContainer");
-    const tocToggleText = document.getElementById("tocToggleText");
-    const tocToggleIcon = document.getElementById("tocToggleIcon");
-
-    if (toggleTocBtn && notesTocContainer) {
-      toggleTocBtn.addEventListener("click", () => {
-        const isCollapsed = notesTocContainer.classList.toggle("collapsed");
-        if (tocToggleText) tocToggleText.textContent = isCollapsed ? "펼치기" : "접기";
-        if (tocToggleIcon) tocToggleIcon.textContent = isCollapsed ? "▼" : "▲";
-      });
-    }
-
     // Theme Switcher
     const themeTriggers = document.querySelectorAll("#themeToggleBtn");
     themeTriggers.forEach(btn => {
@@ -2777,36 +2741,10 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
 
-    // Quick Triggers
-    if (quickSprintModeBtn) {
-      quickSprintModeBtn.addEventListener("click", startSprintMode);
-    }
-    if (quickAgradePassBtn) {
-      quickAgradePassBtn.addEventListener("click", () => {
-        switchNav("practice");
-        if (btnAgradePass) btnAgradePass.click();
-      });
-    }
-    if (quickOxTrainerBtn) {
-      quickOxTrainerBtn.addEventListener("click", startOxTrainer);
-    }
-    if (quickCalcPackBtn) {
-      quickCalcPackBtn.addEventListener("click", () => {
-        switchNav("practice");
-        if (btnCalcPack) btnCalcPack.click();
-      });
-    }
-    if (quickCheatSheetBtn || openCheatSheetTopBtn) {
-      const openCs = () => openCheatSheetModal();
-      if (quickCheatSheetBtn) quickCheatSheetBtn.addEventListener("click", openCs);
-      if (openCheatSheetTopBtn) openCheatSheetTopBtn.addEventListener("click", openCs);
-    }
-
     if (btnAgradePass) {
       btnAgradePass.addEventListener("click", () => {
         quizFilter.importance = "A";
         quizFilter.calcOnly = false;
-        if (importanceFilter) importanceFilter.value = "A";
         applyQuizFilter();
         renderQuizzes(true);
       });
@@ -2849,18 +2787,13 @@ document.addEventListener("DOMContentLoaded", () => {
       submitExamBtn.addEventListener("click", submitMockExam);
     }
 
-    if (mockPreset11th) {
-      mockPreset11th.addEventListener("click", () => loadMockPreset("11th"));
-    }
-    if (mockPreset10th) {
-      mockPreset10th.addEventListener("click", () => loadMockPreset("10th"));
-    }
-    if (mockPreset4th) {
-      mockPreset4th.addEventListener("click", () => loadMockPreset("4th"));
-    }
-    if (mockPresetRandom) {
-      mockPresetRandom.addEventListener("click", () => loadMockPreset("random"));
-    }
+    if (mockPreset12th) mockPreset12th.addEventListener("click", () => loadMockPreset("12th"));
+    if (mockPreset11th) mockPreset11th.addEventListener("click", () => loadMockPreset("11th"));
+    if (mockPreset10th) mockPreset10th.addEventListener("click", () => loadMockPreset("10th"));
+    if (mockPreset9th) mockPreset9th.addEventListener("click", () => loadMockPreset("9th"));
+    if (mockPreset8th) mockPreset8th.addEventListener("click", () => loadMockPreset("8th"));
+    if (mockPreset4th) mockPreset4th.addEventListener("click", () => loadMockPreset("4th"));
+    if (mockPresetRandom) mockPresetRandom.addEventListener("click", () => loadMockPreset("random"));
 
     // OX Trainer Modal Events
     if (closeOxModalBtn && oxTrainerModal) {
@@ -2887,15 +2820,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // D-Day Modal
-    if (editDdayBtn || topbarDdayPill) {
+    if (topbarDdayPill) {
       const openDday = () => {
         if (ddayTitleInput) ddayTitleInput.value = habitData.ddayTitle || "제13회 빅데이터분석기사 필기";
         if (ddayDateInput) ddayDateInput.value = habitData.ddayDate || "2026-09-05";
         if (dailyGoalInput) dailyGoalInput.value = habitData.dailyGoal || 30;
         if (ddayModal) ddayModal.classList.remove("hidden");
       };
-      if (editDdayBtn) editDdayBtn.addEventListener("click", openDday);
-      if (topbarDdayPill) topbarDdayPill.addEventListener("click", openDday);
+      topbarDdayPill.addEventListener("click", openDday);
     }
     if (closeDdayBtn && ddayModal) {
       closeDdayBtn.addEventListener("click", () => ddayModal.classList.add("hidden"));
@@ -2913,20 +2845,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Practice Mode Pack Buttons & Subject Filter Chips
     setupPracticeHeaderEvents();
-
-    // Notes Search with Debounce
-    const debouncedNotesSearch = debounce((val) => handleNotesSearch(val), 180);
-    if (searchInput) {
-      searchInput.addEventListener("input", e => {
-        debouncedNotesSearch(e.target.value);
-      });
-    }
-    if (clearSearchBtn && searchInput) {
-      clearSearchBtn.addEventListener("click", () => {
-        searchInput.value = "";
-        handleNotesSearch("");
-      });
-    }
 
     // Enhanced Notes View Controls
     setupNotesToolbarEvents();
@@ -4109,17 +4027,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupQuizContainerDelegation() {
     if (!quizContainer) return;
     quizContainer.addEventListener("click", e => {
-      // 1. Reset filter button
-      const resetBtn = e.target.closest("#resetFilterBtn");
+      // 1. Reset filter button (fallback for empty results)
+      const resetBtn = e.target.closest("#resetFilterBtn, #resetFilterBtnInline");
       if (resetBtn) {
-        quizFilter = { subject: "all", difficulty: "all", importance: "all", tag: "all", keyword: "", conceptCardId: null, calcOnly: false };
-        if (subjectFilter) subjectFilter.value = "all";
-        if (difficultyFilter) difficultyFilter.value = "all";
-        if (importanceFilter) importanceFilter.value = "all";
-        if (tagFilter) tagFilter.value = "all";
-        if (keywordSearch) keywordSearch.value = "";
-        applyQuizFilter();
-        renderQuizzes(true);
+        document.getElementById("resetFilterBtn")?.click();
         return;
       }
 
@@ -4573,7 +4484,6 @@ document.addEventListener("DOMContentLoaded", () => {
         notesFilter = { subject: "all", unlearnedOnly: false, bookmarkedOnly: false, keyword: "" };
         const inlineSearch = document.getElementById("notesInlineSearchInput");
         if (inlineSearch) inlineSearch.value = "";
-        if (searchInput) searchInput.value = "";
         const clearInlineBtn = document.getElementById("clearNotesInlineSearch");
         if (clearInlineBtn) clearInlineBtn.classList.add("hidden");
         const filterUnlearnedBtn = document.getElementById("btnFilterUnlearned");
@@ -4712,11 +4622,6 @@ document.addEventListener("DOMContentLoaded", () => {
               if (body) body.classList.remove("hidden");
             }
             targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-
-          if (window.innerWidth <= 900) {
-            if (sidebar) sidebar.classList.remove("active");
-            if (overlay) overlay.classList.remove("active");
           }
         }
       }

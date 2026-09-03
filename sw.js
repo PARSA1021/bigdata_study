@@ -3,16 +3,16 @@
  * 완벽한 오프라인 환경(노데이터/노와이파이) 지원 Caching Engine
  */
 
-const CACHE_NAME = 'knowway-bigdata-v13-turbo';
+const CACHE_NAME = 'knowway-bigdata-v14-clean';
 const PRECACHE_ASSETS = [
   './',
   './index.html',
-  './style.css',
-  './app.js',
-  './tutor.js',
-  './tutor_data.js',
-  './data.js',
-  './cbt_bank.js',
+  './css/style.css',
+  './js/app.js',
+  './js/tutor.js',
+  './data/tutor_data.js',
+  './data/data.js',
+  './data/cbt_bank.js',
   './manifest.json',
   './icons/icon-192.png',
   './icons/icon-512.png'

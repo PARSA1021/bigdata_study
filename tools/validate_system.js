@@ -4,19 +4,19 @@ const { execSync } = require('child_process');
 
 const ROOT_DIR = path.join(__dirname, '..');
 
-console.log('=== 🔍 KNOWWAY 시스템 무결성 및 8회·9회 기출 확장 검증 시작 ===\n');
+console.log('=== 🔍 KNOWWAY 시스템 무결성 및 기출 문제은행 검증 시작 ===\n');
 
 // 1. Core files presence check
 const requiredFiles = [
   'index.html',
-  'style.css',
-  'app.js',
-  'tutor.js',
-  'tutor_data.js',
-  'data.js',
-  'data.json',
-  'cbt_bank.js',
-  'cbt_bank.json',
+  'css/style.css',
+  'js/app.js',
+  'js/tutor.js',
+  'data/tutor_data.js',
+  'data/data.js',
+  'data/data.json',
+  'data/cbt_bank.js',
+  'data/cbt_bank.json',
   'manifest.json',
   'sw.js',
   'icons/icon-192.png',
@@ -32,11 +32,21 @@ requiredFiles.forEach(f => {
   }
 });
 if (missing === 0) {
-  console.log('✅ 1. 모든 필수 앱 파일 존재 확인 (13개 파일)');
+  console.log(`✅ 1. 모든 필수 앱 파일 존재 확인 (${requiredFiles.length}개 파일)`);
+} else {
+  process.exit(1);
 }
 
 // 2. JS Syntax validation
-['app.js', 'tutor.js', 'tutor_data.js', 'data.js', 'cbt_bank.js', 'sw.js'].forEach(file => {
+const jsFiles = [
+  'js/app.js',
+  'js/tutor.js',
+  'data/tutor_data.js',
+  'data/data.js',
+  'data/cbt_bank.js',
+  'sw.js'
+];
+jsFiles.forEach(file => {
   try {
     execSync(`node -c "${path.join(ROOT_DIR, file)}"`);
   } catch (err) {
@@ -48,12 +58,12 @@ console.log('✅ 2. 모든 JavaScript 파일 구문 무결성 통과 (Syntax 100
 
 // 3. Data consistency & Gichul metadata check
 global.window = {};
-require(path.join(ROOT_DIR, 'data.js'));
-require(path.join(ROOT_DIR, 'cbt_bank.js'));
-require(path.join(ROOT_DIR, 'tutor_data.js'));
+require(path.join(ROOT_DIR, 'data/data.js'));
+require(path.join(ROOT_DIR, 'data/cbt_bank.js'));
+require(path.join(ROOT_DIR, 'data/tutor_data.js'));
 
-const dataJson = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, 'data.json'), 'utf8'));
-const cbtJson = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, 'cbt_bank.json'), 'utf8'));
+const dataJson = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, 'data/data.json'), 'utf8'));
+const cbtJson = JSON.parse(fs.readFileSync(path.join(ROOT_DIR, 'data/cbt_bank.json'), 'utf8'));
 
 console.log(`✅ 3. 데이터 요약:`);
 console.log(`   - 요약노트 섹션 수: ${window.noteData.sections.length}개 (JSON 일치: ${dataJson.sections.length === window.noteData.sections.length})`);
@@ -120,4 +130,4 @@ if (missingElements === 0) {
   console.log(`✅ 5. 모든 기출 프리셋 7종, 퀵 팩 버튼 8종, 오답노트 필터 9종 및 풀이 액션 버튼 정상 확인`);
 }
 
-console.log('\n🎉 시스템 검증 완료: 8회·9회 기출문제가 완벽한 80문항 실전 세트로 가동됩니다!\n');
+console.log('\n🎉 시스템 무결성 검증 완료: 모든 파일 및 데이터가 정상 작동 중입니다!\n');
