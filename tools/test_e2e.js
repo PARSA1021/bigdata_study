@@ -68,11 +68,17 @@ presets.forEach(p => {
 
 // 4. AI Tutor integrity
 console.log('\n4. AI 튜터 16단계 커리큘럼 무결성 검증:');
-let totalCompareCards = 0;
+let totalConcepts = 0;
+let totalTutorQuestions = 0;
 tutor.forEach(st => {
-  if (st.compareCards) totalCompareCards += st.compareCards.length;
+  if (st.concepts) {
+    totalConcepts += st.concepts.length;
+    st.concepts.forEach(c => {
+      if (c.questions) totalTutorQuestions += c.questions.length;
+    });
+  }
 });
-console.log(`   ✓ ${tutor.length}단계 내 총 ${totalCompareCards}개 개념 비교 훈련 완비`);
+console.log(`   ✓ ${tutor.length}단계 내 총 ${totalConcepts}개 핵심 개념 및 ${totalTutorQuestions}개 실전 확인 문제 완비`);
 
 // 5. Summary Notes check
 let totalCards = 0;

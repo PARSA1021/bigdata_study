@@ -48,11 +48,7 @@ class AITutorEngine {
     this.popQuizIdx = 0;
     this.popQuizScore = 0;
 
-    // Chat History per concept
-    this.chatHistories = {}; // { [conceptId]: [ { role, text } ] }
-
-    // Audio State
-    this.isSpeaking = false;
+    // Audio SFX State
     this.audioCtx = null;
   }
 
@@ -380,12 +376,7 @@ class AITutorEngine {
       <div class="tutor-card tutor-header-banner blur-glass">
         <div class="tutor-banner-top">
           <div class="tutor-stage-tag">${currentStage.subjectName} · ${currentStage.title}</div>
-          <div style="display: flex; gap: 8px; align-items: center;">
-            <button id="tutorAudioBtn" class="tutor-audio-btn" onclick="window.aiTutor.toggleSpeech()">
-              <span>🔊 30초 핵심 음성 브리핑</span>
-            </button>
-            <div class="tutor-level-badge ${levelBadgeClass}">${levelLabel}</div>
-          </div>
+          <div class="tutor-level-badge ${levelBadgeClass}">${levelLabel}</div>
         </div>
         <h2 class="tutor-concept-title">
           <span class="t-icon">${currentStage.icon}</span> ${currentConcept.name}
@@ -489,40 +480,6 @@ class AITutorEngine {
 
       </div>
 
-      <!-- 💬 1:1 대화형 AI 튜터 질문하기 카드 -->
-      <div class="tutor-chat-section">
-        <div class="tutor-chat-box blur-glass">
-          <div class="tutor-chat-header">
-            <div class="t-chat-title">
-              <span>🤖 1:1 대화형 AI 질문 코치</span>
-              <span class="t-chat-badge">실시간 Q&A 지원</span>
-            </div>
-            <span style="font-size:12px; color:var(--text-muted);">"${currentConcept.name}" 개념 맞춤 질문 코칭</span>
-          </div>
-
-          <div id="tutorChatMessages" class="tutor-chat-messages">
-            <div class="t-chat-msg msg-tutor">
-              <div class="t-msg-avatar">🤖</div>
-              <div class="t-msg-bubble">
-                안녕하세요! <strong>[${currentConcept.name}]</strong> 개념에 대해 무엇이든 물어보세요. 아래 추천 질문을 클릭하거나 궁금한 점을 직접 적어주시면 출제자의 눈높이로 명쾌하게 풀어드립니다!
-              </div>
-            </div>
-          </div>
-
-          <div class="chat-preset-chips">
-            <button class="chat-chip-btn" onclick="window.aiTutor.handlePresetChat('trap')">⚠️ 가장 위험한 출제 함정은?</button>
-            <button class="chat-chip-btn" onclick="window.aiTutor.handlePresetChat('analogy')">🎨 실생활 비유 하나 더!</button>
-            <button class="chat-chip-btn" onclick="window.aiTutor.handlePresetChat('speed')">⚡ 3초 킬러 공식 요약</button>
-            <button class="chat-chip-btn" onclick="window.aiTutor.handlePresetChat('practical')">💼 실무에서는 어떻게 쓰이나요?</button>
-          </div>
-
-          <div class="tutor-chat-input-row">
-            <input type="text" id="tutorChatInput" class="tutor-chat-input" placeholder="이 개념에 대해 튜터에게 자유롭게 질문하세요..." onkeydown="if(event.key==='Enter') window.aiTutor.sendChatMessage()" />
-            <button class="button button-brand btn-chat-send" onclick="window.aiTutor.sendChatMessage()">질문하기 ➔</button>
-          </div>
-        </div>
-      </div>
-
       <!-- Action Anchor to Quiz -->
       <div class="tutor-quiz-anchor-bar">
         <div class="quiz-anchor-text">
@@ -557,72 +514,8 @@ class AITutorEngine {
     }
   }
 
-  // ========================================================
-  // 3. 음성 강의 (Web Speech API) & 사운드 이펙트
-  // ========================================================
-  toggleSpeech() {
-    if (this.isSpeaking) {
-      this.stopSpeech();
-    } else {
-      this.speakCurrentConcept();
-    }
-  }
-
-  speakCurrentConcept() {
-    if (!('speechSynthesis' in window)) {
-      alert("현재 브라우저는 음성 합성(TTS)을 지원하지 않습니다.");
-      return;
-    }
-
-    const curriculum = getTutorCurriculum();
-    const currentStage = curriculum[this.currentStageIdx];
-    const currentConcept = currentStage.concepts[this.currentConceptIdx];
-
-    const textToSpeak = `
-      빅데이터 분석기사 핵심 30초 강의입니다.
-      오늘의 핵심 개념은 ${currentConcept.name}입니다.
-      한 줄 정의는 다음과 같습니다. ${currentConcept.oneLineDef}.
-      시험장 3초 판단 치트키는 ${currentConcept.threeSecKey}입니다.
-      출제자의 킬러 함정에 주의하세요. ${currentConcept.confusingConcept}.
-      지금 바로 실전 확인 문제를 풀어보세요!
-    `;
-
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    utterance.lang = 'ko-KR';
-    utterance.rate = 1.05;
-
-    const audioBtn = document.getElementById("tutorAudioBtn");
-    utterance.onstart = () => {
-      this.isSpeaking = true;
-      if (audioBtn) {
-        audioBtn.classList.add("playing");
-        audioBtn.innerHTML = `<span>⏹️ 음성 브리핑 정지</span>`;
-      }
-    };
-
-    utterance.onend = utterance.onerror = () => {
-      this.isSpeaking = false;
-      if (audioBtn) {
-        audioBtn.classList.remove("playing");
-        audioBtn.innerHTML = `<span>🔊 30초 핵심 음성 브리핑</span>`;
-      }
-    };
-
-    window.speechSynthesis.speak(utterance);
-  }
-
-  stopSpeech() {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-    this.isSpeaking = false;
-    const audioBtn = document.getElementById("tutorAudioBtn");
-    if (audioBtn) {
-      audioBtn.classList.remove("playing");
-      audioBtn.innerHTML = `<span>🔊 30초 핵심 음성 브리핑</span>`;
-    }
-  }
+  // Safe no-op helper for backward compatibility
+  stopSpeech() {}
 
   playAudioEffect(type) {
     try {
@@ -669,93 +562,6 @@ class AITutorEngine {
     } catch (e) {
       // Audio context not allowed or unsupported
     }
-  }
-
-  // ========================================================
-  // 4. 대화형 AI 튜터 챗봇 로직 (Chat Assistant)
-  // ========================================================
-  handlePresetChat(chipType) {
-    const curriculum = getTutorCurriculum();
-    const currentStage = curriculum[this.currentStageIdx];
-    const currentConcept = currentStage.concepts[this.currentConceptIdx];
-
-    let userText = "";
-    let tutorReply = "";
-
-    if (chipType === 'trap') {
-      userText = `⚠️ 이 개념의 가장 위험한 출제 함정은 무엇인가요?`;
-      tutorReply = `출제위원들이 가장 즐겨 쓰는 함정은 <strong>[${currentConcept.confusingConcept}]</strong> 입니다.<br/><br/>
-      📌 <strong>구체적 함정 선지 패턴:</strong><br/>
-      ${(currentConcept.traps || []).map(t => `• ${t}`).join("<br/>")}<br/><br/>
-      지문에서 이 표현이 보이면 절대 낚이지 마시고 <strong>${currentConcept.threeSecKey}</strong> 원칙을 떠올리세요!`;
-    } else if (chipType === 'analogy') {
-      userText = `🎨 실생활 비유를 하나 더 쉽게 설명해 주세요!`;
-      tutorReply = `초등학생도 단번에 이해하는 비유입니다:<br/><br/>
-      🍎 <strong>${currentConcept.name}의 일상 비유:</strong><br/>
-      ${currentConcept.superEasyAnalogy || currentConcept.analogy}<br/><br/>
-      어려운 수식보다 이 직관적인 이미지를 머릿속에 사진 찍듯 기억해 두세요!`;
-    } else if (chipType === 'speed') {
-      userText = `⚡ 시험장에서 3초 만에 찍는 킬러 공식 요약해주세요.`;
-      tutorReply = `시험장 3초 킬러 공식입니다:<br/><br/>
-      🔥 <strong>한 줄 암기:</strong> ${currentConcept.memorizationRule}<br/>
-      ⚡ <strong>3초 키워드:</strong> ${currentConcept.threeSecKey}<br/><br/>
-      시험지에서 <strong>[${currentConcept.keywords.slice(0, 3).join(", ")}]</strong> 단어가 보이면 망설임 없이 선택하세요!`;
-    } else if (chipType === 'practical') {
-      userText = `💼 실무나 데이터 분석 프로젝트에서는 어떻게 쓰이나요?`;
-      tutorReply = `실무 데이터 사이언티스트 관점의 활용법입니다:<br/><br/>
-      <strong>[${currentConcept.name}]</strong>은 실제 모델 파이프라인에서 데이터 전처리 및 모델 튜닝 단계에 핵심적으로 적용됩니다.<br/>
-      예를 들어, 과적합을 제어하고 모델의 일반화 성능(Test Accuracy)을 극대화하기 위해 하이퍼파라미터 튜닝이나 교차 검증과 함께 필수적으로 점검하는 기법입니다.`;
-    }
-
-    this.appendChatMessage('user', userText);
-    setTimeout(() => {
-      this.appendChatMessage('tutor', tutorReply);
-    }, 300);
-  }
-
-  sendChatMessage() {
-    const inputEl = document.getElementById("tutorChatInput");
-    if (!inputEl) return;
-    const query = inputEl.value.trim();
-    if (!query) return;
-
-    inputEl.value = "";
-    this.appendChatMessage('user', query);
-
-    const curriculum = getTutorCurriculum();
-    const currentStage = curriculum[this.currentStageIdx];
-    const currentConcept = currentStage.concepts[this.currentConceptIdx];
-
-    // Responsive intelligent tutor answer generator
-    setTimeout(() => {
-      let reply = `질문해 주신 <strong>"${query}"</strong>에 대해 튜터가 명쾌하게 답변드립니다.<br/><br/>`;
-
-      if (query.includes("차이") || query.includes("비교") || query.includes("왜")) {
-        reply += `📌 <strong>핵심 비교 포인트:</strong><br/>${currentConcept.confusingConcept}<br/><br/>`;
-        if (currentConcept.comparisonTable) {
-          reply += `📊 <strong>비교표 핵심 요약:</strong> ${currentConcept.comparisonTable.headers.join(" vs ")} 구조에서 각 속성의 차이를 명확히 구분하세요.<br/><br/>`;
-        }
-      }
-
-      reply += `💡 <strong>한 줄 공식:</strong> ${currentConcept.memorizationRule}<br/>`;
-      reply += `⚡ <strong>시험장 3초 힌트:</strong> ${currentConcept.threeSecKey}`;
-
-      this.appendChatMessage('tutor', reply);
-    }, 400);
-  }
-
-  appendChatMessage(role, text) {
-    const container = document.getElementById("tutorChatMessages");
-    if (!container) return;
-
-    const msgDiv = document.createElement("div");
-    msgDiv.className = `t-chat-msg msg-${role}`;
-    msgDiv.innerHTML = `
-      <div class="t-msg-avatar">${role === 'tutor' ? '🤖' : '👤'}</div>
-      <div class="t-msg-bubble">${text}</div>
-    `;
-    container.appendChild(msgDiv);
-    container.scrollTop = container.scrollHeight;
   }
 
   // ========================================================

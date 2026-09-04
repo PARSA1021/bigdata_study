@@ -562,7 +562,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   // 6. HABIT & ROUTINE ENGINE
   // ==========================================
-  function recordQuizAttempt(quiz, isCorrect, chosenIdx) {
+  function recordQuizAttempt(quiz, isCorrect, chosenIdx, isBatch = false) {
     const todayStr = getTodayString();
 
     cumulativeStats.totalSolved++;
@@ -595,16 +595,16 @@ document.addEventListener("DOMContentLoaded", () => {
         qStat.correctStreak = (qStat.correctStreak || 0) + 1;
         if (qStat.correctStreak >= 2) {
           qStat.mastered = true;
-          showToast(`🎉 [오답 졸업!] 2회 연속 정답으로 문제가 완전히 마스터되었습니다!`);
+          if (!isBatch) showToast(`🎉 [오답 졸업!] 2회 연속 정답으로 문제가 완전히 마스터되었습니다!`);
         } else {
-          showToast(`👍 [1회 정답!] 1번 더 맞히면 오답노트에서 완전히 '졸업'됩니다! (1/2)`);
+          if (!isBatch) showToast(`👍 [1회 정답!] 1번 더 맞히면 오답노트에서 완전히 '졸업'됩니다! (1/2)`);
         }
       }
     } else {
       qStat.wrongCount = (qStat.wrongCount || 0) + 1;
       qStat.correctStreak = 0;
       qStat.mastered = false;
-      showToast("⚠️ 오답노트에 자동 기록되었습니다!");
+      if (!isBatch) showToast("⚠️ 오답노트에 자동 기록되었습니다!");
     }
 
     if (!habitData.activity[todayStr]) habitData.activity[todayStr] = 0;
@@ -876,6 +876,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (noteData && noteData.sections) {
       const text = ((quiz.chapter || "") + " " + (quiz.question || "")).toLowerCase();
+      const targetSub = quiz.subject;
+      const sameSubSecs = noteData.sections.filter(s => s.subject === targetSub || (s.id && s.id.startsWith(`s${targetSub}`)));
+
+      for (const sec of sameSubSecs) {
+        for (const card of (sec.cards || [])) {
+          const cTitle = (card.title || "").toLowerCase();
+          if (text.includes(cTitle) || (cTitle.length >= 3 && text.includes(cTitle.substring(0, 3)))) {
+            return card.id;
+          }
+        }
+      }
+
       for (const sec of noteData.sections) {
         for (const card of (sec.cards || [])) {
           const cTitle = (card.title || "").toLowerCase();
@@ -883,6 +895,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return card.id;
           }
         }
+      }
+
+      if (sameSubSecs.length > 0 && sameSubSecs[0].cards && sameSubSecs[0].cards.length > 0) {
+        return sameSubSecs[0].cards[0].id;
       }
       return noteData.sections[0]?.cards?.[0]?.id || null;
     }
@@ -1488,7 +1504,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function startExamTimer() {
     clearInterval(timerInterval);
-    timerSeconds = 80 * 60; // 80분 하드코어 타이머 훈련
+    const totalMinutes = MOCK_EXAM_CONFIG.TIME_LIMIT_MINUTES || 120;
+    timerSeconds = totalMinutes * 60;
     updateTimerDisplay();
 
     timerInterval = setInterval(() => {
@@ -1508,7 +1525,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const s = timerSeconds % 60;
     examTimer.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 
-    const totalSeconds = 80 * 60;
+    const totalMinutes = MOCK_EXAM_CONFIG.TIME_LIMIT_MINUTES || 120;
+    const totalSeconds = totalMinutes * 60;
     const progressPercent = (timerSeconds / totalSeconds) * 100;
     const cbtTimerProgress = document.getElementById("cbtTimerProgress");
     const cbtTimerMsg = document.getElementById("cbtTimerMsg");
@@ -1516,14 +1534,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if (cbtTimerProgress) cbtTimerProgress.style.width = `${progressPercent}%`;
 
     if (cbtTimerMsg) {
-      const elapsedMinutes = 80 - (timerSeconds / 60);
-      if (elapsedMinutes < 30) {
+      const elapsedMinutes = totalMinutes - (timerSeconds / 60);
+      if (elapsedMinutes < 40) {
         cbtTimerMsg.textContent = "🟢 1-Pass 구간: 아는 문제부터 빠르게 마킹하세요.";
         cbtTimerMsg.style.color = "var(--success)";
         if (cbtTimerProgress) cbtTimerProgress.style.background = "var(--success)";
         examTimer.style.color = "var(--success)";
         cbtTimerMsg.style.opacity = "1";
-      } else if (elapsedMinutes >= 30 && elapsedMinutes < 65) {
+      } else if (elapsedMinutes >= 40 && elapsedMinutes < (totalMinutes - 20)) {
         cbtTimerMsg.textContent = "⚠️ 2-Pass 구간: 1-Pass 종료! 아직 안 푼 문제 및 별표 문항 집중.";
         cbtTimerMsg.style.color = "var(--warn)";
         if (cbtTimerProgress) cbtTimerProgress.style.background = "var(--warn)";
@@ -1651,7 +1669,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isCorrect) subScores[sub].correct++;
       }
 
-      recordQuizAttempt(quiz, isCorrect, chosen);
+      recordQuizAttempt(quiz, isCorrect, chosen, true);
     });
 
     const totalScore = Math.round((totalCorrect / mockQuizzes.length) * 100);
@@ -2513,11 +2531,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openConceptModal(cardId) {
+    if (!conceptModal) return;
     const card = cardMap.get(cardId);
-    if (!card || !conceptModal) return;
+    if (!card) {
+      showToast("관련 핵심 요약노트로 이동합니다.");
+      switchNav("notes");
+      return;
+    }
 
     if (conceptModalTitle) conceptModalTitle.textContent = card.title;
-    if (conceptModalBodyNote) conceptModalBodyNote.innerHTML = card.content || "";
+    if (conceptModalBodyNote) {
+      conceptModalBodyNote.innerHTML = card.content || "";
+      renderMathFormulas(conceptModalBodyNote);
+    }
 
     const related = cardToQuizMap.get(cardId) || [];
     if (conceptRelatedCount) conceptRelatedCount.textContent = related.length;
@@ -2588,7 +2614,6 @@ document.addEventListener("DOMContentLoaded", () => {
     isSprintMode = true;
     switchNav("practice");
     workingQuizzes = shuffleArray([...allQuizzes]).slice(0, 50);
-    currentPage = 1;
 
     if (practiceHeader) practiceHeader.classList.add("hidden");
     if (sprintTimerOverlay) sprintTimerOverlay.classList.remove("hidden");
@@ -2696,10 +2721,18 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("keydown", e => {
       // 1. Esc Key Modal Dismissal
       if (e.key === "Escape") {
-        const modals = [cheatSheetModal, oxTrainerModal, conceptModal, sprintTimerOverlay];
-        modals.forEach(m => {
-          if (m && m.style.display !== "none") {
-            m.style.display = "none";
+        const modalIds = [
+          "cheatSheetModal", "oxTrainerModal", "conceptModal", "sprintTimerOverlay",
+          "calcToolModal", "categoryNavModal", "ddayModal", "examHallFlashModal"
+        ];
+        modalIds.forEach(id => {
+          const m = document.getElementById(id);
+          if (m) {
+            m.classList.add("hidden");
+            m.classList.remove("open");
+            if (m.style.display && m.style.display !== "none") {
+              m.style.display = "none";
+            }
           }
         });
         if (omrDrawer && omrDrawer.classList.contains("open")) {
@@ -4038,6 +4071,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function updateQuizCardDOM(card, quiz, cardIndex) {
+    if (!card || !quiz) return;
+    const quizId = quiz.id;
+    card.outerHTML = renderQuizCardHTML(quiz, cardIndex + 1);
+    const updated = document.getElementById(`quiz-${quizId}`);
+    if (updated) renderMathFormulas(updated);
+  }
+
   // --- DELEGATION 1: Quiz Container (With 3-Step Active Learning Loop) ---
   function setupQuizContainerDelegation() {
     if (!quizContainer) return;
@@ -4082,7 +4123,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const quiz = allQuizzes.find(q => q.id === quizId);
         if (card && quiz) {
           const cardIndex = workingQuizzes.findIndex(q => q.id === quizId);
-          card.outerHTML = renderQuizCardHTML(quiz, cardIndex + 1);
+          updateQuizCardDOM(card, quiz, cardIndex);
         }
         return;
       }
@@ -4098,7 +4139,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const card = retryBtn.closest(".quiz-card");
         if (card && quiz) {
           const cardIndex = workingQuizzes.findIndex(q => q.id === quizId);
-          card.outerHTML = renderQuizCardHTML(quiz, cardIndex + 1);
+          updateQuizCardDOM(card, quiz, cardIndex);
           updatePracticeHud();
           showToast("🔄 문제가 초기화되었습니다! 다시 정답을 선택해보세요.");
         }
@@ -4231,7 +4272,7 @@ document.addEventListener("DOMContentLoaded", () => {
           updateOmrHeaderCounts();
           updatePracticeHud();
           const cardIndex = workingQuizzes.findIndex(q => q.id === quizId);
-          card.outerHTML = renderQuizCardHTML(quiz, cardIndex + 1);
+          updateQuizCardDOM(card, quiz, cardIndex);
         } else {
           practiceSolvedMap.set(quizId, choiceIdx);
           const isCorrect = choiceIdx === quiz.answer;
@@ -4239,7 +4280,7 @@ document.addEventListener("DOMContentLoaded", () => {
           updatePracticeHud();
           renderHomePassRadar();
           const cardIndex = workingQuizzes.findIndex(q => q.id === quizId);
-          card.outerHTML = renderQuizCardHTML(quiz, cardIndex + 1);
+          updateQuizCardDOM(card, quiz, cardIndex);
 
           if (isAutoAdvanceEnabled) {
             setTimeout(() => {
@@ -4727,7 +4768,8 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         window.renderMathInElement(rootEl, {
           delimiters: [
-            { left: "$", right: "$", display: true },
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
             { left: "\\(", right: "\\)", display: false }
           ],
           output: "html",
@@ -4993,7 +5035,7 @@ document.addEventListener("DOMContentLoaded", () => {
           habitData = importObj.knowway_habit;
         }
         if (importObj.mockRecords) {
-          saveJSON(MOCK_KEY, importObj.mockRecords);
+          saveJSON(MOCK_RECORDS_KEY, importObj.mockRecords);
           mockRecords = importObj.mockRecords;
         }
         showToast("🚀 학습 데이터가 성공적으로 복원되었습니다!");
@@ -5012,7 +5054,11 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem(BOOKMARK_KEY);
       localStorage.removeItem(MEMO_KEY);
       localStorage.removeItem(HABIT_KEY);
-      localStorage.removeItem(MOCK_KEY);
+      localStorage.removeItem(MOCK_RECORDS_KEY);
+      localStorage.removeItem(QUIZ_MEMO_KEY);
+      localStorage.removeItem(LEARNED_KEY);
+      localStorage.removeItem(WEAKNESS_KEY);
+      localStorage.removeItem("knowway_ai_tutor_v1");
       showToast("🗑️ 초기화 되었습니다. 리프레시합니다.");
       setTimeout(() => location.reload(), 1500);
     }

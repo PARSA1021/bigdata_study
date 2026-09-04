@@ -3,7 +3,7 @@
  * 완벽한 오프라인 환경(노데이터/노와이파이) 지원 Caching Engine
  */
 
-const CACHE_NAME = 'knowway-bigdata-v14-clean';
+const CACHE_NAME = 'knowway-bigdata-v15-clean';
 const PRECACHE_ASSETS = [
   './',
   './index.html',
@@ -52,7 +52,7 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+        if (networkResponse && networkResponse.status === 200 && (networkResponse.type === 'basic' || networkResponse.type === 'cors')) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, responseToCache);
